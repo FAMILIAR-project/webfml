@@ -1,0 +1,135 @@
+@(message: String)
+
+@mainFML("Welcome to FAMILIAR!") {
+    
+ 
+<!-- begin ACE editor -->
+<script src="@routes.Assets.at("javascripts/ace-builds/src-noconflict/ace.js")" type="text/javascript" charset="utf-8"></script>
+<script src="@routes.Assets.at("javascripts/ace-builds/src-noconflict/theme-twilight.js")" type="text/javascript" charset="utf-8"></script>
+<script src="@routes.Assets.at("javascripts/ace-builds/src-noconflict/mode-javascript.js")" type="text/javascript" charset="utf-8"></script>
+<!-- end ACE editor (style) -->
+
+<!-- begin styling CONSOLE -->
+<style>
+ 
+      .jqconsole {
+        padding: 10px;
+        padding-bottom: 10px;
+      }
+      .jqconsole-cursor {
+        background-color: #999;
+      }
+      .jqconsole-blurred .jqconsole-cursor {
+        background-color: #666;
+      }
+      .jqconsole-prompt {
+        color: #0d0;
+      }
+      .jqconsole-old-prompt {
+        color: #0b0;
+        font-weight: normal;
+      }
+      .jqconsole-input {
+        color: #dd0;
+      }
+      .jqconsole-old-input {
+        color: #bb0;
+        font-weight: normal;
+      }
+      .brace {
+        color: #00FFFF;
+      }
+      .paran {
+        color: #FF00FF;
+      }
+      .bracket {
+        color: #FFFF00;
+      }
+      .jqconsole-composition {
+        background-color: red;
+      }
+    </style>
+ 
+<!-- end styling CONSOLE -->
+ 
+<style type="text/css" media="screen">
+ 
+ 	body {
+ 	background-color: #cacaca
+ 	}
+ 	 	
+       
+    .myConsole {
+	    position: absolute ; 
+	    top : 5 ;
+	  	right: 300 ;
+	  	text-align: left; 
+	  	width : 500px ;
+	  	height: 250px ;   
+	  	background-color: black;
+	  	color: white ;
+        border: 2px solid #CCC; 	
+    }
+       
+    #scriptInput { 
+        position: relative;
+        width: 600px;
+        height: 250px;
+    }
+    #ksynthesis { 
+        position: absolute;
+         bottom : 5 ;
+	 left: 300 ;
+    }
+ </style>
+  
+
+
+</head>
+<body>
+    
+    <!--  input editor -->
+<div id="FMLEditor">
+	<div class="divFormForScriptInput">
+
+<pre id="scriptInput">
+@message
+</pre>
+ 
+		<script>
+			var editor ;
+			window.onload = function() {
+			    editor = ace.edit("scriptInput");
+			    editor.setTheme("ace/theme/twilight");
+			    
+			    var JavaScriptMode = ace.require("ace/mode/javascript").Mode;
+			    editor.getSession().setMode(new JavaScriptMode());
+			};
+			</script> 
+
+	</div>
+	<button id="webFmlCmd">Execute code</button>
+	<button id="webFmlReset">Reset variables</button>
+</div> 
+
+
+<div id="msgid">
+</div>	
+
+
+
+
+<!--  console -->
+<div id="console" class="myConsole">
+</div>
+
+<div id="ksynthesis">
+</div>	
+
+
+
+ 
+ </body>
+}
+
+

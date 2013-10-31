@@ -1,0 +1,336 @@
+
+<!DOCTYPE HTML>
+<html>
+  <head>
+  <script type="text/javascript" src="@routes.Application.javascriptRoutes"></script>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+      #buttons {
+        position: absolute;
+        left: 10px;
+        top: 0px;
+      }
+      button {
+        margin-top: 10px;
+        display: block;
+      }
+    </style>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  </head>
+  <body>
+    <div id="container"></div>
+    <div id="buttons">
+      <button id="ftE">
+       E
+      </button>
+      <button id="ftF">
+        F
+      </button>
+
+      <button id="ftB">
+        B
+      </button>
+     
+       <button id="ftC">
+        C
+      </button>
+
+       <button id="ftD">
+        D
+      </button>
+ 
+    </div>
+    <script src="http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v4.5.4.min.js"></script>
+    <script defer="defer">
+        var stage = new Kinetic.Stage({
+          container: 'container',
+          width: 600,
+          height: 200
+        });
+        var commonLayer = new Kinetic.Layer();
+   
+        var rectCommon = new Kinetic.Rect({
+          x: stage.getWidth() / 4,
+          y: stage.getHeight() / 4,
+          width: 250,
+          height: 100,
+          fill: 'green',
+          stroke: 'black',
+          strokeWidth: 2,
+          visible: true
+        });
+
+        var rect1 = new Kinetic.Rect({
+          x: rectCommon.getPosition().x + rectCommon.getWidth(),
+          y: rectCommon.getPosition().y,
+          width: 50,
+          height: 30,
+          fill: 'red',
+          stroke: 'black',
+          strokeWidth: 2,
+          visible: false
+        });
+
+       var circle1 =  new Kinetic.Circle({
+        x: stage.getWidth() / 2,
+        y: rectCommon.getPosition().y,
+        radius: 20,
+        fill: 'blue',
+        stroke: 'black',
+        strokeWidth: 2,
+        visible: false
+        });
+
+     
+    
+        // add the shape to the layer
+        commonLayer.add(rectCommon);
+
+        commonLayer.add(rect1);
+        commonLayer.add(circle1);
+
+      
+
+        // add the layer to the stage
+        stage.add(commonLayer);
+
+//  E feature
+var bE = 0 ;
+var elementE = document.getElementById('ftE');
+elementE.addEventListener('click', function() {
+
+jsRoutes.controllers.WebFMLConfigurator.applySelection('E').ajax({
+                  success : function(data) {
+                    updateUIJSon(data);
+		          },
+                  error : function(data) {
+                     alert('Error...' + data + '\n');
+                     
+                  }
+                  });
+if (bE == 0) { 
+	bE = 1 ; 
+	this.style.color = 'green' ; 
+	}
+else { 
+	if (bC == 1) {
+		alert("C requires E to be selected");
+	}
+	else {
+		bE = 0 ; 
+		this.style.color = 'black' ; 
+	}
+}
+updateUI() ;
+
+}, false); 
+
+
+
+//  F feature
+var bF = 0 ;
+var elementF = document.getElementById('ftF');
+elementF.addEventListener('click', function() {
+
+
+
+if (bF == 0) { bF = 1 ; this.style.color = 'green' ; }
+else { bF = 0 ; this.style.color = 'black' ; }
+updateUI() ;
+
+}, false); 
+
+
+
+//  B feature
+var bB = 0 ;
+var elementB = document.getElementById('ftB');
+
+//  C feature
+var bC = 0 ;
+var elementC = document.getElementById('ftC');
+// elementC.disabled = true;
+
+//  D feature
+var bD = 0 ;
+var elementD = document.getElementById('ftD');
+// elementD.disabled = true;
+
+
+
+var defaultFragmentBCD = '<div id="phBCD">Nothing</div>' ;
+var fragmentB = '<div id="phB">Hey this is B !</div>' ;
+var fragmentC = '<div id="phC">Hey this is C !</div>' ;
+var fragmentD = '<div id="phD">Hey this is D !</div>' ; 
+		
+		
+elementB.addEventListener('click', function() {
+
+
+if (bB == 0) { 
+		bB = 1 ; 
+		elementB.style.color = 'green' ; 
+        elementC.disabled = false;
+		elementD.disabled = false;
+
+      
+		bC = 0;
+                elementC.style.color = 'black';
+                       
+		bD = 0;
+		elementD.style.color = 'black';
+		
+}
+else {
+                              
+	   bB = 0 ; 
+
+	   elementB.style.color = 'black' ;
+	   if (bC == 1) {
+			bC = 0;
+			elementC.style.color = 'black' ;
+           }
+	   else {
+			bD = 0;
+			elementD.style.color = 'black' ;
+                        bB = 0;
+				elementB.style.color = 'black';
+}
+
+				
+	   elementC.disabled = true;
+	   elementD.disabled = true;
+
+}
+updateUI() ;
+} , false);
+
+
+elementC.addEventListener('click', function() {
+
+
+                if (bC == 0) {
+
+
+				bC = 1 ; 
+				elementC.style.color = 'green' ; 
+							
+				// C -> E
+				bE = 1;
+				elementE.style.color = 'green' ; 
+				
+				bD = 0;
+				elementD.style.color = 'black';
+                                bB = 0;
+				elementB.style.color = 'black';
+
+					
+		}
+		else {
+                      
+				bC = 0 ;
+                               	elementC.style.color = 'black' ;
+                               
+				// E shouldn't be hidden since C->E but !C doesn't imply !E
+		}
+		updateUI() ;
+		}, false);
+		
+elementD.addEventListener('click', function() {
+
+		if (bD == 0) {
+
+				bD = 1 ; 
+				elementD.style.color = 'green' ; 
+						
+				bC = 0;
+				elementC.style.color = 'black';
+      	                        bB = 0;
+				elementB.style.color = 'black';
+
+   
+		}
+		else {
+                        bD = 0 ;
+			elementD.style.color = 'black' ; 
+			
+		}
+		updateUI() ;
+		} , false);
+
+
+function updateUI() {
+
+// object substituion B, C, D, 
+
+	if (bC == 0) {
+			$('#phC').remove();			
+   		}
+else { // bC == 1
+$('#ph').html(fragmentC);
+	
+}
+        if (bD == 0) {
+                        $('#phD').remove();
+ 		
+		}
+	else { // bD = 1
+	        $('#ph').html(fragmentD) ; 
+        }
+
+
+        if (bB == 1) { 
+                $('#ph').html(fragmentB);
+        }
+        else { // bB == 0
+           $('#phB').remove();
+        }
+
+// object existence E, F
+
+        if (bE == 1) {
+	rect1.show();
+       }
+else {
+	rect1.hide();
+       }
+
+ if (bF == 1) {
+circle1.show() ;
+}
+else
+circle1.hide() ; 
+
+
+commonLayer.draw();
+}
+
+
+function updateUIJSon(jsData) {
+
+
+var sels = jsData ['selected'] ; 
+for (i = 0 ; i < sels.length ; i++) {
+      // sels[i] 
+      var el = document.getElementById('ft' + sels[i]) ;
+      el.style.color = 'orange' ; 
+}
+
+var desels = jsData ['deselected'] ; 
+for (j = 0 ; j < desels.length ; j++) {
+      // desels[j] 
+      var el = document.getElementById('ft' + desels[j]) ;
+      el.style.color = 'red' ;
+}
+
+}
+      </script>
+
+<div id="ph"> <!-- place holder -->
+</div>
+
+  </body>
+</html>
