@@ -55,9 +55,9 @@ http://127.0.0.1:9000/
 ## Organization of the code
 
 For those unfamiliar with a Play application:
- * app/controllers define class that are likely to compute complex stuff (here resides the FAMILIAR interpreter for instance)
- * app/views define the views (templates like) 
- * public/javascripts that are updating the views and handle the AJAX requests
+ * app/controllers define classes that are likely to compute complex stuff (here resides the FAMILIAR interpreter for instance)
+ * app/views define the views (templates like, mix of HTML/CSS/JS and Scala) 
+ * public/javascripts JS files that are managing the UI interactions and handle the AJAX requests
   * FMLconsole.js  (for the interaction with the console)
   * FML-callback.js (for the ACE editor)
  
