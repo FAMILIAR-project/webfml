@@ -67,6 +67,16 @@ MacBook-Pro-de-Mathieu-3:javascripts macher1$ pwd
 git clone https://github.com/ajaxorg/ace-builds/ 
  ``` 
  
+ ```
+ git clone https://github.com/replit/jq-console
+ 
+ The browser method is deprecated but used by jqconsole...
+ http://api.jquery.com/jQuery.browser/
+ wget http://code.jquery.com/jquery-migrate-1.2.1.js
+ https://github.com/jquery/jquery-migrate/
+ ```
+
+ 
 
 
 
