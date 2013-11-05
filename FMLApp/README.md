@@ -60,6 +60,11 @@ For those unfamiliar with a Play application:
  * public/javascripts JS files that are managing the UI interactions and handle the AJAX requests
   * FMLconsole.js  (for the interaction with the console)
   * FML-callback.js (for the ACE editor)
+
+```MacBook-Pro-de-Mathieu-3:javascripts macher1$ pwd
+/Users/macher1/git/webfml/FMLApp/public/javascripts
+git clone https://github.com/ajaxorg/ace-builds/ 
+ ``` 
  
 
 
