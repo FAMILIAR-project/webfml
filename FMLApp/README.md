@@ -61,7 +61,8 @@ For those unfamiliar with a Play application:
   * FMLconsole.js  (for the interaction with the console)
   * FML-callback.js (for the ACE editor)
 
-```MacBook-Pro-de-Mathieu-3:javascripts macher1$ pwd
+```
+MacBook-Pro-de-Mathieu-3:javascripts macher1$ pwd
 /Users/macher1/git/webfml/FMLApp/public/javascripts
 git clone https://github.com/ajaxorg/ace-builds/ 
  ``` 
