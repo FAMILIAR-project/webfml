@@ -61,20 +61,22 @@ For those unfamiliar with a Play application:
   * FMLconsole.js  (for the interaction with the console)
   * FML-callback.js (for the ACE editor)
 
+We use Bower to download the last versions of the Javascripts libraries (ACE, bootstrap, jquery-migrate, etc.) 
+http://bower.io/
 ```
-MacBook-Pro-de-Mathieu-3:javascripts macher1$ pwd
-/Users/macher1/git/webfml/FMLApp/public/javascripts
-git clone https://github.com/ajaxorg/ace-builds/ 
- ``` 
+MacBook-Pro-de-Mathieu-3:javascripts macher1$ bower install jquery-migrate
+bower install bootstrap
+bower install ace
+``` 
  
- ```
+As  the browser method of jq-console is deprecated (see http://api.jquery.com/jQuery.browser/) https://github.com/jquery/jquery-migrate/ is also needed
+ 
+ 
+We cannot use Bower for getting jq-console:
+ 
+```
  git clone https://github.com/replit/jq-console
- 
- The browser method is deprecated but used by jqconsole...
- http://api.jquery.com/jQuery.browser/
- wget http://code.jquery.com/jquery-migrate-1.2.1.js
- https://github.com/jquery/jquery-migrate/
- ```
+```
 
  
 
