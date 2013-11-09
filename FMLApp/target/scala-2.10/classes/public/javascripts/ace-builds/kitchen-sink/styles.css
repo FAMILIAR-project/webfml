@@ -16,12 +16,12 @@ body {
     color: white;
 }
 
-#logo {
-    padding: 15px;
-    margin-left: 70px;
+#c9-logo, #ace-logo {
+    padding: 0;
+    border: none;
 }
 
-#editor {
+#editor-container {
     position: absolute;
     top:  0px;
     left: 280px;
@@ -40,4 +40,10 @@ body {
 
 #controls td + td {
     text-align: left;
+}
+.ace_status-indicator {
+    color: gray;
+    position: absolute;
+    right: 0;
+    border-left: 1px solid;
 }

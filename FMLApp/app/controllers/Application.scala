@@ -6,12 +6,14 @@ import play.api.data._
 import play.api.data.Forms._
 import models._
 import views._
-
 import play.api.libs.json.Json
+import java.io.File
+
 
 
 object Application extends Controller {
 
+  
  
    def index() = Action {
     	request =>
@@ -39,8 +41,21 @@ object Application extends Controller {
 					"n7 = counting fm0\n" + 
 					"fm0\n" + 
 					"mtx = computeMUTEXGroups fm0";
-		 Ok(views.html.index.render(fmlDemo + "\n"))
+		
+		
+		  
+		  
+		 
+		  
+		// <button class="btn" onclick="loadFile('fm1 = FM (A : [B] XXX ; )');">Load file</button>
+		Ok(views.html.index.render(fmlDemo + "\n"))
     }
+  
+  
+   
+ 
+   
+   
        
         
     def javascriptRoutes = Action { implicit request =>
@@ -51,7 +66,11 @@ object Application extends Controller {
                 WebFMLInterpreter.reset,
                 WebFMLInterpreter.evalPrompt,
                 WebFMLInterpreter.ksynthesis,
-                WebFMLConfigurator.applySelection
+                WebFMLInterpreter.variable,
+                WebFMLInterpreter.loadFile,
+                WebFMLInterpreter.saveAs,
+                WebFMLInterpreter.listFiles,
+                WebFMLConfigurator.applySelection               
             )
         ).as("text/javascript");
     } 

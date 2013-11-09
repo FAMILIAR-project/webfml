@@ -37,7 +37,6 @@ $(function() {
         
 		  jsRoutes.controllers.WebFMLInterpreter.ksynthesis(command).ajax({
                       success : function(data) {
-			  $('#wait').hide() ;
 			  jqconsole.Write('Synthesising in progress... over ' + data['targetID'] + '\n');
 			  
                           // ranking lists, clusters, previsualization here!
@@ -47,17 +46,16 @@ $(function() {
                           $('#ksynthesis').html('<em>' + rl + '</em>')
                       },
                       error : function(data) {
-			  $('#wait').hide() ;
 			  jqconsole.Write('Error...' + data + '\n');
 		
 			  
                       },
                       beforeSend : function(event, jqxhr, settings) {
-			  $('#msgid').html('<img id="wait" src="assets/images/ajax-loader.gif" />') ;
+			  $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
                       },
-                      afterSend : function(event, jqxhr, settings) {
-			  //
-                      }
+                     complete : function(jqxhr, textstatus) {
+			 $('#wait').html('') ;		   
+		     }
                   })
 
 		  
@@ -84,10 +82,10 @@ $(function() {
 			      
 			  },
 			  beforeSend : function(event, jqxhr, settings) {
-			      // $('#msgid').html('<img id="wait" src="assets/images/ajax-loader.gif" />') ;
+			     $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
 			  },
-			  afterSend : function(event, jqxhr, settings) {
-			      // $('#wait').hide() ;
+			  complete : function(jqxhr, textstatus) {
+			 $('#wait').html('') ;		   
 			  }
                       })
 

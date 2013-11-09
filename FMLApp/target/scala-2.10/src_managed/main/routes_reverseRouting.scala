@@ -1,6 +1,6 @@
 // @SOURCE:/Users/macher1/git/webfml/FMLApp/conf/routes
-// @HASH:86fc67685c51f55d373fbaf7462732e427b4c549
-// @DATE:Thu Oct 31 16:39:37 CET 2013
+// @HASH:1040d4ccc9061a3ce4e4013f05340bbb62f64122
+// @DATE:Fri Nov 08 10:58:17 CET 2013
 
 import Routes.{prefix => _prefix, defaultPrefix => _defaultPrefix}
 import play.core._
@@ -13,8 +13,11 @@ import play.api.mvc._
 import Router.queryString
 
 
+// @LINE:23
+// @LINE:20
 // @LINE:18
-// @LINE:15
+// @LINE:17
+// @LINE:16
 // @LINE:13
 // @LINE:12
 // @LINE:11
@@ -45,6 +48,9 @@ def applySelection(s:String): Call = {
 }
                           
 
+// @LINE:18
+// @LINE:17
+// @LINE:16
 // @LINE:11
 // @LINE:10
 // @LINE:9
@@ -53,15 +59,33 @@ def applySelection(s:String): Call = {
 class ReverseWebFMLInterpreter {
     
 
+// @LINE:7
+def variable(id:String): Call = {
+   Call("GET", _prefix + { _defaultPrefix } + "variable/" + implicitly[PathBindable[String]].unbind("id", dynamicString(id)))
+}
+                                                
+
+// @LINE:18
+def listFiles(): Call = {
+   Call("POST", _prefix + { _defaultPrefix } + "listFiles")
+}
+                                                
+
+// @LINE:16
+def loadFile(id:String): Call = {
+   Call("GET", _prefix + { _defaultPrefix } + "loadFile/" + implicitly[PathBindable[String]].unbind("id", dynamicString(id)))
+}
+                                                
+
 // @LINE:9
 def evalPrompt(s:String): Call = {
    Call("POST", _prefix + { _defaultPrefix } + "evalPrompt" + queryString(List(Some(implicitly[QueryStringBindable[String]].unbind("s", s)))))
 }
                                                 
 
-// @LINE:7
-def variables(id:String): Call = {
-   Call("GET", _prefix + { _defaultPrefix } + "variables/" + implicitly[PathBindable[String]].unbind("id", dynamicString(id)))
+// @LINE:17
+def saveAs(content:String, filename:String): Call = {
+   Call("POST", _prefix + { _defaultPrefix } + "saveAs" + queryString(List(Some(implicitly[QueryStringBindable[String]].unbind("content", content)), Some(implicitly[QueryStringBindable[String]].unbind("filename", filename)))))
 }
                                                 
 
@@ -86,11 +110,11 @@ def interpret(s:String): Call = {
 }
                           
 
-// @LINE:18
+// @LINE:23
 class ReverseAssets {
     
 
-// @LINE:18
+// @LINE:23
 def at(file:String): Call = {
    Call("GET", _prefix + { _defaultPrefix } + "assets/" + implicitly[PathBindable[String]].unbind("file", file))
 }
@@ -99,7 +123,7 @@ def at(file:String): Call = {
 }
                           
 
-// @LINE:15
+// @LINE:20
 // @LINE:6
 class ReverseApplication {
     
@@ -110,7 +134,7 @@ def index(): Call = {
 }
                                                 
 
-// @LINE:15
+// @LINE:20
 def javascriptRoutes(): Call = {
    Call("GET", _prefix + { _defaultPrefix } + "assets/javascripts/routes")
 }
@@ -122,8 +146,11 @@ def javascriptRoutes(): Call = {
                   
 
 
+// @LINE:23
+// @LINE:20
 // @LINE:18
-// @LINE:15
+// @LINE:17
+// @LINE:16
 // @LINE:13
 // @LINE:12
 // @LINE:11
@@ -164,6 +191,9 @@ def applySelection : JavascriptReverseRoute = JavascriptReverseRoute(
 }
               
 
+// @LINE:18
+// @LINE:17
+// @LINE:16
 // @LINE:11
 // @LINE:10
 // @LINE:9
@@ -171,6 +201,39 @@ def applySelection : JavascriptReverseRoute = JavascriptReverseRoute(
 // @LINE:7
 class ReverseWebFMLInterpreter {
     
+
+// @LINE:7
+def variable : JavascriptReverseRoute = JavascriptReverseRoute(
+   "controllers.WebFMLInterpreter.variable",
+   """
+      function(id) {
+      return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "variable/" + (""" + implicitly[PathBindable[String]].javascriptUnbind + """)("id", encodeURIComponent(id))})
+      }
+   """
+)
+                        
+
+// @LINE:18
+def listFiles : JavascriptReverseRoute = JavascriptReverseRoute(
+   "controllers.WebFMLInterpreter.listFiles",
+   """
+      function() {
+      return _wA({method:"POST", url:"""" + _prefix + { _defaultPrefix } + """" + "listFiles"})
+      }
+   """
+)
+                        
+
+// @LINE:16
+def loadFile : JavascriptReverseRoute = JavascriptReverseRoute(
+   "controllers.WebFMLInterpreter.loadFile",
+   """
+      function(id) {
+      return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "loadFile/" + (""" + implicitly[PathBindable[String]].javascriptUnbind + """)("id", encodeURIComponent(id))})
+      }
+   """
+)
+                        
 
 // @LINE:9
 def evalPrompt : JavascriptReverseRoute = JavascriptReverseRoute(
@@ -183,12 +246,12 @@ def evalPrompt : JavascriptReverseRoute = JavascriptReverseRoute(
 )
                         
 
-// @LINE:7
-def variables : JavascriptReverseRoute = JavascriptReverseRoute(
-   "controllers.WebFMLInterpreter.variables",
+// @LINE:17
+def saveAs : JavascriptReverseRoute = JavascriptReverseRoute(
+   "controllers.WebFMLInterpreter.saveAs",
    """
-      function(id) {
-      return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "variables/" + (""" + implicitly[PathBindable[String]].javascriptUnbind + """)("id", encodeURIComponent(id))})
+      function(content,filename) {
+      return _wA({method:"POST", url:"""" + _prefix + { _defaultPrefix } + """" + "saveAs" + _qS([(""" + implicitly[QueryStringBindable[String]].javascriptUnbind + """)("content", content), (""" + implicitly[QueryStringBindable[String]].javascriptUnbind + """)("filename", filename)])})
       }
    """
 )
@@ -230,11 +293,11 @@ def interpret : JavascriptReverseRoute = JavascriptReverseRoute(
 }
               
 
-// @LINE:18
+// @LINE:23
 class ReverseAssets {
     
 
-// @LINE:18
+// @LINE:23
 def at : JavascriptReverseRoute = JavascriptReverseRoute(
    "controllers.Assets.at",
    """
@@ -248,7 +311,7 @@ def at : JavascriptReverseRoute = JavascriptReverseRoute(
 }
               
 
-// @LINE:15
+// @LINE:20
 // @LINE:6
 class ReverseApplication {
     
@@ -264,7 +327,7 @@ def index : JavascriptReverseRoute = JavascriptReverseRoute(
 )
                         
 
-// @LINE:15
+// @LINE:20
 def javascriptRoutes : JavascriptReverseRoute = JavascriptReverseRoute(
    "controllers.Application.javascriptRoutes",
    """
@@ -281,8 +344,11 @@ def javascriptRoutes : JavascriptReverseRoute = JavascriptReverseRoute(
         
 
 
+// @LINE:23
+// @LINE:20
 // @LINE:18
-// @LINE:15
+// @LINE:17
+// @LINE:16
 // @LINE:13
 // @LINE:12
 // @LINE:11
@@ -314,6 +380,9 @@ def applySelection(s:String): play.api.mvc.HandlerRef[_] = new play.api.mvc.Hand
 }
                           
 
+// @LINE:18
+// @LINE:17
+// @LINE:16
 // @LINE:11
 // @LINE:10
 // @LINE:9
@@ -322,15 +391,33 @@ def applySelection(s:String): play.api.mvc.HandlerRef[_] = new play.api.mvc.Hand
 class ReverseWebFMLInterpreter {
     
 
+// @LINE:7
+def variable(id:String): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
+   controllers.WebFMLInterpreter.variable(id), HandlerDef(this, "controllers.WebFMLInterpreter", "variable", Seq(classOf[String]), "GET", """""", _prefix + """variable/$id<[^/]+>""")
+)
+                      
+
+// @LINE:18
+def listFiles(): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
+   controllers.WebFMLInterpreter.listFiles(), HandlerDef(this, "controllers.WebFMLInterpreter", "listFiles", Seq(), "POST", """""", _prefix + """listFiles""")
+)
+                      
+
+// @LINE:16
+def loadFile(id:String): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
+   controllers.WebFMLInterpreter.loadFile(id), HandlerDef(this, "controllers.WebFMLInterpreter", "loadFile", Seq(classOf[String]), "GET", """ Workspace management """, _prefix + """loadFile/$id<[^/]+>""")
+)
+                      
+
 // @LINE:9
 def evalPrompt(s:String): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
    controllers.WebFMLInterpreter.evalPrompt(s), HandlerDef(this, "controllers.WebFMLInterpreter", "evalPrompt", Seq(classOf[String]), "POST", """""", _prefix + """evalPrompt""")
 )
                       
 
-// @LINE:7
-def variables(id:String): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
-   controllers.WebFMLInterpreter.variables(id), HandlerDef(this, "controllers.WebFMLInterpreter", "variables", Seq(classOf[String]), "GET", """""", _prefix + """variables/$id<[^/]+>""")
+// @LINE:17
+def saveAs(content:String, filename:String): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
+   controllers.WebFMLInterpreter.saveAs(content, filename), HandlerDef(this, "controllers.WebFMLInterpreter", "saveAs", Seq(classOf[String], classOf[String]), "POST", """""", _prefix + """saveAs""")
 )
                       
 
@@ -355,11 +442,11 @@ def interpret(s:String): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRe
 }
                           
 
-// @LINE:18
+// @LINE:23
 class ReverseAssets {
     
 
-// @LINE:18
+// @LINE:23
 def at(path:String, file:String): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
    controllers.Assets.at(path, file), HandlerDef(this, "controllers.Assets", "at", Seq(classOf[String], classOf[String]), "GET", """ Map static resources from the /public folder to the /assets URL path""", _prefix + """assets/$file<.+>""")
 )
@@ -368,7 +455,7 @@ def at(path:String, file:String): play.api.mvc.HandlerRef[_] = new play.api.mvc.
 }
                           
 
-// @LINE:15
+// @LINE:20
 // @LINE:6
 class ReverseApplication {
     
@@ -379,7 +466,7 @@ def index(): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
 )
                       
 
-// @LINE:15
+// @LINE:20
 def javascriptRoutes(): play.api.mvc.HandlerRef[_] = new play.api.mvc.HandlerRef(
    controllers.Application.javascriptRoutes(), HandlerDef(this, "controllers.Application", "javascriptRoutes", Seq(), "GET", """""", _prefix + """assets/javascripts/routes""")
 )

@@ -10,3 +10,16 @@ exit
 ~run
 exit
 ~run
+play new
+new
+exit
+~compile
+~run
+exit
+play
+~run
+~compile
+~run
+exit
+~compile
+~run

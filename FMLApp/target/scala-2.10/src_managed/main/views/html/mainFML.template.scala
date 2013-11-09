@@ -28,20 +28,15 @@ Seq[Any](format.raw/*1.32*/("""
         <title>"""),_display_(Seq[Any](/*7.17*/title)),format.raw/*7.22*/("""</title>
         <link rel="stylesheet" media="text/css" href=""""),_display_(Seq[Any](/*8.56*/routes/*8.62*/.Assets.at("stylesheets/main.css"))),format.raw/*8.96*/("""">
         <link rel="shortcut icon" type="image/png" href=""""),_display_(Seq[Any](/*9.59*/routes/*9.65*/.Assets.at("images/favicon.png"))),format.raw/*9.97*/("""">
-        <script src=""""),_display_(Seq[Any](/*10.23*/routes/*10.29*/.Assets.at("javascripts/jquery-1.7.1.min.js"))),format.raw/*10.74*/("""" type="text/javascript"></script>
+        <script src=""""),_display_(Seq[Any](/*10.23*/routes/*10.29*/.Assets.at("javascripts/jquery.min.js"))),format.raw/*10.68*/("""" type="text/javascript"></script>
+        <script src=""""),_display_(Seq[Any](/*11.23*/routes/*11.29*/.Assets.at("javascripts/jquery-migrate.min.js"))),format.raw/*11.76*/("""" type="text/javascript"></script>
+ 		<script src=""""),_display_(Seq[Any](/*12.18*/routes/*12.24*/.Application.javascriptRoutes)),format.raw/*12.53*/("""" type="text/javascript"></script>
 
- 		<script type="text/javascript" src=""""),_display_(Seq[Any](/*12.41*/routes/*12.47*/.Application.javascriptRoutes)),format.raw/*12.76*/(""""></script>
-		<script src=""""),_display_(Seq[Any](/*13.17*/routes/*13.23*/.Assets.at("javascripts/FML-callback.js"))),format.raw/*13.64*/("""" type="text/javascript" charset="utf-8"></script>
- 
- 
- <!-- CONSOLE -->
-  <link rel="stylesheet" type="text/css" href=""""),_display_(Seq[Any](/*17.49*/routes/*17.55*/.Assets.at("stylesheets/ansi.css"))),format.raw/*17.89*/("""">
- <script src=""""),_display_(Seq[Any](/*18.16*/routes/*18.22*/.Assets.at("javascripts/jqconsole-2.7.min.js"))),format.raw/*18.68*/(""""></script> 
- <script src=""""),_display_(Seq[Any](/*19.16*/routes/*19.22*/.Assets.at("javascripts/FMLconsole.js"))),format.raw/*19.61*/(""""></script>
- <!-- end CONSOLE -->
-
-     
-        """),_display_(Seq[Any](/*23.10*/content)),format.raw/*23.17*/("""
+ 	    
+ 	    <link rel="stylesheet" media="screen" href=""""),_display_(Seq[Any](/*15.52*/routes/*15.58*/.Assets.at("stylesheets/bootstrap.min.css"))),format.raw/*15.101*/("""">
+ 	    
+          	
+        """),_display_(Seq[Any](/*18.10*/content)),format.raw/*18.17*/("""
     
 </html>
 """))}
@@ -56,11 +51,11 @@ Seq[Any](format.raw/*1.32*/("""
 }
                 /*
                     -- GENERATED --
-                    DATE: Thu Oct 31 16:23:14 CET 2013
+                    DATE: Tue Nov 05 21:43:07 CET 2013
                     SOURCE: /Users/macher1/git/webfml/FMLApp/app/views/mainFML.scala.html
-                    HASH: b98d0beb7064ec276445b6faac08213bfb00657b
-                    MATRIX: 563->1|687->31|775->84|801->89|900->153|914->159|969->193|1065->254|1079->260|1132->292|1193->317|1208->323|1275->368|1387->444|1402->450|1453->479|1517->507|1532->513|1595->554|1752->675|1767->681|1823->715|1877->733|1892->739|1960->785|2024->813|2039->819|2100->858|2186->908|2215->915
-                    LINES: 19->1|22->1|28->7|28->7|29->8|29->8|29->8|30->9|30->9|30->9|31->10|31->10|31->10|33->12|33->12|33->12|34->13|34->13|34->13|38->17|38->17|38->17|39->18|39->18|39->18|40->19|40->19|40->19|44->23|44->23
+                    HASH: fdf62a55f5c90f74e8b6e021e283feeab12b9c86
+                    MATRIX: 563->1|687->31|775->84|801->89|900->153|914->159|969->193|1065->254|1079->260|1132->292|1193->317|1208->323|1269->362|1362->419|1377->425|1446->472|1534->524|1549->530|1600->559|1730->653|1745->659|1811->702|1878->733|1907->740
+                    LINES: 19->1|22->1|28->7|28->7|29->8|29->8|29->8|30->9|30->9|30->9|31->10|31->10|31->10|32->11|32->11|32->11|33->12|33->12|33->12|36->15|36->15|36->15|39->18|39->18
                     -- GENERATED --
                 */
             

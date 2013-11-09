@@ -10,8 +10,21 @@ import fr.familiar.interpreter.FMLFatalError
 import fr.familiar.variable.FeatureModelVariable
 import fr.familiar.variable.Variable
 import fr.familiar.interpreter.FMLExtendedInterpreter
+import java.io.File
+import java.io.BufferedWriter
+import java.io.FileWriter
+import play.api.templates.Html
+import play.api.libs.json.JsValue
+import play.api.libs.json.JsNull
+import play.api.libs.json.JsNull
+import play.api.libs.json.JsArray
+import play.api.libs.json.JsBoolean
+import play.api.libs.json.JsString
 
 object WebFMLInterpreter extends Controller with VariableHelper { 
+  
+  val workspaceDir = "/Users/macher1/Documents/FMLTestRepository/"
+ 
   
   val interp = new FMLBasicInterpreter()
   val KSYNTHESIS_INTERACTIVE_CMD = "ksynthesis --interactive" 
@@ -22,18 +35,21 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 		    interp.reset() 
 			val lastVar = interp.eval(fmlCommand);
 			
-			var rs = "<b>" + lastVar.getIdentifier() + " = " + lastVar.getValue() + "</b></br>" ;
-			
-			rs = rs + "<h3 style=\"text-align: center ; \">Variables</h3>"
-			rs = rs + "<ul>"
-			val allVarIDs = interp.getAllIdentifiers() ; 
-			allVarIDs.foreach(varID => rs = rs + "<li>" + mkVariableURL(varID) + "</li>\n")
-			rs = rs + "</ul>"
-			Ok(Json.toJson(rs));
+		    val allVarIDs = interp.getAllIdentifiers() ;
+			val rs : scala.xml.Elem = 
+ 		      <p>
+			  <ul class="list-unstyled">
+				{allVarIDs.map(varID => <li>{mkVariableURL(varID)}</li>)}
+				</ul>
+		      <p id="lastValueFML" class="alert alert-success"> {lastVar.getIdentifier() + " = " + lastVar.getValue()} </p> 
+		    </p>
+			Ok(Json.toJson(rs.toString));
 		}
 		catch {
-			case e : FMLAssertionError => BadRequest(e.getMessage())  
-			case e : FMLFatalError =>  BadRequest(e.getMessage())
+			case e  @ (_ : FMLAssertionError | _: FMLFatalError) => 
+			  val error = <div class="alert alert-danger">{e.getMessage()}</div>
+			  Ok(Json.toJson(error.toString))  
+
     	}
     	
        
@@ -98,8 +114,10 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     
     
   }
+  
+  
    
-   def variables (id : String) = Action {
+   def variable (id : String) = Action {
     Ok(Json.toJson(interp.eval(id).getValue()));
   }
    
@@ -108,7 +126,98 @@ object WebFMLInterpreter extends Controller with VariableHelper {
         interp.reset()
     	Ok("")
   }
-
+    
+    /*
+     * Workspace management 
+     */
+    
+    def loadFile (filename : String) = Action {
+      
+      // security issues of course
+      val source = scala.io.Source.fromFile(workspaceDir + filename)
+      val lines = source.mkString
+	  source.close()
+      Ok(Json.toJson(lines));
+    }
+    
+  
+    def saveAs (content : String, filename : String) = Action {
+      
+      // security issues of course
+        if (filename.isEmpty())
+          BadRequest("Filename is empty") 
+        else {
+	        val f = new File(workspaceDir + filename)
+	        val bw  = new BufferedWriter(new FileWriter(f))
+	        bw.write(content)
+	        bw.close()
+	        Ok("");
+        }
+    }
+    
+    def listFiles() = Action {
+    val files = recursiveListFiles(new File(workspaceDir))
+		  .filter(f => """.*\.fml$""".r.findFirstIn(f.getName).isDefined)
+		  .sortBy(f => mkProperName(f))
+	// TODO JSON 
+		  
+	 
+		  
+	  Ok(Json.toJson(Seq(_fileListToJSON(new File(workspaceDir)))))
+	  //Ok(_fileListToJSON(new File(workspaceDir)))
+	      // <ul>{ files.map(f => <li> { mkFMLFileName(f) } </li>) } </ul>.toString)
+   }
+    
+    def _fileListToJSON(file : File) : JsValue  = {
+      if (!file.isDirectory()) {
+        if (""".*\.fml$""".r.findFirstIn(file.getName).isDefined)
+        	Json.toJson(Map ("label" -> Json.toJson(file.getName()),
+        	 "leaf" -> JsBoolean(true),
+        	 "type" -> JsString("check"),
+        	 "url" -> Json.toJson("a"),
+	         "id" -> JsString("fml" + file.getName())
+        	 )) 
+        else 
+        	JsNull  
+      }
+      else {
+	      val files = file.listFiles
+	      if (!files.isEmpty) {
+		      val json = files.map(f => 
+		      	_fileListToJSON(f)
+		        )
+		     // "children:" + json.filter(j => !j.isInstanceOf[JsNull]).map() + " label:" + file.getName()
+		      //json.map(j => Json.toJson(j)) // filter(j => !j.isInstanceOf[JsNull]).
+		       Json.toJson(Map ("label" -> Json.toJson(file.getName()), "children" -> 
+		       JsArray(json.filter(j => j match {case JsNull => false; case _ => true})),
+		       "expanded" -> JsBoolean(true)    
+		       ))
+	      }
+	      else {
+	        Json.toJson(Map ("label" -> Json.toJson(file.getName()),
+	            "type" -> JsString("io")
+	        		)
+	            )
+	      }
+      }
+    }
+    
+       def mkFMLFileName(f: File) = {
+      val name =   mkProperName(f) 
+      val callback = "loadFile('" + name + "');"
+	  <a onclick={callback}>{name}</a>
+    }
+    
+    // print the parent directory name if the parent directory is not the root of the workspace (relative)
+    // FIXME
+    def mkProperName(f : File) = {
+      f.getAbsolutePath.replaceFirst(workspaceDir, "")
+    }
+   
+   def recursiveListFiles(f: File): Array[File] = {
+		   val these = f.listFiles
+		   these ++ these.filter(_.isDirectory).flatMap(recursiveListFiles)
+   }
   
  
 

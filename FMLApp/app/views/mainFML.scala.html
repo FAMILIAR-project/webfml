@@ -7,19 +7,14 @@
         <title>@title</title>
         <link rel="stylesheet" media="text/css" href="@routes.Assets.at("stylesheets/main.css")">
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/jquery.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/jquery-migrate.min.js")" type="text/javascript"></script>
+ 		<script src="@routes.Application.javascriptRoutes" type="text/javascript"></script>
 
- 		<script type="text/javascript" src="@routes.Application.javascriptRoutes"></script>
-		<script src="@routes.Assets.at("javascripts/FML-callback.js")" type="text/javascript" charset="utf-8"></script>
- 
- 
- <!-- CONSOLE -->
-  <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/ansi.css")">
- <script src="@routes.Assets.at("javascripts/jqconsole-2.7.min.js")"></script> 
- <script src="@routes.Assets.at("javascripts/FMLconsole.js")"></script>
- <!-- end CONSOLE -->
-
-     
+ 	    
+ 	    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")">
+ 	    
+          	
         @content
     
 </html>
