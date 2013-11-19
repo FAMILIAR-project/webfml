@@ -38,13 +38,37 @@ $(function() {
 		  jsRoutes.controllers.WebFMLInterpreter.ksynthesis(command).ajax({
                       success : function(data) {
 			  jqconsole.Write('Synthesising in progress... over ' + data['targetID'] + '\n');
-			  
-                          // ranking lists, clusters, previsualization here!
 
-                          // ranking lists
-                          var rl = data['rankinglist'] // TODO
-                          $('#ksynthesis').html('<em>' + rl + '</em>')
-                      },
+              // ranking lists, clusters, previsualization here!
+			  $('#ksynthesis').html('') // reset display
+ 
+			  // ranking lists
+			  $('#ksynthesis').append('ranking list:')
+			  var rl = data['rankinglist']
+              $('#ksynthesis').append('<ul>')
+              for (var i=0; i<rl.length; i++) {
+            	  $('#ksynthesis').append('<li>' + rl[i].feature + ': ' + rl[i].parents + '</li>')
+              }
+              $('#ksynthesis').append('</ul>')
+                         
+              // clusters
+              $('#ksynthesis').append('clusters:')
+              $('#ksynthesis').append('<ul>')
+              var clusters = data['clusters']
+              for (var i=0; i<clusters.length; i++) {
+            	  $('#ksynthesis').append('<li>' + clusters[i] + '</li>')
+              }
+              $('#ksynthesis').append('</ul>')
+              
+               // cliques
+              $('#ksynthesis').append('cliques:')
+              $('#ksynthesis').append('<ul>')
+              var cliques = data['cliques']
+              for (var i=0; i<cliques.length; i++) {
+            	  $('#ksynthesis').append('<li>' + cliques[i] + '</li>')
+              }
+              $('#ksynthesis').append('</ul>')
+              },
                       error : function(data) {
 			  jqconsole.Write('Error...' + data + '\n');
 		

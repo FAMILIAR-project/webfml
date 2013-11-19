@@ -20,10 +20,14 @@ import play.api.libs.json.JsNull
 import play.api.libs.json.JsArray
 import play.api.libs.json.JsBoolean
 import play.api.libs.json.JsString
+import fr.familiar.operations.heuristics.InteractiveFMSynthesizer
+import fr.familiar.operations.heuristics.metrics.SimmetricsMetric
+import fr.familiar.operations.heuristics.metrics.MetricName
 
 object WebFMLInterpreter extends Controller with VariableHelper { 
   
-  val workspaceDir = "/Users/macher1/Documents/FMLTestRepository/"
+  //val workspaceDir = "/Users/macher1/Documents/FMLTestRepository/"
+  val workspaceDir = "/home/gbecan/workspaces/workspace_familiar/webfml/"
  
   
   val interp = new FMLBasicInterpreter()
@@ -93,16 +97,32 @@ object WebFMLInterpreter extends Controller with VariableHelper {
       val v = interp.eval(targetID)
       if (v.isInstanceOf[FeatureModelVariable]) {
         val fmv = v.asInstanceOf[FeatureModelVariable]
-        // FIXME *ranked* lists
-        val ig = fmv.computeImplicationGraph()
-        val rl = ig.vertices().map(ft => Map (ft -> ig.outgoingEdges(ft).map(e => ig.getTarget(e))))
-            
-        // TODO clusters
+        val parentHeuristic = new SimmetricsMetric(MetricName.SIMMETRICS_LEVENSHTEIN)
+        val clusterHeuristic = new SimmetricsMetric(MetricName.SIMMETRICS_SMITHWATERMAN)
+        val clusterThreshold = 0.5
+        val synthesizer = new InteractiveFMSynthesizer(fmv, parentHeuristic, null, clusterHeuristic, clusterThreshold)
+        
+        // Ranking lists
+//        val ig = synthesizer.getImplicationGraph()
+//        val rl = ig.vertices().map(ft => Map (ft -> ig.outgoingEdges(ft).map(e => ig.getTarget(e))))
+        val rankingList = synthesizer.getParentCandidates().map(pc => (pc.getKey() -> pc.getValue().toSeq)).toMap
+
+        // Clusters
+        val clusters = synthesizer.getSimilarityClusters().map(c => c.toSet).toSet
+        
+        // Cliques
+        val cliques = synthesizer.getCliques().map(c => c.toSet).toSet
+        
         // TODO previsualization
         
          Ok (Json.toJson(Map ("id" -> Json.toJson(assignID), 
           "targetID" -> Json.toJson(targetID),
-          "rankinglist" -> Json.toJson(rl)
+//          "rankinglist" -> Json.toJson(rl)
+          "rankinglist" -> Json.toJson(rankingList.map(pc => Json.toJson(Map(
+              "feature" -> Json.toJson(pc._1), 
+              "parents" -> Json.toJson(pc._2))))),
+          "clusters" -> Json.toJson(clusters),
+          "cliques" -> Json.toJson(cliques)
           )
           )) 
       }
