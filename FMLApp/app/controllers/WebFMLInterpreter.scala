@@ -194,7 +194,6 @@ object WebFMLInterpreter extends Controller with VariableHelper {
         	Json.toJson(Map ("label" -> Json.toJson(file.getName()),
         	 "leaf" -> JsBoolean(true),
         	 "type" -> JsString("check"),
-        	 "url" -> Json.toJson("a"),
 	         "id" -> JsString("fml" + file.getName())
         	 )) 
         else 

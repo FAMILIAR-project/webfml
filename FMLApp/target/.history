@@ -23,3 +23,5 @@ play
 exit
 ~compile
 ~run
+play
+run
