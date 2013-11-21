@@ -24,7 +24,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
   //val workspaceDir = "/Users/macher1/Documents/FMLTestRepository/"
   //  val workspaceDir = "/home/gbecan/workspaces/workspace_familiar/webfml/"
-  val workspaceDir = "/home/leiko/dev/webfml/"
+  val workspaceDir = "/home/leiko/dev/webfml/FMLApp/"
 
   val interp = new FMLBasicInterpreter()
   val KSYNTHESIS_INTERACTIVE_CMD = "ksynthesis --interactive"
@@ -38,7 +38,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
         val allVarIDs = interp.getAllIdentifiers() ;
         val rs : scala.xml.Elem =
           <p>
-            <ul class="list-unstyled">
+            <ul class="unstyled">
               {allVarIDs.map(varID => <li>{mkVariableURL(varID)}</li>)}
             </ul>
             <p id="lastValueFML" class="alert alert-success"> {lastVar.getIdentifier() + " = " + lastVar.getValue()} </p>

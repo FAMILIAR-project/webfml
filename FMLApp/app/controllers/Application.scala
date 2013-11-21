@@ -41,12 +41,6 @@ object Application extends Controller {
 					"n7 = counting fm0\n" + 
 					"fm0\n" + 
 					"mtx = computeMUTEXGroups fm0";
-		
-		
-		  
-		  
-		 
-		  
 		// <button class="btn" onclick="loadFile('fm1 = FM (A : [B] XXX ; )');">Load file</button>
 		Ok(views.html.index.render(fmlDemo + "\n"))
     }
