@@ -22,9 +22,9 @@ import fr.familiar.operations.heuristics.metrics.SmithWatermanMetric
 
 object WebFMLInterpreter extends Controller with VariableHelper {
 
-  //val workspaceDir = "/Users/macher1/Documents/FMLTestRepository/"
+  val workspaceDir = "/Users/macher1/Documents/FMLTestRepository/"
   //  val workspaceDir = "/home/gbecan/workspaces/workspace_familiar/webfml/"
-  val workspaceDir = "/home/leiko/dev/webfml/FMLApp/"
+  //val workspaceDir = "/home/leiko/dev/webfml/FMLApp/"
 
   val interp = new FMLBasicInterpreter()
   val KSYNTHESIS_INTERACTIVE_CMD = "ksynthesis --interactive"
@@ -46,8 +46,8 @@ object WebFMLInterpreter extends Controller with VariableHelper {
         Ok(Json.toJson(rs.toString));
       }
       catch {
-        case e  @ (_ : FMLAssertionError | _: FMLFatalError) =>
-          val error = <div class="alert alert-danger">{e.getMessage()}</div>
+        case e  @ (_ : FMLAssertionError | _: FMLFatalError | _: Exception) =>
+          val error = <div class="alert alert-danger">{e.getStackTraceString}</div>
           Ok(Json.toJson(error.toString))
 
       }
@@ -150,7 +150,8 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   def loadFile (filename : String) = Action {
 
     // security issues of course
-    val source = scala.io.Source.fromFile(workspaceDir + filename)
+    val workspaceBase = new File (workspaceDir).getParent()
+    val source = scala.io.Source.fromFile(workspaceBase + "/" + filename)
     val lines = source.mkString
     source.close()
     Ok(Json.toJson(lines));
@@ -226,7 +227,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   // print the parent directory name if the parent directory is not the root of the workspace (relative)
   // FIXME
   def mkProperName(f : File) = {
-    f.getAbsolutePath.replaceFirst(workspaceDir, "")
+    f.getAbsolutePath // .replaceFirst(workspaceDir, "")
   }
 
   def recursiveListFiles(f: File): Array[File] = {

@@ -139,12 +139,32 @@ YUI().use(
     var tview = new Y.TreeViewDD(
       { 
         boundingBox: '#myTreeView',
-	  children: filespecification
+	  children: filespecification, 
+	  after: {
+	  	 lastSelectedChange: function(event) {
+	       var nodeId = event.newVal.get('id');
+	       var node = tview.getNodeById(nodeId); 
+	       if (node.isLeaf()) 
+	       	loadFile (mkCompleteName(node)); 
+		}
+       }
        }
     ) ; 
     
     tview.render();
   }
 );
+}
+
+function mkCompleteName (n) {
+	if (!n)
+	   return "" ; 
+	if (n.get('parentNode')) {
+	 var p = mkCompleteName(n.get('parentNode')) ; 
+	   if (p)
+	   	  return p + "/" + n.get('label') ; 
+	   else
+	      return n.get('label') ; 
+	}
 }
 
