@@ -18,6 +18,7 @@ import play.api.libs.json.JsString
 import fr.familiar.operations.heuristics.InteractiveFMSynthesizer
 import fr.familiar.operations.heuristics.metrics.SimmetricsMetric
 import fr.familiar.operations.heuristics.metrics.MetricName
+import fr.familiar.operations.heuristics.metrics.SmithWatermanMetric
 
 object WebFMLInterpreter extends Controller with VariableHelper {
 
@@ -92,8 +93,8 @@ object WebFMLInterpreter extends Controller with VariableHelper {
       val v = interp.eval(targetID)
       if (v.isInstanceOf[FeatureModelVariable]) {
         val fmv = v.asInstanceOf[FeatureModelVariable]
-        val parentHeuristic = new SimmetricsMetric(MetricName.SIMMETRICS_LEVENSHTEIN)
-        val clusterHeuristic = new SimmetricsMetric(MetricName.SIMMETRICS_SMITHWATERMAN)
+        val parentHeuristic = new SmithWatermanMetric
+        val clusterHeuristic = new SmithWatermanMetric
         val clusterThreshold = 0.5
         val synthesizer = new InteractiveFMSynthesizer(fmv, parentHeuristic, null, clusterHeuristic, clusterThreshold)
 
