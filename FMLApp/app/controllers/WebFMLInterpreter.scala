@@ -22,7 +22,7 @@ import fr.familiar.operations.heuristics.metrics.SmithWatermanMetric
 
 object WebFMLInterpreter extends Controller with VariableHelper {
 
-  val workspaceDir = "/Users/macher1/Documents/FMLTestRepository/"
+  val workspaceDir = "repository/"   // "/Users/macher1/Documents/FMLTestRepository/"
   //  val workspaceDir = "/home/gbecan/workspaces/workspace_familiar/webfml/"
   //val workspaceDir = "/home/leiko/dev/webfml/FMLApp/"
 
@@ -131,6 +131,19 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
   }
 
+  
+  def featureModelToJson (id : String) = Action {
+    request =>
+      
+     val v = interp.eval(id)
+      if (v.isInstanceOf[FeatureModelVariable]) {
+        val fmv = v.asInstanceOf[FeatureModelVariable]
+        Ok (new JSonFeatureModel(fmv).toJSon())
+      }
+      else {
+        Ok ("Error, variable " + id + " is not a feature model!") // can't remember how Error are properly handled in Play!
+      }
+  }
 
 
   def variable (id : String) = Action {
@@ -150,8 +163,8 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   def loadFile (filename : String) = Action {
 
     // security issues of course
-    val workspaceBase = new File (workspaceDir).getParent()
-    val source = scala.io.Source.fromFile(workspaceBase + "/" + filename)
+    val workspaceBase = "" // new File (workspaceDir).getParent() + "/" 
+    val source = scala.io.Source.fromFile(workspaceBase + filename)
     val lines = source.mkString
     source.close()
     Ok(Json.toJson(lines));
@@ -174,7 +187,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
   def listFiles() = Action {
     val files = recursiveListFiles(new File(workspaceDir))
-      .filter(f => """.*\.fml$""".r.findFirstIn(f.getName).isDefined)
+      .filter(f => (f.getName().endsWith("fml") || f.getName().endsWith("dimacs"))) //""".*\.fml$""".r.findFirstIn(f.getName).isDefined)
       .sortBy(f => mkProperName(f))
     // TODO JSON
 
@@ -187,7 +200,9 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
   def _fileListToJSON(file : File) : JsValue  = {
     if (!file.isDirectory()) {
-      if (""".*\.fml$""".r.findFirstIn(file.getName).isDefined)
+      if (""".*\.fml$""".r.findFirstIn(file.getName).isDefined || 
+    		  """.*\.dimacs$""".r.findFirstIn(file.getName).isDefined    
+      )
         Json.toJson(Map ("label" -> Json.toJson(file.getName()),
           "leaf" -> JsBoolean(true),
           "type" -> JsString("check"),
