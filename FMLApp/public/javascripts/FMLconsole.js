@@ -43,13 +43,14 @@ $(function() {
 			  $('#ksynthesis').html('') // reset display
  
 			  // ranking lists
-			  $('#ksynthesis').append('ranking list:')
-			  var rl = data['rankinglist']
-              $('#ksynthesis').append('<ul>')
-              for (var i=0; i<rl.length; i++) {
+	      $('#ksynthesis').append('ranking list:')
+	      var rl = data['rankingLists']
+			  mkTreeRK ('#ksynthesis', rl);             
+             /* $('#ksynthesis').append('<ul>')
+	      for (var i=0; i<rl.length; i++) {
             	  $('#ksynthesis').append('<li>' + rl[i].feature + ': ' + rl[i].parents + '</li>')
               }
-              $('#ksynthesis').append('</ul>')
+              $('#ksynthesis').append('</ul>')*/
                          
               // clusters
               $('#ksynthesis').append('clusters:')
@@ -143,5 +144,29 @@ $(function() {
         handler();
       });
 
-
-
+// divid: id of the element
+// chspecification: children specification of the tree
+function mkTreeRK(divid,chspecification) {
+$(divid).html('');
+YUI().use(
+  'aui-tree-view',
+  function(Y) {
+    var tview = new Y.TreeViewDD(
+      { 
+        boundingBox: divid,
+	  children: chspecification, 
+	  after: {
+	  	 lastSelectedChange: function(event) {
+	       var nodeId = event.newVal.get('id');
+	       var node = tview.getNodeById(nodeId); 
+	       if (node.isLeaf()) 
+	       	loadFile (mkCompleteName(node)); 
+		}
+       }
+       }
+    ) ; 
+    
+    tview.render();
+  }
+);
+}

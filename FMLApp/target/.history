@@ -30,3 +30,5 @@ eclipse
 run
 ~compile
 run
+~compile
+~run

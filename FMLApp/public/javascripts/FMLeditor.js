@@ -132,7 +132,7 @@ jsRoutes.controllers.WebFMLInterpreter.listFiles().ajax({
 
 
 function displayWorkspace(filespecification) {
- $('#myTreeView').html('');
+$('#myTreeView').html('');
 YUI().use(
   'aui-tree-view',
   function(Y) {
