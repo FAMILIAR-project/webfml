@@ -42,3 +42,16 @@ html, body {
 #dropdownMenu1 {
     width: 80px;
 }
+
+.nav-tabs {
+    margin-bottom: 5px;
+}
+
+.btn-toolbar {
+    margin-top: 0px;
+}
+
+#heuristic-selector {
+    margin-bottom: 0;
+    width: 120px;
+}
