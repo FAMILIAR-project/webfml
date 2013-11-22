@@ -19,6 +19,7 @@ import fr.familiar.operations.heuristics.InteractiveFMSynthesizer
 import fr.familiar.operations.heuristics.metrics.SimmetricsMetric
 import fr.familiar.operations.heuristics.metrics.MetricName
 import fr.familiar.operations.heuristics.metrics.SmithWatermanMetric
+import fr.familiar.gui.synthesis.KeyValue
 
 object WebFMLInterpreter extends Controller with VariableHelper {
 
@@ -101,7 +102,8 @@ object WebFMLInterpreter extends Controller with VariableHelper {
         // Ranking lists
         //        val ig = synthesizer.getImplicationGraph()
         //        val rl = ig.vertices().map(ft => Map (ft -> ig.outgoingEdges(ft).map(e => ig.getTarget(e))))
-        val rankingList = synthesizer.getParentCandidates().map(pc => (pc.getKey() -> pc.getValue().toSeq)).toMap
+        val rankingLists = synthesizer.getParentCandidates().map(pc => (pc.getKey() -> pc.getValue().toSeq)).toMap
+        val jsonRankingLists = rankingListsToJSON(rankingLists)
 
         // Clusters
         val clusters = synthesizer.getSimilarityClusters().map(c => c.toSet).toSet
@@ -113,10 +115,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
         Ok (Json.toJson(Map ("id" -> Json.toJson(assignID),
           "targetID" -> Json.toJson(targetID),
-          //          "rankinglist" -> Json.toJson(rl)
-          "rankinglist" -> Json.toJson(rankingList.map(pc => Json.toJson(Map(
-            "feature" -> Json.toJson(pc._1),
-            "parents" -> Json.toJson(pc._2))))),
+          "rankingLists" -> jsonRankingLists,
           "clusters" -> Json.toJson(clusters),
           "cliques" -> Json.toJson(cliques)
         )
@@ -125,10 +124,14 @@ object WebFMLInterpreter extends Controller with VariableHelper {
       else {
         Ok ("Error, variable " + targetID + " is not a formula or feature model") // can't remember how Error are properly handled in Play!
       }
-
-
-
-
+  }
+  
+  def rankingListsToJSON(rankingLists : Map[String, Seq[String]]) : JsValue = {
+    Json.toJson(
+        rankingLists.map(list => Map(
+        		"label" -> Json.toJson(list._1),
+        		"children" -> Json.toJson(list._2.map(child => Map("label" -> child)))
+    )))
   }
 
 
