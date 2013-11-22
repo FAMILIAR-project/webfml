@@ -1,7 +1,18 @@
-fmwiki = FM (Wiki: Licence Storage "Programming Language" ;  
-			Licence: ("Proprietary Licence"|"Open Source") ; 
+fmwiki = FM (Wiki: License Storage ["Programming Language"] ;  
+			License: ("Proprietary License"|"Open Source") ; 
 			Storage: (PostgreSQL|MySQL) ;
 			"Programming Language": (Java|PHP) ;
-			("Proprietary Licence" -> !"Programming Language");
-			(Local -> !"Proprietary Licence");
-			(PostgreSQL <-> "Proprietary Licence");)
+			(PostgreSQL <-> "Proprietary License");
+			("Proprietary License" -> !"Programming Language");
+			)
+			
+badfmwiki = FM (Wiki: Storage ("Proprietary License"|"Open Source") (PostgreSQL|MySQL) [PHP] ;  
+			Storage: License [Java] ; 
+			License : ["Programming Language"] ;
+			(PostgreSQL <-> "Proprietary License");
+			(Java -> "Programming Language");
+			(PHP -> "Programming Language");
+			("Programming Language" -> Java|PHP);
+			("Proprietary License" -> !"Programming Language");
+			(PHP -> !Java);
+			)
