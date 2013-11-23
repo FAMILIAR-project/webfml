@@ -55,3 +55,16 @@ html, body {
     margin-bottom: 0;
     width: 120px;
 }
+
+#rklist {
+
+}
+
+.customBtn {
+    width: 78px !important;
+}
+
+li.parentFt {
+    font-weight : bold ; 
+    list-style : none ; 
+}

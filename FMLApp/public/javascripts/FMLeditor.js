@@ -140,10 +140,11 @@ YUI().use(
       { 
         boundingBox: '#myTreeView',
 	  children: filespecification, 
-	  after: {
+	  on: {
 	  	 lastSelectedChange: function(event) {
 	       var nodeId = event.newVal.get('id');
-	       var node = tview.getNodeById(nodeId); 
+	       var node = tview.getNodeById(nodeId);
+
 	       if (node.isLeaf()) 
 	       	loadFile (mkCompleteName(node)); 
 		}
@@ -155,6 +156,8 @@ YUI().use(
   }
 );
 }
+
+
 
 function mkCompleteName (n) {
 	if (!n)

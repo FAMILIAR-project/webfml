@@ -43,32 +43,39 @@ $(function() {
 			  $('#ksynthesis').html('') // reset display
  
 			  // ranking lists
-	      $('#ksynthesis').append('ranking list:')
-	      var rl = data['rankingLists']
-			  mkTreeRK ('#ksynthesis', rl);             
-             /* $('#ksynthesis').append('<ul>')
+			  $('#ksynthesis').append('<div id="rklist"><h3>Ranking list</h3>');
+			  var rl = data['rankingList'] ;
+	//		  mkTreeRK ('#ksynthesis', rl);             no time to fix...
+			  $('#rklist').append('<ul>');
 	      for (var i=0; i<rl.length; i++) {
-            	  $('#ksynthesis').append('<li>' + rl[i].feature + ': ' + rl[i].parents + '</li>')
+                  
+            	  $('#rklist').append('<li class="parentFt">' + rl[i].feature + '</li><ul>'); 
+		  var pts =  rl[i].parents ; 
+                  for (var j=0; j < pts.length; j++) {  
+                      $('#rklist').append('<li style="list-style: none; padding-left: 5em; ">' + mkFeatureMenu(pts[j]) + '</li>'); 
+                  }
+                  $('#rklist').append('</ul>');
               }
-              $('#ksynthesis').append('</ul>')*/
+			  $('#rklist').append('</ul>');
+			  $('#ksynthesis').append('</div>');
                          
               // clusters
-              $('#ksynthesis').append('clusters:')
-              $('#ksynthesis').append('<ul>')
-              var clusters = data['clusters']
+			  $('#ksynthesis').append('<h3>Clusters</h3>');
+			  $('#ksynthesis').append('<ul>');
+			  var clusters = data['clusters'];
               for (var i=0; i<clusters.length; i++) {
-            	  $('#ksynthesis').append('<li>' + clusters[i] + '</li>')
+            	  $('#ksynthesis').append('<li>' + clusters[i] + '</li>');
               }
-              $('#ksynthesis').append('</ul>')
+			  $('#ksynthesis').append('</ul>');
               
                // cliques
-              $('#ksynthesis').append('cliques:')
-              $('#ksynthesis').append('<ul>')
-              var cliques = data['cliques']
+			  $('#ksynthesis').append('<h1>cliques</h1>');
+			  $('#ksynthesis').append('<ul>');
+			  var cliques = data['cliques'];
               for (var i=0; i<cliques.length; i++) {
-            	  $('#ksynthesis').append('<li>' + cliques[i] + '</li>')
+            	  $('#ksynthesis').append('<li>' + cliques[i] + '</li>');
               }
-              $('#ksynthesis').append('</ul>')
+			  $('#ksynthesis').append('</ul>');
               },
                       error : function(data) {
 			  jqconsole.Write('Error...' + data + '\n');
@@ -148,6 +155,7 @@ $(function() {
 // chspecification: children specification of the tree
 function mkTreeRK(divid,chspecification) {
 $(divid).html('');
+
 YUI().use(
   'aui-tree-view',
   function(Y) {
@@ -156,17 +164,31 @@ YUI().use(
         boundingBox: divid,
 	  children: chspecification, 
 	  after: {
-	  	 lastSelectedChange: function(event) {
-	       var nodeId = event.newVal.get('id');
-	       var node = tview.getNodeById(nodeId); 
-	       if (node.isLeaf()) 
-	       	loadFile (mkCompleteName(node)); 
-		}
-       }
-       }
+	       lastSelectedChange: function(event) {
+		   var nodeId = event.newVal.get('id');
+		   var node = tview.getNodeById(nodeId); 
+                   if (!node.isLeaf())
+		       return ; 
+                   var parentNode = node.get('parentNode') ; 
+	           // display a contextual menu	
+//		  Y.one(divid).placeAfter() ; 
+
+/*
+*/
+// '<p>Select ' + node.get('label')  + ' as parent of ' + parentNode.get('label') + '?</p>');
+	        },
+	  }
+      } 
     ) ; 
-    
+
+
     tview.render();
   }
 );
+}
+
+
+
+function mkFeatureMenu(str) {
+return '<div class="btn-group"><button class="btn btn-default btn-xs dropdown-toggle customBtn" type=\"button\" id=\"dropdownMenu1\" data-toggle=\"dropdown\">' + str + '<span class=\"caret\"></span></button><ul class="dropdown-menu pull-right" role=\"menu\" aria-labelledby=\"dropdownMenu1\"><li role=\"presentation\"><a role=\"menuitem\" tabindex=\"-1\" href=\"#\">Select this parent</a></li><li role=\"presentation\"><a role=\"menuitem\" tabindex=\"-1\" href=\"#\">Ignore this parent</a></li><li role=\"presentation\" class=\"divider\"></li><li role=\"presentation\"><a role=\"menuitem\" tabindex=\"-1\" href=\"#\">Cancel</a></li></ul></div>'
 }

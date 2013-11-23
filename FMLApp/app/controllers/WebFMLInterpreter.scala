@@ -102,8 +102,8 @@ object WebFMLInterpreter extends Controller with VariableHelper {
         // Ranking lists
         //        val ig = synthesizer.getImplicationGraph()
         //        val rl = ig.vertices().map(ft => Map (ft -> ig.outgoingEdges(ft).map(e => ig.getTarget(e))))
-        val rankingLists = synthesizer.getParentCandidates().map(pc => (pc.getKey() -> pc.getValue().toSeq)).toMap
-        val jsonRankingLists = rankingListsToJSON(rankingLists)
+        val rankingList = synthesizer.getParentCandidates().map(pc => (pc.getKey() -> pc.getValue().toSeq)).toMap
+        val jsonRankingLists = rankingListsToJSON(rankingList)
 
         // Clusters
         val clusters = synthesizer.getSimilarityClusters().map(c => c.toSet).toSet
@@ -115,7 +115,11 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
         Ok (Json.toJson(Map ("id" -> Json.toJson(assignID),
           "targetID" -> Json.toJson(targetID),
-          "rankingLists" -> jsonRankingLists,
+          //"rankingLists" -> jsonRankingLists,
+          
+           "rankingList" -> Json.toJson(rankingList.map(pc => Json.toJson(Map(
+               "feature" -> Json.toJson(pc._1), 
+               "parents" -> Json.toJson(pc._2))))),
           "clusters" -> Json.toJson(clusters),
           "cliques" -> Json.toJson(cliques)
         )
@@ -130,7 +134,11 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     Json.toJson(
         rankingLists.map(list => Map(
         		"label" -> Json.toJson(list._1),
-        		"children" -> Json.toJson(list._2.map(child => Map("label" -> child)))
+        		"children" -> Json.toJson(list._2.map(child => Map("label" -> Json.toJson(child), 
+        														"type" -> JsString("check"), 
+        															"leaf" -> JsBoolean(true)
+        		    
+        		)))
     )))
   }
 
@@ -208,7 +216,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
       )
         Json.toJson(Map ("label" -> Json.toJson(file.getName()),
           "leaf" -> JsBoolean(true),
-          "type" -> JsString("check"),
+          "type" -> JsString("file"),
           "id" -> JsString("fml" + file.getName())
         ))
       else
