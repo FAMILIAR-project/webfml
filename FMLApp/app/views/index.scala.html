@@ -65,7 +65,7 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="editor">@message</div>
                             <div class="tab-pane" id="ksynthesis-tab">
-                                <div id="ksynthesis" class="pull-left"></div>
+                                	<div id="ksynthesis" class="pull-left"></div>
                                 <div class="btn-toolbar pull-right">
                                     <div class="btn-group">
                                         <a class="btn" href="#"><i class="icon-step-backward"></i> Undo</a>
@@ -74,9 +74,12 @@
                                     </div>
                                     <select id="heuristic-selector">
                                         <!-- TODO hardcoded heuristics -->
-                                        <option>Heuristic 0</option>
-                                        <option>Heuristic 1</option>
-                                        <option>Heuristic 42</option>
+                                        <option>Smith Waterman (Simmetrics)</option>
+                                        <option>Levenshtein (Simmetrics)</option>
+                                        <option>Wu & Palmer (WordNet)</option>
+                                        <option>Path Length (WordNet)</option>
+                                        <option>Wikipedia Miner</option>
+                                        <option></option>
                                     </select>
                                 </div>
                             </div>

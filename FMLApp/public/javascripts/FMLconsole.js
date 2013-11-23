@@ -187,8 +187,6 @@ YUI().use(
 );
 }
 
-
-
 function mkFeatureMenu(str) {
 return '<div class="btn-group"><button class="btn btn-default btn-xs dropdown-toggle customBtn" type=\"button\" id=\"dropdownMenu1\" data-toggle=\"dropdown\">' + str + '<span class=\"caret\"></span></button><ul class="dropdown-menu pull-right" role=\"menu\" aria-labelledby=\"dropdownMenu1\"><li role=\"presentation\"><a role=\"menuitem\" tabindex=\"-1\" href=\"#\">Select this parent</a></li><li role=\"presentation\"><a role=\"menuitem\" tabindex=\"-1\" href=\"#\">Ignore this parent</a></li><li role=\"presentation\" class=\"divider\"></li><li role=\"presentation\"><a role=\"menuitem\" tabindex=\"-1\" href=\"#\">Cancel</a></li></ul></div>'
 }
