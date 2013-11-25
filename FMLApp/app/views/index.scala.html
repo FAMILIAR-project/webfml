@@ -24,9 +24,15 @@
         <script src="http://cdn.alloyui.com/2.0.0/aui/aui-min.js"></script>
         <link href="http://cdn.alloyui.com/2.0.0/aui-css/css/bootstrap.min.css" rel="stylesheet">
         <!-- end WORKSPACE -->
+        
+        <!-- KSYNTHESIS -->
+        <script src="@routes.Assets.at("javascripts/dagre-d3/d3.v3.min.js")"></script>
+		<script src="@routes.Assets.at("javascripts/dagre-d3/dagre-d3.min.js")"></script>
+		<!-- end KSYNTHESIS -->
 
         <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/main.css")">
         <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/console.css")">
+        <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/fmpreview.css")">
 
         <body>
             <div class="navbar">
@@ -60,28 +66,30 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#editor" data-toggle="tab">FML Editor</a></li>
                             <li><a href="#ksynthesis-tab" data-toggle="tab">KSynthesis</a></li>
-                            
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="editor">@message</div>
                             <div class="tab-pane" id="ksynthesis-tab">
-                                	<div id="ksynthesis" class="pull-left"></div>
-                                <div class="btn-toolbar pull-right">
-                                    <div class="btn-group">
-                                        <a class="btn" href="#"><i class="icon-step-backward"></i> Undo</a>
-                                        <a class="btn" href="#"><i class="icon-step-forward"></i> Redo</a>
-                                        <a class="btn" href="#">Complete FM</a>
-                                    </div>
-                                    <select id="heuristic-selector">
-                                        <!-- TODO hardcoded heuristics -->
-                                        <option>Smith Waterman (Simmetrics)</option>
-                                        <option>Levenshtein (Simmetrics)</option>
-                                        <option>Wu & Palmer (WordNet)</option>
-                                        <option>Path Length (WordNet)</option>
-                                        <option>Wikipedia Miner</option>
-                                        <option></option>
-                                    </select>
+		                        <div id="ksynthesis" class="span6 pull-left">
                                 </div>
+                                
+                                <div class="btn-toolbar pull-right">
+			                        <div class="btn-group">
+			                            <a class="btn" href="#"><i class="icon-step-backward"></i> Undo</a>
+			                            <a class="btn" href="#"><i class="icon-step-forward"></i> Redo</a>
+			                            <a class="btn" href="#">Complete FM</a>
+			                        </div>
+			                        <select id="heuristic-selector">
+			                            <!-- TODO hardcoded heuristics -->
+			                            <option>Smith Waterman (Simmetrics)</option>
+			                            <option>Levenshtein (Simmetrics)</option>
+			                            <option>Wu & Palmer (WordNet)</option>
+			                            <option>Path Length (WordNet)</option>
+			                            <option>Wikipedia Miner</option>
+			                            <option></option>
+			                        </select>
+			                   </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -118,6 +126,8 @@
                     }
                 });
             </script>
+            
+            
         </body>
     }
 

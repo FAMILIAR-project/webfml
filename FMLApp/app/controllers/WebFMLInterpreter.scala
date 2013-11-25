@@ -20,6 +20,8 @@ import fr.familiar.operations.heuristics.metrics.SimmetricsMetric
 import fr.familiar.operations.heuristics.metrics.MetricName
 import fr.familiar.operations.heuristics.metrics.SmithWatermanMetric
 import fr.familiar.gui.synthesis.KeyValue
+import gsd.synthesis.FeatureEdge
+import gsd.synthesis.FeatureType
 
 object WebFMLInterpreter extends Controller with VariableHelper {
 
@@ -29,6 +31,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
   val interp = new FMLBasicInterpreter()
   val KSYNTHESIS_INTERACTIVE_CMD = "ksynthesis --interactive"
+  var synthesizer : InteractiveFMSynthesizer = null
 
   def interpret(fmlCommand: String) = Action {
     request =>
@@ -44,6 +47,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
             </ul>
             <p id="lastValueFML" class="alert alert-success"> {lastVar.getIdentifier() + " = " + lastVar.getValue()} </p>
           </p>
+      
         Ok(Json.toJson(rs.toString));
       }
       catch {
@@ -97,7 +101,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
         val parentHeuristic = new SmithWatermanMetric
         val clusterHeuristic = new SmithWatermanMetric
         val clusterThreshold = 0.5
-        val synthesizer = new InteractiveFMSynthesizer(fmv, parentHeuristic, null, clusterHeuristic, clusterThreshold)
+        synthesizer = new InteractiveFMSynthesizer(fmv, parentHeuristic, null, clusterHeuristic, clusterThreshold)
 
         // Ranking lists
         //        val ig = synthesizer.getImplicationGraph()
@@ -110,13 +114,16 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
         // Cliques
         val cliques = synthesizer.getCliques().map(c => c.toSet).toSet
-
-        // TODO previsualization
+        
+        // FM preview 
+        val fm = synthesizer.getFeatureModelVariable()
+        val diagram = fm.getFm().getDiagram()
+        diagram.addEdge(diagram.getTopVertex(), diagram.getBottomVertex(), FeatureEdge.HIERARCHY)
 
         Ok (Json.toJson(Map ("id" -> Json.toJson(assignID),
           "targetID" -> Json.toJson(targetID),
           //"rankingLists" -> jsonRankingLists,
-          
+          "fm" -> fmToJson(fm),
            "rankingList" -> Json.toJson(rankingList.map(pc => Json.toJson(Map(
                "feature" -> Json.toJson(pc._1), 
                "parents" -> Json.toJson(pc._2))))),
@@ -142,6 +149,29 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     )))
   }
 
+  def fmToJson(fm : FeatureModelVariable) : JsValue = {
+    val diagram = fm.getFm().getDiagram()
+    
+    val jsonNodes = for (v <- diagram.vertices() 
+        if !v.isTop() && !v.isBottom()) 
+      yield Json.toJson(v.getFeature())
+    
+   val jsonEdges = for (e <- diagram.edges() 
+       if e.getType() == FeatureEdge.HIERARCHY;
+       if !diagram.getSource(e).isTop() && !diagram.getSource(e).isBottom();
+     if !diagram.getTarget(e).isTop() && !diagram.getTarget(e).isBottom())
+      yield Json.toJson(Map(
+        "source" -> diagram.getSource(e).getFeature(),
+        "target" -> diagram.getTarget(e).getFeature()
+    ))
+    
+    val jsonFM = Json.toJson(Map(
+        "nodes" -> jsonNodes,
+        "edges" -> jsonEdges
+    )) 
+   
+    jsonFM
+  }
   
   def featureModelToJson (id : String) = Action {
     request =>
@@ -263,4 +293,8 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
 
 
+  def selectParent(child : String, parent : String) = {
+    synthesizer.selectParent(child, parent)
+  }
+  
 }
