@@ -31,3 +31,9 @@ For all participants: experience with web dev.
 It works with the Play! framework 2.2.0 (http://www.playframework.com/documentation/2.2.0), the Scala version. We also rely on some Javascripts (ACE editor and jqconsole). 
 More details in the dedicated page. 
 
+## Setting up in Eclipse
+
+ *Download play
+ *Install play as follow : http://www.playframework.com/documentation/2.2.1/Installing
+ *In webfml directory, start play, and enter the command eclipse : http://www.playframework.com/documentation/2.2.1/IDE
+ *You are ready to work
