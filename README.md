@@ -33,7 +33,7 @@ More details in the dedicated page.
 
 ## Setting up in Eclipse
 
- *Download play
- *Install play as follow : http://www.playframework.com/documentation/2.2.1/Installing
- *In webfml directory, start play, and enter the command eclipse : http://www.playframework.com/documentation/2.2.1/IDE
- *You are ready to work
+ * Download play : http://www.playframework.com/
+ * Install play as follow : http://www.playframework.com/documentation/2.2.1/Installing
+ * In webfml directory, start play, and enter the command eclipse : http://www.playframework.com/documentation/2.2.1/IDE
+ * You are ready to work
