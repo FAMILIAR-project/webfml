@@ -28,12 +28,16 @@ FMLApp/lib/FML-1.2.jar
 and select "Extract required libraries into generated JAR" 
 
 
-Once done, you can execute play in the directory of FMLApp.
+Once done, you can execute play in the directory of FMLApp 
+ * (optional) set up the preferences for your IDE (Eclipse, IntelliJ, etc.) => http://www.playframework.com/documentation/2.2.1/IDE
+ * compile the project and run the server
 
 ```
 macher:FMLApp macher1$ pwd
 /Users/macher1/git/webfml/FMLApp
 macher:FMLApp macher1$ ~/Downloads/play-2.2.0/play
+[FMLApp] $ eclipse
+...
 [FMLApp] $ ~run
 
 --- (Running the application from SBT, auto-reloading is enabled) ---
