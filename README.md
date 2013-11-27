@@ -42,9 +42,9 @@ More details in the dedicated page.
 
 ## Compile and Run
 
- * In your source directory, start a console
+ * In your source directory open the terminal
  * start play (command : play)
- * to compile type the command compile in play console
+ * to compile type the command compile 
  * to run type the command run
  * go to the url : localhost:9000
  
