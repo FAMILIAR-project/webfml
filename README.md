@@ -35,5 +35,16 @@ More details in the dedicated page.
 
  * Download play : http://www.playframework.com/
  * Install play as follow : http://www.playframework.com/documentation/2.2.1/Installing
- * In webfml directory, start play, and enter the command eclipse : http://www.playframework.com/documentation/2.2.1/IDE
+ * In webfml directory, start play (in the console enter the command play), in play enter the command eclipse : http://www.playframework.com/documentation/2.2.1/IDE
+ * In the eclipse webfml project, create a folder lib
+ * Export a runnable jar from this project  : https://github.com/FAMILIAR-project/familiar-language  in this destination set: FMLApp/lib/FML-1.2.jar and select "Extract required libraries into generated JAR"
  * You are ready to work
+
+## Compile and Run
+
+ * In your source directory, start a console
+ * start play (command : play)
+ * to compile type the command compile in play console
+ * to run type the command run
+ * go to the url : localhost:9000
+ 
