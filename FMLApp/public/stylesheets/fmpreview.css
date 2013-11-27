@@ -1,0 +1,19 @@
+rect {
+    fill: #fff;
+}
+
+.node rect {
+    stroke-width: 1.5px;
+    stroke: #333;
+    fill: none;
+}
+
+.edge rect {
+    fill: #fff;
+}
+
+.edge path {
+    fill: none;
+    stroke: #333;
+    stroke-width: 1.5px;
+}

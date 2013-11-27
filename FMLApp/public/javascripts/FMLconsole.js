@@ -43,7 +43,7 @@ $(function() {
 			  $('#ksynthesis').html('') // reset display
  
 			  // preview
-			  $('#ksynthesis').append('<div id="fmpreview" class="pull-right"><h3>Preview</h3>');
+			  $('#ksynthesis').append('<div class="pull-right"><h3>Preview</h3><div id="fmpreview"></div>');
 			  var fm = data['fm'] ;
 			  mkFMPreview('#fmpreview', fm);
 			  $('#ksynthesis').append('</div>');
@@ -203,7 +203,7 @@ function mkFeatureMenu(child, parent) {
 		'</button>'+
 		'<ul class="dropdown-menu pull-right" role=\"menu\" aria-labelledby=\"dropdownMenu1\">'+
 			'<li role=\"presentation\">'+
-				'<a role=\"menuitem\" tabindex=\"-1\" href=\"#\">'+
+				'<a role=\"menuitem\" tabindex=\"-1\" onclick=\'selectParent("' + child + '","' + parent + '")\'>'+
 					'Select this parent'+
 				'</a>'+
 			'</li>'+
@@ -221,7 +221,8 @@ function mkFeatureMenu(child, parent) {
 
 
 function mkFMPreview(divid, fm) {
-
+	$(divid).html('');
+	
 	// Create the graph
     var g = new dagreD3.Digraph();
     
@@ -283,6 +284,22 @@ function mkFMPreview(divid, fm) {
     d3.selectAll('.edge path').attr('marker-end', '')
 }
 
+
+//"' + child + '","' + parent + '"
+
 function selectParent(child, parent) {
-	 jsRoutes.controllers.WebFMLInterpreter.selectParent(child, parent);
+	 jsRoutes.controllers.WebFMLInterpreter.selectParent(child, parent).ajax({
+         success : function(data) {
+        	 mkFMPreview('#fmpreview', data)
+         },
+         error : function(data) {
+        	 jqconsole.Write('Error...' + data + '\n');
+         },
+         beforeSend : function(event, jqxhr, settings) {
+        	 $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+         },
+         complete : function(jqxhr, textstatus) {
+        	 $('#wait').html('') ;		   
+         }
+	 })
 }

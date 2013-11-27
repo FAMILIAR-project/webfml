@@ -293,8 +293,9 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
 
 
-  def selectParent(child : String, parent : String) = {
+  def selectParent(child : String, parent : String) = Action {
     synthesizer.selectParent(child, parent)
+    Ok(Json.toJson(fmToJson(synthesizer.getFeatureModelVariable())))
   }
   
 }

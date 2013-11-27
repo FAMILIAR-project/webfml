@@ -34,6 +34,7 @@
         <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/console.css")">
         <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/fmpreview.css")">
 
+        </head>
         <body>
             <div class="navbar">
                 <div class="navbar-inner">
@@ -70,10 +71,8 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="editor">@message</div>
                             <div class="tab-pane" id="ksynthesis-tab">
-		                        <div id="ksynthesis" class="span6 pull-left">
-                                </div>
-                                
-                                <div class="btn-toolbar pull-right">
+                            
+	                            <div class="btn-toolbar pull-right">
 			                        <div class="btn-group">
 			                            <a class="btn" href="#"><i class="icon-step-backward"></i> Undo</a>
 			                            <a class="btn" href="#"><i class="icon-step-forward"></i> Redo</a>
@@ -88,7 +87,10 @@
 			                            <option>Wikipedia Miner</option>
 			                            <option></option>
 			                        </select>
-			                   </div>
+		                        </div>
+		                        
+		                        <div id="ksynthesis" class="span6 pull-left">
+                                </div>
                                 
                             </div>
                         </div>
