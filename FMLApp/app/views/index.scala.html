@@ -71,7 +71,7 @@
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="editor">@message</div>
-                            <div class="tab-pane" id="ksynthesis-tab">
+                            <div class="tab-pane" id="ksynthesis-tab" ng-controller="KSynthesisCtrl">
                             
 	                            <div class="btn-toolbar pull-right">
 			                        <div class="btn-group">
@@ -90,7 +90,7 @@
 			                        </select>
 		                        </div>
 		                        
-		                        <div id="ksynthesis" class="span6 pull-left" ng-controller="KSynthesisCtrl">
+		                        <div id="ksynthesis" class="span6 pull-left">
 		                        	<div class="pull-right">
 		                        		<h3>Preview</h3>		
 		                        		<div id="fmpreview">
@@ -166,9 +166,6 @@
 				                        			</li>
 			                        			</ul>
 	                        			    </div>
-	                        				
-		                        			
-
 	                    					
 	                        			</li>
 	                        		</ul>
@@ -176,11 +173,36 @@
 		                        	<h3>Cliques</h3>
 		                        	<ul>
 	                        			<li ng-repeat="clique in cliques">
-		                        			<ul>
-			                        			<li ng-repeat="feature in clique">
-			                        				{{feature}}
-			                        			</li>
-		                        			</ul>
+		                       				 <div ng-if="clique == selectedCluster">
+			                 				 	<select ng-model="clusterSelectedParent" ng-options="p for p in clusterPossibleParents"></select>
+			                 				 	<button type="button" class="btn btn-success" ng-click="selectClusterParent(clusterSelectedFeatures,clusterSelectedParent)">
+			                 				 	  <i class="icon-ok icon-white"></i>
+			                 				 	</button>
+			                 				 	<button type="button" class="btn btn-danger" ng-click="selectCluster([])">
+			                 				 	  <i class="icon-remove icon-white"></i>
+			                 				 	</button>
+			                    				<ul>
+				                        			<li ng-repeat="feature in clique">
+				                        				<input 
+				                        					type="checkbox"  
+				                        					value="{{feature}}"
+				                        					ng-checked="clusterSelectedFeatures.indexOf(feature) > -1"
+				                        					ng-click="selectClusterFeature(feature)"
+				                        				>
+				                        				{{feature}}
+				                        			</li>
+			                        			</ul>
+		                 					
+			                        		</div>
+		                 			    
+			                 			    <div ng-if="clique != selectedCluster" ng-click="selectCluster(clique)">
+			                 			    	{{clique}}
+			                 			    	<ul>
+					                        			<li ng-repeat="feature in clique">
+					                        				{{feature}}
+					                        			</li>
+				                        			</ul>
+			                 			    </div>
 	                        			</li>
 	                        		</ul>
                                 </div>
