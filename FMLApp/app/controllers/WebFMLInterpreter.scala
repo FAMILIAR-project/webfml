@@ -103,38 +103,39 @@ object WebFMLInterpreter extends Controller with VariableHelper {
         val clusterThreshold = 0.5
         synthesizer = new InteractiveFMSynthesizer(fmv, parentHeuristic, null, clusterHeuristic, clusterThreshold)
 
-        // Ranking lists
-        //        val ig = synthesizer.getImplicationGraph()
-        //        val rl = ig.vertices().map(ft => Map (ft -> ig.outgoingEdges(ft).map(e => ig.getTarget(e))))
-        val rankingList = synthesizer.getParentCandidates().map(pc => (pc.getKey() -> pc.getValue().toSeq)).toMap
-        val jsonRankingLists = rankingListsToJSON(rankingList)
+        var jsonMap = Map ("id" -> Json.toJson(assignID),
+          "targetID" -> Json.toJson(targetID))
+        jsonMap =jsonMap ++ synthesizerInformationToJSON(synthesizer)
 
-        // Clusters
-        val clusters = synthesizer.getSimilarityClusters().map(c => c.toSet).toSet
-
-        // Cliques
-        val cliques = synthesizer.getCliques().map(c => c.toSet).toSet
-        
-        // FM preview 
-        val fm = synthesizer.getFeatureModelVariable()
-        val diagram = fm.getFm().getDiagram()
-        diagram.addEdge(diagram.getTopVertex(), diagram.getBottomVertex(), FeatureEdge.HIERARCHY)
-
-        Ok (Json.toJson(Map ("id" -> Json.toJson(assignID),
-          "targetID" -> Json.toJson(targetID),
-          //"rankingLists" -> jsonRankingLists,
-          "fm" -> fmToJson(fm),
-           "rankingList" -> Json.toJson(rankingList.map(pc => Json.toJson(Map(
-               "feature" -> Json.toJson(pc._1), 
-               "parents" -> Json.toJson(pc._2))))),
-          "clusters" -> Json.toJson(clusters),
-          "cliques" -> Json.toJson(cliques)
-        )
-        ))
+        Ok (Json.toJson(jsonMap))
       }
       else {
         Ok ("Error, variable " + targetID + " is not a formula or feature model") // can't remember how Error are properly handled in Play!
       }
+  }
+  
+  def synthesizerInformationToJSON(synthesizer : InteractiveFMSynthesizer) : Map[String, JsValue] = {
+    val rankingList = synthesizer.getParentCandidates().map(pc => (pc.getKey() -> pc.getValue().toSeq)).toMap
+    val jsonRankingLists = rankingListsToJSON(rankingList)
+
+    // Clusters
+    val clusters = synthesizer.getSimilarityClusters().map(c => c.toSet).toSet
+
+    // Cliques
+    val cliques = synthesizer.getCliques().map(c => c.toSet).toSet
+    
+    // FM preview 
+    val fm = synthesizer.getFeatureModelVariable()
+    val diagram = fm.getFm().getDiagram()
+    diagram.addEdge(diagram.getTopVertex(), diagram.getBottomVertex(), FeatureEdge.HIERARCHY)
+    
+    Map("fm" -> fmToJson(fm),
+      "rankingList" -> Json.toJson(rankingList.map(pc => Json.toJson(Map(
+      "feature" -> Json.toJson(pc._1), 
+      "parents" -> Json.toJson(pc._2))))),
+      "clusters" -> Json.toJson(clusters),
+      "cliques" -> Json.toJson(cliques))
+        
   }
   
   def rankingListsToJSON(rankingLists : Map[String, Seq[String]]) : JsValue = {
@@ -295,7 +296,8 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
   def selectParent(child : String, parent : String) = Action {
     synthesizer.selectParent(child, parent)
-    Ok(Json.toJson(fmToJson(synthesizer.getFeatureModelVariable())))
+    Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
   }
-  
+ 
+
 }

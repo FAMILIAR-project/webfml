@@ -98,8 +98,11 @@
 		                        	</div>
 		                        	<h3>Ranking Lists</h3>
 		                        	<ul>
-		                        		<li ng-repeat="rankingList in rankingLists" class="parentFt"> 
-		                        			{{rankingList.feature}}
+		                        		<li ng-repeat="rankingList in rankingLists" class="parentFt">
+		                        		<i class="icon-plus" ng-if="!rankingList.expanded" ng-click="rankingList.expanded=true"></i>
+		                        		<i class="icon-minus" ng-if="rankingList.expanded" ng-click="rankingList.expanded=false"></i>
+		                        		{{rankingList.feature}}
+		                        		<div ng-if="rankingList.expanded">
 		                        			<ul>
 			                        			<li ng-repeat="parent in rankingList.parents" style="list-style: none; padding-left: 5em;"> 
 			                        				<div class="btn-group">
@@ -125,31 +128,48 @@
 			                        				</div>
 			                        			</li>		                        		
 			                        		</ul>
-		                        		</li>		                        		
+		                        		</li>
+		                        		<div/>
 		                        	</ul>
 			                        
 		                        	<h3>Clusters</h3>
 		                        	<ul>
 	                        			<li ng-repeat="cluster in clusters">
-		                        			<!--
-		                        			<div class="btn-group">
-		                        				<button class="btn btn-default btn-xs dropdown-toggle customBtn" type="button" id="dropdownMenu1" data-toggle="dropdown"> 
-		                        					<span class="caret"></span>
-		                        				</button>
-		                        				<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
-		                        					<li role="presentation">
-		                        						<a role="menuitem" tabindex="-1">
-		                        							
-		                        						</a>
-		                        					</li>
-		                        				</ul>
-	                    					</div>
-	                    					-->
-	    		                        	<ul>
-			                        			<li ng-repeat="feature in cluster">
-			                        				{{feature}}
-			                        			</li>
-		                        			</ul>
+
+	                        				 <div ng-if="cluster == selectedCluster">
+	                        				 	<select ng-model="clusterSelectedParent" ng-options="p for p in clusterPossibleParents"></select>
+	                        				 	<button type="button" class="btn btn-success" ng-click="selectClusterParent(clusterSelectedFeatures,clusterSelectedParent)">
+	                        				 	  <i class="icon-ok icon-white"></i>
+	                        				 	</button>
+	                        				 	<button type="button" class="btn btn-danger" ng-click="selectCluster([])">
+	                        				 	  <i class="icon-remove icon-white"></i>
+	                        				 	</button>
+			                    				<ul>
+				                        			<li ng-repeat="feature in cluster">
+				                        				<input 
+				                        					type="checkbox"  
+				                        					value="{{feature}}"
+				                        					ng-checked="clusterSelectedFeatures.indexOf(feature) > -1"
+				                        					ng-click="selectClusterFeature(feature)"
+				                        				>
+				                        				{{feature}}
+				                        			</li>
+			                        			</ul>
+		                    					
+	                        			    </div>
+	                        			    
+	                        			    <div ng-if="cluster != selectedCluster" ng-click="selectCluster(cluster)">
+	                        			    	{{cluster}}
+	                        			    	<ul>
+				                        			<li ng-repeat="feature in cluster">
+				                        				{{feature}}
+				                        			</li>
+			                        			</ul>
+	                        			    </div>
+	                        				
+		                        			
+
+	                    					
 	                        			</li>
 	                        		</ul>
 	                        		
