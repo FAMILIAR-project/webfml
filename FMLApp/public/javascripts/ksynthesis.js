@@ -97,6 +97,22 @@ function KSynthesisCtrl($scope) {
 		  $scope.$apply();
 	};
 	
+	$scope.completeFM = function() {
+		jsRoutes.controllers.WebFMLInterpreter.completeFM().ajax({
+	         success : function(data) {
+	        	$scope.updateSynthesisInformation(data)
+	         },
+	         error : function(data) {
+	        	 jqconsole.Write('Error...' + data + '\n');
+	         },
+	         beforeSend : function(event, jqxhr, settings) {
+	        	 $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+	         },
+	         complete : function(jqxhr, textstatus) {
+	        	 $('#wait').html('') ;		   
+	         }
+		 });
+	};
 }
 
 function getCommonParents(features, rankingLists) {

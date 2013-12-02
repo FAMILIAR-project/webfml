@@ -65,7 +65,8 @@ object Application extends Controller {
                 WebFMLInterpreter.saveAs,
                 WebFMLInterpreter.listFiles,
                 WebFMLConfigurator.applySelection,
-                WebFMLInterpreter.selectParent
+                WebFMLInterpreter.selectParent,
+                WebFMLInterpreter.completeFM
             )
         ).as("text/javascript");
     } 
