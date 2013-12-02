@@ -79,15 +79,7 @@
 			                            <a class="btn" href="#"><i class="icon-step-forward"></i> Redo</a>
 			                            <a class="btn" href="#">Complete FM</a>
 			                        </div>
-			                        <select id="heuristic-selector">
-			                            <!-- TODO hardcoded heuristics -->
-			                            <option>Smith Waterman (Simmetrics)</option>
-			                            <option>Levenshtein (Simmetrics)</option>
-			                            <option>Wu & Palmer (WordNet)</option>
-			                            <option>Path Length (WordNet)</option>
-			                            <option>Wikipedia Miner</option>
-			                            <option></option>
-			                        </select>
+			                        <select id="heuristic-selector" ng-model="selectedHeuristic" ng-options="h for h in heuristics"></select>
 		                        </div>
 		                        
 		                        <div id="ksynthesis" class="span6 pull-left">

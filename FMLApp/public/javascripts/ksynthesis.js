@@ -1,5 +1,8 @@
 function KSynthesisCtrl($scope) {
 
+	$scope.heuristics = ["Smith Waterman (Simmetrics)","Levenshtein (Simmetrics","Wu & Palmer (WordNet)","Path Length (WordNet)","Wikipedia Miner"];
+    
+    
 	$scope.rankingLists = [];
 	
 	$scope.clusters = [];
@@ -9,6 +12,7 @@ function KSynthesisCtrl($scope) {
 	$scope.clusterSelectedFeatures = [];
 	
 	$scope.cliques = [];
+
 	
 	
 	$scope.$on('ksynthesis', function (event, command) {
@@ -38,20 +42,22 @@ function KSynthesisCtrl($scope) {
 	 });
 	
 	$scope.selectParent = function (child, parent) {
-		 jsRoutes.controllers.WebFMLInterpreter.selectParent(child, parent).ajax({
-	         success : function(data) {
-	        	$scope.updateSynthesisInformation(data)
-	         },
-	         error : function(data) {
-	        	 jqconsole.Write('Error...' + data + '\n');
-	         },
-	         beforeSend : function(event, jqxhr, settings) {
-	        	 $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
-	         },
-	         complete : function(jqxhr, textstatus) {
-	        	 $('#wait').html('') ;		   
-	         }
-		 })
+		if (child!=parent) {
+			jsRoutes.controllers.WebFMLInterpreter.selectParent(child, parent).ajax({
+		         success : function(data) {
+		        	$scope.updateSynthesisInformation(data)
+		         },
+		         error : function(data) {
+		        	 jqconsole.Write('Error...' + data + '\n');
+		         },
+		         beforeSend : function(event, jqxhr, settings) {
+		        	 $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+		         },
+		         complete : function(jqxhr, textstatus) {
+		        	 $('#wait').html('') ;		   
+		         }
+			 })	
+		}
 	};
 	
 	$scope.selectCluster = function (cluster) {
@@ -148,10 +154,12 @@ function mkFMPreview(divid, fm) {
     .rankDir("BT")
     .nodeSep(25);
     
-    d3.select(divid)
+    var graph = d3.select(divid)
 	.append('svg')
-	.append('g')
-		.attr('transform', 'translate(20,20');
+	
+	
+	graph.append('g')
+		.attr('transform', 'translate(20,20)');
     
     var renderer = new dagreD3.Renderer();
     renderer.layout(layout).run(g, d3.select("svg g"));
@@ -190,4 +198,10 @@ function mkFMPreview(divid, fm) {
 
     d3.selectAll('.edge path').attr('marker-start', '') // url(#marker-optional)
     d3.selectAll('.edge path').attr('marker-end', '')
+    
+    graph.call(d3.behavior.zoom().on("zoom", function() {
+        var ev = d3.event;
+        graph.select("g")
+          .attr("transform", "translate(" + ev.translate + ") scale(" + ev.scale + ")");
+      }));
 }
