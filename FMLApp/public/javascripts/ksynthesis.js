@@ -157,6 +157,7 @@ function mkFMPreview(divid, fm) {
     var graph = d3.select(divid)
 	.append('svg')
 	
+	graph.attr('height', '300');
 	
 	graph.append('g')
 		.attr('transform', 'translate(20,20)');

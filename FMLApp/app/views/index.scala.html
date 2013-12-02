@@ -73,7 +73,7 @@
                             <div class="tab-pane active" id="editor">@message</div>
                             <div class="tab-pane" id="ksynthesis-tab" ng-controller="KSynthesisCtrl">
                             
-	                            <div class="btn-toolbar pull-right">
+	                            <div class="btn-toolbar" style="text-align:right">
 			                        <div class="btn-group">
 			                            <a class="btn" href="#"><i class="icon-step-backward"></i> Undo</a>
 			                            <a class="btn" href="#"><i class="icon-step-forward"></i> Redo</a>
@@ -82,121 +82,131 @@
 			                        <select id="heuristic-selector" ng-model="selectedHeuristic" ng-options="h for h in heuristics"></select>
 		                        </div>
 		                        
-		                        <div id="ksynthesis" class="span6 pull-left">
-		                        	<div class="pull-right">
-		                        		<h3>Preview</h3>		
+		                        <div id="ksynthesis">
+		                        	<div>
+		                        		<h3>Preview</h3>	
 		                        		<div id="fmpreview">
 		                        		</div>
-		                        	</div>
-		                        	<h3>Ranking Lists</h3>
-		                        	<ul>
-		                        		<li ng-repeat="rankingList in rankingLists" class="parentFt">
-		                        		<i class="icon-plus" ng-if="!rankingList.expanded" ng-click="rankingList.expanded=true"></i>
-		                        		<i class="icon-minus" ng-if="rankingList.expanded" ng-click="rankingList.expanded=false"></i>
-		                        		{{rankingList.feature}}
-		                        		<div ng-if="rankingList.expanded">
-		                        			<ul>
-			                        			<li ng-repeat="parent in rankingList.parents" style="list-style: none; padding-left: 5em;"> 
-			                        				<div class="btn-group">
-				                        				<button class="btn btn-default btn-xs dropdown-toggle customBtn" type="button" id="dropdownMenu1" data-toggle="dropdown"> 
-				                        					{{parent}} 
-				                        					<span class="caret"></span>
-				                        				</button>
-				                        				<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
-				                        					<li role="presentation">
-				                        						<a role="menuitem" tabindex="-1" ng-click='selectParent(rankingList.feature,parent)'>
-				                        							Select this parent
-				                        						</a>
-				                        					</li>
-				                        					<li role="presentation">
-				                        						<a role="menuitem" tabindex="-1" href="#">Ignore this parent</a>
-				                        					</li>
-				                        					<li role="presentation" class="divider">
-				                        					</li>
-				                        					<li role="presentation">
-				                        						<a role="menuitem" tabindex="-1" href="#">Cancel</a>
-				                        					</li>
-				                        				</ul>
-			                        				</div>
-			                        			</li>		                        		
-			                        		</ul>
-		                        		</li>
-		                        		<div/>
-		                        	</ul>
+		                    		</div>
+		                        
+		                        	<div class="row-fluid">
+		                        		<div class="span4">
+				                        	<h3>Ranking Lists</h3>
+				                        	<ul>
+				                        		<li ng-repeat="rankingList in rankingLists" class="parentFt">
+				                        		<div ng-click="rankingList.expanded=!rankingList.expanded">
+					                        		<i class="icon-plus" ng-if="!rankingList.expanded"></i>
+					                        		<i class="icon-minus" ng-if="rankingList.expanded"></i>
+					                        		{{rankingList.feature}}
+				                        		</div>
+				                        		<div ng-if="rankingList.expanded">
+				                        			<ul>
+					                        			<li ng-repeat="parent in rankingList.parents" style="list-style: none">
+					                        				<div class="btn-group">
+						                        				<button class="btn btn-default btn-xs dropdown-toggle customBtn" type="button" id="dropdownMenu1" data-toggle="dropdown"> 
+						                        					{{parent}} 
+						                        					<span class="caret"></span>
+						                        				</button>
+						                        				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+						                        					<li role="presentation">
+						                        						<a role="menuitem" tabindex="-1" ng-click='selectParent(rankingList.feature,parent)'>
+						                        							Select this parent
+						                        						</a>
+						                        					</li>
+						                        					<li role="presentation">
+						                        						<a role="menuitem" tabindex="-1" href="#">Ignore this parent</a>
+						                        					</li>
+						                        					<li role="presentation" class="divider">
+						                        					</li>
+						                        					<li role="presentation">
+						                        						<a role="menuitem" tabindex="-1" href="#">Cancel</a>
+						                        					</li>
+						                        				</ul>
+					                        				</div>
+					                        			</li>		                        		
+					                        		</ul>
+				                        		</li>
+				                        		<div/>
+				                        	</ul>
+				                        </div>
 			                        
-		                        	<h3>Clusters</h3>
-		                        	<ul>
-	                        			<li ng-repeat="cluster in clusters">
-
-	                        				 <div ng-if="cluster == selectedCluster">
-	                        				 	<select ng-model="clusterSelectedParent" ng-options="p for p in clusterPossibleParents"></select>
-	                        				 	<button type="button" class="btn btn-success" ng-click="selectClusterParent(clusterSelectedFeatures,clusterSelectedParent)">
-	                        				 	  <i class="icon-ok icon-white"></i>
-	                        				 	</button>
-	                        				 	<button type="button" class="btn btn-danger" ng-click="selectCluster([])">
-	                        				 	  <i class="icon-remove icon-white"></i>
-	                        				 	</button>
-			                    				<ul>
-				                        			<li ng-repeat="feature in cluster">
-				                        				<input 
-				                        					type="checkbox"  
-				                        					value="{{feature}}"
-				                        					ng-checked="clusterSelectedFeatures.indexOf(feature) > -1"
-				                        					ng-click="selectClusterFeature(feature)"
-				                        				>
-				                        				{{feature}}
-				                        			</li>
-			                        			</ul>
-		                    					
-	                        			    </div>
-	                        			    
-	                        			    <div ng-if="cluster != selectedCluster" ng-click="selectCluster(cluster)">
-	                        			    	{{cluster}}
-	                        			    	<ul>
-				                        			<li ng-repeat="feature in cluster">
-				                        				{{feature}}
-				                        			</li>
-			                        			</ul>
-	                        			    </div>
-	                    					
-	                        			</li>
-	                        		</ul>
-	                        		
-		                        	<h3>Cliques</h3>
-		                        	<ul>
-	                        			<li ng-repeat="clique in cliques">
-		                       				 <div ng-if="clique == selectedCluster">
-			                 				 	<select ng-model="clusterSelectedParent" ng-options="p for p in clusterPossibleParents"></select>
-			                 				 	<button type="button" class="btn btn-success" ng-click="selectClusterParent(clusterSelectedFeatures,clusterSelectedParent)">
-			                 				 	  <i class="icon-ok icon-white"></i>
-			                 				 	</button>
-			                 				 	<button type="button" class="btn btn-danger" ng-click="selectCluster([])">
-			                 				 	  <i class="icon-remove icon-white"></i>
-			                 				 	</button>
-			                    				<ul>
-				                        			<li ng-repeat="feature in clique">
-				                        				<input 
-				                        					type="checkbox"  
-				                        					value="{{feature}}"
-				                        					ng-checked="clusterSelectedFeatures.indexOf(feature) > -1"
-				                        					ng-click="selectClusterFeature(feature)"
-				                        				>
-				                        				{{feature}}
-				                        			</li>
-			                        			</ul>
-		                 					
-			                        		</div>
-		                 			    
-			                 			    <div ng-if="clique != selectedCluster" ng-click="selectCluster(clique)">
-			                 			    	{{clique}}
-			                 			    	<ul>
-					                        			<li ng-repeat="feature in clique">
-					                        				{{feature}}
-					                        			</li>
-				                        			</ul>
-			                 			    </div>
-	                        			</li>
-	                        		</ul>
+				                        <div class="span4">
+				                        	<h3>Clusters</h3>
+				                        	<ul>
+			                        			<li ng-repeat="cluster in clusters" style="list-style: none">
+		
+			                        				 <div ng-if="cluster == selectedCluster">
+			                        				 	<select class="span6" ng-model="clusterSelectedParent" ng-options="p for p in clusterPossibleParents"></select>
+			                        				 	<button type="button" class="btn btn-success" ng-click="selectClusterParent(clusterSelectedFeatures,clusterSelectedParent)">
+			                        				 	  <i class="icon-ok icon-white"></i>
+			                        				 	</button>
+			                        				 	<button type="button" class="btn btn-danger" ng-click="selectCluster([])">
+			                        				 	  <i class="icon-remove icon-white"></i>
+			                        				 	</button>
+					                    				<ul>
+						                        			<li ng-repeat="feature in cluster">
+						                        				<input 
+						                        					type="checkbox"  
+						                        					value="{{feature}}"
+						                        					ng-checked="clusterSelectedFeatures.indexOf(feature) > -1"
+						                        					ng-click="selectClusterFeature(feature)"
+						                        				>
+						                        				{{feature}}
+						                        			</li>
+					                        			</ul>
+				                    					
+			                        			    </div>
+			                        			    
+			                        			    <div ng-if="cluster != selectedCluster" ng-click="selectCluster(cluster)">
+			                        			    	{{cluster}}
+			                        			    	<ul>
+						                        			<li ng-repeat="feature in cluster">
+						                        				{{feature}}
+						                        			</li>
+					                        			</ul>
+			                        			    </div>
+			                    					
+			                        			</li>
+			                        		</ul>
+			                        	</div>
+			                        	<div class="span4">
+				                        	<h3>Cliques</h3>
+				                        	<ul>
+			                        			<li ng-repeat="clique in cliques" style="list-style: none">
+				                       				 <div ng-if="clique == selectedCluster">
+					                 				 	<select class="span6" ng-model="clusterSelectedParent" ng-options="p for p in clusterPossibleParents"></select>
+					                 				 	<button type="button" class="btn btn-success" ng-click="selectClusterParent(clusterSelectedFeatures,clusterSelectedParent)">
+					                 				 	  <i class="icon-ok icon-white"></i>
+					                 				 	</button>
+					                 				 	<button type="button" class="btn btn-danger" ng-click="selectCluster([])">
+					                 				 	  <i class="icon-remove icon-white"></i>
+					                 				 	</button>
+					                    				<ul>
+						                        			<li ng-repeat="feature in clique">
+						                        				<input 
+						                        					type="checkbox"  
+						                        					value="{{feature}}"
+						                        					ng-checked="clusterSelectedFeatures.indexOf(feature) > -1"
+						                        					ng-click="selectClusterFeature(feature)"
+						                        				>
+						                        				{{feature}}
+						                        			</li>
+					                        			</ul>
+				                 					
+					                        		</div>
+				                 			    
+					                 			    <div ng-if="clique != selectedCluster" ng-click="selectCluster(clique)">
+					                 			    	{{clique}}
+					                 			    	<ul>
+							                        			<li ng-repeat="feature in clique">
+							                        				{{feature}}
+							                        			</li>
+						                        			</ul>
+					                 			    </div>
+			                        			</li>
+			                        		</ul>
+			                        	</div>
+	                        		</div>
                                 </div>
                                 
                             </div>
