@@ -17,3 +17,7 @@ rect {
     stroke: #333;
     stroke-width: 1.5px;
 }
+
+#fmpreview {
+	border: 1px solid #DDDDDD;
+}

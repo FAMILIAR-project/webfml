@@ -191,7 +191,6 @@ function getParentCandidates(feature, rankingLists) {
 }
 
 function mkFMPreview(divid, fm) {
-	$(divid).html('');
 	
 	// Create the graph
     var g = new dagreD3.Digraph();
@@ -211,11 +210,10 @@ function mkFMPreview(divid, fm) {
     .rankDir("BT")
     .nodeSep(25);
     
-    var graph = d3.select(divid)
-	.append('svg')
-	
-	graph.attr('height', '300');
-	
+    var graph = d3.select(divid).select('svg')
+    // reset graph
+	graph.selectAll("*").data([]).exit().remove();
+    
 	graph.append('g')
 		.attr('transform', 'translate(20,20)');
     
