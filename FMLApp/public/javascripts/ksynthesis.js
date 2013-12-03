@@ -27,7 +27,6 @@ function KSynthesisCtrl($scope) {
 		jsRoutes.controllers.WebFMLInterpreter.setRankingListsHeuristic(newHeuristic).ajax({
 	        success : function(data) {
 	        	$scope.updateSynthesisInformation(data)
-	        	jqconsole.Write(data['rankingList'][0].parents)
 	        },
 	        error : function(data) {
 	       	 jqconsole.Write('Error...' + data + '\n');
