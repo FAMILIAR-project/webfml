@@ -11,6 +11,8 @@ POST    /ksynthesis             	controllers.WebFMLInterpreter.ksynthesis(s : St
 GET		/selectParent				controllers.WebFMLInterpreter.selectParent(child: String, parent: String)
 GET		/ignoreParent				controllers.WebFMLInterpreter.ignoreParent(child: String, parent: String)
 GET		/completeFM					controllers.WebFMLInterpreter.completeFM()
+GET		/undo						controllers.WebFMLInterpreter.undo()
+GET		/redo						controllers.WebFMLInterpreter.redo()
 GET		/getHeuristics				controllers.WebFMLInterpreter.getHeuristics()
 GET		/setRankingListsHeuristic	controllers.WebFMLInterpreter.setRankingListsHeuristic(heuristicName : String)
 GET		/setClusteringParameters	controllers.WebFMLInterpreter.setClusteringParameters(heuristicName : String, threshold : Double)

@@ -68,6 +68,8 @@ object Application extends Controller {
                 WebFMLInterpreter.selectParent,
                 WebFMLInterpreter.ignoreParent,
                 WebFMLInterpreter.completeFM,
+                WebFMLInterpreter.undo,
+                WebFMLInterpreter.redo,
                 WebFMLInterpreter.getHeuristics,
                 WebFMLInterpreter.setRankingListsHeuristic,
                 WebFMLInterpreter.setClusteringParameters

@@ -75,9 +75,9 @@
                             
 	                            <div class="btn-toolbar" style="text-align:right">
 			                        <div class="btn-group">
-			                            <a class="btn" href="#"><i class="icon-step-backward"></i> Undo</a>
-			                            <a class="btn" href="#"><i class="icon-step-forward"></i> Redo</a>
-			                            <a class="btn" href="#" ng-click="completeFM()">Complete FM</a>
+			                            <a class="btn" ng-click="undo()"><i class="icon-step-backward"></i> Undo</a>
+			                            <a class="btn" ng-click="redo()"><i class="icon-step-forward"></i> Redo</a>
+			                            <a class="btn" ng-click="completeFM()">Complete FM</a>
 			                        </div>
 			                        <select id="heuristic-selector" ng-model="selectedHeuristic" ng-options="h for h in heuristics"></select>
 		                        </div>
@@ -94,7 +94,7 @@
 		                        		<div class="span4">
 				                        	<h3>Ranking Lists</h3>
 				                        	<ul>
-				                        		<li ng-repeat="rankingList in rankingLists" class="parentFt">
+				                        		<li ng-repeat="rankingList in displayedRankingLists" class="parentFt">
 				                        		<div ng-click="rankingList.expanded=!rankingList.expanded">
 					                        		<i class="icon-plus" ng-if="!rankingList.expanded"></i>
 					                        		<i class="icon-minus" ng-if="rankingList.expanded"></i>

@@ -41,6 +41,7 @@ function KSynthesisCtrl($scope) {
 	});
 		
 	
+	$scope.displayedRankingLists = [];
 	$scope.rankingLists = [];
 	
 	$scope.clusters = [];
@@ -144,18 +145,68 @@ function KSynthesisCtrl($scope) {
 	}
 	
 	$scope.updateSynthesisInformation = function (data) {
-		  $scope.rankingLists = data['rankingList'];
-		  $scope.clusters = data['clusters'];
-		  $scope.cliques = data['cliques'];
-		  if (data['fm'] != undefined) {
-			  var fm = data['fm'] ;
-			  mkFMPreview('#fmpreview', fm);  
-		  }
-		  $scope.$apply();
+		if (data['fm'] != undefined) {
+			var fm = data['fm'] ;
+			mkFMPreview('#fmpreview', fm);
+			
+			
+			var rls = data['rankingList'];
+			$scope.rankingLists = rls.slice();
+			
+			for (var i=0; i < rls.length; i++) {
+				if (rls[i].parents.length == 1 && isParentDefined(rls[i].feature,fm)) {
+					rls.splice(i,1);
+				}
+			}
+			for (var i=0; i < fm.edges.length; i++) {
+				var edge = fm.edges[i];
+				
+			}
+			$scope.displayedRankingLists = rls;
+			
+			$scope.clusters = data['clusters'];
+			$scope.cliques = data['cliques'];
+			  
+		}
+		$scope.$apply();
 	};
 	
 	$scope.completeFM = function() {
 		jsRoutes.controllers.WebFMLInterpreter.completeFM().ajax({
+	         success : function(data) {
+	        	$scope.updateSynthesisInformation(data)
+	         },
+	         error : function(data) {
+	        	 jqconsole.Write('Error...' + data + '\n');
+	         },
+	         beforeSend : function(event, jqxhr, settings) {
+	        	 $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+	         },
+	         complete : function(jqxhr, textstatus) {
+	        	 $('#wait').html('') ;		   
+	         }
+		 });
+	};
+	
+	$scope.undo = function () {
+		jsRoutes.controllers.WebFMLInterpreter.undo().ajax({
+	         success : function(data) {
+	        	$scope.updateSynthesisInformation(data)
+	         },
+	         error : function(data) {
+	        	 jqconsole.Write('Error...' + data + '\n');
+	         },
+	         beforeSend : function(event, jqxhr, settings) {
+	        	 $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+	         },
+	         complete : function(jqxhr, textstatus) {
+	        	 $('#wait').html('') ;		   
+	         }
+		 });
+	};
+	
+	$scope.redo = function () {
+		jsRoutes.controllers.WebFMLInterpreter.redo().ajax({
 	         success : function(data) {
 	        	$scope.updateSynthesisInformation(data)
 	         },
@@ -205,6 +256,17 @@ function getParentCandidates(feature, rankingLists) {
 	}
 	parentCandidates.push(feature);
 	return parentCandidates;
+}
+
+function isParentDefined(feature, fm) {
+	for (var i=0; i < fm.edges.length; i++) {
+		var edge = fm.edges[i];
+		if (edge.source == feature) {
+			return true;
+		}
+	}
+	
+	return false;
 }
 
 function mkFMPreview(divid, fm) {
