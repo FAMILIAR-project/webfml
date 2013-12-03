@@ -53,12 +53,20 @@ object WebFMLInterpreter extends Controller with VariableHelper {
             <p id="lastValueFML" class="alert alert-success"> {lastVar.getIdentifier() + " = " + lastVar.getValue()} </p>
           </p>
       
-        Ok(Json.toJson(rs.toString));
+//        Ok(Json.toJson(rs.toString));
+          Ok(Json.toJson(Map(
+        		  "varIDs" -> Json.toJson(allVarIDs.toList),
+        		  "lastVar" -> Json.toJson(lastVar.getIdentifier() + " = " + lastVar.getValue())
+          )))
       }
       catch {
         case e  @ (_ : FMLAssertionError | _: FMLFatalError | _: Exception) =>
           val error = <div class="alert alert-danger">{e.getStackTraceString}</div>
-          Ok(Json.toJson(error.toString))
+//          Ok(Json.toJson(error.toString))
+           Ok(Json.toJson(Map(
+        		  "varIDs" -> Json.toJson(""),
+        		  "lastVar" -> Json.toJson(e.getStackTraceString)
+          )))
 
       }
 

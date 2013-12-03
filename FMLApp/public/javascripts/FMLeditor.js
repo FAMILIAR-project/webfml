@@ -1,75 +1,61 @@
-// text editor
-// for executing a FML script and updating the UI
-$(document).ready(function() {
-	$('#webFmlCmd').click(function(e) {
+function FMLEditorCtrl($scope, $rootScope) {
+	
+	$scope.cmd = function () {
 	    var idToGet = editor.getSession().getValue();
 	    jsRoutes.controllers.WebFMLInterpreter.interpret(idToGet).ajax({
-		success : function(data) {  
-			$('#msgid').html('<div>' + data + '</div>') ; 
-		},
-	        error : function(data) {  
-			$('#msgid').html('Error...<div class="alert alert-danger">' + data + '</div>') ; 
-		},
-	        beforeSend : function(event, jqxhr, settings) {
-		        $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
-		},
-	       complete : function(jqxhr, textstatus) {
-		    $('#wait').html('') ;		   
+			success : function(data) {  
+				$rootScope.$broadcast('variables', data)
+			},
+		        error : function(data) {  
+				$('#msgid').html('Error...<div class="alert alert-danger">' + data + '</div>') ; 
+			},
+		        beforeSend : function(event, jqxhr, settings) {
+			        $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
+			},
+		       complete : function(jqxhr, textstatus) {
+			    $('#wait').html('') ;		   
+		    }
+	    });
+	}
+	
+	$scope.reset = function() {
+		 jsRoutes.controllers.WebFMLInterpreter.reset().ajax({
+			success : function(data) {  
+				$rootScope.$broadcast('variables', data)
+			},
+		        error : function(data) {  
+				$('#msgid').html('Impossible to reset...<div>' + data + '</div>') ; 
+			},
+		        beforeSend : function(event, jqxhr, settings) {
+			        $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
+			},
+		       complete : function(jqxhr, textstatus) {
+			    $('#wait').html('') ;		   
 	       }
-	})
-	;
-	return false;
-	   	    
-	}); 
-
-        $('#webFmlReset').click(function(e) {
-
-
-	    jsRoutes.controllers.WebFMLInterpreter.reset().ajax({
-		success : function(data) {  
-		    $('#msgid').html('');
-		},
-	        error : function(data) {  
-			$('#msgid').html('Impossible to reset...<div>' + data + '</div>') ; 
-		},
-	        beforeSend : function(event, jqxhr, settings) {
-		        $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
-		},
-	       complete : function(jqxhr, textstatus) {
-		    $('#wait').html('') ;		   
-	       }
-	})
-	;
-	return false;
-	   	    
-	}); 
-	  
-
-	$('#webFmlSaveAs').click(function(e) {
+		});
+	}
+	
+	$scope.save = function () {
    	    var idToGet = editor.getSession().getValue();
-            var filename = $('#fileInputName').val(); 
- 
+        var filename = $('#fileInputName').val(); 
+
 	    jsRoutes.controllers.WebFMLInterpreter.saveAs(idToGet, filename).ajax({
-		success : function(data) {  
-			$('#msgid').html('<div class="alert alert-success">' + filename + ' has been saved...</div>') ; 
-		},
-	        error : function(data) {  
-			$('#msgid').html('<div class="alert alert-danger">Unable to save...</div>') ; 
-		},
-	        beforeSend : function(event, jqxhr, settings) {
-		        $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
-		},
-	      complete : function(jqxhr, textstatus) {
-		    $('#wait').html('') ;		   
-	       }
-	})
-	;
-	return false;
-	   	    
-	}); 
-
-});
-
+			success : function(data) {  
+				$('#msgid').html('<div class="alert alert-success">' + filename + ' has been saved...</div>') ; 
+			},
+		        error : function(data) {  
+				$('#msgid').html('<div class="alert alert-danger">Unable to save...</div>') ; 
+			},
+		        beforeSend : function(event, jqxhr, settings) {
+			        $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
+			},
+		      complete : function(jqxhr, textstatus) {
+			    $('#wait').html('') ;		   
+		    }
+	    });
+	}
+	
+}
 
 function loadFile(filename) {
  jsRoutes.controllers.WebFMLInterpreter.loadFile(filename).ajax({

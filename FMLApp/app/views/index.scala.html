@@ -42,10 +42,10 @@
                     <div class="container-fluid">
                         <a class="brand" href="#">Familiar</a>
                         <button id="toggle-console" class="btn btn-info"><i class="icon-pencil icon-white"></i> Toggle Console</button>
-                        <div class="btn-group pull-right">
-                            <button class="btn btn-info" id="webFmlCmd">Execute FAMILIAR code</button>
-                            <button class="btn btn-info" id="webFmlReset">Reset variables' environment</button>
-                            <button class="btn btn-info" id="webFmlSaveAs">Save as...</button>
+                        <div class="btn-group pull-right" ng-controller="FMLEditorCtrl">
+                            <button class="btn btn-info" id="webFmlCmd" ng-click="cmd()">Execute FAMILIAR code</button>
+                            <button class="btn btn-info" id="webFmlReset" ng-click="reset()">Reset variables' environment</button>
+                            <button class="btn btn-info" id="webFmlSaveAs" ng-click="save()">Save as...</button>
                         </div>
                         <form class="navbar-form pull-right" style="margin-right: 5px">
                             <input type="text" class="form-control" id="fileInputName" placeholder="Enter filename...">
@@ -213,8 +213,32 @@
                         </div>
                     </div>
 
-                    <div class="span3 scrollable">
+                    <div class="span3 scrollable" ng-controller="FMLVariableCtrl">
+                    
                         <div id="msgid"></div>
+                        <div>
+	                        <p>
+	                        	<ul class="unstyled">
+	                        		<li ng-repeat="varID in varIDs">
+		                        		<div class="dropdown">
+			    	                        <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
+			    	                          {{varID}}
+			    	                          <span class="caret pull-right"></span>
+			    	                        </button>
+			    	                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="displayVariable(varID)">Display</a></li>
+			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Edit</a></li>
+			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="synthesize(varID)">Synthesize</a></li>
+			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Remove</a></li>
+			    	                        </ul>
+		    	                        </div>
+	                        		</li>
+	                        	</ul>
+	                        	<p ng-if="varIDs" id="lastValueFML" class="alert alert-success">
+	                        		{{lastVar}}
+	                        	</p>
+	                        </p>
+	                   </div>
                     </div>
                 </div>
             </div>
