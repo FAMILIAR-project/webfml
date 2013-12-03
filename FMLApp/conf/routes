@@ -9,6 +9,10 @@ POST    /interpret	              	controllers.WebFMLInterpreter.interpret(s : St
 POST    /evalPrompt	              	controllers.WebFMLInterpreter.evalPrompt(s : String)
 POST    /ksynthesis             	controllers.WebFMLInterpreter.ksynthesis(s : String)
 GET		/selectParent				controllers.WebFMLInterpreter.selectParent(child: String, parent: String)
+GET		/completeFM					controllers.WebFMLInterpreter.completeFM()
+GET		/getHeuristics				controllers.WebFMLInterpreter.getHeuristics()
+GET		/setRankingListsHeuristic	controllers.WebFMLInterpreter.setRankingListsHeuristic(heuristicName : String)
+GET		/setClusteringParameters	controllers.WebFMLInterpreter.setClusteringParameters(heuristicName : String, threshold : Double)
 GET     /reset	              	    controllers.WebFMLInterpreter.reset
 GET     /configurator              	controllers.WebFMLConfigurator.configurator
 POST    /applySelection             controllers.WebFMLConfigurator.applySelection(s: String)

@@ -1,13 +1,52 @@
 function KSynthesisCtrl($scope) {
 
-	$scope.heuristics = ["Smith Waterman (Simmetrics)","Levenshtein (Simmetrics","Wu & Palmer (WordNet)","Path Length (WordNet)","Wikipedia Miner"];
-    
-    
+	// Heuristics
+	$scope.heuristics = [];
+	
+	
+	// load heuristics
+	jsRoutes.controllers.WebFMLInterpreter.getHeuristics().ajax({
+        success : function(data) {
+        	$scope.heuristics = data
+        	$scope.selectedHeuristic = data[0]
+        	$scope.$apply()
+        },
+        error : function(data) {
+        	$scope.selectedHeuristic = '';
+       	 	jqconsole.Write('Error...' + data + '\n');
+        },
+        beforeSend : function(event, jqxhr, settings) {
+       	 $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+        },
+        complete : function(jqxhr, textstatus) {
+       	 $('#wait').html('') ;		   
+        }
+	 });
+	
+	$scope.$watch('selectedHeuristic', function(newHeuristic) {
+		jsRoutes.controllers.WebFMLInterpreter.setRankingListsHeuristic(newHeuristic).ajax({
+	        success : function(data) {
+	        	$scope.updateSynthesisInformation(data)
+	        	jqconsole.Write(data['rankingList'][0].parents)
+	        },
+	        error : function(data) {
+	       	 jqconsole.Write('Error...' + data + '\n');
+	        },
+	        beforeSend : function(event, jqxhr, settings) {
+	       	 $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+	        },
+	        complete : function(jqxhr, textstatus) {
+	       	 $('#wait').html('') ;		   
+	        }
+		 });
+	});
+		
+	
 	$scope.rankingLists = [];
 	
 	$scope.clusters = [];
 	$scope.selectedCluster = {};
-	$scope.clusterSelectedParent = {};
+	$scope.clusterSelectedParent = '';
 	$scope.clusterPossibleParents = [];
 	$scope.clusterSelectedFeatures = [];
 	
@@ -41,7 +80,7 @@ function KSynthesisCtrl($scope) {
 	              
 	 });
 	
-	$scope.selectParent = function (child, parent) {
+	$scope.setParent = function (child, parent) {
 		if (child!=parent) {
 			jsRoutes.controllers.WebFMLInterpreter.selectParent(child, parent).ajax({
 		         success : function(data) {
@@ -82,9 +121,9 @@ function KSynthesisCtrl($scope) {
 	    $scope.clusterPossibleParents = getCommonParents($scope.clusterSelectedFeatures, $scope.rankingLists);
 	}
 	
-	$scope.selectClusterParent = function (cluster, parent) {
+	$scope.setClusterParent = function (cluster, parent) {
 		for (var i = 0; i < cluster.length; i++) {
-			$scope.selectParent(cluster[i], parent);
+			$scope.setParent(cluster[i], parent);
 		}
 	}
 	
@@ -92,8 +131,10 @@ function KSynthesisCtrl($scope) {
 		  $scope.rankingLists = data['rankingList'];
 		  $scope.clusters = data['clusters'];
 		  $scope.cliques = data['cliques'];
-		  var fm = data['fm'] ;
-		  mkFMPreview('#fmpreview', fm);
+		  if (data['fm'] != undefined) {
+			  var fm = data['fm'] ;
+			  mkFMPreview('#fmpreview', fm);  
+		  }
 		  $scope.$apply();
 	};
 	
@@ -155,6 +196,7 @@ function mkFMPreview(divid, fm) {
 	
 	// Create the graph
     var g = new dagreD3.Digraph();
+    
     
     for (var i=0; i < fm.nodes.length; i++) {
     	g.addNode(fm.nodes[i], {label: fm.nodes[i]});

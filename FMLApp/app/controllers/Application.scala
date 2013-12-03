@@ -66,7 +66,10 @@ object Application extends Controller {
                 WebFMLInterpreter.listFiles,
                 WebFMLConfigurator.applySelection,
                 WebFMLInterpreter.selectParent,
-                WebFMLInterpreter.completeFM
+                WebFMLInterpreter.completeFM,
+                WebFMLInterpreter.getHeuristics,
+                WebFMLInterpreter.setRankingListsHeuristic,
+                WebFMLInterpreter.setClusteringParameters
             )
         ).as("text/javascript");
     } 

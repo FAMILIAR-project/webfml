@@ -22,6 +22,10 @@ import fr.familiar.operations.heuristics.metrics.SmithWatermanMetric
 import fr.familiar.gui.synthesis.KeyValue
 import gsd.synthesis.FeatureEdge
 import gsd.synthesis.FeatureType
+import fr.familiar.operations.heuristics.Heuristic
+import fr.familiar.operations.heuristics.metrics.AlwaysZeroMetric
+import fr.familiar.operations.heuristics.metrics.RandomMetric
+import fr.familiar.operations.heuristics.metrics.LevenshteinMetric
 
 object WebFMLInterpreter extends Controller with VariableHelper {
 
@@ -31,7 +35,8 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
   val interp = new FMLBasicInterpreter()
   val KSYNTHESIS_INTERACTIVE_CMD = "ksynthesis --interactive"
-  var synthesizer : InteractiveFMSynthesizer = null
+  var synthesizer : InteractiveFMSynthesizer = _
+  var heuristics : Map[String, Heuristic] = Map.empty
 
   def interpret(fmlCommand: String) = Action {
     request =>
@@ -115,26 +120,31 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   }
   
   def synthesizerInformationToJSON(synthesizer : InteractiveFMSynthesizer) : Map[String, JsValue] = {
-    val rankingList = synthesizer.getParentCandidates().map(pc => (pc.getKey() -> pc.getValue().toSeq)).toMap
-    val jsonRankingLists = rankingListsToJSON(rankingList)
-
-    // Clusters
-    val clusters = synthesizer.getSimilarityClusters().map(c => c.toSet).toSet
-
-    // Cliques
-    val cliques = synthesizer.getCliques().map(c => c.toSet).toSet
+    if (synthesizer == null) {
+       Map.empty 
+    } else {
+	    val rankingList = synthesizer.getParentCandidates().map(pc => (pc.getKey() -> pc.getValue().toSeq)).toMap
+	    val jsonRankingLists = rankingListsToJSON(rankingList)
+	
+	    // Clusters
+	    val clusters = synthesizer.getSimilarityClusters().map(c => c.toSet).toSet
+	
+	    // Cliques
+	    val cliques = synthesizer.getCliques().map(c => c.toSet).toSet
+	    
+	    // FM preview 
+	    val fm = synthesizer.getFeatureModelVariable()
+	    val diagram = fm.getFm().getDiagram()
+	    diagram.addEdge(diagram.getTopVertex(), diagram.getBottomVertex(), FeatureEdge.HIERARCHY)
+	    
+	    Map("fm" -> fmToJson(fm),
+	      "rankingList" -> Json.toJson(rankingList.map(pc => Json.toJson(Map(
+	      "feature" -> Json.toJson(pc._1), 
+	      "parents" -> Json.toJson(pc._2))))),
+	      "clusters" -> Json.toJson(clusters),
+	      "cliques" -> Json.toJson(cliques))  
+    }
     
-    // FM preview 
-    val fm = synthesizer.getFeatureModelVariable()
-    val diagram = fm.getFm().getDiagram()
-    diagram.addEdge(diagram.getTopVertex(), diagram.getBottomVertex(), FeatureEdge.HIERARCHY)
-    
-    Map("fm" -> fmToJson(fm),
-      "rankingList" -> Json.toJson(rankingList.map(pc => Json.toJson(Map(
-      "feature" -> Json.toJson(pc._1), 
-      "parents" -> Json.toJson(pc._2))))),
-      "clusters" -> Json.toJson(clusters),
-      "cliques" -> Json.toJson(cliques))
         
   }
   
@@ -305,6 +315,49 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     synthesizerInfo = synthesizerInfo + ("fm" -> fmToJson(completedFM))
     Ok(Json.toJson(synthesizerInfo))
   }
- 
+  
+  def getHeuristics() = Action {
+    if (heuristics.isEmpty) {
+      val zero = new AlwaysZeroMetric
+      heuristics += zero.getName() -> zero
+      val random = new RandomMetric
+      heuristics += random.getName() -> random
+      val sw = new SmithWatermanMetric
+      heuristics += sw.getName() -> sw
+      val lv = new LevenshteinMetric
+      heuristics += lv.getName() -> lv
+    }
+    
+    Ok(Json.toJson(heuristics.keys))
+  }
+  
+  def setRankingListsHeuristic(heuristicName : String) = Action {
+    
+    val heuristic = if (heuristics.contains(heuristicName)) {
+      heuristics(heuristicName)
+    } else {
+      new AlwaysZeroMetric
+    }
+
+    if (synthesizer != null) {
+    	synthesizer.setParentSimilarityMetric(heuristic)  
+    }
+    
+    Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
+  } 
+  
+  def setClusteringParameters(heuristicName : String, threshold : Double) = Action {
+    val heuristic = if (heuristics.contains(heuristicName)) {
+      heuristics(heuristicName)
+    } else {
+      new AlwaysZeroMetric
+    }
+    
+    if (synthesizer != null) {
+    	synthesizer.setClusteringParameters(heuristic, threshold)
+    }
+    
+    Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
+  }
 
 }
