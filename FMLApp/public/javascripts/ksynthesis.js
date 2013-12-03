@@ -94,8 +94,25 @@ function KSynthesisCtrl($scope) {
 		         complete : function(jqxhr, textstatus) {
 		        	 $('#wait').html('') ;		   
 		         }
-			 })	
+			 });	
 		}
+	};
+	
+	$scope.ignoreParent = function (child, parent) {
+		jsRoutes.controllers.WebFMLInterpreter.ignoreParent(child, parent).ajax({
+	         success : function(data) {
+	        	$scope.updateSynthesisInformation(data)
+	         },
+	         error : function(data) {
+	        	 jqconsole.Write('Error...' + data + '\n');
+	         },
+	         beforeSend : function(event, jqxhr, settings) {
+	        	 $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+	         },
+	         complete : function(jqxhr, textstatus) {
+	        	 $('#wait').html('') ;		   
+	         }
+		 });
 	};
 	
 	$scope.selectCluster = function (cluster) {

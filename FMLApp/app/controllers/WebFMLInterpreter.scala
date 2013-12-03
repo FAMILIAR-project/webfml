@@ -317,6 +317,11 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
   }
   
+  def ignoreParent(child : String, parent : String) = Action {
+    synthesizer.ignoreParent(child, parent)
+    Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
+  }
+  
   def completeFM() = Action {
     val completedFM = synthesizer.computeCompleteFeatureModel()
     var synthesizerInfo = synthesizerInformationToJSON(synthesizer)

@@ -66,6 +66,7 @@ object Application extends Controller {
                 WebFMLInterpreter.listFiles,
                 WebFMLConfigurator.applySelection,
                 WebFMLInterpreter.selectParent,
+                WebFMLInterpreter.ignoreParent,
                 WebFMLInterpreter.completeFM,
                 WebFMLInterpreter.getHeuristics,
                 WebFMLInterpreter.setRankingListsHeuristic,
