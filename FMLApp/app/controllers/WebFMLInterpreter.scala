@@ -372,5 +372,15 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     
     Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
   }
+  
+  def undo() = Action {
+    synthesizer.undo()
+    Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
+  }
+  
+  def redo() = Action {
+    synthesizer.redo()
+    Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
+  }
 
 }
