@@ -4,7 +4,7 @@
 		module="fmlapp_2.10"
 		revision="1.0-SNAPSHOT"
 		status="integration"
-		publication="20131121185804"
+		publication="20131204170722"
 	>
 		<description>
 		FMLApp
@@ -34,11 +34,11 @@
 	<dependencies>
 		<dependency org="org.scala-lang" name="scala-compiler" rev="2.10.2" conf="scala-tool->default,optional(default)"/>
 		<dependency org="org.scala-lang" name="scala-library" rev="2.10.2" conf="scala-tool->default,optional(default);compile->default(compile)"/>
-		<dependency org="com.typesafe.play" name="play-jdbc_2.10" rev="2.2.1" conf="compile->default(compile)"/>
-		<dependency org="com.typesafe.play" name="anorm_2.10" rev="2.2.1" conf="compile->default(compile)"/>
-		<dependency org="com.typesafe.play" name="play-cache_2.10" rev="2.2.1" conf="compile->default(compile)"/>
-		<dependency org="com.typesafe.play" name="play_2.10" rev="2.2.1" conf="compile->default(compile)"/>
-		<dependency org="com.typesafe.play" name="play-test_2.10" rev="2.2.1" conf="test->default(compile)"/>
-		<dependency org="com.typesafe.play" name="play-docs_2.10" rev="2.2.1" conf="docs->default(compile)"/>
+		<dependency org="com.typesafe.play" name="play-jdbc_2.10" rev="2.2.0" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.play" name="anorm_2.10" rev="2.2.0" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.play" name="play-cache_2.10" rev="2.2.0" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.play" name="play_2.10" rev="2.2.0" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.play" name="play-test_2.10" rev="2.2.0" conf="test->default(compile)"/>
+		<dependency org="com.typesafe.play" name="play-docs_2.10" rev="2.2.0" conf="docs->default(compile)"/>
 	</dependencies>
 </ivy-module>

@@ -23,7 +23,7 @@ Seq[Any](format.raw/*1.32*/("""
 
 <!DOCTYPE html>
 
-<html>
+<html ng-app>
     <head>
         <title>"""),_display_(Seq[Any](/*7.17*/title)),format.raw/*7.22*/("""</title>
         <link rel="stylesheet" media="text/css" href=""""),_display_(Seq[Any](/*8.56*/routes/*8.62*/.Assets.at("stylesheets/main.css"))),format.raw/*8.96*/("""">
@@ -31,12 +31,11 @@ Seq[Any](format.raw/*1.32*/("""
         <script src=""""),_display_(Seq[Any](/*10.23*/routes/*10.29*/.Assets.at("javascripts/jquery.min.js"))),format.raw/*10.68*/("""" type="text/javascript"></script>
         <script src=""""),_display_(Seq[Any](/*11.23*/routes/*11.29*/.Assets.at("javascripts/jquery-migrate.min.js"))),format.raw/*11.76*/("""" type="text/javascript"></script>
  		<script src=""""),_display_(Seq[Any](/*12.18*/routes/*12.24*/.Application.javascriptRoutes)),format.raw/*12.53*/("""" type="text/javascript"></script>
-
+		<script src=""""),_display_(Seq[Any](/*13.17*/routes/*13.23*/.Assets.at("javascripts/angular-1.2.2/angular.min.js"))),format.raw/*13.77*/("""" type="text/javascript"></script>
  	    
  	    <link rel="stylesheet" media="screen" href=""""),_display_(Seq[Any](/*15.52*/routes/*15.58*/.Assets.at("stylesheets/bootstrap.min.css"))),format.raw/*15.101*/("""">
- 	    
-          	
-        """),_display_(Seq[Any](/*18.10*/content)),format.raw/*18.17*/("""
+        
+        """),_display_(Seq[Any](/*17.10*/content)),format.raw/*17.17*/("""
     
 </html>
 """))}
@@ -51,11 +50,11 @@ Seq[Any](format.raw/*1.32*/("""
 }
                 /*
                     -- GENERATED --
-                    DATE: Thu Nov 21 18:58:44 CET 2013
-                    SOURCE: /Users/macher1/git/webfml/FMLApp/app/views/mainFML.scala.html
-                    HASH: fdf62a55f5c90f74e8b6e021e283feeab12b9c86
-                    MATRIX: 563->1|687->31|775->84|801->89|900->153|914->159|969->193|1065->254|1079->260|1132->292|1193->317|1208->323|1269->362|1362->419|1377->425|1446->472|1534->524|1549->530|1600->559|1730->653|1745->659|1811->702|1878->733|1907->740
-                    LINES: 19->1|22->1|28->7|28->7|29->8|29->8|29->8|30->9|30->9|30->9|31->10|31->10|31->10|32->11|32->11|32->11|33->12|33->12|33->12|36->15|36->15|36->15|39->18|39->18
+                    DATE: Wed Dec 04 17:07:43 CET 2013
+                    SOURCE: /home/gbecan/git/webfml/FMLApp/app/views/mainFML.scala.html
+                    HASH: cecba94cf599f219bde58bac13c7ac959fbea46a
+                    MATRIX: 563->1|687->31|782->91|808->96|907->160|921->166|976->200|1072->261|1086->267|1139->299|1200->324|1215->330|1276->369|1369->426|1384->432|1453->479|1541->531|1556->537|1607->566|1694->617|1709->623|1785->677|1914->770|1929->776|1995->819|2052->840|2081->847
+                    LINES: 19->1|22->1|28->7|28->7|29->8|29->8|29->8|30->9|30->9|30->9|31->10|31->10|31->10|32->11|32->11|32->11|33->12|33->12|33->12|34->13|34->13|34->13|36->15|36->15|36->15|38->17|38->17
                     -- GENERATED --
                 */
             
