@@ -1,10 +1,58 @@
 function KSynthesisCtrl($scope) {
 
-	// Heuristics
 	$scope.heuristics = [];
+//	$scope.displayedRankingLists = [];
+	$scope.rankingLists = [];
+	$scope.originalRankingLists = [];
 	
+	$scope.clusters = [];
+	$scope.selectedCluster = {};
+	$scope.clusterSelectedParent = '';
+	$scope.clusterPossibleParents = [];
+	$scope.clusterSelectedFeatures = [];
 	
-	// load heuristics
+	$scope.cliques = [];
+	
+	// Synthesis command
+	$scope.$on('ksynthesis', function (event, command) {
+		 try {
+			 
+			  jsRoutes.controllers.WebFMLInterpreter.ksynthesis(command).ajax({
+	                      success : function(data) {
+				  jqconsole.Write('Synthesising in progress... over ' + data['targetID'] + '\n');
+				  $scope.updateSynthesisInformation(data)
+				  
+	              },
+	              error : function(data) {
+	            	  jqconsole.Write('Error...' + data + '\n');
+                 },
+                 beforeSend : function(event, jqxhr, settings) {
+               	  $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+                 },
+	              complete : function(jqxhr, textstatus) {
+	            	  $('#wait').html('') ;		   
+	              }
+			  });
+			  
+		 } catch (e) {
+			 jqconsole.Write('ERROR: ' + e.message + '\n');
+		 }
+	              
+	 });
+	
+	$scope.updateSynthesisInformation = function (data) {
+		if (data['fm'] != undefined) {
+			var fm = data['fm'] ;
+			mkFMPreview('#fmpreview', fm);
+			$scope.rankingLists = data['rankingLists'];
+			$scope.clusters = data['clusters'];
+			$scope.cliques = data['cliques'];
+			  
+		}
+		$scope.$apply();
+	};
+	
+	// Heuristics
 	jsRoutes.controllers.WebFMLInterpreter.getHeuristics().ajax({
         success : function(data) {
         	$scope.heuristics = data
@@ -41,45 +89,7 @@ function KSynthesisCtrl($scope) {
 	});
 		
 	
-	$scope.displayedRankingLists = [];
-	$scope.rankingLists = [];
-	
-	$scope.clusters = [];
-	$scope.selectedCluster = {};
-	$scope.clusterSelectedParent = '';
-	$scope.clusterPossibleParents = [];
-	$scope.clusterSelectedFeatures = [];
-	
-	$scope.cliques = [];
-
-	
-	
-	$scope.$on('ksynthesis', function (event, command) {
-		 try {
-			 
-			  jsRoutes.controllers.WebFMLInterpreter.ksynthesis(command).ajax({
-	                      success : function(data) {
-				  jqconsole.Write('Synthesising in progress... over ' + data['targetID'] + '\n');
-				  $scope.updateSynthesisInformation(data)
-				  
-	              },
-	              error : function(data) {
-	            	  jqconsole.Write('Error...' + data + '\n');
-                  },
-                  beforeSend : function(event, jqxhr, settings) {
-                	  $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
-                  },
-	              complete : function(jqxhr, textstatus) {
-	            	  $('#wait').html('') ;		   
-	              }
-			  });
-			  
-		 } catch (e) {
-			 jqconsole.Write('ERROR: ' + e.message + '\n');
-		 }
-	              
-	 });
-	
+	// Synthesis actions
 	$scope.setParent = function (child, parent) {
 		if (child!=parent) {
 			jsRoutes.controllers.WebFMLInterpreter.selectParent(child, parent).ajax({
@@ -116,60 +126,11 @@ function KSynthesisCtrl($scope) {
 		 });
 	};
 	
-	$scope.selectCluster = function (cluster) {
-		$scope.selectedCluster = cluster;
-		$scope.clusterSelectedFeatures = cluster.slice();
-		$scope.clusterPossibleParents = getCommonParents($scope.clusterSelectedFeatures, $scope.rankingLists);
-	};
-	
-	$scope.selectClusterFeature = function (feature) {
-		var idx = $scope.clusterSelectedFeatures.indexOf(feature);
-
-	    // is currently selected
-	    if (idx > -1) {
-	      $scope.clusterSelectedFeatures.splice(idx, 1);
-	    }
-
-	    // is newly selected
-	    else {
-	      $scope.clusterSelectedFeatures.push(feature);
-	    }
-	    
-	    $scope.clusterPossibleParents = getCommonParents($scope.clusterSelectedFeatures, $scope.rankingLists);
-	}
-	
 	$scope.setClusterParent = function (cluster, parent) {
 		for (var i = 0; i < cluster.length; i++) {
 			$scope.setParent(cluster[i], parent);
 		}
 	}
-	
-	$scope.updateSynthesisInformation = function (data) {
-		if (data['fm'] != undefined) {
-			var fm = data['fm'] ;
-			mkFMPreview('#fmpreview', fm);
-			
-			
-			var rls = data['rankingList'];
-			$scope.rankingLists = rls.slice();
-			
-			for (var i=0; i < rls.length; i++) {
-				if (rls[i].parents.length == 1 && isParentDefined(rls[i].feature,fm)) {
-					rls.splice(i,1);
-				}
-			}
-			for (var i=0; i < fm.edges.length; i++) {
-				var edge = fm.edges[i];
-				
-			}
-			$scope.displayedRankingLists = rls;
-			
-			$scope.clusters = data['clusters'];
-			$scope.cliques = data['cliques'];
-			  
-		}
-		$scope.$apply();
-	};
 	
 	$scope.completeFM = function() {
 		jsRoutes.controllers.WebFMLInterpreter.completeFM().ajax({
@@ -221,6 +182,30 @@ function KSynthesisCtrl($scope) {
 	         }
 		 });
 	};
+	
+	// Cluster selection
+	$scope.selectCluster = function (cluster) {
+		$scope.selectedCluster = cluster;
+		$scope.clusterSelectedFeatures = cluster.slice();
+		$scope.clusterPossibleParents = getCommonParents($scope.clusterSelectedFeatures, $scope.rankingLists);
+	};
+	
+	$scope.selectClusterFeature = function (feature) {
+		var idx = $scope.clusterSelectedFeatures.indexOf(feature);
+
+	    // is currently selected
+	    if (idx > -1) {
+	      $scope.clusterSelectedFeatures.splice(idx, 1);
+	    }
+
+	    // is newly selected
+	    else {
+	      $scope.clusterSelectedFeatures.push(feature);
+	    }
+	    
+	    $scope.clusterPossibleParents = getCommonParents($scope.clusterSelectedFeatures, $scope.rankingLists);
+	}
+	
 }
 
 function getCommonParents(features, rankingLists) {
@@ -258,16 +243,19 @@ function getParentCandidates(feature, rankingLists) {
 	return parentCandidates;
 }
 
-function isParentDefined(feature, fm) {
+// Retrieve the feature's parent in the FM if it exists
+function getParent(feature, fm) {
 	for (var i=0; i < fm.edges.length; i++) {
 		var edge = fm.edges[i];
 		if (edge.source == feature) {
-			return true;
+			return edge.target;
 		}
 	}
 	
-	return false;
+	return null;
 }
+
+
 
 function mkFMPreview(divid, fm) {
 	

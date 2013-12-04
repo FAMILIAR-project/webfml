@@ -93,8 +93,9 @@
 		                        	<div class="row-fluid">
 		                        		<div class="span4">
 				                        	<h3>Ranking Lists</h3>
+				                        	<!-- Ranking lists for synthesis-->
 				                        	<ul>
-				                        		<li ng-repeat="rankingList in displayedRankingLists" class="parentFt">
+				                        		<li ng-repeat="rankingList in rankingLists | filter:{parentInFM:null}" class="parentFt">
 				                        		<div ng-click="rankingList.expanded=!rankingList.expanded">
 					                        		<i class="icon-plus" ng-if="!rankingList.expanded"></i>
 					                        		<i class="icon-minus" ng-if="rankingList.expanded"></i>
@@ -104,11 +105,11 @@
 				                        			<ul>
 					                        			<li ng-repeat="parent in rankingList.parents" style="list-style: none">
 					                        				<div class="btn-group">
-						                        				<button class="btn btn-default btn-xs dropdown-toggle customBtn" type="button" id="dropdownMenu1" data-toggle="dropdown"> 
+						                        				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> 
 						                        					{{parent}} 
 						                        					<span class="caret"></span>
 						                        				</button>
-						                        				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+						                        				<ul class="dropdown-menu" role="menu">
 						                        					<li role="presentation">
 						                        						<a role="menuitem" tabindex="-1" ng-click='setParent(rankingList.feature,parent)'>
 						                        							Select this parent
@@ -129,6 +130,48 @@
 				                        		</li>
 				                        		<div/>
 				                        	</ul>
+				                        	
+				                        	<hr/>
+				                        	<!-- Ranking lists for refactoring -->
+				                        	<ul>
+			                        		<li ng-repeat="rankingList in rankingLists | filter:{parentInFM:'!!'}" class="parentFt">
+			                        		<div ng-click="rankingList.expanded=!rankingList.expanded">
+				                        		<i class="icon-plus" ng-if="!rankingList.expanded"></i>
+				                        		<i class="icon-minus" ng-if="rankingList.expanded"></i>
+				                        		{{rankingList.feature}}
+			                        		</div>
+			                        		<div ng-if="rankingList.expanded">
+			                        			<ul>
+				                        			<li ng-repeat="parent in rankingList.originalParents" style="list-style: none">
+				                        				<div class="btn-group">
+				                        					<button ng-if="rankingList.parentInFM != parent" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> 
+					                        					{{parent}} 
+					                        					<span class="caret"></span>
+					                        				</button>
+					                        				
+					                        				<button ng-if="rankingList.parentInFM == parent" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown"> 
+				                        						{{parent}} 
+				                        						<span class="caret"></span>
+				                        					</button>
+					                        				
+					                        				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+					                        					<li role="presentation">
+					                        						<a role="menuitem" tabindex="-1" ng-click='setParent(rankingList.feature,parent)'>
+					                        							Select this parent
+					                        						</a>
+					                        					</li>
+					                        					<li role="presentation" class="divider">
+					                        					</li>
+					                        					<li role="presentation">
+					                        						<a role="menuitem" tabindex="-1" href="#">Cancel</a>
+					                        					</li>
+					                        				</ul>
+				                        				</div>
+				                        			</li>		                        		
+				                        		</ul>
+			                        		</li>
+			                        		<div/>
+			                        	</ul>
 				                        </div>
 			                        
 				                        <div class="span4">
@@ -222,11 +265,11 @@
 	                        	<ul class="unstyled">
 	                        		<li ng-repeat="varID in varIDs">
 		                        		<div class="dropdown">
-			    	                        <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
+			    	                        <button type="button" class="btn dropdown-toggle sr-only" data-toggle="dropdown">
 			    	                          {{varID}}
-			    	                          <span class="caret pull-right"></span>
+			    	                          <span class="caret"></span>
 			    	                        </button>
-			    	                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+			    	                        <ul class="dropdown-menu" role="menu">
 			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="displayVariable(varID)">Display</a></li>
 			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Edit</a></li>
 			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="synthesize(varID)">Synthesize</a></li>

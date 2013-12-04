@@ -131,9 +131,11 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     if (synthesizer == null) {
        Map.empty 
     } else {
-	    val rankingList = synthesizer.getParentCandidates().map(pc => (pc.getKey() -> pc.getValue().toSeq)).toMap
-	    val jsonRankingLists = rankingListsToJSON(rankingList)
-	
+	    
+    	// Ranking lists
+	    val rankingLists = synthesizer.getParentCandidates().map(pc => (pc.getKey() -> pc.getValue().toSeq)).toMap
+	    val originalRankingLists = synthesizer.getOriginalParentCandidates().map(pc => (pc.getKey() -> pc.getValue().toSeq)).toMap
+	    
 	    // Clusters
 	    val clusters = synthesizer.getSimilarityClusters().map(c => c.toSet).toSet
 	
@@ -146,9 +148,14 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 	    diagram.addEdge(diagram.getTopVertex(), diagram.getBottomVertex(), FeatureEdge.HIERARCHY)
 	    
 	    Map("fm" -> fmToJson(fm),
-	      "rankingList" -> Json.toJson(rankingList.map(pc => Json.toJson(Map(
+	      "rankingLists" -> Json.toJson(rankingLists.map(pc => Json.toJson(Map(
 	      "feature" -> Json.toJson(pc._1), 
-	      "parents" -> Json.toJson(pc._2))))),
+	      "parents" -> Json.toJson(pc._2),
+	      "parentInFM" -> Json.toJson(getParent(pc._1, fm)),
+	      "originalParents" -> Json.toJson(originalRankingLists(pc._1)))))),
+//	      "originalRankingLists" -> Json.toJson(originalRankingLists.map(pc => Json.toJson(Map(
+//	      "feature" -> Json.toJson(pc._1), 
+//	      "parents" -> Json.toJson(pc._2))))),
 	      "clusters" -> Json.toJson(clusters),
 	      "cliques" -> Json.toJson(cliques))  
     }
@@ -156,18 +163,6 @@ object WebFMLInterpreter extends Controller with VariableHelper {
         
   }
   
-  def rankingListsToJSON(rankingLists : Map[String, Seq[String]]) : JsValue = {
-    Json.toJson(
-        rankingLists.map(list => Map(
-        		"label" -> Json.toJson(list._1),
-        		"children" -> Json.toJson(list._2.map(child => Map("label" -> Json.toJson(child), 
-        														"type" -> JsString("check"), 
-        															"leaf" -> JsBoolean(true)
-        		    
-        		)))
-    )))
-  }
-
   def fmToJson(fm : FeatureModelVariable) : JsValue = {
     val diagram = fm.getFm().getDiagram()
     
@@ -190,6 +185,21 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     )) 
    
     jsonFM
+  }
+  
+  def getParent(feature : String, fm : FeatureModelVariable) : String = {
+    val diagram = fm.getFm().getDiagram();
+    try {
+	    val parents = diagram.parents(diagram.findVertex(feature))
+	    if (parents.size() == 1 ) {
+	      parents.iterator().next().getFeature()
+	    } else {
+	      null
+	    }  
+    } catch {
+      case _ => null 
+    }
+    
   }
   
   def featureModelToJson (id : String) = Action {
