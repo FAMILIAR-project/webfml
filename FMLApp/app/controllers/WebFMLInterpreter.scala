@@ -331,10 +331,12 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   }
   
   def completeFM() = Action {
-    val completedFM = synthesizer.computeCompleteFeatureModel()
-    var synthesizerInfo = synthesizerInformationToJSON(synthesizer)
-    synthesizerInfo = synthesizerInfo + ("fm" -> fmToJson(completedFM))
-    Ok(Json.toJson(synthesizerInfo))
+//    val completedFM = synthesizer.computeCompleteFeatureModel()
+//    var synthesizerInfo = synthesizerInformationToJSON(synthesizer)
+//    synthesizerInfo = synthesizerInfo + ("fm" -> fmToJson(completedFM))
+//    Ok(Json.toJson(synthesizerInfo))
+    synthesizer.computeCompleteFeatureModel();
+    Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
   }
   
   def getHeuristics() = Action {
