@@ -51,7 +51,7 @@ html, body {
     margin-top: 0px;
 }
 
-#heuristic-selector {
+.heuristic-selector {
     margin-bottom: 0;
     width: 120px;
 }
@@ -68,3 +68,11 @@ li.parentFt {
     font-weight : bold ; 
     list-style : none ; 
 }
+
+input[type='number']{
+    margin: 0px;
+    width: 40px;
+}
+
+
+

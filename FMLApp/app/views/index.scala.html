@@ -75,11 +75,15 @@
                             
 	                            <div class="btn-toolbar" style="text-align:right">
 			                        <div class="btn-group">
-			                            <a class="btn" ng-click="undo()"><i class="icon-step-backward"></i> Undo</a>
-			                            <a class="btn" ng-click="redo()"><i class="icon-step-forward"></i> Redo</a>
-			                            <a class="btn" ng-click="completeFM()">Complete FM</a>
+			                        	<button type="button" class="btn btn-default" ng-click="undo()"><i class="icon-step-backward"></i> Undo</button>
+			                        	<button type="button" class="btn btn-default" ng-click="redo()"><i class="icon-step-forward"></i> Redo</button>
+			                        	<button type="button" class="btn btn-default" ng-click="completeFM()">Complete FM</button>
 			                        </div>
-			                        <select id="heuristic-selector" ng-model="selectedHeuristic" ng-options="h for h in heuristics"></select>
+			                        <div class="btn-group">
+			                        	<select class="heuristic-selector" ng-model="rankingListHeuristic" ng-options="h for h in heuristics"></select>
+			                        	<select class="heuristic-selector" ng-model="clusteringHeuristic" ng-options="h for h in heuristics"></select>
+			                        	<input class="threshold-selector" type="number" min="0" max="1" step="0.1" ng-model="threshold"></input>
+			                        </div>
 		                        </div>
 		                        
 		                        <div id="ksynthesis">

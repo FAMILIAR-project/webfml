@@ -1,7 +1,10 @@
 function KSynthesisCtrl($scope) {
 
 	$scope.heuristics = [];
-//	$scope.displayedRankingLists = [];
+	$scope.rankingListHeuristic = '';
+	$scope.clusteringHeuristic = '';
+	$scope.threshold = 0.5;
+	
 	$scope.rankingLists = [];
 	$scope.originalRankingLists = [];
 	
@@ -55,12 +58,13 @@ function KSynthesisCtrl($scope) {
 	// Heuristics
 	jsRoutes.controllers.WebFMLInterpreter.getHeuristics().ajax({
         success : function(data) {
-        	$scope.heuristics = data
-        	$scope.selectedHeuristic = data[0]
+        	$scope.heuristics = data['heuristics'];
+        	$scope.rankingListHeuristic = data['defaultRankingListHeuristic'];
+        	$scope.clusteringHeuristic = data['defaultClusteringHeuristic'];
+        	$scope.threshold = data['defaultThreshold'];
         	$scope.$apply()
         },
         error : function(data) {
-        	$scope.selectedHeuristic = '';
        	 	jqconsole.Write('Error...' + data + '\n');
         },
         beforeSend : function(event, jqxhr, settings) {
@@ -71,8 +75,42 @@ function KSynthesisCtrl($scope) {
         }
 	 });
 	
-	$scope.$watch('selectedHeuristic', function(newHeuristic) {
+	$scope.$watch('rankingListHeuristic', function(newHeuristic) {
 		jsRoutes.controllers.WebFMLInterpreter.setRankingListsHeuristic(newHeuristic).ajax({
+	        success : function(data) {
+	        	$scope.updateSynthesisInformation(data)
+	        },
+	        error : function(data) {
+	       	 jqconsole.Write('Error...' + data + '\n');
+	        },
+	        beforeSend : function(event, jqxhr, settings) {
+	       	 $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+	        },
+	        complete : function(jqxhr, textstatus) {
+	       	 $('#wait').html('') ;		   
+	        }
+		 });
+	});
+	
+	$scope.$watch('clusteringHeuristic', function(newHeuristic) {
+		jsRoutes.controllers.WebFMLInterpreter.setClusteringParameters(newHeuristic, $scope.threshold).ajax({
+	        success : function(data) {
+	        	$scope.updateSynthesisInformation(data)
+	        },
+	        error : function(data) {
+	       	 jqconsole.Write('Error...' + data + '\n');
+	        },
+	        beforeSend : function(event, jqxhr, settings) {
+	       	 $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+	        },
+	        complete : function(jqxhr, textstatus) {
+	       	 $('#wait').html('') ;		   
+	        }
+		 });
+	});
+	
+	$scope.$watch('threshold', function(newThreshold) {
+		jsRoutes.controllers.WebFMLInterpreter.setClusteringParameters($scope.clusteringHeuristic, newThreshold).ajax({
 	        success : function(data) {
 	        	$scope.updateSynthesisInformation(data)
 	        },

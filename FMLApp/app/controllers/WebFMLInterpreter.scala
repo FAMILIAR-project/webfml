@@ -349,9 +349,21 @@ object WebFMLInterpreter extends Controller with VariableHelper {
       heuristics += sw.getName() -> sw
       val lv = new LevenshteinMetric
       heuristics += lv.getName() -> lv
+      
+      Ok(Json.toJson(Map(
+        "heuristics" -> Json.toJson(heuristics.keys),
+        "defaultRankingListHeuristic" -> Json.toJson(sw.getName()),
+        "defaultClusteringHeuristic" -> Json.toJson(sw.getName()),
+        "defaultThreshold" -> Json.toJson(0.5)
+      )))
+    } else {
+      Ok(Json.toJson(Map(
+        "heuristics" -> Json.toJson(heuristics.keys),
+        "defaultRankingListHeuristic" -> Json.toJson(""),
+        "defaultClusteringHeuristic" -> Json.toJson(""),
+        "defaultThreshold" -> Json.toJson(0)
+      )))
     }
-    
-    Ok(Json.toJson(heuristics.keys))
   }
   
   def setRankingListsHeuristic(heuristicName : String) = Action {
