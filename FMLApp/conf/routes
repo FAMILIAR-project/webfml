@@ -8,7 +8,7 @@ GET     /variable/:id	            controllers.WebFMLInterpreter.variable(id : St
 POST    /interpret	              	controllers.WebFMLInterpreter.interpret(s : String)
 POST    /evalPrompt	              	controllers.WebFMLInterpreter.evalPrompt(s : String)
 POST    /ksynthesis             	controllers.WebFMLInterpreter.ksynthesis(s : String)
-GET		/selectParent				controllers.WebFMLInterpreter.selectParent(child: String, parent: String)
+GET		/selectParent				controllers.WebFMLInterpreter.selectParent(children: List[String], parent: String)
 GET		/ignoreParent				controllers.WebFMLInterpreter.ignoreParent(child: String, parent: String)
 GET		/completeFM					controllers.WebFMLInterpreter.completeFM()
 GET		/undo						controllers.WebFMLInterpreter.undo()

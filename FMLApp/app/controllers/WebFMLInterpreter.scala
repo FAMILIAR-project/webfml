@@ -26,6 +26,7 @@ import fr.familiar.operations.heuristics.Heuristic
 import fr.familiar.operations.heuristics.metrics.AlwaysZeroMetric
 import fr.familiar.operations.heuristics.metrics.RandomMetric
 import fr.familiar.operations.heuristics.metrics.LevenshteinMetric
+import scala.collection.JavaConversions
 
 object WebFMLInterpreter extends Controller with VariableHelper {
 
@@ -153,9 +154,6 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 	      "parents" -> Json.toJson(pc._2),
 	      "parentInFM" -> Json.toJson(getParent(pc._1, fm)),
 	      "originalParents" -> Json.toJson(originalRankingLists(pc._1)))))),
-//	      "originalRankingLists" -> Json.toJson(originalRankingLists.map(pc => Json.toJson(Map(
-//	      "feature" -> Json.toJson(pc._1), 
-//	      "parents" -> Json.toJson(pc._2))))),
 	      "clusters" -> Json.toJson(clusters),
 	      "cliques" -> Json.toJson(cliques))  
     }
@@ -197,7 +195,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 	      null
 	    }  
     } catch {
-      case _ => null 
+      case _ : Throwable => null 
     }
     
   }
@@ -322,8 +320,8 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
 
 
-  def selectParent(child : String, parent : String) = Action {
-    synthesizer.selectParent(child, parent)
+  def selectParent(children : List[String], parent : String) = Action {
+    synthesizer.selectParentOfCluster(JavaConversions.setAsJavaSet(children.toSet), parent)
     Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
   }
   

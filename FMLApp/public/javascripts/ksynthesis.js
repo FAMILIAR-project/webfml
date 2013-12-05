@@ -92,7 +92,7 @@ function KSynthesisCtrl($scope) {
 	// Synthesis actions
 	$scope.setParent = function (child, parent) {
 		if (child!=parent) {
-			jsRoutes.controllers.WebFMLInterpreter.selectParent(child, parent).ajax({
+			jsRoutes.controllers.WebFMLInterpreter.selectParent([child], parent).ajax({
 		         success : function(data) {
 		        	$scope.updateSynthesisInformation(data)
 		         },
@@ -127,9 +127,20 @@ function KSynthesisCtrl($scope) {
 	};
 	
 	$scope.setClusterParent = function (cluster, parent) {
-		for (var i = 0; i < cluster.length; i++) {
-			$scope.setParent(cluster[i], parent);
-		}
+		jsRoutes.controllers.WebFMLInterpreter.selectParent(cluster, parent).ajax({
+	         success : function(data) {
+	        	$scope.updateSynthesisInformation(data)
+	         },
+	         error : function(data) {
+	        	 jqconsole.Write('Error...' + data + '\n');
+	         },
+	         beforeSend : function(event, jqxhr, settings) {
+	        	 $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+	         },
+	         complete : function(jqxhr, textstatus) {
+	        	 $('#wait').html('') ;		   
+	         }
+		 });
 	}
 	
 	$scope.completeFM = function() {
