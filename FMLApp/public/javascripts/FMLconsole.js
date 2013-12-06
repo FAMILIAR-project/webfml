@@ -47,12 +47,11 @@ function FMLConsoleCtrl($scope, $rootScope) {
 		      
 		      jsRoutes.controllers.WebFMLInterpreter.evalPrompt(command).ajax({
 			  success : function(data) {
-			      jqconsole.Write(command + ' ===> ' + data + '\n');
-			      // FIXME: update the UI and the list of variables for instance
-			      // FIXME: JSON from the webserver that decouples two aspects: (1) the last variable value (2) the list of variables
+			      jqconsole.Write(data['lastVar'] + '\n');
+			      $rootScope.$broadcast('variables', data)
 			  },
 			  error : function(data) {
-			      jqconsole.Write('Error...' + data + '\n');
+			      jqconsole.Write('Error...' + data['lastVar'] + '\n');
 			      
 			  },
 			  beforeSend : function(event, jqxhr, settings) {

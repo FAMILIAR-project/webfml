@@ -86,10 +86,18 @@ object WebFMLInterpreter extends Controller with VariableHelper {
       assert (!fmlCommand.contains(KSYNTHESIS_INTERACTIVE_CMD))
       try {
         val lastVar = interp.eval(fmlCommand)
+        val allVarIDs = interp.getAllIdentifiers() ;
+        
         if (lastVar != null)
-          Ok("" + lastVar.getValue())
+          Ok(Json.toJson(Map(
+        		  "varIDs" -> Json.toJson(allVarIDs.toList),
+        		  "lastVar" -> Json.toJson(lastVar.getIdentifier() + " = " + lastVar.getValue())
+          )))
         else
-          Ok ("void")
+          Ok(Json.toJson(Map(
+        		  "varIDs" -> Json.toJson(allVarIDs.toList),
+        		  "lastVar" -> Json.toJson("")
+          )))
       }
       catch {
         case e : FMLAssertionError => BadRequest(e.getMessage())
