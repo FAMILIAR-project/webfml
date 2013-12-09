@@ -1,4 +1,4 @@
-function KSynthesisCtrl($scope) {
+function KSynthesisCtrl($scope, $rootScope) {
 
 	$scope.heuristics = [];
 	$scope.rankingListHeuristic = '';
@@ -219,6 +219,23 @@ function KSynthesisCtrl($scope) {
 		jsRoutes.controllers.WebFMLInterpreter.redo().ajax({
 	         success : function(data) {
 	        	$scope.updateSynthesisInformation(data)
+	         },
+	         error : function(data) {
+	        	 jqconsole.Write('Error...' + data + '\n');
+	         },
+	         beforeSend : function(event, jqxhr, settings) {
+	        	 $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+	         },
+	         complete : function(jqxhr, textstatus) {
+	        	 $('#wait').html('') ;		   
+	         }
+		 });
+	};
+	
+	$scope.saveToVar = function() {
+		jsRoutes.controllers.WebFMLInterpreter.saveToVar().ajax({
+	         success : function(data) {
+	        	 $rootScope.$broadcast('variables', data)
 	         },
 	         error : function(data) {
 	        	 jqconsole.Write('Error...' + data + '\n');

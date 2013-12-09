@@ -412,5 +412,26 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     synthesizer.redo()
     Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
   }
+  
+  def saveToVar() = Action {
+    var lastVarValue = ""
+    if (synthesizer != null) {
+	    val fm = synthesizer.getFeatureModelVariable()
+	    val diagram = fm.getFm().getDiagram()
+	    
+	    if (fm.isValid() && !diagram.children(diagram.getTopVertex()).isEmpty()) {
+		    val command = fm.getIdentifier() + " = FM(" + fm + ")"
+		    val lastVar = interp.eval(command)
+		    lastVarValue = lastVar.getIdentifier() + " = " + lastVar.getValue()
+	    }     
+    }
+    val allVarIDs = interp.getAllIdentifiers() ;
+    
+    Ok(Json.toJson(Map(
+	        		  "varIDs" -> Json.toJson(allVarIDs.toList),
+	        		  "lastVar" -> Json.toJson(lastVarValue)
+	)))  
+    
+  }
 
 }

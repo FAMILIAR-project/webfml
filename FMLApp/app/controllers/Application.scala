@@ -70,6 +70,7 @@ object Application extends Controller {
                 WebFMLInterpreter.completeFM,
                 WebFMLInterpreter.undo,
                 WebFMLInterpreter.redo,
+                WebFMLInterpreter.saveToVar,
                 WebFMLInterpreter.getHeuristics,
                 WebFMLInterpreter.setRankingListsHeuristic,
                 WebFMLInterpreter.setClusteringParameters

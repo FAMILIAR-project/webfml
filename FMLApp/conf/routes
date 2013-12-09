@@ -13,6 +13,7 @@ GET		/ignoreParent				controllers.WebFMLInterpreter.ignoreParent(child: String, 
 GET		/completeFM					controllers.WebFMLInterpreter.completeFM()
 GET		/undo						controllers.WebFMLInterpreter.undo()
 GET		/redo						controllers.WebFMLInterpreter.redo()
+GET		/saveToVar					controllers.WebFMLInterpreter.saveToVar()
 GET		/getHeuristics				controllers.WebFMLInterpreter.getHeuristics()
 GET		/setRankingListsHeuristic	controllers.WebFMLInterpreter.setRankingListsHeuristic(heuristicName : String)
 GET		/setClusteringParameters	controllers.WebFMLInterpreter.setClusteringParameters(heuristicName : String, threshold : Double)

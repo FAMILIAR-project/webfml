@@ -1,58 +1,51 @@
-c 1 PostgreSQL
-c 2 Storage
-c 8 MySQL
-c 12 Local
-c 6 PHP
-c 3 Open Source
+c 9 PostgreSQL
+c 4 Storage
+c 3 MySQL
+c 2 License
+c 7 PHP
+c 1 Open Source
 c 5 Wiki
-c 9 Proprietary Licence
-c 4 Licence
-c 7 Programming Language
-c 10 Java
+c 8 Programming Language
+c 6 Proprietary License
 c 11 False
-p cnf 12 XXXXXX
+c 10 Java
+p cnf 11 XXXXXX
 -1 2 0
 -3 4 0
+-4 5 0
+-6 2 0
+-7 8 0
+-9 4 0
+-8 5 0
+-6 2 0
+-1 2 0
+-8 5 0
+-10 8 0
+-4 5 0
 -2 5 0
 -1 2 0
--6 7 0
--4 5 0
--3 4 0
--1 2 0
--8 2 0
--9 4 0
--6 7 0
 -2 5 0
--6 7 0
--9 4 0
--10 7 0
--10 7 0
--8 2 0
--10 7 0
--7 5 0
--6 7 0
--9 4 0
--8 2 0
--7 5 0
--10 7 0
--4 5 0
 -3 4 0
--9 4 0
--3 4 0
--8 2 0
 -1 2 0
+-3 4 0
+-9 4 0
+-10 8 0
+-6 2 0
+-3 4 0
+-9 4 0
+-6 2 0
+-9 4 0
+-7 8 0
 5 0
--7 10 6 0
--10 -6 0
+11 5 0
+-2 6 1 0
+-6 -1 0
 -4 9 3 0
 -9 -3 0
--5 7 0
--5 2 0
-11 5 0
 -5 4 0
--2 1 8 0
--1 -8 0
--9 -7 0
--12 -9 0
--1 9 0
--9 1 0
+-5 2 0
+-8 10 7 0
+-10 -7 0
+-6 -8 0
+-9 6 0
+-6 9 0
