@@ -420,8 +420,10 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 	    val diagram = fm.getFm().getDiagram()
 	    
 	    if (fm.isValid() && !diagram.children(diagram.getTopVertex()).isEmpty()) {
-		    val command = fm.getIdentifier() + " = FM(" + fm + ")"
-		    val lastVar = interp.eval(command)
+//		    val command = fm.getIdentifier() + " = FM(" + fm + ")"
+//		    val lastVar = interp.eval(command)
+	    	interp.addOrReplaceVariable(fm.getIdentifier(), fm)
+	    	val lastVar = fm
 		    lastVarValue = lastVar.getIdentifier() + " = " + lastVar.getValue()
 	    }     
     }
