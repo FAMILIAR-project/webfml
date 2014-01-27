@@ -73,7 +73,8 @@ object Application extends Controller {
                 WebFMLInterpreter.saveToVar,
                 WebFMLInterpreter.getHeuristics,
                 WebFMLInterpreter.setRankingListsHeuristic,
-                WebFMLInterpreter.setClusteringParameters
+                WebFMLInterpreter.setClusteringParameters,
+                WebFMLInterpreter.setRoot
             )
         ).as("text/javascript");
     } 

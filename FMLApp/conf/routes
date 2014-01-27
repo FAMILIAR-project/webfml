@@ -18,6 +18,7 @@ GET		/getHeuristics				controllers.WebFMLInterpreter.getHeuristics()
 GET		/setRankingListsHeuristic	controllers.WebFMLInterpreter.setRankingListsHeuristic(heuristicName : String)
 GET		/setClusteringParameters	controllers.WebFMLInterpreter.setClusteringParameters(heuristicName : String, threshold : Double)
 GET     /reset	              	    controllers.WebFMLInterpreter.reset
+GET     /setRoot	              	controllers.WebFMLInterpreter.setRoot(root : String)
 GET     /configurator              	controllers.WebFMLConfigurator.configurator
 POST    /applySelection             controllers.WebFMLConfigurator.applySelection(s: String)
 

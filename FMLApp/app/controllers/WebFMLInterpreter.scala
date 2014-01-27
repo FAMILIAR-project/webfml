@@ -156,14 +156,20 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 	    val diagram = fm.getFm().getDiagram()
 	    diagram.addEdge(diagram.getTopVertex(), diagram.getBottomVertex(), FeatureEdge.HIERARCHY)
 	    
+	    val roots = synthesizer.getImplicationGraph().reduceCliques().roots().iterator().next();
+
 	    Map("fm" -> fmToJson(fm),
 	      "rankingLists" -> Json.toJson(rankingLists.map(pc => Json.toJson(Map(
-	      "feature" -> Json.toJson(pc._1), 
-	      "parents" -> Json.toJson(pc._2),
-	      "parentInFM" -> Json.toJson(getParent(pc._1, fm)),
-	      "originalParents" -> Json.toJson(originalRankingLists(pc._1)))))),
+		      "feature" -> Json.toJson(pc._1), 
+		      "parents" -> Json.toJson(pc._2),
+		      "parentInFM" -> Json.toJson(getParent(pc._1, fm)),
+		      "originalParents" -> Json.toJson(originalRankingLists(pc._1)),
+		      "isPossibleRoot" -> Json.toJson(roots.contains(pc._1)) 
+		  )))),
 	      "clusters" -> Json.toJson(clusters),
-	      "cliques" -> Json.toJson(cliques))  
+	      "cliques" -> Json.toJson(cliques)
+	    )
+	      
     }
     
         
@@ -434,6 +440,11 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 	        		  "lastVar" -> Json.toJson(lastVarValue)
 	)))  
     
+  }
+  
+  def setRoot(root : String) = Action {
+    synthesizer.setRoot(root)
+    Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
   }
 
 }

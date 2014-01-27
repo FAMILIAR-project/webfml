@@ -75,6 +75,11 @@
                             
 	                            <div class="btn-toolbar" style="text-align:right">
 			                        <div class="btn-group">
+			                        	<input 
+                							type="checkbox"
+                							ng-model="showSynthesisInfos"
+                						> 
+			                        	Show
 			                        	<button type="button" class="btn btn-default" ng-click="undo()"><i class="icon-step-backward"></i> Undo</button>
 			                        	<button type="button" class="btn btn-default" ng-click="redo()"><i class="icon-step-forward"></i> Redo</button>
 			                        	<button type="button" class="btn btn-default" ng-click="completeFM()">Complete FM</button>
@@ -108,6 +113,9 @@
 				                        		</div>
 				                        		<div ng-if="rankingList.expanded">
 				                        			<ul>
+				                        				<li ng-if="rankingList.isPossibleRoot" style="list-style: none">
+				                        					<button type="button" class="btn btn-info" ng-click="setRoot(rankingList.feature)">Set as root</button>
+				                        				</li>
 					                        			<li ng-repeat="parent in rankingList.parents" style="list-style: none">
 					                        				<div class="btn-group">
 						                        				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> 
@@ -179,7 +187,7 @@
 			                        	</ul>
 				                        </div>
 			                        
-				                        <div class="span4">
+				                        <div class="span4" ng-if="showSynthesisInfos">
 				                        	<h3>Clusters</h3>
 				                        	<ul>
 			                        			<li ng-repeat="cluster in clusters" style="list-style: none">
@@ -218,7 +226,7 @@
 			                        			</li>
 			                        		</ul>
 			                        	</div>
-			                        	<div class="span4">
+			                        	<div class="span4" ng-if="showSynthesisInfos">
 				                        	<h3>Cliques</h3>
 				                        	<ul>
 			                        			<li ng-repeat="clique in cliques" style="list-style: none">

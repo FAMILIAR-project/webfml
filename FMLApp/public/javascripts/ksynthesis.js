@@ -16,6 +16,8 @@ function KSynthesisCtrl($scope, $rootScope) {
 	
 	$scope.cliques = [];
 	
+	$scope.showSynthesisInfos = true;
+	
 	// Synthesis command
 	$scope.$on('ksynthesis', function (event, command) {
 		 try {
@@ -50,7 +52,6 @@ function KSynthesisCtrl($scope, $rootScope) {
 			$scope.rankingLists = data['rankingLists'];
 			$scope.clusters = data['clusters'];
 			$scope.cliques = data['cliques'];
-			  
 		}
 		$scope.$apply();
 	};
@@ -128,6 +129,23 @@ function KSynthesisCtrl($scope, $rootScope) {
 		
 	
 	// Synthesis actions
+	$scope.setRoot = function (root) {
+		jsRoutes.controllers.WebFMLInterpreter.setRoot(root).ajax({
+	         success : function(data) {
+	        	$scope.updateSynthesisInformation(data)
+	         },
+	         error : function(data) {
+	        	 jqconsole.Write('Error...' + data + '\n');
+	         },
+	         beforeSend : function(event, jqxhr, settings) {
+	        	 $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+	         },
+	         complete : function(jqxhr, textstatus) {
+	        	 $('#wait').html('') ;		   
+	         }
+		 });	
+	}
+	
 	$scope.setParent = function (child, parent) {
 		if (child!=parent) {
 			jsRoutes.controllers.WebFMLInterpreter.selectParent([child], parent).ajax({
@@ -271,6 +289,7 @@ function KSynthesisCtrl($scope, $rootScope) {
 	    
 	    $scope.clusterPossibleParents = getCommonParents($scope.clusterSelectedFeatures, $scope.rankingLists);
 	}
+	
 	
 }
 
