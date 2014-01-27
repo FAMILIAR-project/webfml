@@ -75,11 +75,6 @@
                             
 	                            <div class="btn-toolbar" style="text-align:right">
 			                        <div class="btn-group">
-			                        	<input 
-                							type="checkbox"
-                							ng-model="showSynthesisInfos"
-                						> 
-			                        	Show
 			                        	<button type="button" class="btn btn-default" ng-click="undo()"><i class="icon-step-backward"></i> Undo</button>
 			                        	<button type="button" class="btn btn-default" ng-click="redo()"><i class="icon-step-forward"></i> Redo</button>
 			                        	<button type="button" class="btn btn-default" ng-click="completeFM()">Complete FM</button>
@@ -90,8 +85,9 @@
 			                        	<select class="heuristic-selector" ng-model="clusteringHeuristic" ng-options="h for h in heuristics"></select>
 			                        	<input class="threshold-selector" type="number" min="0" max="1" step="0.1" ng-model="threshold"></input>
 			                        </div>
+			                        <label><input type="checkbox" ng-model="hideClusters"> Hide clusters</label>
+		                        		
 		                        </div>
-		                        
 		                        <div id="ksynthesis">
 		                        	<div>
 		                        		<h3>Preview</h3>	
@@ -187,7 +183,7 @@
 			                        	</ul>
 				                        </div>
 			                        
-				                        <div class="span4" ng-if="showSynthesisInfos">
+				                        <div class="span4" ng-if="!hideClusters">
 				                        	<h3>Clusters</h3>
 				                        	<ul>
 			                        			<li ng-repeat="cluster in clusters" style="list-style: none">
@@ -226,7 +222,7 @@
 			                        			</li>
 			                        		</ul>
 			                        	</div>
-			                        	<div class="span4" ng-if="showSynthesisInfos">
+			                        	<div class="span4" ng-if="!hideClusters">
 				                        	<h3>Cliques</h3>
 				                        	<ul>
 			                        			<li ng-repeat="clique in cliques" style="list-style: none">

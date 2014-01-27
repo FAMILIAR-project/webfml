@@ -16,7 +16,7 @@ function KSynthesisCtrl($scope, $rootScope) {
 	
 	$scope.cliques = [];
 	
-	$scope.showSynthesisInfos = true;
+	$scope.hideClusters = false;
 	
 	// Synthesis command
 	$scope.$on('ksynthesis', function (event, command) {
