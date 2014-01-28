@@ -1,0 +1,73 @@
+c 7 Check after heuristic wait
+c 4 Check for content updates
+c 12 Long-term cache
+c 3 Always check for updates
+c 13 Check after defined wait
+c 15 Store in proxy cache
+c 10 Encrypt content
+c 16 False
+c 2 Store in browser cache
+c 14 Serve from proxy cache
+c 8 Serve from browser cache
+c 9 Serve from cache
+c 11 Store in cache
+c 6 Web Content Delivery
+c 5 Authorise access to content
+c 1 Short-term cache
+p cnf 16 XXXXXX
+-1 2 0
+-3 4 0
+-5 6 0
+-7 4 0
+-7 4 0
+-8 9 0
+-8 9 0
+-10 6 0
+-11 6 0
+-2 11 0
+-10 6 0
+-12 2 0
+-13 4 0
+-14 9 0
+-3 4 0
+-9 6 0
+-13 4 0
+-7 4 0
+-15 11 0
+-1 2 0
+-12 2 0
+-12 2 0
+-4 6 0
+-11 6 0
+-3 4 0
+-9 6 0
+-4 6 0
+-13 4 0
+-12 2 0
+-14 9 0
+-15 11 0
+-1 2 0
+-3 4 0
+-5 6 0
+-1 2 0
+-2 11 0
+-7 4 0
+-13 4 0
+6 0
+-2 12 1 0
+-12 -1 0
+-4 3 13 7 0
+-13 -7 0
+-3 -13 0
+-3 -7 0
+16 6 0
+-9 8 14 0
+-8 -14 0
+-11 2 15 0
+-6 4 0
+-3 5 0
+-7 11 0
+-13 11 0
+-2 8 0
+-15 14 0
+15 10 0

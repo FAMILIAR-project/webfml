@@ -26,6 +26,8 @@ import fr.familiar.operations.heuristics.Heuristic
 import fr.familiar.operations.heuristics.metrics.AlwaysZeroMetric
 import fr.familiar.operations.heuristics.metrics.RandomMetric
 import fr.familiar.operations.heuristics.metrics.LevenshteinMetric
+import fr.familiar.operations.heuristics.metrics.WuPalmerMetric
+import fr.familiar.operations.heuristics.metrics.PathLengthMetric
 import scala.collection.JavaConversions
 
 object WebFMLInterpreter extends Controller with VariableHelper {
@@ -363,6 +365,15 @@ object WebFMLInterpreter extends Controller with VariableHelper {
       heuristics += sw.getName() -> sw
       val lv = new LevenshteinMetric
       heuristics += lv.getName() -> lv
+      
+      var ok = true
+      val wu = new WuPalmerMetric
+      ok = ok && wu.init(new File("resources/WordNet-3.0/wordnet_properties.xml"))
+      heuristics += wu.getName() -> wu
+      val pl = new PathLengthMetric
+      ok = ok && pl.init(new File("resources/WordNet-3.0/wordnet_properties.xml"))
+      heuristics += pl.getName() -> pl
+//      println(ok)
       
       Ok(Json.toJson(Map(
         "heuristics" -> Json.toJson(heuristics.keys),

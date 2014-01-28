@@ -1,0 +1,10 @@
+fm_demo = FM (Wiki: License Storage ["Programming Language"] ;  
+			License: ("Proprietary License"|"Open Source") ; 
+			Storage: (PostgreSQL|MySQL) ;
+			"Programming Language": (Java|PHP) ;
+			(PostgreSQL <-> "Proprietary License");
+			("Proprietary License" -> !"Programming Language");
+			)
+
+fm1 = FM("fm1.dimacs")
+fm2 = FM("fm2.dimacs")
