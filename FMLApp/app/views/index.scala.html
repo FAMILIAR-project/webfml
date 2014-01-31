@@ -211,7 +211,8 @@
 			                        			    </div>
 			                        			    
 			                        			    <div ng-if="cluster != selectedCluster" ng-click="selectCluster(cluster)">
-			                        			    	{{cluster}}
+			                        			    	<!--{{cluster}}-->
+			                        			    	<i class="icon-chevron-right"></i>
 			                        			    	<ul>
 						                        			<li ng-repeat="feature in cluster">
 						                        				{{feature}}
@@ -249,12 +250,13 @@
 					                        		</div>
 				                 			    
 					                 			    <div ng-if="clique != selectedCluster" ng-click="selectCluster(clique)">
-					                 			    	{{clique}}
+					                 			    	<!--{{clique}}-->
+					                 			    	<i class="icon-chevron-right"></i>
 					                 			    	<ul>
-							                        			<li ng-repeat="feature in clique">
-							                        				{{feature}}
-							                        			</li>
-						                        			</ul>
+							                        		<li ng-repeat="feature in clique">
+							                        			{{feature}}
+							                        		</li>
+						                        		</ul>
 					                 			    </div>
 			                        			</li>
 			                        		</ul>
