@@ -1,73 +1,74 @@
-c 7 Check after heuristic wait
-c 4 Check for content updates
-c 12 Long-term cache
-c 3 Always check for updates
-c 13 Check after defined wait
-c 15 Store in proxy cache
-c 10 Encrypt content
-c 16 False
-c 2 Store in browser cache
-c 14 Serve from proxy cache
-c 8 Serve from browser cache
-c 9 Serve from cache
-c 11 Store in cache
-c 6 Web Content Delivery
-c 5 Authorise access to content
-c 1 Short-term cache
-p cnf 16 XXXXXX
+c 3 Save Text
+c 6 Format Text
+c 5 Change Font
+c 7 Print to PDF
+c 9 Open SMS Text
+c 13 Open Microsoft Word file
+c 18 False
+c 17 Paragraph Identation
+c 15 Change Text Size
+c 8 Print Text
+c 12 Open Open Office format
+c 10 Send E-mail
+c 11 Write and Delete
+c 4 Text Editor
+c 14 Print to Printer
+c 16 Change Italic or Bold
+c 1 Open TXT file
+c 2 Open Text
+p cnf 18 XXXXXX
+-1 2 0
 -1 2 0
 -3 4 0
 -5 6 0
--7 4 0
--7 4 0
--8 9 0
--8 9 0
--10 6 0
--11 6 0
--2 11 0
--10 6 0
--12 2 0
--13 4 0
--14 9 0
--3 4 0
--9 6 0
--13 4 0
--7 4 0
--15 11 0
--1 2 0
--12 2 0
--12 2 0
--4 6 0
--11 6 0
--3 4 0
--9 6 0
--4 6 0
--13 4 0
--12 2 0
--14 9 0
--15 11 0
--1 2 0
--3 4 0
+-7 8 0
 -5 6 0
+-8 4 0
+-9 2 0
+-10 4 0
 -1 2 0
--2 11 0
--7 4 0
--13 4 0
-6 0
--2 12 1 0
--12 -1 0
--4 3 13 7 0
--13 -7 0
--3 -13 0
--3 -7 0
-16 6 0
--9 8 14 0
--8 -14 0
--11 2 15 0
+-11 4 0
+-9 2 0
+-12 2 0
+-13 2 0
+-14 8 0
+-11 4 0
+-13 2 0
+-7 8 0
+-9 2 0
+-15 6 0
+-1 2 0
+-3 4 0
+-16 6 0
+-2 4 0
+-17 6 0
+-17 6 0
+-14 8 0
+-2 4 0
+-13 2 0
+-12 2 0
+-13 2 0
+-9 2 0
+-14 8 0
+-16 6 0
 -6 4 0
--3 5 0
--7 11 0
--13 11 0
--2 8 0
--15 14 0
-15 10 0
+-7 8 0
+-6 4 0
+-15 6 0
+-7 8 0
+-8 4 0
+-14 8 0
+-12 2 0
+-10 4 0
+-12 2 0
+4 0
+-4 8 0
+-4 11 0
+-4 3 0
+-2 1 0
+-6 16 0
+-4 2 0
+18 4 0
+-8 14 0
+-6 5 0
+-6 15 0
