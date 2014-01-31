@@ -74,5 +74,9 @@ input[type='number']{
     width: 40px;
 }
 
+.parameter{
+	display: inline;
+}
+
 
 

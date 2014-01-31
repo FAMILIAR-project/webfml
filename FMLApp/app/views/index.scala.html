@@ -73,21 +73,25 @@
                             <div class="tab-pane active" id="editor">@message</div>
                             <div class="tab-pane" id="ksynthesis-tab" ng-controller="KSynthesisCtrl">
                             
-	                            <div class="btn-toolbar" style="text-align:right">
+                            	<div class="span8">
+                        			<label class="parameter"> Ranking lists </label> 
+                        			<select class="heuristic-selector" ng-model="rankingListHeuristic" ng-options="h for h in heuristics"></select> 
+                        			<label class="parameter"> Clustering </label> 
+                        			<select class="heuristic-selector" ng-model="clusteringHeuristic" ng-options="h for h in heuristics"></select>
+                        			<input class="threshold-selector" type="number" min="0" max="1" step="0.1" ng-model="threshold"></input>
+                        			<label class="parameter"><input type="checkbox" ng-model="hideClusters"> Hide clusters</label>
+	                        	</div>
+                            
+	                            <div class="span4 btn-toolbar" style="text-align:right">
 			                        <div class="btn-group">
 			                        	<button type="button" class="btn btn-default" ng-click="undo()"><i class="icon-step-backward"></i> Undo</button>
 			                        	<button type="button" class="btn btn-default" ng-click="redo()"><i class="icon-step-forward"></i> Redo</button>
-			                        	<button type="button" class="btn btn-default" ng-click="completeFM()">Complete FM</button>
+			                        	<button type="button" class="btn btn-default" ng-click="completeFM()">Complete</button>
 			                        	<button type="button" class="btn btn-default" ng-click="saveToVar()">Save</button>
 			                        </div>
-			                        <div class="btn-group">
-			                        	<select class="heuristic-selector" ng-model="rankingListHeuristic" ng-options="h for h in heuristics"></select>
-			                        	<select class="heuristic-selector" ng-model="clusteringHeuristic" ng-options="h for h in heuristics"></select>
-			                        	<input class="threshold-selector" type="number" min="0" max="1" step="0.1" ng-model="threshold"></input>
-			                        </div>
-			                        <label><input type="checkbox" ng-model="hideClusters"> Hide clusters</label>
-		                        		
-		                        </div>
+			                   </div>
+			                   
+		                        
 		                        <div id="ksynthesis">
 		                        	<div>
 		                        		<h3>Preview</h3>	
