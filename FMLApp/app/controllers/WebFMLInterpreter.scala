@@ -348,9 +348,6 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
 
   def selectParent(children : List[String], parent : String) = Action {
-    println("parent:" + parent)
-    println("children:" + children)
-    println()
     synthesizer.selectParentOfCluster(JavaConversions.setAsJavaSet(children.toSet), parent)
     Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
   }
