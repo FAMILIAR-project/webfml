@@ -183,7 +183,11 @@ function KSynthesisCtrl($scope, $rootScope) {
 	};
 	
 	$scope.setClusterParent = function (cluster, parent) {
-		jsRoutes.controllers.WebFMLInterpreter.selectParent(cluster, parent).ajax({
+		var clusterWithFeatureNames = [];
+		for (var i = 0; i < cluster.length; i++) {
+			clusterWithFeatureNames.push(cluster[i].name)
+		}
+		jsRoutes.controllers.WebFMLInterpreter.selectParent(clusterWithFeatureNames, parent).ajax({
 	         success : function(data) {
 	        	$scope.updateSynthesisInformation(data)
 	         },
@@ -298,11 +302,11 @@ function getCommonParents(features, rankingLists) {
 	
 	if (features.length > 0) {
 		// get the possible parents of the first feature
-		commonParents = getParentCandidates(features[0], rankingLists);
+		commonParents = getParentCandidates(features[0].name, rankingLists);
 
 		// iterate through the other features and compute the intersection of possible parents
 		for (var i = 1; i < features.length; i++) {
-			var parentCandidates = getParentCandidates(features[i], rankingLists);
+			var parentCandidates = getParentCandidates(features[i].name, rankingLists);
 			var newCommonParents = []
 			for (var j = 0; j < parentCandidates.length; j++) {
 				if(commonParents.indexOf(parentCandidates[j]) > -1) {

@@ -204,7 +204,7 @@
 						                        					ng-checked="clusterSelectedFeatures.indexOf(feature) > -1"
 						                        					ng-click="selectClusterFeature(feature)"
 						                        				>
-						                        				{{feature}}
+						                        				{{feature.name}}
 						                        			</li>
 					                        			</ul>
 				                    					
@@ -215,7 +215,7 @@
 			                        			    	<i class="icon-chevron-right"></i>
 			                        			    	<ul>
 						                        			<li ng-repeat="feature in cluster">
-						                        				{{feature}}
+						                        				{{feature.name}}
 						                        			</li>
 					                        			</ul>
 			                        			    </div>
@@ -243,7 +243,7 @@
 						                        					ng-checked="clusterSelectedFeatures.indexOf(feature) > -1"
 						                        					ng-click="selectClusterFeature(feature)"
 						                        				>
-						                        				{{feature}}
+						                        				{{feature.name}}
 						                        			</li>
 					                        			</ul>
 				                 					
@@ -254,7 +254,7 @@
 					                 			    	<i class="icon-chevron-right"></i>
 					                 			    	<ul>
 							                        		<li ng-repeat="feature in clique">
-							                        			{{feature}}
+							                        			{{feature.name}}
 							                        		</li>
 						                        		</ul>
 					                 			    </div>

@@ -159,7 +159,6 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 	    diagram.addEdge(diagram.getTopVertex(), diagram.getBottomVertex(), FeatureEdge.HIERARCHY)
 	    
 	    val roots = synthesizer.getImplicationGraph().reduceCliques().roots().iterator().next();
-
 	    Map("fm" -> fmToJson(fm),
 	      "rankingLists" -> Json.toJson(rankingLists.map(pc => Json.toJson(Map(
 		      "feature" -> Json.toJson(pc._1), 
@@ -168,8 +167,20 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 		      "originalParents" -> Json.toJson(originalRankingLists(pc._1)),
 		      "isPossibleRoot" -> Json.toJson(roots.contains(pc._1)) 
 		  )))),
-	      "clusters" -> Json.toJson(clusters),
-	      "cliques" -> Json.toJson(cliques)
+	      "clusters" -> Json.toJson(
+	          clusters.map(c => 
+	            c.map(f => 
+	              Json.toJson(Map(
+	                		  "name" -> Json.toJson(f),
+	                		  "parentInFM" -> Json.toJson(getParent(f, fm))
+          ))))),
+	      "cliques" -> Json.toJson(
+	          cliques.map(c => 
+	            c.map(f => 
+	              Json.toJson(Map(
+	                		  "name" -> Json.toJson(f),
+	                		  "parentInFM" -> Json.toJson(getParent(f, fm))
+          )))))
 	    )
 	      
     }
@@ -337,6 +348,9 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
 
   def selectParent(children : List[String], parent : String) = Action {
+    println("parent:" + parent)
+    println("children:" + children)
+    println()
     synthesizer.selectParentOfCluster(JavaConversions.setAsJavaSet(children.toSet), parent)
     Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
   }
@@ -347,10 +361,6 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   }
   
   def completeFM() = Action {
-//    val completedFM = synthesizer.computeCompleteFeatureModel()
-//    var synthesizerInfo = synthesizerInformationToJSON(synthesizer)
-//    synthesizerInfo = synthesizerInfo + ("fm" -> fmToJson(completedFM))
-//    Ok(Json.toJson(synthesizerInfo))
     synthesizer.computeCompleteFeatureModel();
     Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
   }
