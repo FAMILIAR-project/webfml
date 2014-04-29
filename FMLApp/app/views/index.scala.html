@@ -73,16 +73,16 @@
                             <div class="tab-pane active" id="editor">@message</div>
                             <div class="tab-pane" id="ksynthesis-tab" ng-controller="KSynthesisCtrl">
                             
-                            	<div class="span8">
+                            	<div class="span7">
                         			<label class="parameter"> Ranking lists </label> 
                         			<select class="heuristic-selector" ng-model="rankingListHeuristic" ng-options="h for h in heuristics"></select> 
                         			<label class="parameter"> Clustering </label> 
                         			<select class="heuristic-selector" ng-model="clusteringHeuristic" ng-options="h for h in heuristics"></select>
                         			<input class="threshold-selector" type="number" min="0" max="1" step="0.1" ng-model="threshold"></input>
-                        			<label class="parameter"><input type="checkbox" ng-model="hideClusters"> Hide clusters</label>
+                        			<!--<label class="parameter"><input type="checkbox" ng-model="hideClusters"> Hide clusters</label>-->
 	                        	</div>
                             
-	                            <div class="span4 btn-toolbar" style="text-align:right">
+	                            <div class="span5 btn-toolbar" style="text-align:right">
 			                        <div class="btn-group">
 			                        	<button type="button" class="btn btn-default" ng-click="undo()"><i class="icon-step-backward"></i> Undo</button>
 			                        	<button type="button" class="btn btn-default" ng-click="redo()"><i class="icon-step-forward"></i> Redo</button>
@@ -96,7 +96,7 @@
 		                        	<div>
 		                        		<h3>Preview</h3>	
 		                        		<div id="fmpreview">
-		                        			<svg height="350" width="100%"></svg>
+		                        			<svg height="250" width="100%"></svg>
 		                        		</div>
 		                    		</div>
 		                        
