@@ -1,0 +1,11 @@
+#Dossier
+#lib
+lib
+#target
+target
+project
+#Fichiers .class
+*.settings
+*.classpath
+*.log
+*.project
