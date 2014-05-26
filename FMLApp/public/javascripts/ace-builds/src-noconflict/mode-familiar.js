@@ -1,15 +1,19 @@
 /*
- *
- *
- *
- *
+ * FAMILIAR mode fot the IDE.
+ * Include in this file the highlight syntax.
+ * 
  */
 
+/*
+ * Define the mode
+ *
+ */
 ace.define('ace/mode/familiar',['require', 'exports', 'module','ace/lib/oop','ace/mode/text','ace/tokenizer','ace/mode/javascript_highlight_rules','ace/mode/matching_brace_outdent','ace/range','ace/worker/worker_client','ace/mode/behaviour/cstyle','ace/mode/folding/cstyle'], function(require, exports, module) {
       
 var oop = require("../lib/oop");
 var JavaScriptMode = require("./javascript").Mode;
 var Tokenizer = require("../tokenizer").Tokenizer;
+//here we need the highlight rules
 var FamiliarHighlightRules = require("./familiar_highlight_rules").FamiliarHighlightRules;
 
 var Mode = function() {
@@ -30,13 +34,13 @@ exports.Mode = Mode;
 });
 
 /*
- *
+ * JavaScript mode
  *
  */
 
 ace.define('ace/mode/javascript', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/mode/text', 'ace/tokenizer', 'ace/mode/javascript_highlight_rules', 'ace/mode/matching_brace_outdent', 'ace/range', 'ace/worker/worker_client', 'ace/mode/behaviour/cstyle', 'ace/mode/folding/cstyle'], function(require, exports, module) {
 
-
+//
 var oop = require("../lib/oop");
 var TextMode = require("./text").Mode;
 var Tokenizer = require("../tokenizer").Tokenizer;
@@ -49,7 +53,6 @@ var CStyleFoldMode = require("./folding/cstyle").FoldMode;
 
 var Mode = function() {
     this.HighlightRules = JavaScriptHighlightRules;
-    
     this.$outdent = new MatchingBraceOutdent();
     this.$behaviour = new CstyleBehaviour();
     this.foldingRules = new CStyleFoldMode();
@@ -121,6 +124,10 @@ oop.inherits(Mode, TextMode);
 exports.Mode = Mode;
 });
 
+/*
+ * Highlight rules for the javaScript mode
+ *
+ */
 ace.define('ace/mode/javascript_highlight_rules', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/mode/doc_comment_highlight_rules', 'ace/mode/text_highlight_rules'], function(require, exports, module) {
 
 
@@ -615,7 +622,9 @@ exports.FamiliarHighlightRules = FamiliarHighlightRules;
 });
 
 
-
+/*
+ * style 
+ */
 ace.define('ace/mode/behaviour/cstyle', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/mode/behaviour', 'ace/token_iterator', 'ace/lib/lang'], function(require, exports, module) {
 
 
