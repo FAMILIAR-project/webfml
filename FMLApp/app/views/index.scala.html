@@ -71,6 +71,7 @@
                     <div class="span2 scrollable" id="workspace">
                         <div class="pull-right" style="margin-right: 5px">
                             <button class="btn btn-small" onclick="updateWorkspace();"><i class="icon-refresh"></i></button>
+			     <button class="btn btn-small" onclick="createFolder()";"><i class="icon-add"></i></button>
                             <div id="wait"></div>
                         </div>
                         <div id="myTreeView"></div>
@@ -326,7 +327,7 @@
                 var editor;
                 window.onload = function() {
                     editor = ace.edit("editor");
-                    editor.setTheme("ace/theme/clouds");
+                    editor.setTheme("ace/theme/xcode");
 
                     var JavaScriptMode = ace.require("ace/mode/familiar").Mode;
                     editor.getSession().setMode(new JavaScriptMode());

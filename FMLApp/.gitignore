@@ -8,4 +8,6 @@ project
 *.settings
 *.classpath
 *.log
-*.project
+*.cache
+/.target
+/bin

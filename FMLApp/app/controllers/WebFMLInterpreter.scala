@@ -29,6 +29,9 @@ import fr.familiar.operations.heuristics.metrics.LevenshteinMetric
 import fr.familiar.operations.heuristics.metrics.WuPalmerMetric
 import fr.familiar.operations.heuristics.metrics.PathLengthMetric
 import scala.collection.JavaConversions
+import java.io
+import java.nio.file.Files
+import java.nio.file.Path
 
 object WebFMLInterpreter extends Controller with VariableHelper {
 
@@ -41,6 +44,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   var synthesizer : InteractiveFMSynthesizer = _
   var heuristics : Map[String, Heuristic] = Map.empty
 
+   
   def interpret(fmlCommand: String) = Action {
     request =>
       try {
@@ -465,4 +469,24 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
   }
 
+  
+  /**
+   * @TODO : try this function
+   */
+  def createFolder(name : String) = Action {
+    //create a folder if one with the same name doesn't exist
+    val p : String = workspaceDir+"/"+name
+    val d : File = new File(p)
+    d.mkdirs()
+    Ok(Json.toJson(Map("toto" -> 1)))
+  }
+  
+  
+  /**
+   * 
+   */
+ def createFile(name : String, folderName : String) :Boolean = {
+		 true
+  }
+  
 }
