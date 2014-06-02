@@ -471,14 +471,16 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
   
   /**
-   * @TODO : try this function
+   * This function create a folder in the workspace
+   * @Param : name of the folder
    */
   def createFolder(name : String) = Action {
     //create a folder if one with the same name doesn't exist
-    val p : String = workspaceDir+"/"+name
-    val d : File = new File(p)
-    d.mkdirs()
-    Ok(Json.toJson(Map("toto" -> 1)))
+    val path : String = workspaceDir+"/"+name
+    val d : File = new File(path)
+    //execute
+    val res = d.mkdirs()
+    Ok(Json.toJson(Map("Work" -> 1)))
   }
   
   
