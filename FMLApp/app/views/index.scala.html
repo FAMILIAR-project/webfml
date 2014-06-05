@@ -67,12 +67,27 @@
 	    <!-- IDE part -->
             <div class="container-fluid" id="main-container">
                 <div class="row-fluid">
-		    <!-- Folder -->
+		    <!-- Directory -->
                     <div class="span2 scrollable" id="workspace">
-                        <div class="pull-right" style="margin-right: 5px">
-                            <button class="btn btn-small" onclick="updateWorkspace();"><i class="icon-refresh"></i></button>
-			    <button class="btn btn-small" onclick="createFolder()";"><i class="icon-plus-sign"></i></button>
-                            <div id="wait"></div>
+			<div class="pull-left">
+			    <!--refresh button-->
+			    <button class="btn btn-small" onclick="updateWorkspace();"><i class="icon-refresh"></i></button>
+			    <!-- button which create new directory and new file-->
+			    <div class="btn-group">
+				<!--button to create a new directory and a new file-->
+				<button class="btn btn-small dropdown-toggle" data-toggle="dropdown">
+				    <i class="icon-plus-sign"></i><span class="carret"></span>
+				</button>
+				<!-- The "option" when we click on the action button -->
+				<ul class="dropdown-menu" role="menu">
+				    <li><a onclick="createFolder()";>Create a folder</a></li>
+				    <li><a onclick="createFile()";>Create a file</a></li>
+				</ul>
+			    </div>
+			    <!--button delete-->
+			    <button class="btn btn-small" ><i class="icon-minus-sign"></i></button>
+			    
+                           <div id="wait"></div>
                         </div>
                         <div id="myTreeView"></div>
                     </div>
@@ -327,8 +342,12 @@
                 var editor;
                 window.onload = function() {
                     editor = ace.edit("editor");
+		    /*define the "mode" of the editor (e.g: color) you can change the value here (e.g : chrome, github...).
+		    To find more theme you : ace-build-master/src-no-conflict/theme-xxx, you have just to put the xxx. */
                     editor.setTheme("ace/theme/xcode");
-
+		    /*
+		     *define the mode of the editor with a special hilight
+		     */
                     var JavaScriptMode = ace.require("ace/mode/familiar").Mode;
                     editor.getSession().setMode(new JavaScriptMode());
                 };

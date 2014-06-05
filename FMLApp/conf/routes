@@ -31,5 +31,7 @@ GET     /assets/javascripts/routes  controllers.Application.javascriptRoutes
 
 #Create folder
 POST	 /createFolder 				controllers.WebFMLInterpreter.createFolder(name)
+#Create file
+POST 	/createFile					controllers.WebFMLInterpreter.createFile(name)
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
