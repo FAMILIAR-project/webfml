@@ -324,12 +324,3 @@ function deleteF() {
 	}
 	
 }
-/**
- *@TODO
- *
- *
- */
-function deleteFolder(args) {
-	//code
-}
-
