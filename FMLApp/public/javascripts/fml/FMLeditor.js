@@ -256,7 +256,8 @@ function createFile() {
 		if (name!=null && name!="") {
 			//display the name of the final path
 			console.log(path +"/"+name);
-			jsRoutes.controllers.WebFMLInterpreter.createFile(name).ajax({
+			var fname = path+"/"+name;
+			jsRoutes.controllers.WebFMLInterpreter.createFile(fname).ajax({
 				success : function(data) {
 					//refresh the worspace
 					updateWorkspace(); 
@@ -279,5 +280,21 @@ function createFile() {
 		}
 	}
 	
+}
+/**
+ *@TODO
+ *
+ *
+ */
+function deleteFile(args) {
+	//code
+}
+/**
+ *@TODO
+ *
+ *
+ */
+function deleteFolder(args) {
+	//code
 }
 

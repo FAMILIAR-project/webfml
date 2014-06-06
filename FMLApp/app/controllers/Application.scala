@@ -77,7 +77,9 @@ object Application extends Controller {
                 WebFMLInterpreter.setClusteringParameters,
                 WebFMLInterpreter.setRoot,
                 //create folder
-                WebFMLInterpreter.createFolder
+                WebFMLInterpreter.createFolder,
+                //create file
+                WebFMLInterpreter.createFile
                 
                 
             )
