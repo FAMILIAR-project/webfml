@@ -11,6 +11,7 @@ import java.io.File
 
 
 
+
 object Application extends Controller {
 
   
@@ -74,7 +75,13 @@ object Application extends Controller {
                 WebFMLInterpreter.getHeuristics,
                 WebFMLInterpreter.setRankingListsHeuristic,
                 WebFMLInterpreter.setClusteringParameters,
-                WebFMLInterpreter.setRoot
+                WebFMLInterpreter.setRoot,
+                //create folder
+                WebFMLInterpreter.createFolder,
+                //create file
+                WebFMLInterpreter.createFile
+                
+                
             )
         ).as("text/javascript");
     } 

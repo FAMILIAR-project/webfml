@@ -1,45 +1,55 @@
 @(message: String)
-
+    <!-- Name of the page-->
     @mainFML("Welcome to FAMILIAR!") {
 
         <!-- facilities for FML variables -->
-        <script src="@routes.Assets.at("javascripts/FMLvariables.js")"></script>
+        <script src="@routes.Assets.at("javascripts/fml/FMLvariables.js")"></script>
 
         <!-- EDITOR -->
-        <script src="@routes.Assets.at("javascripts/FMLeditor.js")" type="text/javascript" charset="utf-8"></script>
+        <script src="@routes.Assets.at("javascripts/fml/FMLeditor.js")" type="text/javascript" charset="utf-8"></script>
         <!-- begin ACE editor -->
-        <script src="@routes.Assets.at("javascripts/ace-builds/src-noconflict/ace.js")" type="text/javascript" charset="utf-8"></script>
-        <script src="@routes.Assets.at("javascripts/ace-builds/src-noconflict/theme-monokai.js")" type="text/javascript" charset="utf-8"></script>
-        <script src="@routes.Assets.at("javascripts/ace-builds/src-noconflict/mode-javascript.js")" type="text/javascript" charset="utf-8"></script>
+	<!-- ace-builds/src-noconflict -->
+        <script src="@routes.Assets.at("javascripts/ace-builds-master/src-noconflict/ace.js")" type="text/javascript" charset="utf-8"></script>
+	<!-- theme of the editor
+	    TODO REMOVE 
+	-->
+        <!--<script src="@routes.Assets.at("javascripts/ace-builds/src-noconflict/theme-monokai.js")" type="text/javascript" charset="utf-8"></script>-->
+	<!-- call the mode of the editor
+	    Need this
+	-->
+        <script src="@routes.Assets.at("javascripts/ace-builds-master/src-noconflict/mode-familiar.js")" type="text/javascript" charset="utf-8"></script>
         <!-- end ACE editor (style) -->
         <!-- end EDITOR -->
 
         <!-- CONSOLE -->
         <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/ansi.css")">
-        <script src="@routes.Assets.at("javascripts/jq-console/jqconsole.min.js")"></script>
-        <script src="@routes.Assets.at("javascripts/FMLconsole.js")"></script>
+        <script src="@routes.Assets.at("javascripts/lib/jq-console/jqconsole.min.js")"></script>
+        <script src="@routes.Assets.at("javascripts/fml/FMLconsole.js")"></script>
         <!-- end CONSOLE -->
 
         <!-- WORKSPACE -->
-        <script src="@routes.Assets.at("javascripts/alloy-2.0.0/aui/aui-min.js")"></script>
-        <link href="@routes.Assets.at("javascripts/alloy-2.0.0/aui-css/css/bootstrap.min.css")" rel="stylesheet">
+        <script src="@routes.Assets.at("javascripts/lib/alloy-2.0.0/aui/aui-min.js")"></script>
+        <link href="@routes.Assets.at("javascripts/lib/alloy-2.0.0/aui-css/css/bootstrap.min.css")" rel="stylesheet">
         <!-- end WORKSPACE -->
         
         <!-- KSYNTHESIS -->
-        <script src="@routes.Assets.at("javascripts/dagre-d3/d3.v3.min.js")"></script>
-		<script src="@routes.Assets.at("javascripts/dagre-d3/dagre-d3.min.js")"></script>
-		<script src="@routes.Assets.at("javascripts/ksynthesis.js")"></script>
-		<!-- end KSYNTHESIS -->
-
+        <script src="@routes.Assets.at("javascripts/lib/dagre-d3/d3.v3.min.js")"></script>
+	<script src="@routes.Assets.at("javascripts/lib/dagre-d3/dagre-d3.min.js")"></script>
+	<script src="@routes.Assets.at("javascripts/fml/ksynthesis.js")"></script>
+	<!-- end KSYNTHESIS -->
+	<!-- Other CSS -->
         <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/main.css")">
         <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/console.css")">
         <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/fmpreview.css")">
-
+	<!-- /End Other CSS -->
         </head>
         <body>
             <div class="navbar">
+		<!-- Nav part of the app -->
                 <div class="navbar-inner">
+		    <!-- Contains the toolbar --> 
                     <div class="container-fluid">
+			<!-- "logo" -->
                         <a class="brand" href="#">Familiar</a>
                         <button id="toggle-console" class="btn btn-info"><i class="icon-pencil icon-white"></i> Toggle Console</button>
                         <div class="btn-group pull-right" ng-controller="FMLEditorCtrl">
@@ -47,32 +57,52 @@
                             <button class="btn btn-info" id="webFmlReset" ng-click="reset()">Reset variables' environment</button>
                             <button class="btn btn-info" id="webFmlSaveAs" ng-click="save()">Save as...</button>
                         </div>
+			<!-- search part -->
                         <form class="navbar-form pull-right" style="margin-right: 5px">
                             <input type="text" class="form-control" id="fileInputName" placeholder="Enter filename...">
                         </form>
                     </div>
                 </div>
             </div>
-
+	    <!-- IDE part -->
             <div class="container-fluid" id="main-container">
                 <div class="row-fluid">
+		    <!-- Directory -->
                     <div class="span2 scrollable" id="workspace">
-                        <div class="pull-right" style="margin-right: 5px">
-                            <button class="btn btn-small" onclick="updateWorkspace();"><i class="icon-refresh"></i></button>
-                            <div id="wait"></div>
+			<div class="pull-left">
+			    <!--refresh button-->
+			    <button class="btn btn-small" onclick="updateWorkspace();"><i class="icon-refresh"></i></button>
+			    <!-- button which create new directory and new file-->
+			    <div class="btn-group">
+				<!--button to create a new directory and a new file-->
+				<button class="btn btn-small dropdown-toggle" data-toggle="dropdown">
+				    <i class="icon-plus-sign"></i><span class="carret"></span>
+				</button>
+				<!-- The "option" when we click on the action button -->
+				<ul class="dropdown-menu" role="menu">
+				    <li><a onclick="createFolder()";>Create a folder</a></li>
+				    <li><a onclick="createFile()";>Create a file</a></li>
+				</ul>
+			    </div>
+			    <!--button delete-->
+			    <button class="btn btn-small" ><i class="icon-minus-sign"></i></button>
+			    
+                           <div id="wait"></div>
                         </div>
                         <div id="myTreeView"></div>
                     </div>
-
+		    <!-- Text editor -->
                     <div class="span7" id="tabs-hoster">
+			<!-- Tab. part where we choose mod (eg: "FML Editor"...) -->
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#editor" data-toggle="tab">FML Editor</a></li>
                             <li><a href="#ksynthesis-tab" data-toggle="tab">KSynthesis</a></li>
                         </ul>
+			<!-- EDITOR part -->
                         <div class="tab-content">
                             <div class="tab-pane active" id="editor">@message</div>
                             <div class="tab-pane" id="ksynthesis-tab" ng-controller="KSynthesisCtrl">
-                            
+				
                             	<div class="span7">
                         			<label class="parameter"> Ranking lists </label> 
                         			<select class="heuristic-selector" ng-model="rankingListHeuristic" ng-options="h for h in heuristics"></select> 
@@ -81,7 +111,7 @@
                         			<input class="threshold-selector" type="number" min="0" max="1" step="0.1" ng-model="threshold"></input>
                         			<!--<label class="parameter"><input type="checkbox" ng-model="hideClusters"> Hide clusters</label>-->
 	                        	</div>
-                            
+				    <!-- Ksynthesis button-->
 	                            <div class="span5 btn-toolbar" style="text-align:right">
 			                        <div class="btn-group">
 			                        	<button type="button" class="btn btn-default" ng-click="undo()"><i class="icon-step-backward"></i> Undo</button>
@@ -91,9 +121,10 @@
 			                        </div>
 			                   </div>
 			                   
-		                        
+		                        <!-- Ksynthesis part -->
 		                        <div id="ksynthesis">
 		                        	<div>
+							<!-- Graphical result -->
 		                        		<h3>Preview</h3>	
 		                        		<div id="fmpreview">
 		                        			<svg height="250" width="100%"></svg>
@@ -186,7 +217,7 @@
 			                        		<div/>
 			                        	</ul>
 				                        </div>
-			                        
+							<!-- Clusters part -->
 				                        <div class="span4" ng-if="!hideClusters">
 				                        	<h3>Clusters</h3>
 				                        	<ul>
@@ -273,7 +304,7 @@
                             </div>
                         </div>
                     </div>
-
+		    <!-- Result part-->
                     <div class="span3 scrollable" ng-controller="FMLVariableCtrl">
                     
                         <div id="msgid"></div>
@@ -306,14 +337,18 @@
 
             <div id="console" class="hide in" ng-controller="FMLConsoleCtrl"></div>
 
-            <script src="@routes.Assets.at("javascripts/bootstrap.js")" type="text/javascript"></script>
+            <script src="@routes.Assets.at("javascripts/lib/bootstrap/bootstrap.js")" type="text/javascript"></script>
             <script>
                 var editor;
                 window.onload = function() {
                     editor = ace.edit("editor");
-                    editor.setTheme("ace/theme/monokai");
-
-                    var JavaScriptMode = ace.require("ace/mode/javascript").Mode;
+		    /*define the "mode" of the editor (e.g: color) you can change the value here (e.g : chrome, github...).
+		    To find more theme you : ace-build-master/src-no-conflict/theme-xxx, you have just to put the xxx. */
+                    editor.setTheme("ace/theme/xcode");
+		    /*
+		     *define the mode of the editor with a special hilight
+		     */
+                    var JavaScriptMode = ace.require("ace/mode/familiar").Mode;
                     editor.getSession().setMode(new JavaScriptMode());
                 };
             </script>
