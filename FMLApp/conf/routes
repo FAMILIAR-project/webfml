@@ -33,5 +33,9 @@ GET     /assets/javascripts/routes  controllers.Application.javascriptRoutes
 POST	 /createFolder 				controllers.WebFMLInterpreter.createFolder(name)
 #Create file
 POST 	/createFile					controllers.WebFMLInterpreter.createFile(name)
+#Delete folder
+POST	/deleteFolder				controllers.WebFMLInterpreter.deleteFolder(name)
+#Delete file
+POST 	/deleteFile					controllers.WebFMLInterpreter.deleteFile(name)
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

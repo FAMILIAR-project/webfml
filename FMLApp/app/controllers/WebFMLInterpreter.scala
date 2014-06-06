@@ -33,8 +33,7 @@ import java.io
 import java.nio.file.Files
 import java.nio.file.Path
 import play.api.libs.json.JsString
-import play.api.libs.json.JsString
-import java.io.IOException
+import java.io.File
 
 object WebFMLInterpreter extends Controller with VariableHelper {
 
@@ -492,10 +491,18 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   }
   
   /**
-   * @TODO 
+   * Delete the directory and all the files which are included in
+   * @Param : name : the name of the directory
    */
-  def deleteFolder(name : String){
-	  //delete the directory
+  def deleteFolder(name : String)= Action{
+    val direc : File = new File(name)
+    val fs : Array[File] = direc.listFiles()
+    val f : File = null
+    for (f<-fs){
+      f.delete()
+    }
+    direc.delete()    
+	Ok(Json.toJson(Map("Work" -> 1)))
   }
   
   
@@ -504,24 +511,22 @@ object WebFMLInterpreter extends Controller with VariableHelper {
    * @author galexand
    * @Param : name : the path and the name of the file
    */
- def createFile(name : String)= Action {
+ def createFile(name : String)= Action{
 	 //define a file
-	 //val myPath : String = path
-	 //val d : File = new File(path)
-	 //
-	 
 	 val f : File = new File(name)
-	 println(f.getAbsolutePath())
  	 //create the file
 	 f.createNewFile()
 	 Ok(Json.toJson(Map("Work" -> 1)))
   }
  
  /**
-  * @TODO
+  * Delete the file which have the name : name
+  * @Param : name : the name of the file
   */
- def deleteFile(name : String){
-   
+ def deleteFile(name : String)= Action{
+   val f : File = new File(name)
+   f.delete()
+    Ok(Json.toJson(Map("Work" -> 1)))
  }
   
 }

@@ -129,6 +129,7 @@ jsRoutes.controllers.WebFMLInterpreter.listFiles().ajax({
  * The tree view
  *
  */
+//global var
 var path="";
 function displayWorkspace(filespecification) {
 $('#myTreeView').html('');
@@ -146,23 +147,13 @@ YUI().use(
 			var nodeId = event.newVal.get('id');
 			//treenode object
 			var node = tview.getNodeById(nodeId);
-			//return just the label of the node
-			//var nameOfMyNode = node.getAttrs().label;
-			//console.log("NodeID "+nodeId);
-			//console.log("Node "+node);
-			//console.log("Name of the Node " +nameOfMyNode);
-			//console.log("parentsOfNode "+parentsOfNode);
-			//console.log("Node isLeaf: "+node.isLeaf());
-			
 			//type of the node
-			var type ="";
-			
 			if (node.isLeaf()){
-				type = "file";
+				//file
 				path= mkCompleteName(node);
 				loadFile (mkCompleteName(node));
 			}else{
-				type = "directory";
+				//directory
 				path = mkCompleteName(node);
 				console.log("Voyons le nom: "+mkCompleteName(node));
 			}
@@ -282,12 +273,56 @@ function createFile() {
 	
 }
 /**
- *@TODO
- *
- *
+ *Delete the current file or the current directory
  */
-function deleteFile(args) {
-	//code
+function deleteF() {
+	//display a window which ask the user if this is the good choice
+	if (confirm("Are you sure to delete "+path+" ")) {
+		//split the path to know if this is a file or a directory
+		var res = path.split(".");
+		//if this is a file 
+		if (res[1]=="fml"|| res[1]=="dimacs") {
+			//this is a file
+			jsRoutes.controllers.WebFMLInterpreter.deleteFile(path).ajax({
+				success : function(data) {
+					//refresh the worspace
+					updateWorkspace(); 
+				},
+				//if they are an error
+				error : function(data) {  
+					$('#myTreeView').html('Unable to delete the file... <div class="alert alert-danger">' + data + '</div>') ; 
+				},
+				//display a loader
+				beforeSend : function(event, jqxhr, settings) {
+					$('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
+				},
+				complete : function(jqxhr, textstatus) {
+				    $('#wait').html('') ;		   
+				}	
+			});
+
+		}else{
+		//this is a directory
+			jsRoutes.controllers.WebFMLInterpreter.deleteFolder(path).ajax({
+				success : function(data) {
+					//refresh the worspace
+					updateWorkspace(); 
+				},
+				//if they are an error
+				error : function(data) {  
+				$('#myTreeView').html('Unable to delete the directory... <div class="alert alert-danger">' + data + '</div>') ; 
+				},
+				//display a loader
+				beforeSend : function(event, jqxhr, settings) {
+					$('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
+				},
+				complete : function(jqxhr, textstatus) {
+				    $('#wait').html('') ;		   
+				}	
+			});
+		}
+	}
+	
 }
 /**
  *@TODO
