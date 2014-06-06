@@ -496,11 +496,18 @@ object WebFMLInterpreter extends Controller with VariableHelper {
    */
   def deleteFolder(name : String)= Action{
     val direc : File = new File(name)
+    //all the files in the directory
     val fs : Array[File] = direc.listFiles()
+    //new fil which receive a file in the loop
     val f : File = null
+    /*for each file in the array of file
+     *f receive the next file
+     */
     for (f<-fs){
+      //delete the file
       f.delete()
     }
+    //delete the directory
     direc.delete()    
 	Ok(Json.toJson(Map("Work" -> 1)))
   }
@@ -508,7 +515,6 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   
   /**
    * Create a file in a specific folder
-   * @author galexand
    * @Param : name : the path and the name of the file
    */
  def createFile(name : String)= Action{
@@ -525,8 +531,9 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   */
  def deleteFile(name : String)= Action{
    val f : File = new File(name)
+   //delete the file
    f.delete()
-    Ok(Json.toJson(Map("Work" -> 1)))
+   Ok(Json.toJson(Map("Work" -> 1)))
  }
   
 }
