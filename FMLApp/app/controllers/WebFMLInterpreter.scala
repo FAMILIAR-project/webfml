@@ -29,6 +29,12 @@ import fr.familiar.operations.heuristics.metrics.LevenshteinMetric
 import fr.familiar.operations.heuristics.metrics.WuPalmerMetric
 import fr.familiar.operations.heuristics.metrics.PathLengthMetric
 import scala.collection.JavaConversions
+import java.io
+import java.nio.file.Files
+import java.nio.file.Path
+import play.api.libs.json.JsString
+import play.api.libs.json.JsString
+import java.io.IOException
 
 object WebFMLInterpreter extends Controller with VariableHelper {
 
@@ -41,6 +47,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   var synthesizer : InteractiveFMSynthesizer = _
   var heuristics : Map[String, Heuristic] = Map.empty
 
+   
   def interpret(fmlCommand: String) = Action {
     request =>
       try {
@@ -285,9 +292,6 @@ object WebFMLInterpreter extends Controller with VariableHelper {
       .filter(f => (f.getName().endsWith("fml") || f.getName().endsWith("dimacs"))) //""".*\.fml$""".r.findFirstIn(f.getName).isDefined)
       .sortBy(f => mkProperName(f))
     // TODO JSON
-
-
-
     Ok(Json.toJson(Seq(_fileListToJSON(new File(workspaceDir)))))
     //Ok(_fileListToJSON(new File(workspaceDir)))
     // <ul>{ files.map(f => <li> { mkFMLFileName(f) } </li>) } </ul>.toString)
@@ -297,14 +301,18 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     if (!file.isDirectory()) {
       if (""".*\.fml$""".r.findFirstIn(file.getName).isDefined || 
     		  """.*\.dimacs$""".r.findFirstIn(file.getName).isDefined    
-      )
-        Json.toJson(Map ("label" -> Json.toJson(file.getName()),
+      ){
+         Json.toJson(Map ("label" -> Json.toJson(file.getName()),
           "leaf" -> JsBoolean(true),
+          //add name
+          //"name" -> JsString(file.getName()),
+          //
           "type" -> JsString("file"),
-          "id" -> JsString("fml" + file.getName())
-        ))
-      else
-        JsNull
+          "id" -> JsString("fml" + file.getName()))) //"fml" + file.getName())) mkProperName(file)))
+      }else{
+         JsNull
+      }
+       
     }
     else {
       val files = file.listFiles
@@ -314,8 +322,11 @@ object WebFMLInterpreter extends Controller with VariableHelper {
         )
         // "children:" + json.filter(j => !j.isInstanceOf[JsNull]).map() + " label:" + file.getName()
         //json.map(j => Json.toJson(j)) // filter(j => !j.isInstanceOf[JsNull]).
-        Json.toJson(Map ("label" -> Json.toJson(file.getName()), "children" ->
-          JsArray(json.filter(j => j match {case JsNull => false; case _ => true})),
+        Json.toJson(Map ("label" -> Json.toJson(file.getName()),
+            //add name
+            //"name" -> JsString(file.getName()),
+            //
+            "children" -> JsArray(json.filter(j => j match {case JsNull => false; case _ => true})),
           "expanded" -> JsBoolean(true)
         ))
       }
@@ -465,4 +476,52 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
   }
 
+  
+  /**
+   * This function create a folder in the workspace
+   * @author galexand
+   * @Param : name of the folder and the path
+   */
+  def createFolder(name : String) = Action {
+    //create a folder if another one with the same name doesn't exist
+    val path : String = name /*workspaceDir+"/"+*/
+    val d : File = new File(path)
+    //execute
+    val res = d.mkdirs()
+    Ok(Json.toJson(Map("Work" -> 1)))
+  }
+  
+  /**
+   * @TODO 
+   */
+  def deleteFolder(name : String){
+	  //delete the directory
+  }
+  
+  
+  /**
+   * Create a file in a specific folder
+   * @author galexand
+   * @Param : name : the path and the name of the file
+   */
+ def createFile(name : String)= Action {
+	 //define a file
+	 //val myPath : String = path
+	 //val d : File = new File(path)
+	 //
+	 
+	 val f : File = new File(name)
+	 println(f.getAbsolutePath())
+ 	 //create the file
+	 f.createNewFile()
+	 Ok(Json.toJson(Map("Work" -> 1)))
+  }
+ 
+ /**
+  * @TODO
+  */
+ def deleteFile(name : String){
+   
+ }
+  
 }

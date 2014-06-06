@@ -13,7 +13,11 @@ html, body {
 #workspace {
     padding-left: 5px;
 }
-
+/*add a style on the treeview*/
+#myTreeView{
+    /*like that the treeview take all the width of the div*/
+    width: 100%;
+}
 .scrollable {
     height: 100%;
     overflow: auto;
