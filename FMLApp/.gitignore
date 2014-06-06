@@ -1,0 +1,13 @@
+#Dossier
+#lib
+*.jar
+#target
+target
+project
+#Fichiers .class
+*.settings
+*.classpath
+*.log
+*.cache
+/.target
+/bin
