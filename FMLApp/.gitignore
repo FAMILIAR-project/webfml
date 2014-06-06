@@ -1,6 +1,6 @@
 #Dossier
-#lib
-lib
+#jar
+*.jar
 #target
 target
 project
