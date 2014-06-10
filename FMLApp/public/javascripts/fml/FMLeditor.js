@@ -167,13 +167,6 @@ YUI().use(
 );
 }
 /**
- *Function which return the current path to create a file or a directory
- */
-/*function getPath(){
-	return path;
-}*/
-
-/**
  *Function which give the complete name of the node
  *(e.g: directory/ or directory/Try)
  *@param n : a node of the treeview
