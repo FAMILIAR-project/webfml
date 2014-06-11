@@ -535,5 +535,23 @@ object WebFMLInterpreter extends Controller with VariableHelper {
    f.delete()
    Ok(Json.toJson(Map("Work" -> 1)))
  }
+ /**
+  * Update the value of the file and save it
+  * @Param : name : the name of file
+  * @Param : content : the content to save
+  */
+ def saveFile(name : String, content : String) = Action {
+   //create a new file with the name
+   val f : File = new File(name)
+   //create a file writer with the previous file
+   val fw : FileWriter = new FileWriter(f.getAbsoluteFile())
+   //cretae a buffered writter which will update the content of the file
+   val bw : BufferedWriter = new BufferedWriter(fw)
+   //write the content
+   bw.write(content)
+   //close the buffer
+   bw.close()
+   Ok(Json.toJson(Map("Work" -> 1 )))
+ }
   
 }

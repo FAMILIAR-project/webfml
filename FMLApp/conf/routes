@@ -37,5 +37,7 @@ POST 	/createFile					controllers.WebFMLInterpreter.createFile(name)
 POST	/deleteFolder				controllers.WebFMLInterpreter.deleteFolder(name)
 #Delete file
 POST 	/deleteFile					controllers.WebFMLInterpreter.deleteFile(name)
+#Save file
+POST 	/saveFile					controllers.WebFMLInterpreter.saveFile(name, content)
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

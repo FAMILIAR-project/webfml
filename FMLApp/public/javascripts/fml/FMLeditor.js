@@ -129,8 +129,18 @@ jsRoutes.controllers.WebFMLInterpreter.listFiles().ajax({
  * The tree view
  *
  */
-//global var
+/*
+ *the current path 
+ */
 var path="";
+/*
+ *the name of the current file
+ */
+var currentFileName="";
+/**
+ *Function which display the worksapce
+ *this is a treeview from alloy framework
+ */
 function displayWorkspace(filespecification) {
 $('#myTreeView').html('');
 YUI().use(
@@ -151,12 +161,15 @@ YUI().use(
 			if (node.isLeaf()){
 				//file
 				path= mkCompleteName(node);
+				//return the name of the current node
+				currentFileName= mkCompleteName(node);
 				loadFile (mkCompleteName(node));
 			}else{
 				//directory
 				path = mkCompleteName(node);
 				console.log("Voyons le nom: "+mkCompleteName(node));
 			}
+			
 		}
        }
        }
@@ -314,6 +327,45 @@ function deleteF() {
 				}	
 			});
 		}
+	}
+	
+}
+/**
+ * JavaScript function which save the file
+ */
+function saveF() {
+	//get the content from the editor
+	var editor = ace.edit("editor");
+	var content = editor.getSession().getValue();
+	//display the result
+	console.log(content);
+	console.log(currentFileName);
+	//test if the name of the current file is null or not.
+	//if null that mean's the user doesn't click on a file
+	if (currentFileName!=null && currentFileName!="") {
+		jsRoutes.controllers.WebFMLInterpreter.saveFile(currentFileName,content).ajax({
+			success : function(data) {
+				//refresh the worspace
+				updateWorkspace(); 
+			},
+			//if they are an error
+			error : function(data) {  
+			$('#myTreeView').html('Unable to save the file... <div class="alert alert-danger">' + data + '</div>') ; 
+			},
+			//display a loader
+			beforeSend : function(event, jqxhr, settings) {
+				$('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
+			},
+			complete : function(jqxhr, textstatus) {
+			    $('#wait').html('') ;		   
+			}	
+		});
+		//display the sucess
+		$('#msgid').html('Success ! <div class="success alert-success">' + currentFileName + '</div>') ; 
+		
+	}else{
+		//display the unsucess
+		$('#msgid').html('Error...<div class="alert alert-danger">' + currentFileName +" Not saved"+ + '</div>') ; 
 	}
 	
 }

@@ -84,7 +84,9 @@ object Application extends Controller {
                 //delete folder
                 WebFMLInterpreter.deleteFolder,
                 //delete file
-                WebFMLInterpreter.deleteFile
+                WebFMLInterpreter.deleteFile,
+                //save file
+                WebFMLInterpreter.saveFile
                 
             )
         ).as("text/javascript");

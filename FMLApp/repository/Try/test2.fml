@@ -1,0 +1,4 @@
+FM fm1= "test"
+if(fm1){
+       
+}
