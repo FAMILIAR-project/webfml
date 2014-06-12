@@ -238,42 +238,64 @@ function createFolder() {
  *Function which create a new file in a specific folder
  */
 function createFile() {
-	var name = prompt("You will create a file in this directory: "+path+" please insert a name","New File");
-	//split the name of the file
-	var res = name.split(".");
-	/*test the extention of the file
-	 *if the extention is not right
-	 */
-	console.log(res[1]);
-	if(res[1]!="fml" && res[1]!="dimacs"){
-		//so the file extention are not good :'( 
-		alert("the file have not the right extention (e.g .fml or dimacs)");
+	/*in case of the user doesn't clic on a folder
+	*we give a default value : "repository"
+	*/
+	if (path=="") {
+		path="repository";
 	}else{
-		//the extention is okay
-		if (name!=null && name!="") {
-			//display the name of the final path
-			console.log(path +"/"+name);
-			var fname = path+"/"+name;
-			jsRoutes.controllers.WebFMLInterpreter.createFile(fname).ajax({
-				success : function(data) {
-					//refresh the worspace
-					updateWorkspace(); 
-				},
-				//if they are an error
-				error : function(data) {  
-					$('#myTreeView').html('Unable to create the file... <div class="alert alert-danger">' + data + '</div>') ; 
-				},
-				//display a loader
-				beforeSend : function(event, jqxhr, settings) {
-					$('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
-				},
-			       complete : function(jqxhr, textstatus) {
-				    $('#wait').html('') ;		   
-			       }	
-			});
+		//we slipt the name to know if we are on a file
+		var res_path = path.split(".");
+		//if they are something after the point
+		if (res_path[1]) {
+			alert("You're on a file ! You must clic on a directory before !");
 		}else{
-			//the name not exist 
-			alert("If you don't give a name to the file that will not work :(");	
+			/*
+			*We receive the name of the file
+			*/
+			var name = prompt("You will create a file in this directory: "+path+" please insert a name","New File");
+			//if the user give no name
+			if (name==null || name == "") {
+				alert("Name of file incorret !");
+			}else{
+				//split the name of the file
+				var res = name.split(".");
+				/*test the extention of the file
+				*if the extention is not right
+				*/
+				console.log(res[1]);
+				if(res[1]!="fml" && res[1]!="dimacs"){
+					//so the file extention are not good :'( 
+					alert("the file have not the right extention (e.g .fml or dimacs)");
+				}else{
+					//the extention is okay
+					if (name!=null && name!="") {
+						//display the name of the final path
+						console.log(path +"/"+name);
+						var fname = path+"/"+name;
+						jsRoutes.controllers.WebFMLInterpreter.createFile(fname).ajax({
+							success : function(data) {
+								//refresh the worspace
+								updateWorkspace(); 
+							},
+							//if they are an error
+							error : function(data) {  
+								$('#myTreeView').html('Unable to create the file... <div class="alert alert-danger">' + data + '</div>') ; 
+							},
+							//display a loader
+							beforeSend : function(event, jqxhr, settings) {
+								$('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
+							},
+							complete : function(jqxhr, textstatus) {
+							    $('#wait').html('') ;		   
+							  }	
+						});
+					}else{
+						//the name not exist 
+						alert("If you don't give a name to the file that will not work :(");	
+					}
+				}
+			}		
 		}
 	}
 	
