@@ -8,6 +8,7 @@ import models._
 import views._
 import play.api.libs.json.Json
 import java.io.File
+//import controllers.WebFMLInterpreter
 
 
 
@@ -79,8 +80,13 @@ object Application extends Controller {
                 //create folder
                 WebFMLInterpreter.createFolder,
                 //create file
-                WebFMLInterpreter.createFile
-                
+                WebFMLInterpreter.createFile,
+                //delete folder
+                WebFMLInterpreter.deleteFolder,
+                //delete file
+                WebFMLInterpreter.deleteFile,
+                //save file
+                WebFMLInterpreter.saveFile
                 
             )
         ).as("text/javascript");

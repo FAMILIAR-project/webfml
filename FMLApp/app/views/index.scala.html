@@ -85,8 +85,8 @@
 				</ul>
 			    </div>
 			    <!--button delete-->
-			    <button class="btn btn-small" ><i class="icon-minus-sign"></i></button>
-			    
+			    <button class="btn btn-small" onclick="deleteF()"; ><i class="icon-minus-sign"></i></button>
+			    <button class="btn btn-small" alt="save file" onclick="saveF()";><i class="icon-inbox"></i></button>
                            <div id="wait"></div>
                         </div>
                         <div id="myTreeView"></div>
@@ -336,14 +336,17 @@
             </div>
 
             <div id="console" class="hide in" ng-controller="FMLConsoleCtrl"></div>
-
             <script src="@routes.Assets.at("javascripts/lib/bootstrap/bootstrap.js")" type="text/javascript"></script>
+	    <!---Script related of autocompletion-->
+	    <script src="@routes.Assets.at("/javascripts/ace-builds-master/src-noconflict/ext-language_tools.js")"></script>
+		
             <script>
-                var editor;
+		var editor=ace.edit("editor");
                 window.onload = function() {
-                    editor = ace.edit("editor");
-		    /*define the "mode" of the editor (e.g: color) you can change the value here (e.g : chrome, github...).
-		    To find more theme you : ace-build-master/src-no-conflict/theme-xxx, you have just to put the xxx. */
+		    /*
+		     *define the "mode" of the editor (e.g: color) you can change the value here (e.g : chrome, github...).
+		     *To find more theme you : ace-build-master/src-no-conflict/theme-xxx, you have just to put the xxx.
+		     */
                     editor.setTheme("ace/theme/xcode");
 		    /*
 		     *define the mode of the editor with a special hilight
@@ -351,7 +354,17 @@
                     var JavaScriptMode = ace.require("ace/mode/familiar").Mode;
                     editor.getSession().setMode(new JavaScriptMode());
                 };
+		
+		//autocompletion 
+                ace.require('ace/ext/language_tools');
+		//give some option to the editor
+		editor.setOptions({
+		    enableBasicAutocompletion: true,
+		    enableLiveAutocomplete: true,
+		    enableSnippets: true
+		});
             </script>
+	    
             <script>
                 $(function () {
                     $('#main-container').css('height', ($('body' ).outerHeight()-80)+'px');

@@ -129,7 +129,18 @@ jsRoutes.controllers.WebFMLInterpreter.listFiles().ajax({
  * The tree view
  *
  */
+/*
+ *the current path 
+ */
 var path="";
+/*
+ *the name of the current file
+ */
+var currentFileName="";
+/**
+ *Function which display the worksapce
+ *this is a treeview from alloy framework
+ */
 function displayWorkspace(filespecification) {
 $('#myTreeView').html('');
 YUI().use(
@@ -146,26 +157,19 @@ YUI().use(
 			var nodeId = event.newVal.get('id');
 			//treenode object
 			var node = tview.getNodeById(nodeId);
-			//return just the label of the node
-			//var nameOfMyNode = node.getAttrs().label;
-			//console.log("NodeID "+nodeId);
-			//console.log("Node "+node);
-			//console.log("Name of the Node " +nameOfMyNode);
-			//console.log("parentsOfNode "+parentsOfNode);
-			//console.log("Node isLeaf: "+node.isLeaf());
-			
 			//type of the node
-			var type ="";
-			
 			if (node.isLeaf()){
-				type = "file";
+				//file
 				path= mkCompleteName(node);
+				//return the name of the current node
+				currentFileName= mkCompleteName(node);
 				loadFile (mkCompleteName(node));
 			}else{
-				type = "directory";
+				//directory
 				path = mkCompleteName(node);
 				console.log("Voyons le nom: "+mkCompleteName(node));
 			}
+			
 		}
        }
        }
@@ -175,13 +179,6 @@ YUI().use(
   }
 );
 }
-/**
- *Function which return the current path to create a file or a directory
- */
-/*function getPath(){
-	return path;
-}*/
-
 /**
  *Function which give the complete name of the node
  *(e.g: directory/ or directory/Try)
@@ -282,19 +279,93 @@ function createFile() {
 	
 }
 /**
- *@TODO
- *
- *
+ *Delete the current file or the current directory
  */
-function deleteFile(args) {
-	//code
+function deleteF() {
+	//display a window which ask the user if this is the good choice
+	if (confirm("Are you sure to delete "+path+" ")) {
+		//split the path to know if this is a file or a directory
+		var res = path.split(".");
+		//if this is a file 
+		if (res[1]=="fml"|| res[1]=="dimacs") {
+			//this is a file
+			jsRoutes.controllers.WebFMLInterpreter.deleteFile(path).ajax({
+				success : function(data) {
+					//refresh the worspace
+					updateWorkspace(); 
+				},
+				//if they are an error
+				error : function(data) {  
+					$('#myTreeView').html('Unable to delete the file... <div class="alert alert-danger">' + data + '</div>') ; 
+				},
+				//display a loader
+				beforeSend : function(event, jqxhr, settings) {
+					$('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
+				},
+				complete : function(jqxhr, textstatus) {
+				    $('#wait').html('') ;		   
+				}	
+			});
+
+		}else{
+		//this is a directory
+			jsRoutes.controllers.WebFMLInterpreter.deleteFolder(path).ajax({
+				success : function(data) {
+					//refresh the worspace
+					updateWorkspace(); 
+				},
+				//if they are an error
+				error : function(data) {  
+				$('#myTreeView').html('Unable to delete the directory... <div class="alert alert-danger">' + data + '</div>') ; 
+				},
+				//display a loader
+				beforeSend : function(event, jqxhr, settings) {
+					$('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
+				},
+				complete : function(jqxhr, textstatus) {
+				    $('#wait').html('') ;		   
+				}	
+			});
+		}
+	}
+	
 }
 /**
- *@TODO
- *
- *
+ * JavaScript function which save the file
  */
-function deleteFolder(args) {
-	//code
+function saveF() {
+	//get the content from the editor
+	var editor = ace.edit("editor");
+	var content = editor.getSession().getValue();
+	//display the result
+	console.log(content);
+	console.log(currentFileName);
+	//test if the name of the current file is null or not.
+	//if null that mean's the user doesn't click on a file
+	if (currentFileName!=null && currentFileName!="") {
+		jsRoutes.controllers.WebFMLInterpreter.saveFile(currentFileName,content).ajax({
+			success : function(data) {
+				//refresh the worspace
+				updateWorkspace(); 
+			},
+			//if they are an error
+			error : function(data) {  
+			$('#myTreeView').html('Unable to save the file... <div class="alert alert-danger">' + data + '</div>') ; 
+			},
+			//display a loader
+			beforeSend : function(event, jqxhr, settings) {
+				$('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
+			},
+			complete : function(jqxhr, textstatus) {
+			    $('#wait').html('') ;		   
+			}	
+		});
+		//display the sucess
+		$('#msgid').html('Success ! <div class="success alert-success">' + currentFileName + '</div>') ; 
+		
+	}else{
+		//display the unsucess
+		$('#msgid').html('Error...<div class="alert alert-danger">' + currentFileName +" Not saved"+ + '</div>') ; 
+	}
+	
 }
-

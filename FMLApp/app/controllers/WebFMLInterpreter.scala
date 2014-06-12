@@ -33,8 +33,7 @@ import java.io
 import java.nio.file.Files
 import java.nio.file.Path
 import play.api.libs.json.JsString
-import play.api.libs.json.JsString
-import java.io.IOException
+import java.io.File
 
 object WebFMLInterpreter extends Controller with VariableHelper {
 
@@ -492,36 +491,67 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   }
   
   /**
-   * @TODO 
+   * Delete the directory and all the files which are included in
+   * @Param : name : the name of the directory
    */
-  def deleteFolder(name : String){
-	  //delete the directory
+  def deleteFolder(name : String)= Action{
+    val direc : File = new File(name)
+    //all the files in the directory
+    val fs : Array[File] = direc.listFiles()
+    //new fil which receive a file in the loop
+    val f : File = null
+    /*for each file in the array of file
+     *f receive the next file
+     */
+    for (f<-fs){
+      //delete the file
+      f.delete()
+    }
+    //delete the directory
+    direc.delete()    
+	Ok(Json.toJson(Map("Work" -> 1)))
   }
   
   
   /**
    * Create a file in a specific folder
-   * @author galexand
    * @Param : name : the path and the name of the file
    */
- def createFile(name : String)= Action {
+ def createFile(name : String)= Action{
 	 //define a file
-	 //val myPath : String = path
-	 //val d : File = new File(path)
-	 //
-	 
 	 val f : File = new File(name)
-	 println(f.getAbsolutePath())
  	 //create the file
 	 f.createNewFile()
 	 Ok(Json.toJson(Map("Work" -> 1)))
   }
  
  /**
-  * @TODO
+  * Delete the file which have the name : name
+  * @Param : name : the name of the file
   */
- def deleteFile(name : String){
-   
+ def deleteFile(name : String)= Action{
+   val f : File = new File(name)
+   //delete the file
+   f.delete()
+   Ok(Json.toJson(Map("Work" -> 1)))
+ }
+ /**
+  * Update the value of the file and save it
+  * @Param : name : the name of file
+  * @Param : content : the content to save
+  */
+ def saveFile(name : String, content : String) = Action {
+   //create a new file with the name
+   val f : File = new File(name)
+   //create a file writer with the previous file
+   val fw : FileWriter = new FileWriter(f.getAbsoluteFile())
+   //cretae a buffered writter which will update the content of the file
+   val bw : BufferedWriter = new BufferedWriter(fw)
+   //write the content
+   bw.write(content)
+   //close the buffer
+   bw.close()
+   Ok(Json.toJson(Map("Work" -> 1 )))
  }
   
 }

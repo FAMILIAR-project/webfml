@@ -1,8 +1,6 @@
 /*
- *Define the specific 
- *
- *
- *
+ *Define the specific highlight for familiar language
+ *(e.g : keyword of the language,...)
  */
 
 define(function(require, exports, module){
