@@ -1,6 +1,6 @@
 /*
  *Define the specific highlight for familiar language
- *(e.g : keyword of the language,...)
+ *(e.g : keywords of the language,...)
  */
 
 define(function(require, exports, module){
@@ -11,7 +11,7 @@ define(function(require, exports, module){
 
     var FamiliarHighlightRules = function(){
         var keywords=(
-            "merge|sunion|foreach|do|counting|if|then|else|end"
+            "sunion|foreach|do|counting|if|then|else|end|in"
         );
         
         var buildinConstants = ("null");

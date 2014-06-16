@@ -8,7 +8,7 @@ import models._
 import views._
 import play.api.libs.json.Json
 import java.io.File
-//import controllers.WebFMLInterpreter
+
 
 
 
@@ -86,7 +86,9 @@ object Application extends Controller {
                 //delete file
                 WebFMLInterpreter.deleteFile,
                 //save file
-                WebFMLInterpreter.saveFile
+                WebFMLInterpreter.saveFile,
+                //toJson 
+                WebFMLInterpreter.getAllKeywordToJson
                 
             )
         ).as("text/javascript");

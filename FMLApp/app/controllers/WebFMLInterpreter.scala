@@ -34,6 +34,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import play.api.libs.json.JsString
 import java.io.File
+import scala.util.parsing.json.JSONArray
 
 object WebFMLInterpreter extends Controller with VariableHelper {
 
@@ -552,6 +553,22 @@ object WebFMLInterpreter extends Controller with VariableHelper {
    //close the buffer
    bw.close()
    Ok(Json.toJson(Map("Work" -> 1 )))
+ }
+ /**
+  * Function which send to a json file all the
+  * keywords of the familiar language
+  */
+ def getAllKeywordToJson() = Action {
+	 val tab : Array[String]= new Array[String](5)
+	 //@TODO 
+	 tab(0)="merge"
+	 tab(1)="sunion"
+	 tab(2)="test"
+	 tab(3)="4"
+	 tab(4)="5"
+	 //
+	 val myJsonArray : JsValue = Json.toJson(tab)
+	 Ok(Json.toJson(myJsonArray))
  }
   
 }

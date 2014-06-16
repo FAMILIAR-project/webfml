@@ -539,7 +539,20 @@ var TextHighlightRules=require("./text_highlight_rules").TextHighlightRules;
 var DocCommentHighlightRules = require("./doc_comment_highlight_rules").DocCommentHighlightRules;
 var FamiliarHighlightRules=function(){
     //define the keyword of the language here
-    var keywords=("merge|sunion|foreach|do|counting|if|then|else|end");
+    //add keyword here
+    //js
+    var k = $getJSON(getAllKeywordToJson());
+    var k2;
+    //var keywords=("merge|sunion|foreach|do|counting|if|then|else|end|in");
+    for (var i=0;i<k.length;i++) {
+        if (i==k.length) {
+            k2+=k[i];
+        }else{
+            k2+=k[i] + "|";
+        }
+        
+    }
+    var keywords = k2;
     //define the class of the language here
     var langClasses=("FM");
     

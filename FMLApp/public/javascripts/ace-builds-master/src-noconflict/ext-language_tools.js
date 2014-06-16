@@ -37,17 +37,35 @@ var config = require("../config");
 var util = require("../autocomplete/util");
 
 var textCompleter = require("../autocomplete/text_completer");
+/**
+ *Give the rest of the word if they are a letter
+ *Or that give a group of word if they are a blank space
+ */
 var keyWordCompleter = {
     getCompletions: function(editor, session, pos, prefix, callback) {
         var state = editor.session.getState(pos.row);
+        //to see what are in state var
+        //console.log("1 - getCompletions");
+        //console.log(state);
         var completions = session.$mode.getCompletions(state, session, pos, prefix);
+        //
+        //console.log("2 - getCompletions");
+        //console.log(completions);
         callback(null, completions);
     }
 };
-
+/**
+ *
+ *
+ */
 var snippetCompleter = {
     getCompletions: function(editor, session, pos, prefix, callback) {
         var snippetMap = snippetManager.snippetMap;
+        //
+        //console.log("1 -snippetCompleter");
+        //console.log("map");
+        //console.log(snippetMap);
+        //
         var completions = [];
         snippetManager.getActiveScopes(editor).forEach(function(scope) {
             var snippets = snippetMap[scope] || [];
@@ -61,6 +79,10 @@ var snippetCompleter = {
                     snippet: s.content,
                     meta: s.tabTrigger && !s.name ? s.tabTrigger + "\u21E5 " : "snippet"
                 });
+                //
+                //console.log("2 - snippetCompleter");
+                //console.log(completions);
+                //
             }
         }, this);
         callback(null, completions);
@@ -68,9 +90,17 @@ var snippetCompleter = {
 };
 
 var completers = [snippetCompleter, textCompleter, keyWordCompleter];
+//
+//console.log("var completers b");
+//console.log(completers);
+//
 exports.addCompleter = function(completer) {
     completers.push(completer);
 };
+//
+//console.log("var completers a");
+//console.log(completers);
+//
 
 var expandSnippet = {
     name: "expandSnippet",
@@ -114,7 +144,7 @@ var loadSnippetFile = function(id) {
         }
     });
 };
-
+//
 var doLiveAutocomplete = function(e) {
     var editor = e.editor;
     var text = e.args || "";
@@ -124,6 +154,10 @@ var doLiveAutocomplete = function(e) {
     var prefix = util.retrievePrecedingIdentifier(line, pos.column);
     completers.forEach(function(completer) {
         if (completer.identifierRegexps) {
+            //nothing are display
+            //console.log("doLiveAutoComplete");
+            //console.log(completer.identifierRegexps);
+            //
             completer.identifierRegexps.forEach(function(identifierRegex){
                 if (!prefix) {
                     prefix = util.retrievePrecedingIdentifier(line, pos.column, identifierRegex);
@@ -131,6 +165,7 @@ var doLiveAutocomplete = function(e) {
             });
         }
     });
+    //
     if (e.command.name === "backspace" && !prefix) {
         if (hasCompleter) 
             editor.completer.detach();
@@ -151,6 +186,8 @@ var doLiveAutocomplete = function(e) {
 
 var Editor = require("../editor").Editor;
 require("../config").defineOptions(Editor.prototype, "editor", {
+    //option we can choose in the index.scala.html
+    //val : boolean
     enableBasicAutocompletion: {
         set: function(val) {
             if (val) {
@@ -1153,7 +1190,7 @@ var Autocomplete = function() {
         }
         this.detach();
     };
-
+    //commande which be usefull to choose the good option
     this.commands = {
         "Up": function(editor) { editor.completer.goTo("up"); },
         "Down": function(editor) { editor.completer.goTo("down"); },
@@ -1293,6 +1330,7 @@ Autocomplete.startCommand = {
         editor.completer.showPopup(editor);
         editor.completer.cancelContextMenu();
     },
+    //define here the command to use for the autocompletion
     bindKey: "Ctrl-Space|Ctrl-Shift-Space|Alt-Space"
 };
 
@@ -1410,8 +1448,9 @@ var AcePopup = function(parentNode) {
 
     popup.renderer.$cursorLayer.restartTimer = noop;
     popup.renderer.$cursorLayer.element.style.opacity = 0;
-
+    //number of lines which are displaying 
     popup.renderer.$maxLines = 8;
+    //
     popup.renderer.$keepTextAreaAtCursor = false;
 
     popup.setHighlightActiveLine(false);

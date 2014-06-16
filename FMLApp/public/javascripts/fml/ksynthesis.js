@@ -23,20 +23,20 @@ function KSynthesisCtrl($scope, $rootScope) {
 		 try {
 			 
 			  jsRoutes.controllers.WebFMLInterpreter.ksynthesis(command).ajax({
-	                      success : function(data) {
-				  jqconsole.Write('Synthesising in progress... over ' + data['targetID'] + '\n');
-				  $scope.updateSynthesisInformation(data)
+                                    success : function(data) {
+                                             jqconsole.Write('Synthesising in progress... over ' + data['targetID'] + '\n');
+                                             $scope.updateSynthesisInformation(data)
 				  
-	              },
-	              error : function(data) {
-	            	  jqconsole.Write('Error...' + data + '\n');
-                 },
-                 beforeSend : function(event, jqxhr, settings) {
-               	 $('#loader').html('<img src="assets/images/ajax-loader.gif" />') ; 
-                 },
-	              complete : function(jqxhr, textstatus) {
-	            	  $('#wait').html('') ;		   
-	              }
+                                    },
+                                    error : function(data) {
+                                             jqconsole.Write('Error...' + data + '\n');
+                                    },
+                                    beforeSend : function(event, jqxhr, settings) {
+                                             $('#loader').html('<img src="assets/images/ajax-loader.gif" />') ; 
+                                    },
+                                    complete : function(jqxhr, textstatus) {
+                                             $('#wait').html('') ;		   
+                                    }
 			  });
 			  
 		 } catch (e) {
