@@ -527,32 +527,32 @@ exports.MatchingBraceOutdent = MatchingBraceOutdent;
 
 //
 
+/**
+ *Call the function which return the keywords from the serveur
+ */
+jsRoutes.controllers.WebFMLInterpreter.getAllKeywordToJson().ajax({
+    /*
+    *If they are no problem
+    */
+    success : function(data){
+        //call the function
+        keywordsList(data);
+    }
+});
 //Highlight rules
 /*This part define the highlight rules 
  *of the familiar language      
  */
+//keywords of the language
+var keywords = "";
 ace.define('ace/mode/familiar_highlight_rules', ['require','exports','module','ace/lib/oop','ace/mode/doc_comment_highlight_rules','ace/mode/text_highlight_rules'],function(require,exports,module){
 "use strict";
 
-var oop=require("../lib/oop");
-var TextHighlightRules=require("./text_highlight_rules").TextHighlightRules;
-var DocCommentHighlightRules = require("./doc_comment_highlight_rules").DocCommentHighlightRules;
-var FamiliarHighlightRules=function(){
-    //define the keyword of the language here
-    //add keyword here
-    //js
-    var k = $getJSON(getAllKeywordToJson());
-    var k2;
-    //var keywords=("merge|sunion|foreach|do|counting|if|then|else|end|in");
-    for (var i=0;i<k.length;i++) {
-        if (i==k.length) {
-            k2+=k[i];
-        }else{
-            k2+=k[i] + "|";
-        }
-        
-    }
-    var keywords = k2;
+    var oop=require("../lib/oop");
+    var TextHighlightRules=require("./text_highlight_rules").TextHighlightRules;
+    var DocCommentHighlightRules = require("./doc_comment_highlight_rules").DocCommentHighlightRules;
+    var FamiliarHighlightRules=function(){
+   
     //define the class of the language here
     var langClasses=("FM");
     
@@ -564,8 +564,6 @@ var FamiliarHighlightRules=function(){
         "constant.language": buildinConstants,
         "support.function": langClasses
     },"identifier");
-    
-    
     
     
     this.$rules = {
@@ -634,6 +632,24 @@ oop.inherits(FamiliarHighlightRules, TextHighlightRules);
 exports.FamiliarHighlightRules = FamiliarHighlightRules;
 });
 
+/**
+ *Function which put in the keywords variable all the word of the language
+ *@param : tab : a tab of string which contains the keyword of the language
+ */
+ function keywordsList(tab) {
+    var key="";
+    //we scan the tab
+    for (var i=0;i<tab.length;i++) {
+        if (i==tab.length-1) {
+            key+=tab[i];
+        }else{
+            //add a separator
+            key+=tab[i]+"|";
+        }
+    }
+    //put in keyword the result
+    keywords = key;
+}
 
 /*
  * style 

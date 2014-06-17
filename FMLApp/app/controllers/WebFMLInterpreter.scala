@@ -564,8 +564,8 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 	 tab(0)="merge"
 	 tab(1)="sunion"
 	 tab(2)="test"
-	 tab(3)="4"
-	 tab(4)="5"
+	 tab(3)="counting"
+	 tab(4)="computeMUTEXGroups"
 	 //
 	 val myJsonArray : JsValue = Json.toJson(tab)
 	 Ok(Json.toJson(myJsonArray))
