@@ -681,35 +681,53 @@ exports.FamiliarHighlightRules = FamiliarHighlightRules;
     keywords = key;
 }
 /**
- *
+ * Function which put in the res varaible all the class word of
+ * Familiar language
+ * @param : tab : an array which contains all the class word of the language
  */
 function classWordList(tab){
+    /*
+     *create the res variable
+     */
     var res="";
-    
+    /*
+     *scan the tab and put each member of the tab in
+     *res variable
+     */
     for (var i=0;i<tab.length;i++) {
         if (i==tab.length-1) {
             res+=tab[i];
         }else{
+            //don't forget the sperator
             res+=tab[i]+"|";
         }
     }
-    
+    //give res to langClass variable
     langClasses=res;
 }
 /**
- *
+ *function which put in res variable all the constant word like null
+ *of Familiar language
+ *@param : tab : an array which contains all the necesary word
  */
 function constantWordList(tab){
+    /*
+    *create the res variable
+    */
     var res="";
-    
+    /*
+    *scan the tab and put each member of the tab in
+    *res variable
+    */
     for (var i=0;i<tab.length;i++) {
         if (i==tab.length-1) {
             res+=tab[i];
         }else{
+            //don't forget the sperator
             res+=tab[i]+"|";
         }
     }
-    
+    //give res to buildinConstants variable
     buildinConstants = res ;
     
 }

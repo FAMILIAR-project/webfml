@@ -559,6 +559,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   * keywords of the familiar language
   */
  def getAllKeywordToJson() = Action {
+	 //we create an array to stock the words
 	 val tab : Array[String]= new Array[String](5)
 	 //@TODO 
 	 tab(0)="merge"
@@ -567,27 +568,36 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 	 tab(3)="counting"
 	 tab(4)="computeMUTEXGroups"
 	 //
+	 //parse to json the previous tab
 	 val myJsonArray : JsValue = Json.toJson(tab)
-	 Ok(Json.toJson(myJsonArray))
+	 //"send" it
+	 Ok(myJsonArray)
  }
  /**
   * Function which send all the class word of the 
   * familiar language
   */
  def getAllClasswordToJson()=Action{
+   //we create an array to stock the words
    val tabClass:Array[String] = new Array[String](5)
    tabClass(0)="FM"
+   //parse to json the previous tab
    val myJsonArray : JsValue = Json.toJson(tabClass)
-   Ok(Json.toJson(myJsonArray))
+   //"send" it
+   Ok(myJsonArray)
  }
  /**
-  * 
+  * Function which "send" all the constant word which are
+  * use in Familiar (e.g : null)
   */
  def getAllConstantwordToJson()=Action{
+   //we create an array to stock the words
    val tabConstant: Array[String] = new Array[String](5)
    tabConstant(0)="null"
+   //parse to json the previous tab
    val myJsonArray : JsValue = Json.toJson(tabConstant)
-   Ok(Json.toJson(myJsonArray))
+   //"send" it
+   Ok(myJsonArray)
  }
   
 }
