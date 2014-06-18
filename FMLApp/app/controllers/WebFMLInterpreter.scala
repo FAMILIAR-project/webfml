@@ -555,7 +555,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
    Ok(Json.toJson(Map("Work" -> 1 )))
  }
  /**
-  * Function which send to a json file all the
+  * Function which send all the
   * keywords of the familiar language
   */
  def getAllKeywordToJson() = Action {
@@ -569,6 +569,25 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 	 //
 	 val myJsonArray : JsValue = Json.toJson(tab)
 	 Ok(Json.toJson(myJsonArray))
+ }
+ /**
+  * Function which send all the class word of the 
+  * familiar language
+  */
+ def getAllClasswordToJson()=Action{
+   val tabClass:Array[String] = new Array[String](5)
+   tabClass(0)="FM"
+   val myJsonArray : JsValue = Json.toJson(tabClass)
+   Ok(Json.toJson(myJsonArray))
+ }
+ /**
+  * 
+  */
+ def getAllConstantwordToJson()=Action{
+   val tabConstant: Array[String] = new Array[String](5)
+   tabConstant(0)="null"
+   val myJsonArray : JsValue = Json.toJson(tabConstant)
+   Ok(Json.toJson(myJsonArray))
  }
   
 }

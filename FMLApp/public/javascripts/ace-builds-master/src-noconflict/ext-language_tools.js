@@ -1432,7 +1432,7 @@ var $singleLineEditor = function(el) {
 var AcePopup = function(parentNode) {
     var el = dom.createElement("div");
     var popup = new $singleLineEditor(el);
-
+    //.log(popup);
     if (parentNode)
         parentNode.appendChild(el);
     el.style.display = "none";
@@ -1544,6 +1544,7 @@ var AcePopup = function(parentNode) {
 
     var bgTokenizer = popup.session.bgTokenizer;
     bgTokenizer.$tokenizeRow = function(i) {
+        //
         var data = popup.data[i];
         var tokens = [];
         if (!data)
@@ -1567,6 +1568,8 @@ var AcePopup = function(parentNode) {
         }
 
         if (data.meta) {
+            //dislplay local or keywords
+            //console.log(data.meta);
             var maxW = popup.renderer.$size.scrollerWidth / popup.renderer.layerConfig.characterWidth;
             if (data.meta.length + data.caption.length < maxW - 2)
                 tokens.push({type: "rightAlignedText", value: data.meta});

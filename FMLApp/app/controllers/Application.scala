@@ -88,7 +88,9 @@ object Application extends Controller {
                 //save file
                 WebFMLInterpreter.saveFile,
                 //toJson 
-                WebFMLInterpreter.getAllKeywordToJson
+                WebFMLInterpreter.getAllKeywordToJson,
+                WebFMLInterpreter.getAllClasswordToJson,
+                WebFMLInterpreter.getAllConstantwordToJson
                 
             )
         ).as("text/javascript");

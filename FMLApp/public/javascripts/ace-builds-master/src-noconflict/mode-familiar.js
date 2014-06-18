@@ -535,16 +535,46 @@ jsRoutes.controllers.WebFMLInterpreter.getAllKeywordToJson().ajax({
     *If they are no problem
     */
     success : function(data){
-        //call the function
+        //call the function to have the words
         keywordsList(data);
     }
 });
+/**
+ * All the class word of the familiar language
+ */
+jsRoutes.controllers.WebFMLInterpreter.getAllClasswordToJson().ajax({
+    /*
+    *If they are no problem
+    */
+    success : function(data){
+        //call the function to have the words
+        classWordList(data);
+    }
+});
+/**
+ *All the constant word (e.g : null) of familiar
+ */
+jsRoutes.controllers.WebFMLInterpreter.getAllConstantwordToJson().ajax({
+    /*
+    *If they are no problem
+    */
+    success : function(data){
+        //call the function to have the words
+        constantWordList(data);
+    }
+});
+
+
+//keywords of the language
+var keywords = "";
+//define the class of the language here
+var langClasses="";
+//define the constant of the language
+var buildinConstants="";
 //Highlight rules
 /*This part define the highlight rules 
  *of the familiar language      
  */
-//keywords of the language
-var keywords = "";
 ace.define('ace/mode/familiar_highlight_rules', ['require','exports','module','ace/lib/oop','ace/mode/doc_comment_highlight_rules','ace/mode/text_highlight_rules'],function(require,exports,module){
 "use strict";
 
@@ -553,18 +583,18 @@ ace.define('ace/mode/familiar_highlight_rules', ['require','exports','module','a
     var DocCommentHighlightRules = require("./doc_comment_highlight_rules").DocCommentHighlightRules;
     var FamiliarHighlightRules=function(){
    
-    //define the class of the language here
-    var langClasses=("FM");
     
-    var buildinConstants = ("null");
+    //var langClasses=("FM");
+    
+    //var buildinConstants = ("null");
     //create a mapper 
     var keywordMapper = this.createKeywordMapper({
-        "variable.language":"this",
+        "variable.language":"",//this
         "keyword":keywords,
+        //"class":langClasses,
         "constant.language": buildinConstants,
         "support.function": langClasses
     },"identifier");
-    
     
     this.$rules = {
         "start" : [
@@ -650,6 +680,40 @@ exports.FamiliarHighlightRules = FamiliarHighlightRules;
     //put in keyword the result
     keywords = key;
 }
+/**
+ *
+ */
+function classWordList(tab){
+    var res="";
+    
+    for (var i=0;i<tab.length;i++) {
+        if (i==tab.length-1) {
+            res+=tab[i];
+        }else{
+            res+=tab[i]+"|";
+        }
+    }
+    
+    langClasses=res;
+}
+/**
+ *
+ */
+function constantWordList(tab){
+    var res="";
+    
+    for (var i=0;i<tab.length;i++) {
+        if (i==tab.length-1) {
+            res+=tab[i];
+        }else{
+            res+=tab[i]+"|";
+        }
+    }
+    
+    buildinConstants = res ;
+    
+}
+
 
 /*
  * style 
