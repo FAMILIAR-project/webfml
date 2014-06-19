@@ -48,6 +48,8 @@
 			<!-- "logo" -->
                         <a class="brand" href="#">Familiar</a>
                         <button id="toggle-console" class="btn btn-info"><i class="icon-pencil icon-white"></i> Toggle Console</button>
+			<!-- link to the tutorial -->
+			<!--<button class="btn btn-warning"><i class="icon-info-sign"></i>--><a href="/tutorial">Tutorial</a><!--</button>-->
                         <div class="btn-group pull-right" ng-controller="FMLEditorCtrl">
                             <button class="btn btn-info" id="webFmlCmd" ng-click="cmd()">Execute FAMILIAR code</button>
                             <button class="btn btn-info" id="webFmlReset" ng-click="reset()">Reset variables' environment</button>
@@ -98,7 +100,9 @@
                         </ul>
 			<!-- EDITOR part -->
                         <div class="tab-content">
-                            <div class="tab-pane active" id="editor">@message</div>
+			    @editor(message)
+			    <!-- message -->
+                            <!--<div class="tab-pane active" id="editor">//</div>-->
                             <div class="tab-pane" id="ksynthesis-tab" ng-controller="KSynthesisCtrl">
 				
                             	<div class="span7">
@@ -338,7 +342,7 @@
 	    <!---Script related of autocompletion-->
 	    <script src="@routes.Assets.at("/javascripts/ace-builds-master/src-noconflict/ext-language_tools.js")"></script>
 		
-            <script>
+            <!--<script>
 		var editor=ace.edit("editor");
                 window.onload = function() {
 		    /*
@@ -361,8 +365,10 @@
 		    enableLiveAutocomplete: true,
 		    enableSnippets: true
 		});
-            </script>
-	    
+            </script>-->
+	    <!-- call editor options-->
+	    <script src="@routes.Assets.at("/javascripts/fml/lib_editor.js")"></script>
+	    <script src="@routes.Assets.at("/javascripts/fml/autocompletion_options.js")"></script>
             <script>
                 $(function () {
                     $('#main-container').css('height', ($('body' ).outerHeight()-80)+'px');

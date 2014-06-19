@@ -43,5 +43,9 @@ POST 	/saveFile					controllers.WebFMLInterpreter.saveFile(name, content)
 GET 	/getAllKeywordToJson		controllers.WebFMLInterpreter.getAllKeywordToJson()
 GET 	/getAllClasswordToJson		controllers.WebFMLInterpreter.getAllClasswordToJson()
 GET 	/getAllConstantwordToJson	controllers.WebFMLInterpreter.getAllConstantwordToJson()
+
+#tutorial page
+GET 	/tutorial					controllers.Application.tutorial()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

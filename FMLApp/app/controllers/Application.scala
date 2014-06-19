@@ -44,9 +44,15 @@ object Application extends Controller {
 					"fm0\n" + 
 					"mtx = computeMUTEXGroups fm0";
 		// <button class="btn" onclick="loadFile('fm1 = FM (A : [B] XXX ; )');">Load file</button>
-		Ok(views.html.index.render(fmlDemo + "\n"))
+		Ok(views.html.index(fmlDemo + "\n"))
     }
   
+   /**
+    * To access to the tutorial page
+    */
+   def tutorial() = Action {
+     Ok(views.html.tutorial())
+   }
   
    
  

@@ -1,0 +1,30 @@
+/*#title{
+    text-align: center;
+}*/
+#left{
+  /* width: 40%;
+   display: block;
+   float: left;
+   border-right: 0.5px #eee solid ;
+   margin:0;*/
+}
+
+#right{
+    /*width: 40%;
+    display: block;*/
+}
+
+#introduction{
+    /*the line which seperate the part*/
+    border-bottom: 1px solid #eee;
+    margin-bottom:10px;
+}
+
+.col-lg-6{
+    width: 46%;
+    float: left;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    position: relative;
+}
