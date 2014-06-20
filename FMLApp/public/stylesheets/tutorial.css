@@ -1,17 +1,5 @@
-/*#title{
+#title{
     text-align: center;
-}*/
-#left{
-  /* width: 40%;
-   display: block;
-   float: left;
-   border-right: 0.5px #eee solid ;
-   margin:0;*/
-}
-
-#right{
-    /*width: 40%;
-    display: block;*/
 }
 
 #introduction{
@@ -20,11 +8,29 @@
     margin-bottom:10px;
 }
 
-.col-lg-6{
-    width: 46%;
-    float: left;
-    min-height: 1px;
-    padding-left: 15px;
-    padding-right: 15px;
-    position: relative;
+.container{
+    width: 70%;
+}
+
+.container .text-muted {
+    margin: 20px 0;
+}
+
+#editor{
+    height: 100%;
+    position: absolute;
+}
+
+/*.scrollable {
+    height: 100%;
+    overflow: auto;
+}*/
+
+#footer{
+    text-align: center;
+    background-color: #f5f5f5;
+    bottom: 0;
+    height: 60px;
+    position: absolute;
+    width: 100%;
 }
