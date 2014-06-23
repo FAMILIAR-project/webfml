@@ -20,46 +20,20 @@
                           <h2>Tutorial !<small> - How to use Familiar</small></h2>  
                         </div>
                         
+                        <!-- Menu of the tutorial--> 
                         <div id="menu">
+                            <!-- link to the web editor -->
                             <a href="/">Back to the web Ide</a>
                         </div>
                 </div>
                         
             </div>
              
-            <div class="container">
-                <!-- div for a short introduction and menu -->
-                <div id="introduction">
-                    <p class="text-justify">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam cursus pulvinar massa vel placerat.
-                        Mauris viverra, lectus sit amet auctor tristique, nisl erat luctus arcu, sed mattis eros lorem eu felis.
-                        Integer ante libero, tincidunt sollicitudin venenatis eu, lacinia a erat. Class aptent taciti sociosqu ad litora torquent per
-                        conubia nostra, per inceptos himenaeos. Morbi eu risus tellus. Suspendisse commodo non est a porta. Cras dignissim diam sit
-                        amet leo elementum, ac aliquet felis sollicitudin. Cum sociis natoque penatibus et magnis dis parturient montes,
-                        nascetur ridiculus mus. Donec volutpat felis at ipsum tempus sollicitudin. Duis nec lectus malesuada, lacinia arcu
-                        sed, scelerisque lorem. Etiam pretium pulvinar pellentesque. Quisque volutpat leo quis arcu laoreet, in scelerisque
-                        leo lacinia. Integer lobortis nulla non bibendum ullamcorper. Nunc rhoncus odio vitae purus tempus, at
-                        ultricies quam tincidunt.
-                    </p>
-                    <code>Hello World !</code>
-                </div>
-               
-                <div class="row">
-                    <!-- intruction of the tutorial -->
-                    <div id="left" class="col-lg-6">
-                        <p class="text-justify">
-                            Praesent non massa rutrum, tincidunt nibh et, fermentum libero. Nam auctor pulvinar ligula, non consectetur purus tempus sed.
-                            Nunc in hendrerit lorem. Nullam quis dolor augue. Praesent semper leo dolor, nec euismod lorem fringilla non.
-                            Proin varius sit amet elit sed accumsan. Sed eget laoreet augue. Vivamus odio tellus, semper quis velit vel,
-                            pellentesque luctus libero. Morbi placerat, sapien mollis egestas tristique, sapien quam volutpat neque,
-                            dapibus euismod leo purus eu ante. Sed purus lectus, fringilla vel laoreet luctus, sagittis sit amet justo.
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus tincidunt ante sit amet sapien dignissim,
-                            quis porttitor ipsum fringilla.
-                        </p>
-                    </div>
+            <div id="contains">
                 
-                    <!-- Editor --> 
-                    <div id="right" class="col-lg-6">
+                <div class="container">
+                    <!-- div for a short introduction -->
+                    <div id="introduction">
                         <p class="text-justify">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam cursus pulvinar massa vel placerat.
                             Mauris viverra, lectus sit amet auctor tristique, nisl erat luctus arcu, sed mattis eros lorem eu felis.
@@ -71,17 +45,68 @@
                             leo lacinia. Integer lobortis nulla non bibendum ullamcorper. Nunc rhoncus odio vitae purus tempus, at
                             ultricies quam tincidunt.
                         </p>
-                       @editor(message)
+                        <code>Hello World !</code>
                     </div>
-                </div>
-               
+                    <!--
+                    div which contains editor and the tutorial
+                    -->
+                    <div class="row">
+                        <!-- intruction of the tutorial -->
+                        <div id="left" class="col-lg-6">
+                            <p class="text-justify">
+                                Praesent non massa rutrum, tincidunt nibh et, fermentum libero. Nam auctor pulvinar ligula, non consectetur purus tempus sed.
+                                Nunc in hendrerit lorem. Nullam quis dolor augue. Praesent semper leo dolor, nec euismod lorem fringilla non.
+                                Proin varius sit amet elit sed accumsan. Sed eget laoreet augue. Vivamus odio tellus, semper quis velit vel,
+                                pellentesque luctus libero. Morbi placerat, sapien mollis egestas tristique, sapien quam volutpat neque,
+                                dapibus euismod leo purus eu ante. Sed purus lectus, fringilla vel laoreet luctus, sagittis sit amet justo.
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus tincidunt ante sit amet sapien dignissim,
+                                quis porttitor ipsum fringilla.
+                            </p>
+                            <p class="text-justify">
+                                Praesent non massa rutrum, tincidunt nibh et, fermentum libero. Nam auctor pulvinar ligula, non consectetur purus tempus sed.
+                                Nunc in hendrerit lorem. Nullam quis dolor augue. Praesent semper leo dolor, nec euismod lorem fringilla non.
+                                Proin varius sit amet elit sed accumsan. Sed eget laoreet augue. Vivamus odio tellus, semper quis velit vel,
+                                pellentesque luctus libero. Morbi placerat, sapien mollis egestas tristique, sapien quam volutpat neque,
+                                dapibus euismod leo purus eu ante. Sed purus lectus, fringilla vel laoreet luctus, sagittis sit amet justo.
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus tincidunt ante sit amet sapien dignissim,
+                                quis porttitor ipsum fringilla.
+                            </p>
+                            <p class="text-justify">
+                                Praesent non massa rutrum, tincidunt nibh et, fermentum libero. Nam auctor pulvinar ligula, non consectetur purus tempus sed.
+                                Nunc in hendrerit lorem. Nullam quis dolor augue. Praesent semper leo dolor, nec euismod lorem fringilla non.
+                                Proin varius sit amet elit sed accumsan. Sed eget laoreet augue. Vivamus odio tellus, semper quis velit vel,
+                                pellentesque luctus libero. Morbi placerat, sapien mollis egestas tristique, sapien quam volutpat neque,
+                                dapibus euismod leo purus eu ante. Sed purus lectus, fringilla vel laoreet luctus, sagittis sit amet justo.
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus tincidunt ante sit amet sapien dignissim,
+                                quis porttitor ipsum fringilla.
+                            </p>
+                        </div>
                 
-                <!-- Nice thing-->
-               
+                        <!-- Editor --> 
+                        <div class="col-lg-6">
+                           @editor(message)
+                        </div>
+                    </div>
+                    <div id="test">
+                        <p class="text-justify">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam cursus pulvinar massa vel placerat.
+                        Mauris viverra, lectus sit amet auctor tristique, nisl erat luctus arcu, sed mattis eros lorem eu felis.
+                        Integer ante libero, tincidunt sollicitudin venenatis eu, lacinia a erat. Class aptent taciti sociosqu ad litora torquent per
+                        conubia nostra, per inceptos himenaeos. Morbi eu risus tellus. Suspendisse commodo non est a porta. Cras dignissim diam sit
+                        amet leo elementum, ac aliquet felis sollicitudin. Cum sociis natoque penatibus et magnis dis parturient montes,
+                        nascetur ridiculus mus. Donec volutpat felis at ipsum tempus sollicitudin. Duis nec lectus malesuada, lacinia arcu
+                        sed, scelerisque lorem. Etiam pretium pulvinar pellentesque. Quisque volutpat leo quis arcu laoreet, in scelerisque
+                        leo lacinia. Integer lobortis nulla non bibendum ullamcorper. Nunc rhoncus odio vitae purus tempus, at
+                        ultricies quam tincidunt.
+                        </p>
+                    </div>
+                    
+                </div>   
             </div>
+                
             <div id="footer">
                 <div class="container">
-                    <p class="text-muted">Made with in Rennes</p>
+                    <p class="text-muted">GitHub - Inria Rennes</p>
                 </div>
             </div>
             <!-- jQuery -->

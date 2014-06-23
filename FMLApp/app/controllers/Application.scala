@@ -51,7 +51,7 @@ object Application extends Controller {
     * To access to the tutorial page
     */
    def tutorial() = Action {
-     val tuto = "//hello world"
+     val tuto = "//hello world !\n"
      Ok(views.html.tutorial(tuto))
    }
   
