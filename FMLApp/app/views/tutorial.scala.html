@@ -52,7 +52,9 @@
                     -->
                     <div class="row">
                         <!-- intruction of the tutorial -->
-                        <div id="left" class="col-lg-6">
+                        <!-- Left part -->
+                        <div class="col-lg-6">
+                            <h3>Editor</h3>
                             <p class="text-justify">
                                 Praesent non massa rutrum, tincidunt nibh et, fermentum libero. Nam auctor pulvinar ligula, non consectetur purus tempus sed.
                                 Nunc in hendrerit lorem. Nullam quis dolor augue. Praesent semper leo dolor, nec euismod lorem fringilla non.
@@ -62,6 +64,31 @@
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus tincidunt ante sit amet sapien dignissim,
                                 quis porttitor ipsum fringilla.
                             </p>
+                            
+                            <code id="code1" type="java">
+                                    fm1 = FM (A: B [C] ; )
+                                    fm9 = FM (A : B ; )
+                                    fm2 = FM (A : B [C] ; )
+                                    fm3 = FM (A : B [E] ; )
+                                    fm4 = merge sunion fm*
+                                    fm5 = FM (A : J [K] [L] ; )
+                                    
+                                    fm0 = merge sunion fm*
+                                    
+                                    n0 = counting fm0
+                                    nTotal = 0
+                                    foreach (fm in fm*) do
+                                        nfm = counting fm
+                                        nTotal = nTotal + nfm
+                                    end
+                                    
+                                    nTotal = nTotal + 1
+                                    n4 = counting fm4
+                                    n7 = counting fm0
+                                    fm0
+                                    mtx = computeMUTEXGroups fm0
+                            </code>
+                            <button class="btn btn-small" onclick="setCodeToAce();"><i class="icon-refresh"></i>Run</button>
                             <p class="text-justify">
                                 Praesent non massa rutrum, tincidunt nibh et, fermentum libero. Nam auctor pulvinar ligula, non consectetur purus tempus sed.
                                 Nunc in hendrerit lorem. Nullam quis dolor augue. Praesent semper leo dolor, nec euismod lorem fringilla non.
@@ -82,9 +109,18 @@
                             </p>
                         </div>
                 
-                        <!-- Editor --> 
+                        <!-- Editor -->
+                        <!-- Right part -->
                         <div class="col-lg-6">
-                           @editor(message)
+                            <div id="edit">
+                                @editor(message)
+                            </div>
+                            <div id="btn">
+                                <button class="btn btn-info" id="webFmlCmd" ng-click="cmd()">Execute FAMILIAR code</button>
+                            </div>
+                            <div id="res">
+                                
+                            </div>
                         </div>
                     </div>
                     <div id="test">
@@ -106,7 +142,15 @@
                 
             <div id="footer">
                 <div class="container">
-                    <p class="text-muted">GitHub - Inria Rennes</p>
+                    <div class="col-md-4">
+                        <p class="text-muted">.col-md-4</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-muted">.col-md-4</p>
+                    </div>
+                    <div class="col-md-4">
+                       <p class="text-muted">.col-md-4</p>
+                    </div>
                 </div>
             </div>
             <!-- jQuery -->
@@ -132,6 +176,17 @@
 	    <script src="@routes.Assets.at("/javascripts/ace-builds-master/src-noconflict/ext-language_tools.js")"></script>
 	    <script src="@routes.Assets.at("/javascripts/fml/autocompletion_options.js")"></script>
            
+           <script>
+            function setCodeToAce() {
+                //code
+                alert("je suis dans la fonction");
+                var code = document.getElementById("code1").innerHTML;
+                alert(code);
+                console.log(code);
+                editor.getSession().setValue(code);
+            }
+            
+           </script>
             
         </body>
     </head>
