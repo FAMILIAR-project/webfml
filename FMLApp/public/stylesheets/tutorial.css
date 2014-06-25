@@ -1,5 +1,11 @@
 html,body{
     height: 100%;
+    width: 100%;
+    /*background-color : #eee;*/
+}
+
+#left{
+    padding-right: 15px;
 }
 
 #contains{
@@ -15,6 +21,10 @@ html,body{
     text-align: center;
 }
 
+#menu{
+    text-align: center;
+}
+
 #introduction{
     /*the line which seperate the part*/
     border-bottom: 1px solid #eee;
@@ -22,7 +32,7 @@ html,body{
 }
 
 .container{
-    width: 75%;
+    width: 77%;
 }
 
 .container .text-muted {
@@ -33,7 +43,7 @@ code{
     overflow: auto;
     word-wrap: normal;
     white-space: pre-line;
-    border: solid 1px black;
+
 }
 #editor{
     position: relative;
@@ -44,20 +54,19 @@ code{
     height: 400px;
 }
 
-#btn{
+#btnExec{
     text-align: center;
+    margin-top:10px;
 }
 
-/*.scrollable {
-    height: 100%;
+.scrollable {
+    height: 700px;
     overflow: auto;
-}*/
+}
 
 #footer{
     text-align: center;
     background-color: #f5f5f5;
-    /*bottom: 0;*/
     height: 60px;
-    /*position: absolute;
-    width: 100%;*/
+    margin-top: 40px;
 }
