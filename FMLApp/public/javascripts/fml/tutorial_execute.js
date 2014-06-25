@@ -1,31 +1,21 @@
-/**
- *
- *
- *
- *
- *
- *
- *
- */
 function FMLEditorCtrl($scope, $rootScope) {
-	//when we click on the execute button we execute this function
+	
 	$scope.cmd = function () {
-		console.log("here");
-		var idToGet = editor.getSession().getValue();
-		jsRoutes.controllers.WebFMLInterpreter.interpret(idToGet).ajax({
-			success : function(data) {  
+	    var idToGet = editor.getSession().getValue();
+	    jsRoutes.controllers.WebFMLInterpreter.interpret(idToGet).ajax({
+			success : function(data) {
 				$rootScope.$broadcast('variables', data)
-                                $('#msgid').html('Error...<div class="alert alert-danger">' + data + '</div>') ; 
+				//$('#msgid').html('<div class="alert alert-success">' + data.lastVar + '</div>') ; 
 			},
 		        error : function(data) {  
-				$('#msgid').html('Error...<div class="alert alert-danger">' + data + '</div>') ; 
+				$('#msgid').html('Error...<div class="alert alert-danger">' + data.lastVar + '</div>') ; 
 			},
 		        beforeSend : function(event, jqxhr, settings) {
-				$('#msgid').html('<img src="assets/images/ajax-loader.gif" />') ; 
+			        $('#msgid').html('<img src="assets/images/ajax-loader.gif" />') ; 
 			},
-			complete : function(jqxhr, textstatus) {
-				$('#msgid').html('') ;		   
-			}
-		});
+		       complete : function(jqxhr, textstatus) {
+			    $('#wait').html('') ;		   
+		    }
+	    });
 	}
 }

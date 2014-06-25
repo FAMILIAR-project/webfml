@@ -314,7 +314,7 @@
 	                        <p>
 	                        	<ul class="unstyled">
 	                        		<li ng-repeat="varID in varIDs">
-		                        		<div class="dropdown">
+		                        	    <div class="dropdown">
 			    	                        <button type="button" class="btn dropdown-toggle sr-only" data-toggle="dropdown">
 			    	                          {{varID}}
 			    	                          <span class="caret"></span>
@@ -325,14 +325,14 @@
 			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="synthesize(varID)">Synthesize</a></li>
 			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Remove</a></li>
 			    	                        </ul>
-		    	                        </div>
+						    </div>
 	                        		</li>
 	                        	</ul>
 	                        	<p ng-if="varIDs" id="lastValueFML" class="alert alert-success">
 	                        		{{lastVar}}
 	                        	</p>
 	                        </p>
-	                   </div>
+	                </div>
                     </div>
                 </div>
             </div>
