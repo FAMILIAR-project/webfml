@@ -25,6 +25,12 @@ html,body{
     text-align: center;
 }
 
+code{
+    white-space: pre-wrap;
+/*    display: block;
+    left: -25em;*/
+    text-align: left;
+}
 #introduction{
     /*the line which seperate the part*/
     border-bottom: 1px solid #eee;
@@ -39,12 +45,6 @@ html,body{
     margin: 20px 0;
 }
 
-code{
-    overflow: auto;
-    word-wrap: normal;
-    white-space: pre-line;
-
-}
 #editor{
     position: relative;
     top: 0;
