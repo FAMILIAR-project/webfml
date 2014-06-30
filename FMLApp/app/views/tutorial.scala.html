@@ -10,9 +10,9 @@
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/tutorial.css")"> 
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        
+        <!-- Prism -->
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/prism.css")">
-        <!--<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/highlight/styles/monokai_sublime.css")">-->
+            
         <script src="@routes.Application.javascriptRoutes" type="text/javascript"></script>
         
     </head>       
@@ -27,7 +27,7 @@
                         <!-- Menu of the tutorial--> 
                         <div id="menu">
                             <!-- link to the web editor -->
-                            <a href="/"><i class="icon-home"></i>Back to the web IDE</a>
+                            <a href="/"><button type="button" class="btn btn-success"><i class="glyphicon glyphicon-home"></i> Back to the web IDE</button></a>
                             <span class="icon-search"></span>
 
                         </div>
@@ -73,9 +73,9 @@
                                 </p>
                                 <!--" type="java"-->
                                 <pre class="line-numbers">
-                                    <code class="language-java" id="code1" ></code>
+                                    <code class="language-familiar" id="code1" ></code>
                                </pre>
-                                <button class="btn btn-small" onclick="setCodeToAce()";><i class="icon-pencil icon-white"></i>Run</button>
+                                <button class="btn btn-warning" onclick="setCodeToAce()";><i class="glyphicon glyphicon-pencil"></i> Run</button>
                                 <p class="text-justify">
                                     Praesent non massa rutrum, tincidunt nibh et, fermentum libero. Nam auctor pulvinar ligula, non consectetur purus tempus sed.
                                     Nunc in hendrerit lorem. Nullam quis dolor augue. Praesent semper leo dolor, nec euismod lorem fringilla non.
@@ -105,7 +105,7 @@
                             </div>
                             <div id="btnExec">
                                 <div ng-controller="FMLEditorCtrl">
-                                    <button class="btn btn-info" id="webFmlCmd" ng-click="cmd()" >Execute FAMILIAR code</button>
+                                    <button class="btn btn-info" id="webFmlCmd" ng-click="cmd()" ><i class="glyphicon glyphicon-play"></i> Execute FAMILIAR code</button>
                                 </div>
                             </div>
                             <div id="res">
@@ -139,10 +139,12 @@
             <div id="footer">
                 <div class="container">
                     <div class="col-md-4">
-                        <p class="text-muted">GitHub</p>
+                        <ul>
+                            <li class="text-muted"><a href="https://github.com/FAMILIAR-project/webfml">Github</a></li>    
+                        </ul>
                     </div>
                     <div class="col-md-4" id="col_bot_center">
-                        <p class="text-muted">Info</p>
+                        <p class="text-muted">Made with <i class="glyphicon glyphicon-heart"></i> in Rennes </p>
                     </div>
                     <div class="col-md-4">
                        <p class="text-muted">Inria</p>
