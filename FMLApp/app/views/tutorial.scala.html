@@ -16,7 +16,7 @@
         <script src="@routes.Application.javascriptRoutes" type="text/javascript"></script>
         
     </head>       
-    <body onload="getCode()"; ng-app >
+    <body ng-app >
           
              <div id="top">
                 <div class="container">
@@ -73,7 +73,7 @@
                                 </p>
                                 <!--" type="java"-->
                                 <pre class="line-numbers">
-                                    <code class="language-java"id="code1"></code>
+                                    <code class="language-java" id="code1" ></code>
                                </pre>
                                 <button class="btn btn-small" onclick="setCodeToAce()";><i class="icon-pencil icon-white"></i>Run</button>
                                 <p class="text-justify">
@@ -185,9 +185,9 @@
             </script>
             
             <script>
-                window.onload =
-                function getCode() {
-                    myCode = "fm1 = FM (A: B [C] ; )"+"\n"+
+                //When the DOM is ready, we call this function
+                $(function() {
+                        myCode = "fm1 = FM (A: B [C] ; )"+"\n"+
                             "fm9 = FM (A : B ; )"+"\n"+
                             "fm2 = FM (A : B [C] ; )"+"\n"+
                             "fm3 = FM (A : B [E] ; )"+"\n"+
@@ -208,8 +208,8 @@
                             "n7 = counting fm0"+"\n"+
                             "fm0"+"\n"+
                             "mtx = computeMUTEXGroups fm0";
-                    document.getElementById("code1").innerHTML = myCode;
-                }
+                        document.getElementById("code1").innerHTML = myCode;
+                    });
             </script>
     
             <!-- Prism-->
