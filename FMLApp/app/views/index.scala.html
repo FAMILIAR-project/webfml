@@ -100,9 +100,8 @@
                         </ul>
 			<!-- EDITOR part -->
                         <div class="tab-content">
-			    @editor(message)
 			    <!-- message -->
-                            <!--<div class="tab-pane active" id="editor">//</div>-->
+                            <div class="tab-pane active" id="editor">@editor(message)</div>
                             <div class="tab-pane" id="ksynthesis-tab" ng-controller="KSynthesisCtrl">
 				
                             	<div class="span7">
@@ -112,18 +111,18 @@
                         			<select class="heuristic-selector" ng-model="clusteringHeuristic" ng-options="h for h in heuristics"></select>
                         			<input class="threshold-selector" type="number" min="0" max="1" step="0.1" ng-model="threshold"></input>
                         			<!--<label class="parameter"><input type="checkbox" ng-model="hideClusters"> Hide clusters</label>-->
-	                        	</div>
+	                        </div>
 				    <!-- Ksynthesis buttons-->
-	                            <div class="span5 btn-toolbar" style="text-align:right">
-			                        <div class="btn-group">
-			                        	<button type="button" class="btn btn-default" ng-click="undo()"><i class="icon-step-backward"></i> Undo</button>
-			                        	<button type="button" class="btn btn-default" ng-click="redo()"><i class="icon-step-forward"></i> Redo</button>
-			                        	<button type="button" class="btn btn-default" ng-click="completeFM()">Complete</button>
-			                        	<button type="button" class="btn btn-default" ng-click="saveToVar()">Save</button>
-			                        </div>
-			                   </div>
+	                        <div class="span5 btn-toolbar" style="text-align:right">
+			            <div class="btn-group">
+			                <button type="button" class="btn btn-default" ng-click="undo()"><i class="icon-step-backward"></i> Undo</button>
+			                <button type="button" class="btn btn-default" ng-click="redo()"><i class="icon-step-forward"></i> Redo</button>
+			                <button type="button" class="btn btn-default" ng-click="completeFM()">Complete</button>
+			                <button type="button" class="btn btn-default" ng-click="saveToVar()">Save</button>
+			            </div>
+			        </div>
 			                   
-		                        <!-- Ksynthesis part -->
+		                <!-- Ksynthesis part -->
 		                        <div id="ksynthesis">
 		                        	<div>
 							<!-- Graphical result -->

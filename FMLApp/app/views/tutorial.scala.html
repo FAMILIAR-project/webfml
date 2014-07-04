@@ -1,4 +1,4 @@
-@(message : String)
+@(message : String, content : Html)
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -11,9 +11,7 @@
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/tutorial.css")"> 
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
         <!-- Prism -->
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/prism.css")">
-            
-        <script src="@routes.Application.javascriptRoutes" type="text/javascript"></script>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/prism.css")"
         
     </head>       
     <body ng-app >
@@ -62,7 +60,8 @@
                         <div class="col-lg-6">
                             <div id="left" class="scrollable">
                                 <h3>Editor</h3>
-                                <p class="text-justify">
+                                @content 
+                                <!--<p class="text-justify">
                                     Praesent non massa rutrum, tincidunt nibh et, fermentum libero. Nam auctor pulvinar ligula, non consectetur purus tempus sed.
                                     Nunc in hendrerit lorem. Nullam quis dolor augue. Praesent semper leo dolor, nec euismod lorem fringilla non.
                                     Proin varius sit amet elit sed accumsan. Sed eget laoreet augue. Vivamus odio tellus, semper quis velit vel,
@@ -70,11 +69,11 @@
                                     dapibus euismod leo purus eu ante. Sed purus lectus, fringilla vel laoreet luctus, sagittis sit amet justo.
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus tincidunt ante sit amet sapien dignissim,
                                     quis porttitor ipsum fringilla.
-                                </p>
-                                <!--" type="java"-->
+                                </p>-->
+                                
                                 <pre class="line-numbers">
-                                    <code class="language-familiar" id="code1" ></code>
-                               </pre>
+                                    <code class="language-familiar" id="code1"></code>
+                                </pre>
                                 <button class="btn btn-warning" onclick="setCodeToAce()";><i class="glyphicon glyphicon-pencil"></i> Run</button>
                                 <p class="text-justify">
                                     Praesent non massa rutrum, tincidunt nibh et, fermentum libero. Nam auctor pulvinar ligula, non consectetur purus tempus sed.
@@ -151,6 +150,10 @@
                     </div>
                 </div>
             </div>
+            
+                
+            <script src="@routes.Application.javascriptRoutes" type="text/javascript"></script>
+        
             <!-- jQuery -->
            
             <script src="@routes.Assets.at("/javascripts/lib/jquery/jquery.min.js")" type="text/javascript"></script>
@@ -201,8 +204,8 @@
                             "n0 = counting fm0"+"\n"+
                             "nTotal = 0"+"\n"+
                             "foreach (fm in fm*) do"+"\n"+
-                                "nfm = counting fm"+"\n"+
-                                "nTotal = nTotal + nfm"+"\n"+
+                            "   nfm = counting fm"+"\n"+
+                            "   nTotal = nTotal + nfm"+"\n"+
                             "end"+"\n"+
                             "\n"+
                             "nTotal = nTotal + 1"+"\n"+
@@ -216,7 +219,5 @@
     
             <!-- Prism-->
             <script src="@routes.Assets.at("/javascripts/prism/prism.js")"></script>
-            <!--<script src="@routes.Assets.at("/javascripts/highlight/highlight.pack.js")"></script>
-            <script>hljs.initHighlightingOnLoad();</script>-->
         </body>
 </html>

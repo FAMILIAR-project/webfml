@@ -35,6 +35,16 @@ import java.nio.file.Path
 import play.api.libs.json.JsString
 import java.io.File
 import scala.util.parsing.json.JSONArray
+import java.io.BufferedReader
+import java.io.FileReader
+import org.markdownj.MarkdownProcessor
+import scala.io.Source
+import play.api.templates.Html
+
+
+
+
+
 
 object WebFMLInterpreter extends Controller with VariableHelper {
 
@@ -598,6 +608,22 @@ object WebFMLInterpreter extends Controller with VariableHelper {
    val myJsonArray : JsValue = Json.toJson(tabConstant)
    //"send" it
    Ok(myJsonArray)
+ }
+ /**
+  * Send in HTML format a tutorial write in markdown
+  * @param nameOfTheFile : name of the tutorial
+  */
+ def tutorialToHtml() : Html ={
+   //we get the file with the name
+   val path: String = "public/tuto/familiar.md"
+   val myFile: File = new File(path)
+   var res: Html = null
+   if(myFile.exists()){
+      var out : String =Source.fromFile(myFile).getLines.mkString("\n") 
+      val markdown: MarkdownProcessor = new MarkdownProcessor
+      res = Html(markdown.markdown(out))
+   }
+   return res
  }
   
 }

@@ -13,13 +13,15 @@ import java.io.File
 
 
 
+
 object Application extends Controller {
 
   
  
    def index() = Action {
     	request =>
-		val fmlDemo = "// your FAMILIAR code here!\n" + 
+		val fmlDemo =
+		  "// your FAMILIAR code here!\n" + 
 					"fm1 = FM (A: B [C] ; )\n" + 
 					"\n" + 
 					"\n" + 
@@ -52,7 +54,7 @@ object Application extends Controller {
     */
    def tutorial() = Action {
      val tuto = "//hello world !\n"
-     Ok(views.html.tutorial(tuto))
+     Ok(views.html.tutorial(tuto, WebFMLInterpreter.tutorialToHtml()))
    }
   
    
@@ -97,7 +99,9 @@ object Application extends Controller {
                 //toJson 
                 WebFMLInterpreter.getAllKeywordToJson,
                 WebFMLInterpreter.getAllClasswordToJson,
-                WebFMLInterpreter.getAllConstantwordToJson
+                WebFMLInterpreter.getAllConstantwordToJson//,
+                //markdown
+                //WebFMLInterpreter.tutorialToHtml
                 
             )
         ).as("text/javascript");
