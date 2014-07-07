@@ -48,7 +48,7 @@ GET 	/getAllConstantwordToJson	controllers.WebFMLInterpreter.getAllConstantwordT
 GET 	/tutorial					controllers.Application.tutorial()
 
 #markdown tutorial
-#GET		/tutorialMarkdown			controllers.WebFMLInterpreter.tutorialToHtml()
+GET		/getTutorialInMarkdown		controllers.WebFMLInterpreter.getTutorialInMarkdown(name)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

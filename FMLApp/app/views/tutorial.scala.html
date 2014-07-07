@@ -1,4 +1,4 @@
-@(message : String, content : Html)
+@(message : String)
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -59,8 +59,11 @@
                         <!-- Left part -->
                         <div class="col-lg-6">
                             <div id="left" class="scrollable">
-                                <h3>Editor</h3>
-                                @content 
+                                <div id="tutorial">
+                                    
+                                </div>
+                                <!--<h3>Editor</h3>-->
+                                
                                 <!--<p class="text-justify">
                                     Praesent non massa rutrum, tincidunt nibh et, fermentum libero. Nam auctor pulvinar ligula, non consectetur purus tempus sed.
                                     Nunc in hendrerit lorem. Nullam quis dolor augue. Praesent semper leo dolor, nec euismod lorem fringilla non.
@@ -180,6 +183,10 @@
 	    <script src="@routes.Assets.at("/javascripts/fml/autocompletion_options.js")"></script>
             <!-- script for the execution of the code -->
             <script src="@routes.Assets.at("/javascripts/fml/tutorial_execute.js")"></script>
+            <!-- Prism-->
+            <script src="@routes.Assets.at("/javascripts/prism/prism.js")"></script>
+            <!-- marked -->
+            <script src="@routes.Assets.at("/javascripts/lib/marked/marked.js")"></script>
             
             <script>
             var myCode="";
@@ -216,8 +223,23 @@
                         document.getElementById("code1").innerHTML = myCode;
                     });
             </script>
+            
+            <script>
+                $(document).ready(
+                    function loadMarkdown() {
+                        jsRoutes.controllers.WebFMLInterpreter.getTutorialInMarkdown("familiar").ajax({
+                            success : function(data){
+                                document.getElementById('tutorial').innerHTML=(marked(data));  
+                            },
+                            error : function(data) {  
+                                //$('#myTreeView').html('Unable to load the list of files... <div class="alert alert-danger">' + data + '</div>') ; 
+                            },
+                        })
+                        
+                    }
+                );
+            </script>
     
-            <!-- Prism-->
-            <script src="@routes.Assets.at("/javascripts/prism/prism.js")"></script>
+            
         </body>
 </html>

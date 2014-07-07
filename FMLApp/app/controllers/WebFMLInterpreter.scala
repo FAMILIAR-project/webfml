@@ -613,17 +613,21 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   * Send in HTML format a tutorial write in markdown
   * @param nameOfTheFile : name of the tutorial
   */
- def tutorialToHtml() : Html ={
+ def getTutorialInMarkdown(name : String) /*: Html*/ = Action{
    //we get the file with the name
-   val path: String = "public/tuto/familiar.md"
+   val path: String = "public/tuto/"+name+".md"
    val myFile: File = new File(path)
    var res: Html = null
    if(myFile.exists()){
-      var out : String =Source.fromFile(myFile).getLines.mkString("\n") 
-      val markdown: MarkdownProcessor = new MarkdownProcessor
-      res = Html(markdown.markdown(out))
+      var out : String =Source.fromFile(myFile).getLines.mkString("\n")
+      //convert into Html
+      res= Html(out)
+      //val markdown: MarkdownProcessor = new MarkdownProcessor
+      //res = Html(markdown.markdown(out))
+      //res = txtmark.Processor.process("This is ***TXTMARK***")
    }
-   return res
+   //return res
+   Ok(res)
  }
   
 }

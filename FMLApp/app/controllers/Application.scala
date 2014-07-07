@@ -54,7 +54,7 @@ object Application extends Controller {
     */
    def tutorial() = Action {
      val tuto = "//hello world !\n"
-     Ok(views.html.tutorial(tuto, WebFMLInterpreter.tutorialToHtml()))
+     Ok(views.html.tutorial(tuto))/*, WebFMLInterpreter.tutorialToHtml())*/
    }
   
    
@@ -99,9 +99,9 @@ object Application extends Controller {
                 //toJson 
                 WebFMLInterpreter.getAllKeywordToJson,
                 WebFMLInterpreter.getAllClasswordToJson,
-                WebFMLInterpreter.getAllConstantwordToJson//,
+                WebFMLInterpreter.getAllConstantwordToJson,
                 //markdown
-                //WebFMLInterpreter.tutorialToHtml
+                WebFMLInterpreter.getTutorialInMarkdown
                 
             )
         ).as("text/javascript");
