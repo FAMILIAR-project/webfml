@@ -183,19 +183,10 @@
 	    <script src="@routes.Assets.at("/javascripts/fml/autocompletion_options.js")"></script>
             <!-- script for the execution of the code -->
             <script src="@routes.Assets.at("/javascripts/fml/tutorial_execute.js")"></script>
-            <!-- Prism-->
-            <script src="@routes.Assets.at("/javascripts/prism/prism.js")"></script>
+           
             <!-- marked -->
             <script src="@routes.Assets.at("/javascripts/lib/marked/marked.js")"></script>
-            
-            <script>
-            var myCode="";
-            function setCodeToAce() {
-                var code = document.getElementById("code1").innerHTML 
-                editor.getSession().setValue(myCode);
-            }  
-            </script>
-            
+             
             <script>
                 //When the DOM is ready, we call this function
                 $(function() {
@@ -213,7 +204,7 @@
                             "foreach (fm in fm*) do"+"\n"+
                             "   nfm = counting fm"+"\n"+
                             "   nTotal = nTotal + nfm"+"\n"+
-                            "end"+"\n"+
+                            "end"+"\n"+ 
                             "\n"+
                             "nTotal = nTotal + 1"+"\n"+
                             "n4 = counting fm4"+"\n"+
@@ -225,21 +216,32 @@
             </script>
             
             <script>
-                $(document).ready(
-                    function loadMarkdown() {
-                        jsRoutes.controllers.WebFMLInterpreter.getTutorialInMarkdown("familiar").ajax({
+                $(window).load(
+                       function loadMarkdown() {
+                        //return the tutorial of the language
+                        jsRoutes.controllers.WebFMLInterpreter.getTutorialInMarkdown(language).ajax({
+                            //if works
                             success : function(data){
-                                document.getElementById('tutorial').innerHTML=(marked(data));  
+                                //put in the div the content
+                                
+                                var k = (marked(data));
+                                var p = k.replace("<pre>","<pre class='line-numbers'>");
+                                var c = p.replace("<code>","<code class='language-familiar'>")
+                                document.getElementById('tutorial').innerHTML=c;
                             },
+                            //if error
                             error : function(data) {  
-                                //$('#myTreeView').html('Unable to load the list of files... <div class="alert alert-danger">' + data + '</div>') ; 
-                            },
+                                $('#tutorial').html('Error'+ data) ; 
+                            }
                         })
-                        
-                    }
+                    }               
+                               
                 );
+                //when the Dom is ready
+                var language = "familiar";
+                $();
             </script>
-    
-            
+            <!-- Prism-->
+            <script src="@routes.Assets.at("/javascripts/prism/prism.js")"></script>
         </body>
 </html>

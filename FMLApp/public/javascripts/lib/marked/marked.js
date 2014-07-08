@@ -764,7 +764,7 @@ Renderer.prototype.code = function(code, lang, escaped) {
   }
 
   if (!lang) {
-    return '<pre class="line-numbers"><code class="language-familiar">'
+    return '<pre><code>'
       + (escaped ? code : escape(code, true))
       + '\n</code></pre>';
   }
