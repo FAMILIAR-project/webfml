@@ -11,7 +11,7 @@
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/tutorial.css")"> 
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
         <!-- Prism -->
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/prism.css")"
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/prism.css")">
         
     </head>       
     <body ng-app >
@@ -163,8 +163,11 @@
             <script src="@routes.Assets.at("javascripts/lib/jquery/jquery-migrate.min.js")" type="text/javascript"></script>
             <script src="@routes.Assets.at("/javascripts/lib/angular-1.2.2/angular.min.js")" type="text/javascript"></script>            
             <script src="@routes.Assets.at("javascripts/fml/FMLvariables.js")"></script>
- 
             
+           
+            <script src="@routes.Assets.at("/javascripts/fml/tutorial_getMarkdown.js")"></script>
+            <!-- marked -->
+            <script src="@routes.Assets.at("/javascripts/lib/marked/marked.js")"></script>
             <!-- begin ACE editor -->
             <!-- ace-builds/src-noconflict -->
             <script src="@routes.Assets.at("javascripts/ace-builds-master/src-noconflict/ace.js")" type="text/javascript" charset="utf-8"></script>
@@ -183,9 +186,22 @@
 	    <script src="@routes.Assets.at("/javascripts/fml/autocompletion_options.js")"></script>
             <!-- script for the execution of the code -->
             <script src="@routes.Assets.at("/javascripts/fml/tutorial_execute.js")"></script>
+            
+            <!-- Prism-->
+            <script src="@routes.Assets.at("/javascripts/prism/prism.js")"></script>
+            
+            
+            <script>
+                var myCode="";
+                /*
+                 *Put the code into the Ace editor
+                 */
+                function setCodeToAce(id) {
+                    var code = document.getElementById(id).innerHTML
+                    editor.getSession().setValue(myCode);
+                }
+            </script>
            
-            <!-- marked -->
-            <script src="@routes.Assets.at("/javascripts/lib/marked/marked.js")"></script>
              
             <script>
                 //When the DOM is ready, we call this function
@@ -215,33 +231,7 @@
                     });
             </script>
             
-            <script>
-                $(window).load(
-                       function loadMarkdown() {
-                        //return the tutorial of the language
-                        jsRoutes.controllers.WebFMLInterpreter.getTutorialInMarkdown(language).ajax({
-                            //if works
-                            success : function(data){
-                                //put in the div the content
-                                
-                                var k = (marked(data));
-                                var p = k.replace("<pre>","<pre class='line-numbers'>");
-                                var c = p.replace("<code>","<code class='language-familiar'>")
-                                document.getElementById('tutorial').innerHTML=c;
-                            },
-                            //if error
-                            error : function(data) {  
-                                $('#tutorial').html('Error'+ data) ; 
-                            }
-                        })
-                    }               
-                               
-                );
-                //when the Dom is ready
-                var language = "familiar";
-                $();
-            </script>
-            <!-- Prism-->
-            <script src="@routes.Assets.at("/javascripts/prism/prism.js")"></script>
+            
+            
         </body>
 </html>

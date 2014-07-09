@@ -769,7 +769,7 @@ Renderer.prototype.code = function(code, lang, escaped) {
       + '\n</code></pre>';
   }
 
-  return '<pre class="line-numbers"><code class="'
+  return '<pre><code class="'
     + this.options.langPrefix
     + escape(lang, true)
     + '">'
@@ -1235,7 +1235,7 @@ marked.defaults = {
   smartLists: false,
   silent: false,
   highlight: null,
-  langPrefix: 'lang-',
+  langPrefix: 'language-',
   smartypants: false,
   headerPrefix: '',
   renderer: new Renderer,
