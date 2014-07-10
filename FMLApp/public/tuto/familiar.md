@@ -5,15 +5,32 @@
 Lorem ipsum
 
 ```familiar
-var k = p;
-merge p
-sunion k
-fm2 = FM(A [B] C )
-```
+fm1 = FM (A: B [C] ; )
+fm9 = FM (A : B ; )
+fm2 = FM (A : B [C] ; )
+fm3 = FM (A : B [E] ; )
+fm4 = merge sunion fm*
+fm5 = FM (A : J [K] [L] ; )
 
+fm0 = merge sunion fm*
+
+n0 = counting fm0
+nTotal = 0
+foreach (fm in fm*) do
+   nfm = counting fm
+   nTotal = nTotal + nfm
+end
+
+nTotal = nTotal + 1
+n4 = counting fm4
+n7 = counting fm0
+fm0
+mtx = computeMUTEXGroups fm0
+
+```
 <button class="btn btn-warning" onclick="setCodeToAce('2')";><i class="glyphicon glyphicon-pencil"></i> Run</button>
 
-```
+```familiar
 var k = p;
 merge p
 sunion k
@@ -21,11 +38,11 @@ fm2 = FM(A [B] C )
 ```
 
 
-```
+```familiar
 var k = p;
 merge p
 sunion k
 fm2 = FM(A [B] C )
 ```
 
-> Written with [StackEdit](https://stackedit.io/).
+> Written with [StackEdit](https://stackedit.io/).  
