@@ -58,43 +58,8 @@
                         <!-- Left part -->
                         <div class="col-lg-6">
                             <div id="left" class="scrollable">
-                                <div id="tutorial">
-                                    
-                                </div>
-                                <!--<h3>Editor</h3>-->
-                                
-                                <!--<p class="text-justify">
-                                    Praesent non massa rutrum, tincidunt nibh et, fermentum libero. Nam auctor pulvinar ligula, non consectetur purus tempus sed.
-                                    Nunc in hendrerit lorem. Nullam quis dolor augue. Praesent semper leo dolor, nec euismod lorem fringilla non.
-                                    Proin varius sit amet elit sed accumsan. Sed eget laoreet augue. Vivamus odio tellus, semper quis velit vel,
-                                    pellentesque luctus libero. Morbi placerat, sapien mollis egestas tristique, sapien quam volutpat neque,
-                                    dapibus euismod leo purus eu ante. Sed purus lectus, fringilla vel laoreet luctus, sagittis sit amet justo.
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus tincidunt ante sit amet sapien dignissim,
-                                    quis porttitor ipsum fringilla.
-                                </p>-->
-                                
-                                <pre class="line-numbers">
-                                    <code class="language-familiar" id="code1"></code>
-                                </pre>
-                                <button class="btn btn-warning" onclick="setCodeToAce('code1')";><i class="glyphicon glyphicon-pencil"></i> Run</button>
-                                <p class="text-justify">
-                                    Praesent non massa rutrum, tincidunt nibh et, fermentum libero. Nam auctor pulvinar ligula, non consectetur purus tempus sed.
-                                    Nunc in hendrerit lorem. Nullam quis dolor augue. Praesent semper leo dolor, nec euismod lorem fringilla non.
-                                    Proin varius sit amet elit sed accumsan. Sed eget laoreet augue. Vivamus odio tellus, semper quis velit vel,
-                                    pellentesque luctus libero. Morbi placerat, sapien mollis egestas tristique, sapien quam volutpat neque,
-                                    dapibus euismod leo purus eu ante. Sed purus lectus, fringilla vel laoreet luctus, sagittis sit amet justo.
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus tincidunt ante sit amet sapien dignissim,
-                                    quis porttitor ipsum fringilla.
-                                </p>
-                                <p class="text-justify">
-                                    Praesent non massa rutrum, tincidunt nibh et, fermentum libero. Nam auctor pulvinar ligula, non consectetur purus tempus sed.
-                                    Nunc in hendrerit lorem. Nullam quis dolor augue. Praesent semper leo dolor, nec euismod lorem fringilla non.
-                                    Proin varius sit amet elit sed accumsan. Sed eget laoreet augue. Vivamus odio tellus, semper quis velit vel,
-                                    pellentesque luctus libero. Morbi placerat, sapien mollis egestas tristique, sapien quam volutpat neque,
-                                    dapibus euismod leo purus eu ante. Sed purus lectus, fringilla vel laoreet luctus, sagittis sit amet justo.
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus tincidunt ante sit amet sapien dignissim,
-                                    quis porttitor ipsum fringilla.
-                                </p>
+                                <!-- the tutorial -->
+                                <div id="tutorial"></div>
                             </div>
                         </div>
                 
@@ -201,41 +166,6 @@
                     //put in the editor                     
                     editor.getSession().setValue(res);
                 }
-            </script>
-           
-             
-            <script>
-                var myCode="";
-                //When the DOM is ready, we call this function
-                $(function() {
-                        myCode = "fm1 = FM (A: B [C] ; )"+"\n"+
-                            "fm9 = FM (A : B ; )"+"\n"+
-                            "fm2 = FM (A : B [C] ; )"+"\n"+
-                            "fm3 = FM (A : B [E] ; )"+"\n"+
-                            "fm4 = merge sunion fm*"+"\n"+
-                            "fm5 = FM (A : J [K] [L] ; )"+"\n"+
-                            "\n"+
-                            "fm0 = merge sunion fm*"+"\n"+
-                            "\n"+
-                            "n0 = counting fm0"+"\n"+
-                            "nTotal = 0"+"\n"+
-                            "foreach (fm in fm*) do"+"\n"+
-                            "   nfm = counting fm"+"\n"+
-                            "   nTotal = nTotal + nfm"+"\n"+
-                            "end"+"\n"+ 
-                            "\n"+
-                            "nTotal = nTotal + 1"+"\n"+
-                            "n4 = counting fm4"+"\n"+
-                            "n7 = counting fm0"+"\n"+
-                            "fm0"+"\n"+
-                            "mtx = computeMUTEXGroups fm0";
-                        document.getElementById("code1").innerHTML = myCode;
-                    });
-            </script>
-            
-           
-        
-            
-            
+            </script>           
         </body>
 </html>
