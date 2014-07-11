@@ -753,7 +753,7 @@ InlineLexer.prototype.mangle = function(text) {
 function Renderer(options) {
   this.options = options || {};
 }
-
+var i=0;
 Renderer.prototype.code = function(code, lang, escaped) {
   if (this.options.highlight) {
     var out = this.options.highlight(code, lang);
@@ -768,13 +768,19 @@ Renderer.prototype.code = function(code, lang, escaped) {
       + (escaped ? code : escape(code, true))
       + '\n</code></pre>';
   }
-
+  //
+  i++;
+  var id = "myCodeBloc"+i;
+  //
   return '<pre><code class="'
     + this.options.langPrefix
     + escape(lang, true)
-    + '">'
+    + '"'
+    //we add an id to the code block
+    +'id = '+id+'>'
     + (escaped ? code : escape(code, true))
-    + '\n</code></pre>\n';
+    + '\n</code></pre>\n'
+    +'<button class="btn btn-warning" onclick="setCodeToAce('+"'"+id+"'"+')";><i class="glyphicon glyphicon-pencil"></i> Run</button>';
 };
 
 Renderer.prototype.blockquote = function(quote) {
@@ -960,7 +966,6 @@ Parser.prototype.parseText = function() {
 /**
  * Parse Current Token
  */
-
 Parser.prototype.tok = function() {
   switch (this.token.type) {
     case 'space': {
@@ -974,7 +979,7 @@ Parser.prototype.tok = function() {
         this.inline.output(this.token.text),
         this.token.depth,
         this.token.text);
-    }
+    } 
     case 'code': {
       return this.renderer.code(this.token.text,
         this.token.lang,

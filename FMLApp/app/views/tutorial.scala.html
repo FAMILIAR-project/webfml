@@ -76,7 +76,7 @@
                                 <pre class="line-numbers">
                                     <code class="language-familiar" id="code1"></code>
                                 </pre>
-                                <button class="btn btn-warning" onclick="setCodeToAce()";><i class="glyphicon glyphicon-pencil"></i> Run</button>
+                                <button class="btn btn-warning" onclick="setCodeToAce('code1')";><i class="glyphicon glyphicon-pencil"></i> Run</button>
                                 <p class="text-justify">
                                     Praesent non massa rutrum, tincidunt nibh et, fermentum libero. Nam auctor pulvinar ligula, non consectetur purus tempus sed.
                                     Nunc in hendrerit lorem. Nullam quis dolor augue. Praesent semper leo dolor, nec euismod lorem fringilla non.
@@ -189,18 +189,18 @@
             
             
             <script>
-                var myCode="";
                 /*
                  *Put the code into the Ace editor
                  */
                 function setCodeToAce(id) {
                     var code = document.getElementById(id).innerHTML
-                    editor.getSession().setValue(myCode);
+                    editor.getSession().setValue(code);
                 }
             </script>
            
              
             <script>
+                var myCode="";
                 //When the DOM is ready, we call this function
                 $(function() {
                         myCode = "fm1 = FM (A: B [C] ; )"+"\n"+

@@ -28,7 +28,6 @@ fm0
 mtx = computeMUTEXGroups fm0
 
 ```
-<button class="btn btn-warning" onclick="setCodeToAce('2')";><i class="glyphicon glyphicon-pencil"></i> Run</button>
 
 ```familiar
 var k = p;
