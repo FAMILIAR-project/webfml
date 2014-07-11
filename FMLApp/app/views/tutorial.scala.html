@@ -193,8 +193,13 @@
                  *Put the code into the Ace editor
                  */
                 function setCodeToAce(id) {
+                    //get what they are in the code bloc
                     var code = document.getElementById(id).innerHTML
-                    editor.getSession().setValue(code);
+                    //regex : <[a-zA-Z]*>
+                    //regex to delete what prism added
+                    var res = code.replace(/<[^>]*>/g,"");
+                    //put in the editor                     
+                    editor.getSession().setValue(res);
                 }
             </script>
            
