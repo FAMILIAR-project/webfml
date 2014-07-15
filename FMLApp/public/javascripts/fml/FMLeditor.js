@@ -167,7 +167,6 @@ YUI().use(
 			}else{
 				//directory
 				path = mkCompleteName(node);
-				console.log("Voyons le nom: "+mkCompleteName(node));
 			}
 			
 		}
@@ -263,7 +262,6 @@ function createFile() {
 				/*test the extention of the file
 				*if the extention is not right
 				*/
-				console.log(res[1]);
 				if(res[1]!="fml" && res[1]!="dimacs"){
 					//so the file extention are not good :'( 
 					alert("the file have not the right extention (e.g .fml or dimacs)");
@@ -271,7 +269,6 @@ function createFile() {
 					//the extention is okay
 					if (name!=null && name!="") {
 						//display the name of the final path
-						console.log(path +"/"+name);
 						var fname = path+"/"+name;
 						jsRoutes.controllers.WebFMLInterpreter.createFile(fname).ajax({
 							success : function(data) {
@@ -289,6 +286,12 @@ function createFile() {
 							complete : function(jqxhr, textstatus) {
 							    $('#wait').html('') ;		   
 							  }	
+						});
+						//put the content of the file in the editor
+						jsRoutes.controllers.WebFMLInterpreter.loadFile(fname).ajax({
+							success : function(data) {  
+								editor.setValue (data, 1) ;
+							}
 						});
 					}else{
 						//the name not exist 
@@ -360,8 +363,6 @@ function saveF() {
 	var editor = ace.edit("editor");
 	var content = editor.getSession().getValue();
 	//display the result
-	console.log(content);
-	console.log(currentFileName);
 	//test if the name of the current file is null or not.
 	//if null that mean's the user doesn't click on a file
 	if (currentFileName!=null && currentFileName!="") {

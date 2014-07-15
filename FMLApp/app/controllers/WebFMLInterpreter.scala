@@ -40,6 +40,7 @@ import java.io.FileReader
 import org.markdownj.MarkdownProcessor
 import scala.io.Source
 import play.api.templates.Html
+import org.apache.commons.io.FileUtils
 
 
 
@@ -507,19 +508,27 @@ object WebFMLInterpreter extends Controller with VariableHelper {
    */
   def deleteFolder(name : String)= Action{
     val direc : File = new File(name)
+    println(name)
+    FileUtils.deleteDirectory(direc)
+    //list of directory in this directory
+    
     //all the files in the directory
-    val fs : Array[File] = direc.listFiles()
+    //val fs : Array[File] = direc.listFiles()
     //new fil which receive a file in the loop
-    val f : File = null
+    //val f : File = null
     /*for each file in the array of file
      *f receive the next file
      */
-    for (f<-fs){
+    //for (f<-fs){
       //delete the file
-      f.delete()
-    }
+      //println(f.getName())
+      //if(f.isDirectory()==false){
+        //f.delete()
+      //}
+      
+    //}
     //delete the directory
-    direc.delete()    
+    //direc.delete()    
 	Ok(Json.toJson(Map("Work" -> 1)))
   }
   
@@ -538,14 +547,13 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 	 if(k(1)!="" || k(1)!=null){
 		 //now we need the path to create all the subfolder
 		 for(i <- 0 until k.size){
-		   println(k(i))
+		   //we must know if this is the name of the file
 		   if(k(i).contains(".fml")){
-		     println("here")
 		     //get the file name
 		     myFile=k(i)
 		   }else{
+		     //add '/' separator to create a good path
 		     p+=k(i)+"/"
-		     println(p)
 		   }
 		 }
 		 //create the subfolder
