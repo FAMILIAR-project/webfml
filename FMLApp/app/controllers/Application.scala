@@ -20,8 +20,7 @@ object Application extends Controller {
  
    def index() = Action {
     	request =>
-		val fmlDemo =
-		  "// your FAMILIAR code here!\n" + 
+		val fmlDemo ="// your FAMILIAR code here!\n" + 
 					"fm1 = FM (A: B [C] ; )\n" + 
 					"\n" + 
 					"\n" + 

@@ -529,10 +529,40 @@ object WebFMLInterpreter extends Controller with VariableHelper {
    * @Param : name : the path and the name of the file
    */
  def createFile(name : String)= Action{
-	 //define a file
-	 val f : File = new File(name)
- 	 //create the file
-	 f.createNewFile()
+	 //split the string 
+	 var k : Array[String] = name.split("/")
+	 var i = 0
+	 var p = ""
+	 var myFile=""
+	 //if they are something means we write a path
+	 if(k(1)!="" || k(1)!=null){
+		 //now we need the path to create all the subfolder
+		 for(i <- 0 until k.size){
+		   println(k(i))
+		   if(k(i).contains(".fml")){
+		     println("here")
+		     //get the file name
+		     myFile=k(i)
+		   }else{
+		     p+=k(i)+"/"
+		     println(p)
+		   }
+		 }
+		 //create the subfolder
+		 val d : File = new File(p)
+		 //execute
+		 val res = d.mkdirs()
+		 //create the file
+		 val mf : File = new File(p+myFile)
+		 //execute
+		 mf.createNewFile()
+	 }else{
+		 //define a file
+		 val f : File = new File(name)
+		 //create the file
+		 f.createNewFile() 
+	 }
+	
 	 Ok(Json.toJson(Map("Work" -> 1)))
   }
  
@@ -613,7 +643,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   * Send in HTML format a tutorial write in markdown
   * @param nameOfTheFile : name of the tutorial
   */
- def getTutorialInMarkdown(name : String) /*: Html*/ = Action{
+ def getTutorialInMarkdown(name : String) = Action{
    //we get the file with the name
    val path: String = "public/tuto/"+name+".md"
    val myFile: File = new File(path)
@@ -622,9 +652,6 @@ object WebFMLInterpreter extends Controller with VariableHelper {
       var out : String =Source.fromFile(myFile).getLines.mkString("\n")
       //convert into Html
       res= Html(out)
-      //val markdown: MarkdownProcessor = new MarkdownProcessor
-      //res = Html(markdown.markdown(out))
-      //res = txtmark.Processor.process("This is ***TXTMARK***")
    }
    //return res
    Ok(res)
