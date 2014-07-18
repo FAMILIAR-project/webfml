@@ -649,11 +649,11 @@ object WebFMLInterpreter extends Controller with VariableHelper {
  }
  /**
   * Send in HTML format a tutorial write in markdown
-  * @param nameOfTheFile : name of the tutorial
+  * @param nameOfTheLanguage : name of the language of the tutorial
   */
  def getTutorialInMarkdown(name : String) = Action{
    //we get the file with the name
-   val path: String = "public/tuto/"+name+".md"
+   val path: String = "public/tuto/"+name+"/tutorial.md"
    val myFile: File = new File(path)
    var res: Html = null
    if(myFile.exists()){
@@ -665,4 +665,81 @@ object WebFMLInterpreter extends Controller with VariableHelper {
    Ok(res)
  }
   
+ /**
+  * 
+  * 
+  */
+ def getHeaderInMarkdown(name : String) = Action{
+   //we get the file with the name
+   val path: String = "public/tuto/"+name+"/header.md"
+   println(path)
+   val myFile: File = new File(path)
+   var res: Html = null
+   if(myFile.exists()){
+      var out : String =Source.fromFile(myFile).getLines.mkString("\n")
+      //convert into Html
+      res= Html(out)
+   }
+   //return res
+   Ok(res)
+ }
+ /**
+  * 
+  * 
+  * 
+  * 
+  */
+ def getMenuInMarkdown(name : String) = Action{
+   //we get the file with the name
+   val path: String = "public/tuto/"+name+"/menu.md"
+   println(path)
+   val myFile: File = new File(path)
+   var res: Html = null
+   if(myFile.exists()){
+      var out : String =Source.fromFile(myFile).getLines.mkString("\n")
+      //convert into Html
+      res= Html(out)
+   }
+   //return res
+   Ok(res)
+ }
+ 
+ /**
+  * 
+  *
+  * 
+  * 
+  * 
+  */
+ def getChapter(name : String, langage : String) = Action{
+   
+   val path: String = "public/tuto/"+langage+"/chapters/"+name
+   val myFile: File = new File(path)
+   var res: Html = null
+   if(myFile.exists()){
+      var out : String =Source.fromFile(myFile).getLines.mkString("\n")
+      //convert into Html
+      res= Html(out)
+   }
+     
+   Ok(res)
+ }
+ /**
+  * 
+  * 
+  * 
+  */
+ def getAllChapters(langage : String) = Action{
+	  val path: String = "public/tuto/"+langage+"/chapters"
+	  val myFiles: File = new File(path)
+	  var myFile:File = null
+	  var res: String = null
+	  for(myFile<-myFiles.listFiles()){
+	    println(myFile.getName())
+	    res+=myFile.getName()
+	  }
+	  println(res)
+	  Ok(res)
+ }
+ 
 }

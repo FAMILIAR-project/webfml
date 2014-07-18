@@ -100,7 +100,10 @@ object Application extends Controller {
                 WebFMLInterpreter.getAllClasswordToJson,
                 WebFMLInterpreter.getAllConstantwordToJson,
                 //markdown
-                WebFMLInterpreter.getTutorialInMarkdown
+                WebFMLInterpreter.getTutorialInMarkdown,
+                WebFMLInterpreter.getMenuInMarkdown,
+                WebFMLInterpreter.getHeaderInMarkdown,
+                WebFMLInterpreter.getChapter
                 
             )
         ).as("text/javascript");

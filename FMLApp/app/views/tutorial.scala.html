@@ -26,7 +26,6 @@
                             <!-- link to the web editor -->
                             <a href="/"><button type="button" class="btn btn-success"><i class="glyphicon glyphicon-home"></i> Back to the web IDE</button></a>
                             <span class="icon-search"></span>
-
                         </div>
                 </div>
                         
@@ -36,28 +35,16 @@
                 
                 <div class="container">
                     <!-- div for a short introduction -->
-                    <div id="introduction">
-                        <p class="text-justify">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam cursus pulvinar massa vel placerat.
-                            Mauris viverra, lectus sit amet auctor tristique, nisl erat luctus arcu, sed mattis eros lorem eu felis.
-                            Integer ante libero, tincidunt sollicitudin venenatis eu, lacinia a erat. Class aptent taciti sociosqu ad litora torquent per
-                            conubia nostra, per inceptos himenaeos. Morbi eu risus tellus. Suspendisse commodo non est a porta. Cras dignissim diam sit
-                            amet leo elementum, ac aliquet felis sollicitudin. Cum sociis natoque penatibus et magnis dis parturient montes,
-                            nascetur ridiculus mus. Donec volutpat felis at ipsum tempus sollicitudin. Duis nec lectus malesuada, lacinia arcu
-                            sed, scelerisque lorem. Etiam pretium pulvinar pellentesque. Quisque volutpat leo quis arcu laoreet, in scelerisque
-                            leo lacinia. Integer lobortis nulla non bibendum ullamcorper. Nunc rhoncus odio vitae purus tempus, at
-                            ultricies quam tincidunt.
-                        </p>
-                        <code>Hello World !</code>
-                    </div>
+                    <div id="introduction"></div>
+                    <div id="menu_tuto"></div>
                     <!--
                     div which contains editor and the tutorial
                     -->
                     <div class="row">
                         <!-- intruction of the tutorial -->
                         <!-- Left part -->
-                        <div class="col-lg-6">
-                            <div id="left" class="scrollable">
+                        <div id="left" class="col-lg-6">
+                            <div class="scrollable">
                                 <!-- the tutorial -->
                                 <div id="tutorial"></div>
                             </div>
@@ -65,7 +52,7 @@
                 
                         <!-- Editor -->
                         <!-- Right part -->
-                        <div class="col-lg-6">
+                        <div id="right" class="col-lg-6">
                             <div id="edit">
                                 @editor(message)
                             </div>
@@ -149,8 +136,10 @@
             <!-- Prism-->
             <script src="@routes.Assets.at("/javascripts/prism/prism.js")" ></script>
             <!-- marked -->
+            <!--<script src="@routes.Assets.at("/javascripts/fml/tutorial_menu.js")"></script>-->
+            
             <script src="@routes.Assets.at("/javascripts/lib/marked/marked.js")"></script>
-            <script src="@routes.Assets.at("/javascripts/fml/tutorial_getMarkdown.js")" async></script>
+            <script src="@routes.Assets.at("/javascripts/fml/tutorial_getMarkdown.js")"></script>
             
             
             <script>
@@ -166,6 +155,27 @@
                     //put in the editor                     
                     editor.getSession().setValue(res);
                 }
-            </script>           
+            </script>
+            
+            <script>
+                function getChap(name,language){
+                    console.log(name);
+                    console.log(language);
+                    //read all the file in the name repo
+                    jsRoutes.controllers.WebFMLInterpreter.getChapter(name,language).ajax({
+                        //if works
+                        success : function(data){
+                            //put in the div the content
+                            document.getElementById('tutorial').innerHTML= (marked(data));
+                            Prism.highlightAll();
+                        },
+                        //if error
+                        error : function(data) {  
+                            $('tutorial').html('Error'+ data) ; 
+                        }
+                    });
+                }
+            </script>
+            
         </body>
 </html>

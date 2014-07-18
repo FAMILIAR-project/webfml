@@ -5,7 +5,11 @@ html,body{
 }
 
 #left{
-    padding-right: 15px;
+    width: 55%;
+}
+
+#right{
+    width: 45%;
 }
 
 #contains{

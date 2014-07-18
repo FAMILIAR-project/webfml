@@ -818,7 +818,7 @@ Renderer.prototype.listitem = function(text) {
 };
 
 Renderer.prototype.paragraph = function(text) {
-  return '<p>' + text + '</p>\n';
+  return '<p class="text-justify">' + text + '</p>\n';
 };
 
 Renderer.prototype.table = function(header, body) {

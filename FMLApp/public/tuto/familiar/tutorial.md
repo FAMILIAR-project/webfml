@@ -1,6 +1,7 @@
-####Chapter 1 - How to use Familiar
+###Chapter 1 - How to use Familiar
 
 ------
+
 
 Lorem ipsum
 
@@ -44,4 +45,4 @@ sunion k
 fm2 = FM(A [B] C )
 ```
 
-> Written with [StackEdit](https://stackedit.io/).  
+> Written with [StackEdit](https://stackedit.io/).
