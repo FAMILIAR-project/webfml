@@ -666,13 +666,13 @@ object WebFMLInterpreter extends Controller with VariableHelper {
  }
   
  /**
-  * 
-  * 
+  *Load the header for the tutorial part of the current language
+  *and return this header into html format
+  * @param language : the current language used in the app 
   */
- def getHeaderInMarkdown(name : String) = Action{
+ def getHeaderInMarkdown(language : String) = Action{
    //we get the file with the name
-   val path: String = "public/tuto/"+name+"/header.md"
-   println(path)
+   val path: String = "public/tuto/"+language+"/header.md"
    val myFile: File = new File(path)
    var res: Html = null
    if(myFile.exists()){
@@ -683,16 +683,14 @@ object WebFMLInterpreter extends Controller with VariableHelper {
    //return res
    Ok(res)
  }
- /**
-  * 
-  * 
-  * 
-  * 
+ 
+ /** 
+  *Load the menu in markdown and return this menu into HTML format
+  *@param language : the current language used in the app
   */
- def getMenuInMarkdown(name : String) = Action{
+ def getMenuInMarkdown(language : String) = Action{
    //we get the file with the name
-   val path: String = "public/tuto/"+name+"/menu.md"
-   println(path)
+   val path: String = "public/tuto/"+language+"/menu.md"
    val myFile: File = new File(path)
    var res: Html = null
    if(myFile.exists()){
@@ -705,15 +703,13 @@ object WebFMLInterpreter extends Controller with VariableHelper {
  }
  
  /**
-  * 
-  *
-  * 
-  * 
-  * 
+  * Return the correct chapter
+  * @param name : the name of the chapter
+  * @param language : the current language of the app
   */
- def getChapter(name : String, langage : String) = Action{
+ def getChapter(name : String, language : String) = Action{
    
-   val path: String = "public/tuto/"+langage+"/chapters/"+name
+   val path: String = "public/tuto/"+language+"/chapters/"+name
    val myFile: File = new File(path)
    var res: Html = null
    if(myFile.exists()){
@@ -721,7 +717,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
       //convert into Html
       res= Html(out)
    }
-     
+   //return the html code  
    Ok(res)
  }
  /**
@@ -738,7 +734,6 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 	    println(myFile.getName())
 	    res+=myFile.getName()
 	  }
-	  println(res)
 	  Ok(res)
  }
  

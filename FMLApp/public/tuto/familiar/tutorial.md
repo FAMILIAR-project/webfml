@@ -1,4 +1,5 @@
-###Chapter 1 - How to use Familiar
+Chapter 1 - How to use Familiar
+=========
 
 ------
 

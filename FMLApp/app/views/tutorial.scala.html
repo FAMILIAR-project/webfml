@@ -158,9 +158,12 @@
             </script>
             
             <script>
+                /**
+                 *Load the correct chapter into the tutorial div
+                 *language : the current language of the app
+                 *name : the name of the chapter
+                 */
                 function getChap(name,language){
-                    console.log(name);
-                    console.log(language);
                     //read all the file in the name repo
                     jsRoutes.controllers.WebFMLInterpreter.getChapter(name,language).ajax({
                         //if works
