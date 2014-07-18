@@ -13,3 +13,5 @@ project
 /.target
 /bin
 *~
+/.target
+/bin

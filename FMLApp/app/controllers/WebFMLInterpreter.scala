@@ -15,25 +15,22 @@ import play.api.libs.json.JsNull
 import play.api.libs.json.JsArray
 import play.api.libs.json.JsBoolean
 import play.api.libs.json.JsString
-import fr.familiar.operations.heuristics.InteractiveFMSynthesizer
-import fr.familiar.operations.heuristics.metrics.SimmetricsMetric
-import fr.familiar.operations.heuristics.metrics.MetricName
-import fr.familiar.operations.heuristics.metrics.SmithWatermanMetric
-import fr.familiar.gui.synthesis.KeyValue
 import gsd.synthesis.FeatureEdge
 import gsd.synthesis.FeatureType
-import fr.familiar.operations.heuristics.Heuristic
-import fr.familiar.operations.heuristics.metrics.AlwaysZeroMetric
-import fr.familiar.operations.heuristics.metrics.RandomMetric
-import fr.familiar.operations.heuristics.metrics.LevenshteinMetric
-import fr.familiar.operations.heuristics.metrics.WuPalmerMetric
-import fr.familiar.operations.heuristics.metrics.PathLengthMetric
 import scala.collection.JavaConversions
 import java.io
 import java.nio.file.Files
 import java.nio.file.Path
 import play.api.libs.json.JsString
 import java.io.File
+import foreverse.ksynthesis.metrics.SmithWatermanMetric
+import foreverse.ksynthesis.metrics.AlwaysZeroMetric
+import foreverse.ksynthesis.InteractiveFMSynthesizer
+import foreverse.ksynthesis.Heuristic
+import foreverse.ksynthesis.metrics.RandomMetric
+import foreverse.ksynthesis.metrics.LevenshteinMetric
+import foreverse.ksynthesis.metrics.WuPalmerMetric
+import foreverse.ksynthesis.metrics.PathLengthMetric
 
 object WebFMLInterpreter extends Controller with VariableHelper {
 
