@@ -1,7 +1,7 @@
 html,body{
     height: 100%;
     width: 100%;
-    /*background-color : #eee;*/
+    /* background-color : #eee;*/
 }
 
 #left{
@@ -42,7 +42,7 @@ code{
 }
 
 .container{
-    width: 77%;
+    width: 81%;
 }
 
 .container .text-muted {
@@ -63,8 +63,12 @@ code{
     margin-top:10px;
 }
 
+#tutorial{
+    /*height: 100%;*/
+}
+
 .scrollable {
-    height: 700px;
+    height: 800px;
     overflow: auto;
 }
 

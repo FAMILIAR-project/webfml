@@ -11,13 +11,16 @@
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/tutorial.css")"> 
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
         <!-- Prism -->
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/prism.css")">    
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/prism.css")">
+        <!-- mCustomScrollbar -->   
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/jquery.mCustomScrollbar.css")">
     </head>       
     <body ng-app >
           
              <div id="top">
                 <div class="container">
                         <div id="title" class="page-header">
+                            <!-- Change here for the language var-->
                           <h2>Tutorial !<small> - How to use Familiar</small></h2>  
                         </div>
                         
@@ -44,10 +47,12 @@
                         <!-- intruction of the tutorial -->
                         <!-- Left part -->
                         <div id="left" class="col-lg-6">
-                            <div class="scrollable">
+                            <!--scrollable-->
+                            <div class="scrollable mCustomScrollbar">
                                 <!-- the tutorial -->
-                                <div id="tutorial"></div>
+                                <div id="tutorial" class=""></div>
                             </div>
+                            
                         </div>
                 
                         <!-- Editor -->
@@ -135,9 +140,11 @@
             <script src="@routes.Assets.at("/javascripts/fml/tutorial_execute.js")"></script>
             <!-- Prism-->
             <script src="@routes.Assets.at("/javascripts/prism/prism.js")" ></script>
-            <!-- marked -->
+           
             <!--<script src="@routes.Assets.at("/javascripts/fml/tutorial_menu.js")"></script>-->
-            
+            <!-- nanoscroller-->
+            <script src="@routes.Assets.at("/javascripts/lib/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js")"></script>
+             <!-- marked -->
             <script src="@routes.Assets.at("/javascripts/lib/marked/marked.js")"></script>
             <script src="@routes.Assets.at("/javascripts/fml/tutorial_getMarkdown.js")"></script>
             
@@ -180,5 +187,16 @@
                 }
             </script>
             
+            <script>
+                /*
+                 *
+                 */
+                $(".tutorial").mCustomScrollbar({
+                    theme:"minimal-dark",
+                    scrollButtons:{
+                        enable:true
+                    }
+                });
+            </script>
         </body>
 </html>
