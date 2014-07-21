@@ -32,6 +32,7 @@ $(function() {
                 var parts=res.split(/\n/);
                 //will contain the result of the first for
                 var b=[];
+                var temp;
                 //put the first line (title) of the file into b
                 b[0]=parts[0];
                 
@@ -40,7 +41,9 @@ $(function() {
                  */
                 for (var i=0;i<chapters.length;i++) {
                     //replace the word
-                    b[i+1]=parts[i+1].replace('<a href="'+chapters[i]+'"','<a onclick=getChap('+'"'+chapters[i]+'"'+','+'"'+language+'"'+');') + " " ;
+                    //b[i+1]=parts[i+1].replace('<a href="'+chapters[i]+'"','<a onclick=getChap('+'"'+chapters[i]+'"'+','+'"'+language+'"'+');') + " " ;
+                    temp=parts[i+1].replace('<a href="'+chapters[i]+'"','<button type="button" class="btn btn-primary" onclick=getChap('+'"'+chapters[i]+'"'+','+'"'+language+'"'+');') + " " ;
+                    b[i+1] = temp.replace("</a>","</button>");
                 }
                 //button type ="button" class="btn btn-info"
                 

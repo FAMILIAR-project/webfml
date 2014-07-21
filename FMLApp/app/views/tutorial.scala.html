@@ -148,7 +148,7 @@
                  */
                 function setCodeToAce(id) {
                     //get what they are in the code bloc
-                    var code = document.getElementById(id).innerHTML
+                    var code = document.getElementById(id).innerHTML;
                     //regex : <[a-zA-Z]*>
                     //regex to delete what prism added
                     var res = code.replace(/<[^>]*>/g,"");
