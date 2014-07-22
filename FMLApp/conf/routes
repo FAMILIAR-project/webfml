@@ -2,8 +2,8 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET     /                           controllers.Application.index
+# IDE page
+GET     /                        	controllers.Application.index()
 GET     /variable/:id	            controllers.WebFMLInterpreter.variable(id : String)
 POST    /interpret	              	controllers.WebFMLInterpreter.interpret(s : String)
 POST    /evalPrompt	              	controllers.WebFMLInterpreter.evalPrompt(s : String)
@@ -21,6 +21,10 @@ GET     /reset	              	    controllers.WebFMLInterpreter.reset
 GET     /setRoot	              	controllers.WebFMLInterpreter.setRoot(root : String)
 GET     /configurator              	controllers.WebFMLConfigurator.configurator
 POST    /applySelection             controllers.WebFMLConfigurator.applySelection(s: String)
+
+#Test
+
+GET 	/home						controllers.Application.homePage()
 
 # Workspace management 
 GET     /loadFile/:id	            controllers.WebFMLInterpreter.loadFile(id : String)

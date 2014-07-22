@@ -50,7 +50,7 @@
                             <!--scrollable-->
                             <div class="scrollable mCustomScrollbar">
                                 <!-- the tutorial -->
-                                <div id="tutorial" class=""></div>
+                                <div id="tutorial"></div>
                             </div>
                             
                         </div>
@@ -159,8 +159,9 @@
                     //regex : <[a-zA-Z]*>
                     //regex to delete what prism added
                     var res = code.replace(/<[^>]*>/g,"");
+                    var ret = res.replace(/&gt;/g,">");
                     //put in the editor                     
-                    editor.getSession().setValue(res);
+                    editor.getSession().setValue(ret);
                 }
             </script>
             

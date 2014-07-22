@@ -1,0 +1,15 @@
+body{
+
+}
+
+#menu{
+    margin-top: 10px;
+}
+
+.navbar-default{
+    background-color: transparent;
+    border-color: transparent;
+}
+#pre{
+    /*text-align: center;*/
+}

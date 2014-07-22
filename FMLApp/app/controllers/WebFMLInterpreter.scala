@@ -37,7 +37,6 @@ import java.io.File
 import scala.util.parsing.json.JSONArray
 import java.io.BufferedReader
 import java.io.FileReader
-import org.markdownj.MarkdownProcessor
 import scala.io.Source
 import play.api.templates.Html
 import org.apache.commons.io.FileUtils

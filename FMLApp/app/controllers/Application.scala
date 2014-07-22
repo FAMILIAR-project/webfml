@@ -55,6 +55,10 @@ object Application extends Controller {
      val tuto = "//hello world !\n"
      Ok(views.html.tutorial(tuto))/*, WebFMLInterpreter.tutorialToHtml())*/
    }
+   
+   def homePage() = Action {
+     Ok(views.html.homePage())
+   }
   
    
  
