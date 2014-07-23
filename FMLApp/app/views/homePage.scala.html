@@ -25,12 +25,16 @@
                             <!--left side of the menu -->
                             <div id="left-menu"class="nav navbar-nav navbar-left">
                                 <ul class="nav navbar-nav">
+                                    <li><a href="#news">News</a></li>
                                     <li><a href="#familiar">Familiar</a></li>
+                                    
+                                    <li><a href=""></a></li>
                                 </ul>    
                             </div>
                             <!-- right side -->
                             <div class="nav navbar-nav navbar-right">
                                 <ul class="nav navbar-nav">
+                                    <li><a href="#">Publication</a></li>
                                     <li><a href="#">Contact</a></li>
                                 </ul>  
                             </div>
@@ -45,7 +49,9 @@
             <div id="pre" class="container">
                 <div class="jumbotron">
                     <h1>Welcome to familiar website</h1>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <p>feature models, variability, software product lines, configuration, domain-specific language, automated reasoning, model-driven engineering</p>
+                    <button type="button" class="btn btn-success">Go to the Tutorial</button>
+                    <button type="button" class="btn btn-success">Go to the IDE</button>
                 </div>
                 
             </div>
@@ -53,17 +59,61 @@
             <!-- papers about familiar or other languages -->
             <div id="news" class="container">
                <h2>News</h2>
-               
+               <div class="row">
+                    <div class="col-md-6">.col-md-6</div>
+                    <div class="col-md-6">.col-md-6</div>
+                </div>
+                
+    We are migrating to github and the repos/pages will be regularly updated in the next few days
+    SCP journal paper about FAMILIAR is in press
+    FAMILIAR was part of a tutorial at Software Product Line Conference 2012 (SPLC'12)
+    FAMILIAR was part of a tutorial at International Conference on Model Driven Engineering Languages & Systems (MODELS'12)
+    FAMILIAR was at ASE'11 conference for a tool demonstration and short paper presentation. New operators and applications have been presented!
+    FAMILIAR has been presented in Belgium for VaMoS 2011 (tool demonstration) and in Taiwan for SAC 2011 (formal presentation).
+
+           
             </div>
             <!--short presentation of the language -->
             <div id="language" class="container">
                 <div id="familiar">
-                    <h3>Familiar</h3>
-                    <p>Familiar is a ...</p>
-                    <ul>
-                        <li><a href="#">Tutorial</a></li>
-                        <li><a href="#">Web IDE</a></li>
-                    </ul> 
+                    <h2>Familiar</h2>
+                    <div id="1stp">
+                        <h4>What is Familiar</h4>
+                        <p class="text-justify">
+                            FAMILIAR (for FeAture Model scrIpt Language for manIpulation and Automatic Reasoning) is a language for importing,
+                            exporting, composing, decomposing, editing, configuring, computing "diffs", refactoring, reverse engineering, testing,
+                            and reasoning about (multiple) feature models. All these operations can be combined to realize complex variability
+                            management tasks.
+                        </p>
+                        
+                        <p class="text-justify">
+                            FAMILIAR was originally created at I3S laboratory by Mathieu Acher,
+                            Philippe Collet and Philippe Lahire and is now jointly and openly managed by the Triskell team (INRIA / IRISA / University of Rennes 1)
+                            , the MODALIS team (I3S laboratory, University of Nice Sophia Antipolis) and at Colorado State University (USA).
+                        </p>
+                    </div>
+                   
+
+                    <div class="bs-callout bs-callout-info" >
+                        <h4>Dear academics/scientists, please cite FAMILIAR with the following bibliographical entry:</h4>
+                        <p class="text-justify text-muted">    
+                            article{FAMILIAR, author = {Mathieu Acher and Philippe Collet and Philippe Lahire and Robert B. France},
+                            title = {FAMILIAR: A domain-specific language for large scale management of feature models},
+                            journal = {Science of Computer Programming (SCP)}, volume = {78}, number = {6}, year = {2013},
+                            pages = {657-681}, ee = {http://dx.doi.org/10.1016/j.scico.2012.12.004}, }
+                        </p>
+                    </div>
+                    <div id="familiarTools">
+                        <h4>Tools</h4>
+                        <p class="text-justify">
+                            Tools to understand and used familiar :
+                        </p>
+                        <ul>
+                            <li><a href="#">Tutorial</a></li>
+                            <li><a href="#">Web IDE</a></li>
+                        </ul> 
+                    </div>
+                    
                 </div>
                 <!--<div id="vm">
                     <h3>VM</h3>
@@ -77,8 +127,20 @@
         </div>
         
         
-        <div id="bottom">
-            
+        <div id="footer">
+            <div class="container">
+                <div class="col-md-4">
+                    <ul>
+                        <li class="text-muted"><a href="https://github.com/FAMILIAR-project/webfml">Github</a></li>    
+                    </ul>
+                </div>
+                <div class="col-md-4" id="col_bot_center">
+                    <p class="text-muted">Made with <i class="glyphicon glyphicon-heart"></i> in Rennes </p>
+                </div>
+                <div class="col-md-4">
+                    <p class="text-muted">Inria</p>
+                </div>
+            </div>
         </div>
     </body>
 </html>
