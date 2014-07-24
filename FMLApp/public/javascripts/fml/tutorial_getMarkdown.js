@@ -1,8 +1,9 @@
 //@TODO : change the language name
 //load all the markdown files
-var language = 'familiar';
+//var language = '';
 $(function() {
         //return the tutorial of the language
+        console.log(language);
         jsRoutes.controllers.WebFMLInterpreter.getTutorialInMarkdown(language).ajax({
             //if works
             success : function(data){

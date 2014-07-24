@@ -46,8 +46,8 @@
                 <div class="jumbotron">
                     <h1>Welcome to familiar website</h1>
                     <p>feature models, variability, software product lines, configuration, domain-specific language, automated reasoning, model-driven engineering</p>
-                    <a href="/tutorial"><button type="button" class="btn btn-success">Go to the Tutorial</button></a>
-                    <button type="button" class="btn btn-success">Go to the IDE</button>
+                    <!--<a href="/tutorial">--><button type="button" class="btn btn-success" onclick="createCookie('familiar');"><i class="glyphicon glyphicon-pencil"></i> Go to the Tutorial</button><!--</a>-->
+                    <button type="button" class="btn btn-success"><i class="glyphicon glyphicon-leaf"></i> Go to the IDE</button>
                 </div>
                 
             </div>
@@ -164,5 +164,24 @@
                 </div>
             </div>
         </div>
+        
+        <script>
+            /**
+             *Create a cookie to store the language of the tutorial
+             *like that we create a local variable and it's can't be modify
+             */
+            function createCookie(name){
+                //set to the cookie the name of the language
+                var timeEx=new Date();
+                console.log(timeEx);
+                timeEx.setTime(timeEx.getTime()+ (5000));
+                
+                console.log(timeEx);
+                document.cookie="language="+name+";"+"expire="+timeEx.toUTCString();
+                console.log(document.cookie);
+                //window.location="/tutorial";
+            }
+        </script>
+        
     </body>
 </html>

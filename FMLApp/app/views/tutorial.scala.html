@@ -21,13 +21,13 @@
                 <div class="container">
                         <div id="title" class="page-header">
                             <!-- Change here for the language var-->
-                          <h2>Tutorial !<small> - How to use Familiar</small></h2>  
+                          <h2>Tutorial !<small id="head"></small></h2>  
                         </div>
                         
                         <!-- Menu of the tutorial--> 
                         <div id="menu">
                             <!-- link to the web editor -->
-                            <a href="/"><button type="button" class="btn btn-success"><i class="glyphicon glyphicon-home"></i> Back to the web IDE</button></a>
+                            <a href="/"><button type="button" class="btn btn-success"><i class="glyphicon glyphicon-home"></i> Back to the web home page</button></a>
                             <span class="icon-search"></span>
                         </div>
                 </div>
@@ -146,9 +146,11 @@
             <script src="@routes.Assets.at("/javascripts/lib/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js")"></script>
              <!-- marked -->
             <script src="@routes.Assets.at("/javascripts/lib/marked/marked.js")"></script>
+            
+            <!-- Get the cookie-->
+            <script asyn src="@routes.Assets.at("/javascripts/fml/tutorial_getCookie.js")"></script>
             <script src="@routes.Assets.at("/javascripts/fml/tutorial_getMarkdown.js")"></script>
-            
-            
+
             <script>
                 /*
                  *Put the code into the Ace editor
@@ -189,8 +191,8 @@
             </script>
             
             <script>
-                /*
-                 *
+                /**
+                 *Theme of the scrollbar
                  */
                 $(".tutorial").mCustomScrollbar({
                     theme:"minimal-dark",
