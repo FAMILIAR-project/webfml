@@ -1,9 +1,11 @@
 var language="";
 $(function(){
       language = document.cookie;
-      var res = language.split(";");
+      var res = language.split("=");
       console.log(res);
-      var i;
+      language=res[1];
+      console.log(language);
+      /*var i;
       for(i = 0; i<res.length;i++){
             console.log(i);
             console.log(res.length);
@@ -16,6 +18,6 @@ $(function(){
                   }
             }
             
-      }
+      }*/
       document.getElementById("head").innerHTML=" - How to use " + language; 
 });
