@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Home !</title>
+        <title>Familiar Project</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
          <!-- stylesheet -->   
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")">
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/homepage.css")"> 
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/homepage.css")">
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
         
     </head>
     <body>
@@ -32,7 +34,7 @@
                         <!-- right side -->
                         <div class="nav navbar-nav navbar-right">
                             <ul class="nav navbar-nav">
-                                <li><a href="#">Publication</a></li>
+                                <li><a href="#publication">Publication</a></li>
                                 <li><a href="#contact">Contact</a></li>
                             </ul>  
                         </div>
@@ -44,7 +46,7 @@
         <div id="contains">
             <div id="pre" class="container">
                 <div class="jumbotron">
-                    <h1>Welcome to familiar website</h1>
+                    <h1>Welcome to FAMILIAR project website</h1>
                     <p>feature models, variability, software product lines, configuration, domain-specific language, automated reasoning, model-driven engineering</p>
                     <!--<a href="/tutorial">--><button type="button" class="btn btn-success btn-lg" onclick="createCookie('familiar');"><i class="glyphicon glyphicon-pencil"></i> Go to the Tutorial</button><!--</a>-->
                     <button type="button" class="btn btn-success btn-lg"><i class="glyphicon glyphicon-leaf"></i> Go to the IDE</button>
@@ -80,7 +82,7 @@
                 <div id="familiar">
                     <h2>Familiar</h2>
                     <div id="1stp">
-                        <h4>What is Familiar</h4>
+                        <h3>What is Familiar</h3>
                         <p class="text-justify">
                             FAMILIAR (for FeAture Model scrIpt Language for manIpulation and Automatic Reasoning) is a language for importing,
                             exporting, composing, decomposing, editing, configuring, computing "diffs", refactoring, reverse engineering, testing,
@@ -97,7 +99,7 @@
                    
 
                     <div class="bs-callout bs-callout-info" >
-                        <h4>Dear academics/scientists, please cite FAMILIAR with the following bibliographical entry:</h4>
+                        <h3>Dear academics/scientists, please cite FAMILIAR with the following bibliographical entry:</h3>
                         <p class="text-justify text-muted">    
                             article{FAMILIAR, author = {Mathieu Acher and Philippe Collet and Philippe Lahire and Robert B. France},
                             title = {FAMILIAR: A domain-specific language for large scale management of feature models},
@@ -106,14 +108,14 @@
                         </p>
                     </div>
                     <div id="familiarTools">
-                        <h4>Tools</h4>
+                        <h3>Tools</h3>
                         <p class="text-justify">
                             Tools to understand and used familiar :
                         </p>
-                        <ul>
-                            <li><button type="button" class="btn btn-sm btn-success" onclick="createCookie('familiar');"> Go to the Tutorial</button></li>
-                            <li><button type="button" class="btn btn-success btn-sm">Go to the IDE</button></li>
-                        </ul> 
+                            <button type="button" class="btn btn-info" onclick="createCookie('familiar');"> Go to the Tutorial</button></li>
+                            <button type="button" class="btn btn-info">Go to the IDE</button></li>
+                            <a href="https://github.com/FAMILIAR-project/familiar-language"><button type="button" class="btn btn-info"><i class="fa fa-github"></i> Sources</button></a>
+                   
                     </div>
                     
                 </div>
@@ -134,24 +136,145 @@
                 </div>
                 <div class="col-md-6">
                     <li><a href="mailto:#">Mathieu Acher</a> (University of Rennes, France)</li>
-                    <li><a href="mailto:#">Olivier Barais </a>(University of Rennes, France)</li>
-                    <li><a href="mailto:#">Benoit Baudry</a>(University of Rennes, France)</li>
-                    <li><a href="mailto:#">Philippe Collet</a>(University of Nice Sophia Antipolis, France)</li>
+                    <li><a href="mailto:#">Olivier Barais </a> (University of Rennes, France)</li>
+                    <li><a href="mailto:#">Benoit Baudry</a> (University of Rennes, France)</li>
+                    <li><a href="mailto:#">Philippe Collet</a> (University of Nice Sophia Antipolis, France)</li>
                 </div>
                 <div class="col-md-6">
-                    <li><a href="mailto:#">Robert France</a>(Colorado State University, USA)</li>
-                    <li><a href="mailto:#">Aleksandar Jakšić</a>(Colorado State University, USA)</li>
-                    <li><a href="mailto:#">Philippe Lahire</a>(University of Nice Sophia Antipolis, France)</li>
+                    <li><a href="mailto:#">Robert France</a> (Colorado State University, USA)</li>
+                    <li><a href="mailto:#">Aleksandar Jakšić</a> (Colorado State University, USA)</li>
+                    <li><a href="mailto:#">Philippe Lahire</a> (University of Nice Sophia Antipolis, France)</li>
                 </div>
             </div>
-            
-            
+ 
         </div>
         
+        <div id="publication">
+            <div class="container">
+                <h2>Publications</h2>
+                <h3>2013</h3>
+                <p class="text-justify">
+                    Mathieu Acher, Philippe Collet, Philippe Lahire, and Robert France.
+                    FAMILIAR: A Domain-Specific Language for Large Scale Management of Feature Models (2013).
+                    In Science of Computer Programming (SCP) Special issue on programming languages [bib][HAL][DOI] Abstract
+                </p>
+                <h3>2012</h3>
+                <p class="text-justify">
+                    Mathieu Acher, Patrick Heymans, Philippe Collet,
+                    Philippe Lahire Next-Generation Model-based Variability
+                    Management: Languages and Tools (Tutorial) In 15th International Conference on Model Driven
+                    Engineering Languages & Systems (MODELS'12) 2012, to appear.
+                </p>
+                
+                <p class="text-justify">
+                   Mathieu Acher, Raphaël Michel, Patrick Heymans Next-Generation Model-based Variability Management:
+                   Languages and Tools (Tutorial) In 16th International Conference on Software Product Line Conference (SPLC'12) 2012, to appear.
+                </p>
+                
+                <p class="text-justify">
+                    Mathieu Acher, Patrick Heymans, Philippe Collet, Clément Quinton, Philippe Lahire, and Philippe Merle.
+                    Feature Model Differences. In Proceedings of the 24th International Conference on Advanced Information
+                    Systems Engineering (CAiSE'12) 2012, to appear. [ pdf]
+                </p>
+                
+                <p class="text-justify">
+                    Mathieu Acher, Philippe Collet, Philippe Lahire, and Robert France.
+                    Separation of Concerns in Feature Modeling: Support and Applications.
+                    In Aspect-Oriented Software Development (AOSD) 2012 [ bib] [ pdf]
+                </p>
+                <h3>2011</h3>
+                <p class="text-justify">
+                    Mathieu Acher Managing Multiple Feature Models: Foundations, Language, and Applications. PhD thesis, september 2011 [ pdf] [ bib]
+                </p>
+        
+                <p class="text-justify">
+                    Mathieu Acher, Philippe Collet, Philippe Lahire, and Robert France.
+                    Decomposing Feature Models: Language, Environment, and Applications.
+                    In 26th Automated Software Engineering (ASE), demonstration paper, Kansas (USA), November 2011. [ bib]
+                </p>
+
+                <p class="text-justify">
+                    Mathieu Acher, Philippe Collet, Philippe Lahire, and Robert France. Slicing Feature Models.
+                    In 26th Automated Software Engineering (ASE), AR=22%, short paper, Kansas (USA), November 2011. [ pdf] [ bib]
+                </p>
+                
+                <p class="text-justify">
+                    Mathieu Acher, Anthony Cleve, Philippe Collet, Philippe Merle, Laurence Duchien and Philippe Lahire.
+                    Reverse Engineering Architectural Feature Models In 5th European Conference on Software Architecture (ECSA), AR=22%,
+                    long paper, page 16, Essen (Germany), September 2011. [ bib]
+                </p>
+                
+                <p class="text-justify">
+                    Mathieu Acher, Philippe Collet, Philippe Lahire, Sabine Moisan, and Jean-Paul Rigault.
+                    Modeling Variability from Requirements to Runtime In Proceedings of 16th International
+                    Conference on Engineering of Complex Computer Systems (ICECCS) AR=31%, IEEE Computer Society, April 2011. [ bib] [ pdf] 
+                </p>
+                
+                <p>
+                    Mathieu Acher, Philippe Collet, Philippe Lahire, and Robert France.
+                    Managing Feature Models with FAMILIAR: a Demonstration of the Language and its Tool Support.
+                    In Fifth International Workshop on Variability Modelling of Software-intensive Systems (VaMoS) AR=55%, ACM, Belgium, 27-29 january 2011 [ bib] [ pdf]
+                </p>
+                
+                <p class="text-justify">
+                    Mathieu Acher, Philippe Collet, Philippe Lahire, and Robert France.
+                    A Domain-Specific Language for Managing Feature Models In 26th Symposium on Applied Computing (SAC),
+                    Programming Languages Track, AR=33%, ACM, Taiwan, 21-25 march 2011 [ bib] [ pdf]
+                </p>
+                
+                <h3>2010</h3>
+                <p class="text-justify">
+                    Mathieu Acher, Philippe Collet, Philippe Lahire, and Robert France.
+                    Managing Multiple Software Product Lines Using Merging Techniques Technical report,
+                    University of Nice Sophia Antipolis, I3S CNRS, Sophia Antipolis, France, May 2010. [ bib] | [ .pdf]    
+                </p>
+                
+                <p class="text-justify">
+                    Mathieu Acher, Philippe Collet, Philippe Lahire, and Robert France.
+                    Managing Variability in Workflow with Feature Model Composition Operators In 9th International
+                    Conference on Software Composition AR=28%, volume LNCS, page 16. Springer, June 2010. [ bib] [ pdf]
+                </p>
+                
+                <p class="text-justify">
+                    Mathieu Acher, Philippe Collet, Philippe Lahire, and Robert France.
+                    Comparing Approaches to Implement Feature Model Composition In 6th European Conference on Modelling Foundations and Applications (ECMFA)
+                    AR=31%, volume LNCS, page 16. Springer, June 2010. [ bib] [ pdf]
+                </p>
+
+                <p class="text-justify">
+                    Mathieu Acher, Philippe Collet, Philippe Lahire, and Robert France.
+                    Composing Feature Models In 2nd International Conference on Software Language Engineering
+                    (SLE'09) AR=19%, LNCS, page 20. LNCS, October 2009. [ bib] | [ .pdf]
+                </p>
+
+                <p class="text-justify">
+                    Mathieu Acher, Philippe Collet, Franck Fleurey, Philippe Lahire, Sabine Moisan,
+                    and Jean-Paul Rigault. Modeling Context and Dynamic Adaptations with Feature Models
+                    In 4th International Workshop  at Models 2009 (MRT'09), page 10, October 2009. [ bib] | [ .pdf]   
+                </p>
+                
+                <p class="text-justify">
+                    Mathieu Acher, Philippe Lahire, Sabine Moisan, and Jean-Paul Rigault.
+                    Tackling High Variability in Video Surveillance Systems through a Model Transformation Approach
+                    In Proceedings of the 2009 international workshop on Modeling in software engineering at ICSE 2009
+                    (MiSE'09) AR=44%. IEEE Computer Society, May 2009. [ bib] | [ .pdf]
+                </p>
+            </div>
+        </div>
         
         <div id="footer">
             <div class="container">
-                <p class="text-muted">Made with <i class="glyphicon glyphicon-heart"></i> in Rennes </p>
+                <div id="footerLeft">
+                    <p class="text-muted">Inria</p>
+                </div>
+                <div id="footerCenter">
+                    <p class="text-muted">Made with <i class="glyphicon glyphicon-heart"></i> in Rennes </p>
+                </div>
+                <div id="footerRight">
+                    <p class="text-muted"><a href="https://github.com/FAMILIAR-project/webfml"><i class="fa fa-github"></i> Sources</a></p>
+                </div>
+                
+                
             </div>
         </div>
         
