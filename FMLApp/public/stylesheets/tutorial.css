@@ -82,5 +82,19 @@ code{
 }
 
 #footerRight{
-    text-align: right;
+    text-align: center;
+    float: left;
+    width: 33%;
+}
+
+#footerLeft{
+    text-align: center;
+    float: left;
+    width: 33%;
+}
+
+#footerCenter{
+    float: left;
+    text-align: center;
+    width: 33%;
 }

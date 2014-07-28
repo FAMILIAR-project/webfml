@@ -96,7 +96,7 @@ body,html{
 
 #footerRight{
     text-align: center;
-    float: right;
+    float: left;
     width: 33%;
 }
 
@@ -107,6 +107,7 @@ body,html{
 }
 
 #footerCenter{
+    float: left;
     text-align: center;
     width: 33%;
 }
