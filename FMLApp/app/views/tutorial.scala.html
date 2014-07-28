@@ -75,12 +75,20 @@
                                         <div>
                                             <p>
                                                 <ul class="unstyled">
-                                                	<div class="dropdown">
+                                                    <li ng-repeat="varID in varIDs">
+                                                        <div class="dropdown">
                                                             <button type="button" class="btn dropdown-toggle sr-only" data-toggle="dropdown">
-                                                                {{varID}}
-                                                                <span class="caret"></span>
+                                                              {{varID}}
+                                                              <span class="caret"></span>
                                                             </button>
-                                                        </div>  
+                                                            <!--<ul class="dropdown-menu" role="menu">
+                                                              <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="displayVariable(varID)">Display</a></li>
+                                                              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Edit</a></li>
+                                                              <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="synthesize(varID)">Synthesize</a></li>
+                                                              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Remove</a></li>
+                                                            </ul>-->
+                                                        </div>
+                                                    </li>  
                                                 </ul>
                                                 <p ng-if="varIDs" id="lastValueFML" class="alert alert-success">
                                                 	{{lastVar}}
@@ -96,15 +104,26 @@
             </div>
             <div id="footer">
                 <div class="container">
+                    <p class="footerPara">
+                        Website created by the DiverSE Team
+                    </p>
                     <div id="footerLeft">
-                        <p class="text-muted">Inria</p>
+                        <p>
+                            <a href="http://diverse.irisa.fr/">DiverSE</a>
+                            <a href="http://www.irisa.fr/">Irisa</a>
+                            <a href="http://www.inria.fr/en/">Inria</a>
+                        </p>
                     </div>
                     <div id="footerCenter">
-                        <p class="text-muted">Made with <i class="glyphicon glyphicon-heart"></i> in Rennes </p>
+                        <p>
+                            Made with <i class="glyphicon glyphicon-heart"></i> in Rennes
+                        </p>
                     </div>
                     <div id="footerRight">
-                        <p class="text-muted"><a href="https://github.com/FAMILIAR-project/webfml"><i class="fa fa-github"></i> Sources</a></p>
-                    </div>
+                        <p>
+                            <a href="https://github.com/FAMILIAR-project/webfml"><i class="fa fa-github"></i> Sources</a>
+                        </p>        
+                    </div>                
                 </div>
             </div>
             
@@ -160,8 +179,9 @@
                     //regex to delete what prism added
                     var res = code.replace(/<[^>]*>/g,"");
                     var ret = res.replace(/&gt;/g,">");
+                    var deletesmt = ret.replace(/&lt;/g,"<");
                     //put in the editor                     
-                    editor.getSession().setValue(ret);
+                    editor.getSession().setValue(deletesmt);
                 }
             </script>
             

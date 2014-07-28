@@ -1,4 +1,4 @@
-###Chapters
+##Chapters
 [Introduction][1]
 [Chapter 1 - I'm a test][2]
 [Chapter 2 - I'm a second test][3]

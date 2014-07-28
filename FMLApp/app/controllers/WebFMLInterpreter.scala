@@ -652,7 +652,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   */
  def getTutorialInMarkdown(language : String) = Action{
    //we get the file with the name
-   val path: String = "public/tuto/"+language++"/chapters/"+"/introduction.md"
+   val path: String = "public/tuto/"+language+"/chapters/"+"/introduction.md"
    val myFile: File = new File(path)
    var res: Html = null
    if(myFile.exists()){

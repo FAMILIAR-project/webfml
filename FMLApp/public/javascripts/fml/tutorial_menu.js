@@ -1,3 +1,8 @@
+/**
+ *Return the correct chapter
+ *param : name : name of the chapter,
+ *        language : the current language
+ */
 function getChap(name,language){
     //read all the file in the name repo
         jsRoutes.controllers.WebFMLInterpreter.getChapter(name,language).ajax({
