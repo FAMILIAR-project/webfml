@@ -10,7 +10,7 @@ Prism.languages.scala=Prism.languages.extend("java",{keyword:/(<-|=>)|\b(abstrac
 ;
 //define the syntax highlight for familiar
 //see : http://prismjs.com/extending.html
-Prism.languages.familiar = Prism.languages.extend("clike",{keyword: /\b(merge|sunion|foreach|counting|do|end|computeMUTEXGroups)\b/g,builtin:/\b(String|Int|Long|Short|Byte|Boolean|Double|Float|Char|Any|AnyRef|AnyVal|Unit|Nothing)\b/g,number:/\b0b[01]+\b|\b0x[\da-f]*\.?[\da-fp\-]+\b|\b\d*\.?\d+[e]?[\d]*[df]\b|\W\d*\.?\d+\b/gi,operator:{pattern:/([^\.]|^)([-+]{1,2}|!|=?<|=?>|={1,2}|(&){1,2}|\|?\||\?|\*|\/|%|\^|(<){2}|(>){2,3}|:|~)/g,lookbehind:!0}});;
+Prism.languages.familiar = Prism.languages.extend("clike",{keyword: /\b(sunion|foreach|do|counting|if|then|else|end|in|merge|union|aggregateMerge|extract|ksynthesis|configs|copy|constraints|renamings|withMapping|aggregateMerge|configuration|slice|including|aggregate|renamings|computeMUTEXGroups)\b/g,builtin:/\b(FM|FEATURE_MODEL|SET|INTEGER|DOUBLE|BOOLEAN|CONFIGURATION|STRING)\b/g,number:/\b0b[01]+\b|\b0x[\da-f]*\.?[\da-fp\-]+\b|\b\d*\.?\d+[e]?[\d]*[df]\b|\W\d*\.?\d+\b/gi,operator:{pattern:/([^\.]|^)([-+]{1,2}|!|=?<|=?>|={1,2}|(&){1,2}|\|?\||\?|\*|\/|%|\^|(<){2}|(>){2,3}|:|~)/g,lookbehind:!0}});;
 //same for vm
 Prism.languages.vm=Prism.languages.extend("clike",{keyword:/\b()\b/g ,builtin:/\b(String|Int|Long|Short|Byte|Boolean|Double|Float|Char|Any|AnyRef|AnyVal|Unit|Nothing)\b/g,number:/\b0b[01]+\b|\b0x[\da-f]*\.?[\da-fp\-]+\b|\b\d*\.?\d+[e]?[\d]*[df]\b|\W\d*\.?\d+\b/gi,operator:{pattern:/([^\.]|^)([-+]{1,2}|!|=?<|=?>|={1,2}|(&){1,2}|\|?\||\?|\*|\/|%|\^|(<){2}|(>){2,3}|:|~)/g,lookbehind:!0}});;
 //
