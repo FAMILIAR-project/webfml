@@ -1,7 +1,6 @@
 #Dossier
 #target
 target
-project
 #Fichiers .class
 *.settings
 *.classpath
