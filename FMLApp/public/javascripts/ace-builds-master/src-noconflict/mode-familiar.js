@@ -9,7 +9,7 @@
  *
  */
 ace.define('ace/mode/familiar',['require', 'exports', 'module','ace/lib/oop','ace/mode/text','ace/tokenizer','ace/mode/javascript_highlight_rules','ace/mode/matching_brace_outdent','ace/range','ace/worker/worker_client','ace/mode/behaviour/cstyle','ace/mode/folding/cstyle'], function(require, exports, module) {
-      
+//nedd oop librairie      
 var oop = require("../lib/oop");
 var JavaScriptMode = require("./javascript").Mode;
 var Tokenizer = require("../tokenizer").Tokenizer;
@@ -18,6 +18,7 @@ var FamiliarHighlightRules = require("./familiar_highlight_rules").FamiliarHighl
 
 var Mode = function() {
     JavaScriptMode.call(this);
+    //the current higjlight is the familiar highlight
     this.HighlightRules = FamiliarHighlightRules;
 };
 oop.inherits(Mode, JavaScriptMode);
@@ -527,6 +528,50 @@ exports.MatchingBraceOutdent = MatchingBraceOutdent;
 
 //
 
+/**
+ *Call the function which return the keywords from the serveur
+ */
+jsRoutes.controllers.WebFMLInterpreter.getAllKeywordToJson().ajax({
+    /*
+    *If they are no problem
+    */
+    success : function(data){
+        //call the function to have the words
+        keywordsList(data);
+    }
+});
+/**
+ * All the class word of the familiar language
+ */
+jsRoutes.controllers.WebFMLInterpreter.getAllClasswordToJson().ajax({
+    /*
+    *If they are no problem
+    */
+    success : function(data){
+        //call the function to have the words
+        classWordList(data);
+    }
+});
+/**
+ *All the constant word (e.g : null) of familiar
+ */
+jsRoutes.controllers.WebFMLInterpreter.getAllConstantwordToJson().ajax({
+    /*
+    *If they are no problem
+    */
+    success : function(data){
+        //call the function to have the words
+        constantWordList(data);
+    }
+});
+
+
+//keywords of the language
+var keywords = "";
+//define the class of the language here
+var langClasses="";
+//define the constant of the language
+var buildinConstants="";
 //Highlight rules
 /*This part define the highlight rules 
  *of the familiar language      
@@ -534,26 +579,23 @@ exports.MatchingBraceOutdent = MatchingBraceOutdent;
 ace.define('ace/mode/familiar_highlight_rules', ['require','exports','module','ace/lib/oop','ace/mode/doc_comment_highlight_rules','ace/mode/text_highlight_rules'],function(require,exports,module){
 "use strict";
 
-var oop=require("../lib/oop");
-var TextHighlightRules=require("./text_highlight_rules").TextHighlightRules;
-var DocCommentHighlightRules = require("./doc_comment_highlight_rules").DocCommentHighlightRules;
-var FamiliarHighlightRules=function(){
-    //define the keyword of the language here
-    var keywords=("merge|sunion|foreach|do|counting|if|then|else|end");
-    //define the class of the language here
-    var langClasses=("FM");
+    var oop=require("../lib/oop");
+    var TextHighlightRules=require("./text_highlight_rules").TextHighlightRules;
+    var DocCommentHighlightRules = require("./doc_comment_highlight_rules").DocCommentHighlightRules;
+    var FamiliarHighlightRules=function(){
+   
     
-    var buildinConstants = ("null");
+    //var langClasses=("FM");
+    
+    //var buildinConstants = ("null");
     //create a mapper 
     var keywordMapper = this.createKeywordMapper({
-        "variable.language":"this",
+        "variable.language":"",//this
         "keyword":keywords,
+        //"class":langClasses,
         "constant.language": buildinConstants,
         "support.function": langClasses
     },"identifier");
-    
-    
-    
     
     this.$rules = {
         "start" : [
@@ -620,6 +662,76 @@ var FamiliarHighlightRules=function(){
 oop.inherits(FamiliarHighlightRules, TextHighlightRules);
 exports.FamiliarHighlightRules = FamiliarHighlightRules;
 });
+
+/**
+ *Function which put in the keywords variable all the word of the language
+ *@param : tab : a tab of string which contains the keyword of the language
+ */
+ function keywordsList(tab) {
+    var key="";
+    //we scan the tab
+    for (var i=0;i<tab.length;i++) {
+        if (i==tab.length-1) {
+            key+=tab[i];
+        }else{
+            //add a separator
+            key+=tab[i]+"|";
+        }
+    }
+    //put in keyword the result
+    keywords = key;
+}
+/**
+ * Function which put in the res varaible all the class word of
+ * Familiar language
+ * @param : tab : an array which contains all the class word of the language
+ */
+function classWordList(tab){
+    /*
+     *create the res variable
+     */
+    var res="";
+    /*
+     *scan the tab and put each member of the tab in
+     *res variable
+     */
+    for (var i=0;i<tab.length;i++) {
+        if (i==tab.length-1) {
+            res+=tab[i];
+        }else{
+            //don't forget the sperator
+            res+=tab[i]+"|";
+        }
+    }
+    //give res to langClass variable
+    langClasses=res;
+}
+/**
+ *function which put in res variable all the constant word like null
+ *of Familiar language
+ *@param : tab : an array which contains all the necesary word
+ */
+function constantWordList(tab){
+    /*
+    *create the res variable
+    */
+    var res="";
+    /*
+    *scan the tab and put each member of the tab in
+    *res variable
+    */
+    for (var i=0;i<tab.length;i++) {
+        if (i==tab.length-1) {
+            res+=tab[i];
+        }else{
+            //don't forget the sperator
+            res+=tab[i]+"|";
+        }
+    }
+    //give res to buildinConstants variable
+    buildinConstants = res ;
+    
+}
 
 
 /*

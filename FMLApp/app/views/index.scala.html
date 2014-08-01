@@ -10,10 +10,6 @@
         <!-- begin ACE editor -->
 	<!-- ace-builds/src-noconflict -->
         <script src="@routes.Assets.at("javascripts/ace-builds-master/src-noconflict/ace.js")" type="text/javascript" charset="utf-8"></script>
-	<!-- theme of the editor
-	    TODO REMOVE 
-	-->
-        <!--<script src="@routes.Assets.at("javascripts/ace-builds/src-noconflict/theme-monokai.js")" type="text/javascript" charset="utf-8"></script>-->
 	<!-- call the mode of the editor
 	    Need this
 	-->
@@ -52,7 +48,10 @@
 			<!-- "logo" -->
                         <a class="brand" href="#">Familiar</a>
                         <button id="toggle-console" class="btn btn-info"><i class="icon-pencil icon-white"></i> Toggle Console</button>
+			<!-- link to the tutorial -->
+			 <a href="/tutorial"><button type="button" class="btn btn-success"><i class="icon-plane"></i> Go to the Tutorial</button></a>
                         <div class="btn-group pull-right" ng-controller="FMLEditorCtrl">
+			    <!--HERE-->
                             <button class="btn btn-info" id="webFmlCmd" ng-click="cmd()">Execute FAMILIAR code</button>
                             <button class="btn btn-info" id="webFmlReset" ng-click="reset()">Reset variables' environment</button>
                             <button class="btn btn-info" id="webFmlSaveAs" ng-click="save()">Save as...</button>
@@ -87,8 +86,10 @@
 			    <!--button delete-->
 			    <button class="btn btn-small" onclick="deleteF()"; ><i class="icon-minus-sign"></i></button>
 			    <button class="btn btn-small" alt="save file" onclick="saveF()";><i class="icon-inbox"></i></button>
-                           <div id="wait"></div>
+			    <!-- Display the image of the loader here (just for some case)-->
+			    <div id="wait"></div>
                         </div>
+			<div id="loader" class="pull-right"></div>
                         <div id="myTreeView"></div>
                     </div>
 		    <!-- Text editor -->
@@ -100,7 +101,8 @@
                         </ul>
 			<!-- EDITOR part -->
                         <div class="tab-content">
-                            <div class="tab-pane active" id="editor">@message</div>
+			    <!-- message -->
+                            <div class="tab-pane active" id="editor">@editor(message)</div>
                             <div class="tab-pane" id="ksynthesis-tab" ng-controller="KSynthesisCtrl">
 				
                             	<div class="span7">
@@ -110,18 +112,18 @@
                         			<select class="heuristic-selector" ng-model="clusteringHeuristic" ng-options="h for h in heuristics"></select>
                         			<input class="threshold-selector" type="number" min="0" max="1" step="0.1" ng-model="threshold"></input>
                         			<!--<label class="parameter"><input type="checkbox" ng-model="hideClusters"> Hide clusters</label>-->
-	                        	</div>
-				    <!-- Ksynthesis button-->
-	                            <div class="span5 btn-toolbar" style="text-align:right">
-			                        <div class="btn-group">
-			                        	<button type="button" class="btn btn-default" ng-click="undo()"><i class="icon-step-backward"></i> Undo</button>
-			                        	<button type="button" class="btn btn-default" ng-click="redo()"><i class="icon-step-forward"></i> Redo</button>
-			                        	<button type="button" class="btn btn-default" ng-click="completeFM()">Complete</button>
-			                        	<button type="button" class="btn btn-default" ng-click="saveToVar()">Save</button>
-			                        </div>
-			                   </div>
+	                        </div>
+				    <!-- Ksynthesis buttons-->
+	                        <div class="span5 btn-toolbar" style="text-align:right">
+			            <div class="btn-group">
+			                <button type="button" class="btn btn-default" ng-click="undo()"><i class="icon-step-backward"></i> Undo</button>
+			                <button type="button" class="btn btn-default" ng-click="redo()"><i class="icon-step-forward"></i> Redo</button>
+			                <button type="button" class="btn btn-default" ng-click="completeFM()">Complete</button>
+			                <button type="button" class="btn btn-default" ng-click="saveToVar()">Save</button>
+			            </div>
+			        </div>
 			                   
-		                        <!-- Ksynthesis part -->
+		                <!-- Ksynthesis part -->
 		                        <div id="ksynthesis">
 		                        	<div>
 							<!-- Graphical result -->
@@ -306,13 +308,13 @@
                     </div>
 		    <!-- Result part-->
                     <div class="span3 scrollable" ng-controller="FMLVariableCtrl">
-                    
+			<!-- diplay the result in this div -->
                         <div id="msgid"></div>
                         <div>
 	                        <p>
 	                        	<ul class="unstyled">
 	                        		<li ng-repeat="varID in varIDs">
-		                        		<div class="dropdown">
+		                        	    <div class="dropdown">
 			    	                        <button type="button" class="btn dropdown-toggle sr-only" data-toggle="dropdown">
 			    	                          {{varID}}
 			    	                          <span class="caret"></span>
@@ -323,14 +325,14 @@
 			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="synthesize(varID)">Synthesize</a></li>
 			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Remove</a></li>
 			    	                        </ul>
-		    	                        </div>
+						    </div>
 	                        		</li>
 	                        	</ul>
 	                        	<p ng-if="varIDs" id="lastValueFML" class="alert alert-success">
 	                        		{{lastVar}}
 	                        	</p>
 	                        </p>
-	                   </div>
+	                </div>
                     </div>
                 </div>
             </div>
@@ -340,7 +342,7 @@
 	    <!---Script related of autocompletion-->
 	    <script src="@routes.Assets.at("/javascripts/ace-builds-master/src-noconflict/ext-language_tools.js")"></script>
 		
-            <script>
+            <!--<script>
 		var editor=ace.edit("editor");
                 window.onload = function() {
 		    /*
@@ -363,8 +365,10 @@
 		    enableLiveAutocomplete: true,
 		    enableSnippets: true
 		});
-            </script>
-	    
+            </script>-->
+	    <!-- call editor options-->
+	    <script src="@routes.Assets.at("/javascripts/fml/lib_editor.js")"></script>
+	    <script src="@routes.Assets.at("/javascripts/fml/autocompletion_options.js")"></script>
             <script>
                 $(function () {
                     $('#main-container').css('height', ($('body' ).outerHeight()-80)+'px');

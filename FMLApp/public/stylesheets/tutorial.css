@@ -1,0 +1,115 @@
+html,body{
+    height: 100%;
+    width: 100%;
+    /*background-color : rgb(223, 208, 175);*/
+}
+
+#left{
+    width: 55%;
+}
+
+#right{
+    width: 45%;
+}
+
+#contains{
+  min-height: 100%;
+  height: auto;
+  /* Negative indent footer by its height */
+  margin: 0 auto -60px;
+  /* Pad bottom by footer height */
+  padding: 0 0 60px;
+}
+
+#title{
+    text-align: center;
+}
+
+#menu{
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+code{
+    white-space: pre-wrap;
+/*    display: block;
+    left: -25em;*/
+    text-align: left;
+}
+#introduction{
+    /*the line which seperate the part*/
+    border-bottom: 1px solid #eee;
+    margin-bottom:10px;
+}
+
+.container{
+    width: 81%;
+}
+
+.container .text-muted {
+    margin: 20px 0;
+}
+
+#editor{
+    position: relative;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 400px;
+}
+
+#btnExec{
+    text-align: center;
+    margin-top:10px;
+}
+
+#tutorial{
+    /*height: 100%;*/
+}
+
+.scrollable {
+    height: 800px;
+    overflow: auto;
+}
+
+#footer{
+
+    width: 100%;
+    /*background-color: #f5f5f5;*/
+    border-top: 1px solid #eee;
+    margin-top: 40px;
+    color: #999 ;
+}
+
+#footerRight{
+    margin: 10px 0;
+    text-align: center;
+    float: left;
+    width: 33%;
+}
+
+#footerLeft{
+    margin:10px 0;
+    text-align: center;
+    float: left;
+    width: 33%;
+}
+
+#footerCenter{
+    margin:10px 0;
+    float: left;
+    text-align: center;
+    width: 33%;
+    border-right: 1px solid #eee;
+    border-left: 1px solid #eee;
+}
+
+#title{
+    border-bottom: 1px solid #eee;
+}
+
+.footerPara{
+    text-align: center;
+    margin: 20px 0;
+}

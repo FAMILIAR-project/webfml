@@ -1,6 +1,6 @@
 /*
  *Define the specific highlight for familiar language
- *(e.g : keyword of the language,...)
+ *(e.g : keywords of the language,...)
  */
 
 define(function(require, exports, module){
@@ -11,13 +11,16 @@ define(function(require, exports, module){
 
     var FamiliarHighlightRules = function(){
         var keywords=(
-            "merge|sunion|foreach|do|counting|if|then|else|end"
+            "sunion|foreach|do|counting|if|then|else|end|in|"+
+            "merge|union|aggregateMerge|extract|ksynthesis|configs|"+
+            "copy|constraints|renamings|withMapping|aggregateMerge|configuration|"+
+            "slice|including|aggregate|renamings "
         );
         
         var buildinConstants = ("null");
         
         var langClasses = (
-            "FM"
+            "FM|FEATURE_MODEL|SET|INTEGER|DOUBLE|BOOLEAN|CONFIGURATION|STRING"
         );
         
         var keywordMapper = this.createKeywordMapper({

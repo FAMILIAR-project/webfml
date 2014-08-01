@@ -34,6 +34,17 @@ import java.nio.file.Files
 import java.nio.file.Path
 import play.api.libs.json.JsString
 import java.io.File
+import scala.util.parsing.json.JSONArray
+import java.io.BufferedReader
+import java.io.FileReader
+import scala.io.Source
+import play.api.templates.Html
+import org.apache.commons.io.FileUtils
+
+
+
+
+
 
 object WebFMLInterpreter extends Controller with VariableHelper {
 
@@ -46,7 +57,11 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   var synthesizer : InteractiveFMSynthesizer = _
   var heuristics : Map[String, Heuristic] = Map.empty
 
-   
+  /**
+   *  Function which send the compile result
+   *  @param : fmlCommand : the code
+   *  @return : result in json format
+   */ 
   def interpret(fmlCommand: String) = Action {
     request =>
       try {
@@ -496,19 +511,27 @@ object WebFMLInterpreter extends Controller with VariableHelper {
    */
   def deleteFolder(name : String)= Action{
     val direc : File = new File(name)
+    println(name)
+    FileUtils.deleteDirectory(direc)
+    //list of directory in this directory
+    
     //all the files in the directory
-    val fs : Array[File] = direc.listFiles()
+    //val fs : Array[File] = direc.listFiles()
     //new fil which receive a file in the loop
-    val f : File = null
+    //val f : File = null
     /*for each file in the array of file
      *f receive the next file
      */
-    for (f<-fs){
+    //for (f<-fs){
       //delete the file
-      f.delete()
-    }
+      //println(f.getName())
+      //if(f.isDirectory()==false){
+        //f.delete()
+      //}
+      
+    //}
     //delete the directory
-    direc.delete()    
+    //direc.delete()    
 	Ok(Json.toJson(Map("Work" -> 1)))
   }
   
@@ -518,10 +541,39 @@ object WebFMLInterpreter extends Controller with VariableHelper {
    * @Param : name : the path and the name of the file
    */
  def createFile(name : String)= Action{
-	 //define a file
-	 val f : File = new File(name)
- 	 //create the file
-	 f.createNewFile()
+	 //split the string 
+	 var k : Array[String] = name.split("/")
+	 var i = 0
+	 var p = ""
+	 var myFile=""
+	 //if they are something means we write a path
+	 if(k(1)!="" || k(1)!=null){
+		 //now we need the path to create all the subfolder
+		 for(i <- 0 until k.size){
+		   //we must know if this is the name of the file
+		   if(k(i).contains(".fml")){
+		     //get the file name
+		     myFile=k(i)
+		   }else{
+		     //add '/' separator to create a good path
+		     p+=k(i)+"/"
+		   }
+		 }
+		 //create the subfolder
+		 val d : File = new File(p)
+		 //execute
+		 val res = d.mkdirs()
+		 //create the file
+		 val mf : File = new File(p+myFile)
+		 //execute
+		 mf.createNewFile()
+	 }else{
+		 //define a file
+		 val f : File = new File(name)
+		 //create the file
+		 f.createNewFile() 
+	 }
+	
 	 Ok(Json.toJson(Map("Work" -> 1)))
   }
  
@@ -553,5 +605,139 @@ object WebFMLInterpreter extends Controller with VariableHelper {
    bw.close()
    Ok(Json.toJson(Map("Work" -> 1 )))
  }
+ /**
+  * Function which send all the
+  * keywords of the familiar language
+  */
+ def getAllKeywordToJson() = Action {
+	 //we create an array to stock the words
+	 val tab : Array[String]= new Array[String](5)
+	 //@TODO 
+	 tab(0)="merge"
+	 tab(1)="sunion"
+	 tab(2)="test"
+	 tab(3)="counting"
+	 tab(4)="computeMUTEXGroups"
+	 //
+	 //parse to json the previous tab
+	 val myJsonArray : JsValue = Json.toJson(tab)
+	 //"send" it
+	 Ok(myJsonArray)
+ }
+ /**
+  * Function which send all the class word of the 
+  * familiar language
+  */
+ def getAllClasswordToJson()=Action{
+   //we create an array to stock the words
+   val tabClass:Array[String] = new Array[String](5)
+   tabClass(0)="FM"
+   //parse to json the previous tab
+   val myJsonArray : JsValue = Json.toJson(tabClass)
+   //"send" it
+   Ok(myJsonArray)
+ }
+ /**
+  * Function which "send" all the constant word which are
+  * use in Familiar (e.g : null)
+  */
+ def getAllConstantwordToJson()=Action{
+   //we create an array to stock the words
+   val tabConstant: Array[String] = new Array[String](5)
+   tabConstant(0)="null"
+   //parse to json the previous tab
+   val myJsonArray : JsValue = Json.toJson(tabConstant)
+   //"send" it
+   Ok(myJsonArray)
+ }
+ /**
+  * Send in HTML format a tutorial write in markdown
+  * @param nameOfTheLanguage : name of the language of the tutorial
+  */
+ def getTutorialInMarkdown(language : String) = Action{
+   //we get the file with the name
+   val path: String = "public/tuto/"+language+"/chapters/"+"/introduction.md"
+   val myFile: File = new File(path)
+   var res: Html = null
+   if(myFile.exists()){
+      var out : String =Source.fromFile(myFile).getLines.mkString("\n")
+      //convert into Html
+      res= Html(out)
+   }
+   //return res
+   Ok(res)
+ }
   
+ /**
+  *Load the header for the tutorial part of the current language
+  *and return this header into html format
+  * @param language : the current language used in the app 
+  */
+ def getHeaderInMarkdown(language : String) = Action{
+   //we get the file with the name
+   val path: String = "public/tuto/"+language+"/header.md"
+   val myFile: File = new File(path)
+   var res: Html = null
+   if(myFile.exists()){
+      var out : String =Source.fromFile(myFile).getLines.mkString("\n")
+      //convert into Html
+      res= Html(out)
+   }
+   //return res
+   Ok(res)
+ }
+ 
+ /** 
+  *Load the menu in markdown and return this menu into HTML format
+  *@param language : the current language used in the app
+  */
+ def getMenuInMarkdown(language : String) = Action{
+   //we get the file with the name
+   val path: String = "public/tuto/"+language+"/menu.md"
+   val myFile: File = new File(path)
+   var res: Html = null
+   if(myFile.exists()){
+      var out : String =Source.fromFile(myFile).getLines.mkString("\n")
+      //convert into Html
+      res= Html(out)
+   }
+   //return res
+   Ok(res)
+ }
+ 
+ /**
+  * Return the correct chapter
+  * @param name : the name of the chapter
+  * @param language : the current language of the app
+  */
+ def getChapter(name : String, language : String) = Action{
+   
+   val path: String = "public/tuto/"+language+"/chapters/"+name
+   val myFile: File = new File(path)
+   var res: Html = null
+   if(myFile.exists()){
+      var out : String =Source.fromFile(myFile).getLines.mkString("\n")
+      //convert into Html
+      res= Html(out)
+   }
+   //return the html code  
+   Ok(res)
+ }
+ /**
+  * 
+  * 
+  * 
+  */
+ def getAllChapters(langage : String) = Action{
+	  val path: String = "public/tuto/"+langage+"/chapters"
+	  val myFiles: File = new File(path)
+	  var myFile:File = null
+	  var res: String = null
+	  for(myFile<-myFiles.listFiles()){
+	    println(myFile.getName())
+	    res+=myFile.getName()
+	  }
+	  Ok(res)
+ }
+ 
 }

@@ -8,7 +8,8 @@ import models._
 import views._
 import play.api.libs.json.Json
 import java.io.File
-//import controllers.WebFMLInterpreter
+
+
 
 
 
@@ -19,7 +20,7 @@ object Application extends Controller {
  
    def index() = Action {
     	request =>
-		val fmlDemo = "// your FAMILIAR code here!\n" + 
+		val fmlDemo ="// your FAMILIAR code here!\n" + 
 					"fm1 = FM (A: B [C] ; )\n" + 
 					"\n" + 
 					"\n" + 
@@ -44,9 +45,20 @@ object Application extends Controller {
 					"fm0\n" + 
 					"mtx = computeMUTEXGroups fm0";
 		// <button class="btn" onclick="loadFile('fm1 = FM (A : [B] XXX ; )');">Load file</button>
-		Ok(views.html.index.render(fmlDemo + "\n"))
+		Ok(views.html.index(fmlDemo + "\n"))
     }
   
+   /**
+    * To access to the tutorial page
+    */
+   def tutorial() = Action {
+     val tuto = "//hello world !\n"
+     Ok(views.html.tutorial(tuto))/*, WebFMLInterpreter.tutorialToHtml())*/
+   }
+   
+   def homePage() = Action {
+     Ok(views.html.homePage())
+   }
   
    
  
@@ -86,7 +98,19 @@ object Application extends Controller {
                 //delete file
                 WebFMLInterpreter.deleteFile,
                 //save file
-                WebFMLInterpreter.saveFile
+                WebFMLInterpreter.saveFile,
+                //toJson 
+                //familiar
+                WebFMLInterpreter.getAllKeywordToJson,
+                WebFMLInterpreter.getAllClasswordToJson,
+                WebFMLInterpreter.getAllConstantwordToJson,
+                //vm
+                VMInterpreter.searchKeyword,
+                //markdown
+                WebFMLInterpreter.getTutorialInMarkdown,
+                WebFMLInterpreter.getMenuInMarkdown,
+                WebFMLInterpreter.getHeaderInMarkdown,
+                WebFMLInterpreter.getChapter
                 
             )
         ).as("text/javascript");

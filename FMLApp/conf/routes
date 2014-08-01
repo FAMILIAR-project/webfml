@@ -3,7 +3,11 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index
+GET     /                        	controllers.Application.homePage()
+
+#IDE
+
+GET 	/ide						controllers.Application.index()
 GET     /variable/:id	            controllers.WebFMLInterpreter.variable(id : String)
 POST    /interpret	              	controllers.WebFMLInterpreter.interpret(s : String)
 POST    /evalPrompt	              	controllers.WebFMLInterpreter.evalPrompt(s : String)
@@ -39,5 +43,23 @@ POST	/deleteFolder				controllers.WebFMLInterpreter.deleteFolder(name)
 POST 	/deleteFile					controllers.WebFMLInterpreter.deleteFile(name)
 #Save file
 POST 	/saveFile					controllers.WebFMLInterpreter.saveFile(name, content)
+#json keywords
+GET 	/getAllKeywordToJson		controllers.WebFMLInterpreter.getAllKeywordToJson()
+GET 	/getAllClasswordToJson		controllers.WebFMLInterpreter.getAllClasswordToJson()
+GET 	/getAllConstantwordToJson	controllers.WebFMLInterpreter.getAllConstantwordToJson()
+GET		/getVMKeywordsToJson		controllers.VMInterpreter.searchKeyword()
+
+#tutorial page
+GET 	/tutorial					controllers.Application.tutorial()
+
+#markdown tutorial
+GET		/getTutorialInMarkdown		controllers.WebFMLInterpreter.getTutorialInMarkdown(name)
+#markdown menu
+GET 	/getMenuInMarkdown 			controllers.WebFMLInterpreter.getMenuInMarkdown(name)
+#markdown header
+GET 	/getHeaderInMarkdown		controllers.WebFMLInterpreter.getHeaderInMarkdown(name)
+#chapters
+GET 	/getChapter					controllers.WebFMLInterpreter.getChapter(name, langage)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
