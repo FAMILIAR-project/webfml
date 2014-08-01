@@ -9,7 +9,7 @@
  *
  */
 ace.define('ace/mode/familiar',['require', 'exports', 'module','ace/lib/oop','ace/mode/text','ace/tokenizer','ace/mode/javascript_highlight_rules','ace/mode/matching_brace_outdent','ace/range','ace/worker/worker_client','ace/mode/behaviour/cstyle','ace/mode/folding/cstyle'], function(require, exports, module) {
-      
+//nedd oop librairie      
 var oop = require("../lib/oop");
 var JavaScriptMode = require("./javascript").Mode;
 var Tokenizer = require("../tokenizer").Tokenizer;
@@ -18,6 +18,7 @@ var FamiliarHighlightRules = require("./familiar_highlight_rules").FamiliarHighl
 
 var Mode = function() {
     JavaScriptMode.call(this);
+    //the current higjlight is the familiar highlight
     this.HighlightRules = FamiliarHighlightRules;
 };
 oop.inherits(Mode, JavaScriptMode);

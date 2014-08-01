@@ -1,5 +1,19 @@
+/**
+ *
+ *
+ *
+ *
+ */
+
+/**
+ *Function which
+ *param : $scope : 
+ */
 function FMLEditorCtrl($scope, $rootScope) {
-	
+	/**
+	 *Function wich send to the interpreter the code to execute
+	 *and display the result
+	 */
 	$scope.cmd = function () {
 	    var idToGet = editor.getSession().getValue();
 	    jsRoutes.controllers.WebFMLInterpreter.interpret(idToGet).ajax({
@@ -69,7 +83,7 @@ function loadFile(filename) {
 			$('#msgid').html('Unable to load the file..' + data) ; 
 		},
 	        beforeSend : function(event, jqxhr, settings) {
-		        $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
+		        //$('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
 		},
 	       complete : function(jqxhr, textstatus) {
 		    $('#wait').html('') ;		   

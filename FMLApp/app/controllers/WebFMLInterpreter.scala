@@ -57,7 +57,11 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   var synthesizer : InteractiveFMSynthesizer = _
   var heuristics : Map[String, Heuristic] = Map.empty
 
-   
+  /**
+   *  Function which send the compile result
+   *  @param : fmlCommand : the code
+   *  @return : result in json format
+   */ 
   def interpret(fmlCommand: String) = Action {
     request =>
       try {

@@ -100,9 +100,12 @@ object Application extends Controller {
                 //save file
                 WebFMLInterpreter.saveFile,
                 //toJson 
+                //familiar
                 WebFMLInterpreter.getAllKeywordToJson,
                 WebFMLInterpreter.getAllClasswordToJson,
                 WebFMLInterpreter.getAllConstantwordToJson,
+                //vm
+                VMInterpreter.searchKeyword,
                 //markdown
                 WebFMLInterpreter.getTutorialInMarkdown,
                 WebFMLInterpreter.getMenuInMarkdown,

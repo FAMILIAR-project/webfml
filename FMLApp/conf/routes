@@ -47,6 +47,7 @@ POST 	/saveFile					controllers.WebFMLInterpreter.saveFile(name, content)
 GET 	/getAllKeywordToJson		controllers.WebFMLInterpreter.getAllKeywordToJson()
 GET 	/getAllClasswordToJson		controllers.WebFMLInterpreter.getAllClasswordToJson()
 GET 	/getAllConstantwordToJson	controllers.WebFMLInterpreter.getAllConstantwordToJson()
+GET		/getVMKeywordsToJson		controllers.VMInterpreter.searchKeyword()
 
 #tutorial page
 GET 	/tutorial					controllers.Application.tutorial()

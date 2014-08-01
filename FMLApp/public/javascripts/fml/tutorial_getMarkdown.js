@@ -45,9 +45,7 @@ $(function() {
                     //b[i+1]=parts[i+1].replace('<a href="'+chapters[i]+'"','<a onclick=getChap('+'"'+chapters[i]+'"'+','+'"'+language+'"'+');') + " " ;
                     temp=parts[i+1].replace('<a href="'+chapters[i]+'"','<button type="button" class="btn btn-primary" onclick=getChap('+'"'+chapters[i]+'"'+','+'"'+language+'"'+');') + " " ;
                     b[i+1] = temp.replace("</a>","</button>");
-                }
-                //button type ="button" class="btn btn-info"
-                
+                }                
                 var result="";
                 /*
                  *delete the ',' of the tab
