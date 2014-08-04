@@ -763,5 +763,31 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     }
     Ok(Json.toJson(res))
   }
+
+  /**
+  *
+  */
+  def getAllVMKeywordToJson()=Action{
+    var d=""
+
+    Ok(Json.toJson(d))
+  }
+
+  /**
+  *
+  */
+  def getAllVMClassWordToJson()=Action{
+    var d =""
+
+    Ok(Json.toJson(d))
+  }
+  /**
+  *
+  */
+  def getAllCMConstantWordToJson() = Action{
+    var d = ""
+
+    Ok(Json.toJson(d))
+  }
  
 }
