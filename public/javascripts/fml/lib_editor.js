@@ -15,7 +15,11 @@ window.onload = function() {
     editor.setTheme("ace/theme/xcode");
     /*
     *define the mode of the editor with a special hilight
+    *and for the correct language
     */
-    var JavaScriptMode = ace.require("ace/mode/familiar").Mode;
+    var JavaScriptMode = ace.require("ace/mode/"+language+"").Mode;
+    /*
+    *Set the mode to the editor
+    */
     editor.getSession().setMode(new JavaScriptMode());
 };

@@ -105,7 +105,7 @@ object Application extends Controller {
                 WebFMLInterpreter.getAllClasswordToJson,
                 WebFMLInterpreter.getAllConstantwordToJson,
                 //vm
-                VMInterpreter.searchKeyword,
+                WebFMLInterpreter.searchKeyword,
                 //markdown
                 WebFMLInterpreter.getTutorialInMarkdown,
                 WebFMLInterpreter.getMenuInMarkdown,

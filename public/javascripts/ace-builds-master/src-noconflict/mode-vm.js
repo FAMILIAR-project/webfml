@@ -1,24 +1,24 @@
-/*
- * FAMILIAR mode for the IDE.
- * Include in this file the highlight syntax.
- * https://github.com/ajaxorg/ace/wiki/Creating-or-Extending-an-Edit-Mode
- */
+/**
+*VM mode for the IDE (include tutorial part) 
+*Include in this file the highlight syntax
+*https://github.com/ajaxorg/ace/wiki/Creating-or-Extending-an-Edit-Mode
+*/
 
 /*
- * Define the mode
- *
- */
-ace.define('ace/mode/familiar',['require', 'exports', 'module','ace/lib/oop','ace/mode/text','ace/tokenizer','ace/mode/javascript_highlight_rules','ace/mode/matching_brace_outdent','ace/range','ace/worker/worker_client','ace/mode/behaviour/cstyle','ace/mode/folding/cstyle'], function(require, exports, module) {
+*Define the mode
+*
+*/
+ace.define('ace/mode/vm',['require', 'exports', 'module','ace/lib/oop','ace/mode/text','ace/tokenizer','ace/mode/javascript_highlight_rules','ace/mode/matching_brace_outdent','ace/range','ace/worker/worker_client','ace/mode/behaviour/cstyle','ace/mode/folding/cstyle'], function(require, exports, module) {
 //nedd oop librairie      
 var oop = require("../lib/oop");
 var JavaScriptMode = require("./javascript").Mode;
 var Tokenizer = require("../tokenizer").Tokenizer;
 //here we need the highlight rules
-var FamiliarHighlightRules = require("./familiar_highlight_rules").FamiliarHighlightRules;
+var FamiliarHighlightRules = require("./vm_highlight_rules").VMHighlightRules;
 
 var Mode = function() {
     JavaScriptMode.call(this);
-    //the current higjlight is the familiar highlight
+    //the current higjlight is the vm highlight
     this.HighlightRules = FamiliarHighlightRules;
 };
 oop.inherits(Mode, JavaScriptMode);
@@ -35,9 +35,9 @@ exports.Mode = Mode;
 });
 
 /*
- * JavaScript mode
- *
- */
+* JavaScript mode
+*
+*/
 
 ace.define('ace/mode/javascript', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/mode/text', 'ace/tokenizer', 'ace/mode/javascript_highlight_rules', 'ace/mode/matching_brace_outdent', 'ace/range', 'ace/worker/worker_client', 'ace/mode/behaviour/cstyle', 'ace/mode/folding/cstyle'], function(require, exports, module) {
 
@@ -438,7 +438,6 @@ oop.inherits(JavaScriptHighlightRules, TextHighlightRules);
 exports.JavaScriptHighlightRules = JavaScriptHighlightRules;
 });
 
-
 //
 ace.define('ace/mode/doc_comment_highlight_rules', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/mode/text_highlight_rules'], function(require, exports, module) {
 
@@ -527,11 +526,11 @@ exports.MatchingBraceOutdent = MatchingBraceOutdent;
 });
 
 //
-
+//@TODO make function in Scala
 /**
  *Call the function which return the keywords from the serveur
  */
-jsRoutes.controllers.WebFMLInterpreter.getAllKeywordToJson().ajax({
+jsRoutes.controllers.WebFMLInterpreter.getAllVMKeywordToJson().ajax({
     /*
     *If they are no problem
     */
@@ -543,7 +542,7 @@ jsRoutes.controllers.WebFMLInterpreter.getAllKeywordToJson().ajax({
 /**
  * All the class word of the familiar language
  */
-jsRoutes.controllers.WebFMLInterpreter.getAllClasswordToJson().ajax({
+jsRoutes.controllers.WebFMLInterpreter.getAllVMClassWordToJson().ajax({
     /*
     *If they are no problem
     */
@@ -555,7 +554,7 @@ jsRoutes.controllers.WebFMLInterpreter.getAllClasswordToJson().ajax({
 /**
  *All the constant word (e.g : null) of familiar
  */
-jsRoutes.controllers.WebFMLInterpreter.getAllConstantwordToJson().ajax({
+jsRoutes.controllers.WebFMLInterpreter.getAllCMConstantWordToJson().ajax({
     /*
     *If they are no problem
     */
@@ -564,7 +563,6 @@ jsRoutes.controllers.WebFMLInterpreter.getAllConstantwordToJson().ajax({
         constantWordList(data);
     }
 });
-
 
 //keywords of the language
 var keywords = "";
@@ -576,7 +574,7 @@ var buildinConstants="";
 /*This part define the highlight rules 
  *of the familiar language      
  */
-ace.define('ace/mode/familiar_highlight_rules', ['require','exports','module','ace/lib/oop','ace/mode/doc_comment_highlight_rules','ace/mode/text_highlight_rules'],function(require,exports,module){
+ace.define('ace/mode/vm_highlight_rules', ['require','exports','module','ace/lib/oop','ace/mode/doc_comment_highlight_rules','ace/mode/text_highlight_rules'],function(require,exports,module){
 "use strict";
 
     var oop=require("../lib/oop");
@@ -732,7 +730,6 @@ function constantWordList(tab){
     buildinConstants = res ;
     
 }
-
 
 /*
  * style 
