@@ -758,7 +758,9 @@ object WebFMLInterpreter extends Controller with VariableHelper {
       /*var res=Source.fromFile(myFile).getLines().mkString("\n")
       println(res.toString())
       pattern.findAllIn(res).toList*/
-    	
+      /*
+       * Read line by line
+       */	
       for(line<- Source.fromFile(myFile).getLines()){
         //create an interator
     	 var it=pattern.findAllIn(line)
@@ -769,8 +771,13 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     	   var k = it.next
     	   //remove the '
     	   var p=k.replaceAll("'","")
-    	   //list receive p
-    	   lst+=p
+    	   //test if the list not contains the same word
+    	   //or if p is not null or just "" or " " 
+    	   if(p!=""&&p!=null&&p!=" "&&lst.contains(p)==false){
+    	     //list receive p
+    		 lst+=p
+    	   }
+    	   
     	 }
       }
       
