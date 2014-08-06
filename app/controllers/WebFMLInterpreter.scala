@@ -40,6 +40,9 @@ import java.io.FileReader
 import scala.io.Source
 import play.api.templates.Html
 import org.apache.commons.io.FileUtils
+import scala.util.matching.Regex
+import scala.collection.immutable.List
+import scala.collection.mutable.ListBuffer
 
 
 
@@ -745,31 +748,54 @@ object WebFMLInterpreter extends Controller with VariableHelper {
    * Return all the keyword of vm's language
    */
   def searchKeyword()=Action{
-    val i=0
     val path="public/tuto/vm/xtext/Vm.xtext"
-    val myFile:File = new File(path)
-    var result=""
-    var res=""
+    val myFile:File = new File(path)   
+    //search all characters between ''
+    val pattern = "('.*?')".r
+    //List myList = new List()  
+    var lst  = new ListBuffer[String]() 
     if(myFile.exists()){
+      /*var res=Source.fromFile(myFile).getLines().mkString("\n")
+      println(res.toString())
+      pattern.findAllIn(res).toList*/
+    	
       for(line<- Source.fromFile(myFile).getLines()){
-        println(line)
-        result=line
-        //search all the word between ''
-        
-        //get these word in a tab
-        //return the tab
-        	
+        //create an interator
+    	 var it=pattern.findAllIn(line)
+    	 //while we are not in the end of
+    	 //the iterator
+    	 while(it.hasNext){
+    	   //list get the current element
+    	   var k = it.next
+    	   //remove the '
+    	   var p=k.replaceAll("'","")
+    	   //list receive p
+    	   lst+=p
+    	 }
       }
+      
+    } else {
+      Nil
     }
-    Ok(Json.toJson(res))
+    //convert to a list
+    lst.toList
+    //return the list
+    Ok(Json.toJson(lst))
   }
 
   /**
   *
   */
   def getAllVMKeywordToJson()=Action{
+    //var myList=searchKeyword()
     var d=""
-
+   /* for(i=0,i<myList.length,i++){
+      
+    }*/
+    /*for(line<-myList){
+      
+    }*/
+    
     Ok(Json.toJson(d))
   }
 

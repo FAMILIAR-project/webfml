@@ -13,11 +13,11 @@ $(function(){
       //test if the language have the correct name
       if (language=="vm") {
             //appeller le fichier javascript qui va bien (mode-vm.js)
-            jsRoutes.controllers.WebFMLInterpreter.searchKeyword().ajax({
+            /*jsRoutes.controllers.WebFMLInterpreter.searchKeyword().ajax({
                   success : function(data){
                         console.log("sucess");
                   }
-            });
+            });*/
             
       }
       /**
@@ -26,9 +26,9 @@ $(function(){
       if (language=="familiar") {
             console.log(language);
 
-            $.getScript('assets/javascripts/ace-builds-master/src-noconflict/mode-familiar.js',function(){
+            /*$.getScript('assets/javascripts/ace-builds-master/src-noconflict/mode-familiar.js',function(){
                   console.log("execute")
-            });
+            });*/
       }
       /*var i;
       for(i = 0; i<res.length;i++){

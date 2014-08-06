@@ -530,38 +530,47 @@ exports.MatchingBraceOutdent = MatchingBraceOutdent;
 /**
  *Call the function which return the keywords from the serveur
  */
-jsRoutes.controllers.WebFMLInterpreter.getAllVMKeywordToJson().ajax({
+//jsRoutes.controllers.WebFMLInterpreter.getAllVMKeywordToJson().ajax({
     /*
     *If they are no problem
     */
-    success : function(data){
+    //success : function(data){
         //call the function to have the words
-        keywordsList(data);
-    }
-});
+        //keywordsList(data);
+    //}
+//});
 /**
  * All the class word of the familiar language
  */
-jsRoutes.controllers.WebFMLInterpreter.getAllVMClassWordToJson().ajax({
+//jsRoutes.controllers.WebFMLInterpreter.getAllVMClassWordToJson().ajax({
     /*
     *If they are no problem
     */
-    success : function(data){
+    //success : function(data){
         //call the function to have the words
-        classWordList(data);
-    }
-});
+        //classWordList(data);
+    //}
+//});
 /**
  *All the constant word (e.g : null) of familiar
  */
-jsRoutes.controllers.WebFMLInterpreter.getAllCMConstantWordToJson().ajax({
+//jsRoutes.controllers.WebFMLInterpreter.getAllCMConstantWordToJson().ajax({
     /*
     *If they are no problem
     */
-    success : function(data){
+    //success : function(data){
         //call the function to have the words
-        constantWordList(data);
-    }
+        //constantWordList(data);
+    //}
+//});
+
+jsRoutes.controllers.WebFMLInterpreter.searchKeyword().ajax({
+	success: function (data) {
+		console.log("Works & data:"+ data);
+	},
+	error: function(data){
+		console.log("Failed & datat : "+data);
+	}
 });
 
 //keywords of the language
