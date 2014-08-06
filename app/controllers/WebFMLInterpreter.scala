@@ -751,59 +751,37 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     val path="public/tuto/vm/xtext/Vm.xtext"
     val myFile:File = new File(path)   
     //search all characters between ''
-    val pattern = "('.*?')".r
+    val pattern = "'.*?'".r
     //List myList = new List()  
     var lst  = new ListBuffer[String]() 
+    //if the file exist
     if(myFile.exists()){
-      /*var res=Source.fromFile(myFile).getLines().mkString("\n")
-      println(res.toString())
-      pattern.findAllIn(res).toList*/
-      /*
-       * Read line by line
-       */	
+      //read line by line
       for(line<- Source.fromFile(myFile).getLines()){
         //create an interator
-    	 var it=pattern.findAllIn(line)
-    	 //while we are not in the end of
-    	 //the iterator
-    	 while(it.hasNext){
-    	   //list get the current element
-    	   var k = it.next
-    	   //remove the '
-    	   var p=k.replaceAll("'","")
-    	   //test if the list not contains the same word
-    	   //or if p is not null or just "" or " " 
-    	   if(p!=""&&p!=null&&p!=" "&&lst.contains(p)==false){
-    	     //list receive p
-    		 lst+=p
-    	   }
-    	   
+    	 for (literal <- pattern.findAllIn(line)) {
+    	  // Add the literal to the list of keywords if it is not whitespace
+    	  if (!literal.matches("\\s*")) {
+    	    //replace the ' to nothing
+    	    lst+=literal.replace("'", "")
+    	  }
     	 }
       }
       
-    } else {
-      Nil
     }
     //convert to a list
-    lst.toList
+    var k =lst.toList.distinct
     //return the list
-    Ok(Json.toJson(lst))
+    Ok(Json.toJson(k))
   }
 
   /**
   *
   */
   def getAllVMKeywordToJson()=Action{
-    //var myList=searchKeyword()
-    var d=""
-   /* for(i=0,i<myList.length,i++){
-      
-    }*/
-    /*for(line<-myList){
-      
-    }*/
+    var b=searchKeyword()
     
-    Ok(Json.toJson(d))
+    Ok("")
   }
 
   /**

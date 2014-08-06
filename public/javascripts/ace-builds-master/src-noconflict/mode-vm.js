@@ -14,12 +14,12 @@ var oop = require("../lib/oop");
 var JavaScriptMode = require("./javascript").Mode;
 var Tokenizer = require("../tokenizer").Tokenizer;
 //here we need the highlight rules
-var FamiliarHighlightRules = require("./vm_highlight_rules").VMHighlightRules;
+var VMHighlightRules = require("./vm_highlight_rules").VMHighlightRules;
 
 var Mode = function() {
     JavaScriptMode.call(this);
     //the current higjlight is the vm highlight
-    this.HighlightRules = FamiliarHighlightRules;
+    this.HighlightRules = VMHighlightRules;
 };
 oop.inherits(Mode, JavaScriptMode);
 
@@ -530,17 +530,17 @@ exports.MatchingBraceOutdent = MatchingBraceOutdent;
 /**
  *Call the function which return the keywords from the serveur
  */
-//jsRoutes.controllers.WebFMLInterpreter.getAllVMKeywordToJson().ajax({
+jsRoutes.controllers.WebFMLInterpreter.searchKeyword().ajax({
     /*
     *If they are no problem
     */
-    //success : function(data){
+    success : function(data){
         //call the function to have the words
-        //keywordsList(data);
-    //}
-//});
+        keywordsList(data);
+    }
+});
 /**
- * All the class word of the familiar language
+ * All the class word of the vm language
  */
 //jsRoutes.controllers.WebFMLInterpreter.getAllVMClassWordToJson().ajax({
     /*
@@ -552,7 +552,7 @@ exports.MatchingBraceOutdent = MatchingBraceOutdent;
     //}
 //});
 /**
- *All the constant word (e.g : null) of familiar
+ *All the constant word (e.g : null) of vm
  */
 //jsRoutes.controllers.WebFMLInterpreter.getAllCMConstantWordToJson().ajax({
     /*
@@ -564,14 +564,14 @@ exports.MatchingBraceOutdent = MatchingBraceOutdent;
     //}
 //});
 
-jsRoutes.controllers.WebFMLInterpreter.searchKeyword().ajax({
+/*jsRoutes.controllers.WebFMLInterpreter.searchKeyword().ajax({
 	success: function (data) {
 		console.log("Works & data:"+ data);
 	},
 	error: function(data){
 		console.log("Failed & datat : "+data);
 	}
-});
+});*/
 
 //keywords of the language
 var keywords = "";
@@ -589,7 +589,7 @@ ace.define('ace/mode/vm_highlight_rules', ['require','exports','module','ace/lib
     var oop=require("../lib/oop");
     var TextHighlightRules=require("./text_highlight_rules").TextHighlightRules;
     var DocCommentHighlightRules = require("./doc_comment_highlight_rules").DocCommentHighlightRules;
-    var FamiliarHighlightRules=function(){
+    var VMHighlightRules=function(){
    
     
     //var langClasses=("FM");
@@ -666,8 +666,8 @@ ace.define('ace/mode/vm_highlight_rules', ['require','exports','module','ace/lib
         ]
     };
 };
-oop.inherits(FamiliarHighlightRules, TextHighlightRules);
-exports.FamiliarHighlightRules = FamiliarHighlightRules;
+oop.inherits(VMHighlightRules, TextHighlightRules);
+exports.VMHighlightRules = VMHighlightRules;
 });
 
 /**
