@@ -50,7 +50,7 @@ GET 	/getAllConstantwordToJson	controllers.WebFMLInterpreter.getAllConstantwordT
 GET		/getVMKeywordsToJson		controllers.WebFMLInterpreter.searchKeyword()
 
 #tutorial page
-GET 	/tutorial					controllers.Application.tutorial()
+GET 	/tutorial/:name				controllers.Application.tutorial(name:String)
 
 #markdown tutorial
 GET		/getTutorialInMarkdown		controllers.WebFMLInterpreter.getTutorialInMarkdown(name)

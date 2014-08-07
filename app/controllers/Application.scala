@@ -8,6 +8,7 @@ import models._
 import views._
 import play.api.libs.json.Json
 import java.io.File
+import play.api.templates.Html
 
 
 
@@ -50,12 +51,34 @@ object Application extends Controller {
   
    /**
     * To access to the tutorial page
+    * @param : name : name of the language
     */
-   def tutorial() = Action {
-     val tuto = "//hello world !\n"
-     Ok(views.html.tutorial(tuto))/*, WebFMLInterpreter.tutorialToHtml())*/
-   }
+   def tutorial(name:String) = Action {
+	 var nameOfTheLanguage=""
+     var btn=""
+       
+     if(name=="familiar"){
+       
+       nameOfTheLanguage = "<script>var language='familiar'</script> <script type='text/javascript' src='/assets/javascripts/ace-builds-master/src-noconflict/mode-familiar.js'></script>"
+       btn="<button class='btn btn-info' id='webFmlCmd' ng-click='cmd()' ><i class='glyphicon glyphicon-play'></i> Execute FAMILIAR code</button>"
    
+     }
+     
+     if(name=="vm"){
+       
+       nameOfTheLanguage = "<script>var language='vm'</script> <script type='text/javascript' src='/assets/javascripts/ace-builds-master/src-noconflict/mode-vm.js'></script>"
+       btn="<button class='btn btn-info' id='webFmlCmd' ng-click='cmd()' ><i class='glyphicon glyphicon-play'></i> Execute VM code</button>"
+
+     }
+      
+     
+     
+     val tuto = "//hello world !\n"
+     Ok(views.html.tutorial(tuto,Html(nameOfTheLanguage),Html(btn)))/*, WebFMLInterpreter.tutorialToHtml())*/
+   }
+  /**
+   *  HomePage
+   */ 
    def homePage() = Action {
      Ok(views.html.homePage())
    }

@@ -2,16 +2,16 @@
 *
 *
 */
-var language="";
-$(function(){
+//var language="";
+//$(function(){
       //get the language in the cookie
-      language = document.cookie;
+      //language = document.cookie;
       //split the languague because language=vm
-      var res = language.split("=");
+      //var res = language.split("=");
       //set to the language var the good language name
-      language=res[1];
+      //language=res[1];
       //test if the language have the correct name
-      if (language=="vm") {
+     // if (language=="vm") {
             //appeller le fichier javascript qui va bien (mode-vm.js)
             /*jsRoutes.controllers.WebFMLInterpreter.searchKeyword().ajax({
                   success : function(data){
@@ -19,17 +19,17 @@ $(function(){
                   }
             });*/
             
-      }
+      //}
       /**
       *If the current language is Familiar
       */
-      if (language=="familiar") {
+      /*if (language=="familiar") {
             console.log(language);
 
-            /*$.getScript('assets/javascripts/ace-builds-master/src-noconflict/mode-familiar.js',function(){
+            $.getScript('assets/javascripts/ace-builds-master/src-noconflict/mode-familiar.js',function(){
                   console.log("execute")
-            });*/
-      }
+            });
+      }*/
       /*var i;
       for(i = 0; i<res.length;i++){
             console.log(i);
@@ -52,5 +52,5 @@ $(function(){
       /*
       *Put the correct name to the head of the webpage
       */
-      document.getElementById("head").innerHTML=" - How to use " + language.toUpperCase(); 
-});
+       
+//});

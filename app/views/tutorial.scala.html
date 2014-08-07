@@ -1,4 +1,4 @@
-@(message : String)
+@(message : String, jsToImport : Html, btnToImport:Html)
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -63,7 +63,7 @@
                             </div>
                             <div id="btnExec">
                                 <div ng-controller="FMLEditorCtrl">
-                                    <button class="btn btn-info" id="webFmlCmd" ng-click="cmd()" ><i class="glyphicon glyphicon-play"></i> Execute FAMILIAR code</button>
+                                    @btnToImport
                                 </div>
                             </div>
                             <div id="res">
@@ -147,6 +147,7 @@
             <!-- end ACE editor (style) -->
             <!-- end EDITOR -->
             <!-- Boostrap-->
+            
             <script src="@routes.Assets.at("javascripts/lib/bootstrap/bootstrap.js")" type="text/javascript"></script>
             <!-- Editor-->
             <script src="@routes.Assets.at("/javascripts/fml/lib_editor.js")"></script>
@@ -166,9 +167,10 @@
             
             <!-- Get the cookie-->
             <script asyn src="@routes.Assets.at("/javascripts/fml/tutorial_getCookie.js")"></script>
-	        <script src="@routes.Assets.at("javascripts/ace-builds-master/src-noconflict/mode-familiar.js")" type="text/javascript" charset="utf-8"></script>
+            @jsToImport
+	        
             <!--test of the vm mode -->
-            <script type="text/javascript" src="@routes.Assets.at("javascripts/ace-builds-master/src-noconflict/mode-vm.js")"></script>
+            <!--<script type="text/javascript" src="@routes.Assets.at("javascripts/ace-builds-master/src-noconflict/mode-vm.js")"></script>-->
             <script type="text/javascript">
                 //var language="";
                 /*window.onload=function(){
@@ -209,7 +211,11 @@
                     editor.getSession().setValue(deletesmt);
                 }
             </script>
-
+            <script type="text/javascript">
+                $(function(){
+                    document.getElementById("head").innerHTML=" - How to use " + language.toUpperCase();
+                });
+            </script>
             
 
             <script>
