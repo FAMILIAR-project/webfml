@@ -687,6 +687,7 @@ exports.VMHighlightRules = VMHighlightRules;
     }
     //put in keyword the result
     keywords = key;
+    //console.log(key);
 }
 /**
  * Function which put in the res varaible all the class word of
