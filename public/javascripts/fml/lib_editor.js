@@ -12,10 +12,14 @@ window.onload = function() {
     *define the "mode" of the editor (e.g: color) you can change the value here (e.g : chrome, github...).
     *To find more theme you : ace-build-master/src-no-conflict/theme-xxx, you have just to put the xxx.
     */
-    editor.setTheme("ace/theme/xcode");
+    editor.setTheme("ace/theme/github");
     /*
     *define the mode of the editor with a special hilight
+    *and for the correct language
     */
-    var JavaScriptMode = ace.require("ace/mode/familiar").Mode;
+    var JavaScriptMode = ace.require("ace/mode/"+language+"").Mode;
+    /*
+    *Set the mode to the editor
+    */
     editor.getSession().setMode(new JavaScriptMode());
 };

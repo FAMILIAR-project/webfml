@@ -47,7 +47,8 @@
                 <div class="jumbotron">
                     <h1>Welcome to FAMILIAR project website</h1>
                     <p>feature models, variability, software product lines, configuration, domain-specific language, automated reasoning, model-driven engineering</p>
-                    <!--<a href="/tutorial">--><button type="button" class="btn btn-success btn-lg" onclick="createCookie('familiar');"><i class="glyphicon glyphicon-pencil"></i> Go to the Tutorial</button><!--</a>-->
+                    <a href="/tutorial/familiar"><button type="button" class="btn btn-success btn-lg" onclick="createCookie('familiar');"><i class="glyphicon glyphicon-pencil"></i> Familiar Tutorial</button></a>
+                    <!--<a href="/tutorial/vm"><button type="button" class="btn btn-success btn-lg"><i class="glyphicon glyphicon-pencil"></i> VM Tutorial</button></a>-->
                     <!--<button type="button" class="btn btn-success btn-lg"><i class="glyphicon glyphicon-leaf"></i> Go to the IDE</button>-->
                 </div>
                 <div class="alert alert-danger" role="alert">
@@ -55,7 +56,7 @@
                         <i class="fa fa-wrench"></i> This website is currently in development !
                         Please contact us to send feedback about the website and the tutorial.
                         <a href="https://github.com/FAMILIAR-project/webfml/issues"><i class="fa fa-github-alt"></i> Click Here !</a> to contact us.
-                        Or contact the <a href="mailto:geoffrey.alexandre[at]inria.fr">web-dev</a> ! 
+                        <!--Or contact the <a href="mailto:geoffrey.alexandre[at]inria.fr">web-dev</a> ! -->
                     </b>
                 </div>
             </div>
@@ -132,7 +133,7 @@
                         <p class="text-justify">
                             Tools to understand and used familiar :
                         </p>
-                            <button type="button" class="btn btn-info" onclick="createCookie('vm');"> Go to the Tutorial</button></li>
+                            <button type="button" class="btn btn-info" onclick="createCookie('familiar');"> Go to the Tutorial</button></li>
                             <!--<button type="button" class="btn btn-info">Go to the IDE</button></li>-->
                             <!--<a href="https://github.com/FAMILIAR-project/familiar-language"><button type="button" class="btn btn-info"><i class="fa fa-github"></i> Sources</button></a>-->
                    
@@ -316,15 +317,17 @@
              */
             function createCookie(name){
                 //set to the cookie the name of the language
-                var timeEx=new Date();
+                //var timeEx=new Date();
                 //get the pathname of the website
-                var pathName = location.pathname;
+                //var pathName = location.pathname;
                 //add 5s
-                timeEx.setTime(timeEx.getTime()+ (5000));
+                //timeEx.setTime(timeEx.getTime()+ (5000));
                 //create the cookie
-                document.cookie="language="+name+";"+"expires="+timeEx.toUTCString()+";"+"path="+pathName;
+                //document.cookie="language="+name+";"+"expires="+timeEx.toUTCString()+";"+"path="+pathName;
                 //go to the tutorial page
-                window.location="/tutorial";
+                //window.location="/tutorial/";
+
+
             }
         </script>
     </body>

@@ -1,25 +1,25 @@
-/*
- * FAMILIAR mode for the IDE.
- * Include in this file the highlight syntax.
- * https://github.com/ajaxorg/ace/wiki/Creating-or-Extending-an-Edit-Mode
- */
+/**
+*VM mode for the IDE (include tutorial part) 
+*Include in this file the highlight syntax
+*https://github.com/ajaxorg/ace/wiki/Creating-or-Extending-an-Edit-Mode
+*/
 
 /*
- * Define the mode
- *
- */
-ace.define('ace/mode/familiar',['require', 'exports', 'module','ace/lib/oop','ace/mode/text','ace/tokenizer','ace/mode/javascript_highlight_rules','ace/mode/matching_brace_outdent','ace/range','ace/worker/worker_client','ace/mode/behaviour/cstyle','ace/mode/folding/cstyle'], function(require, exports, module) {
+*Define the mode
+*
+*/
+ace.define('ace/mode/vm',['require', 'exports', 'module','ace/lib/oop','ace/mode/text','ace/tokenizer','ace/mode/javascript_highlight_rules','ace/mode/matching_brace_outdent','ace/range','ace/worker/worker_client','ace/mode/behaviour/cstyle','ace/mode/folding/cstyle'], function(require, exports, module) {
 //nedd oop librairie      
 var oop = require("../lib/oop");
 var JavaScriptMode = require("./javascript").Mode;
 var Tokenizer = require("../tokenizer").Tokenizer;
 //here we need the highlight rules
-var FamiliarHighlightRules = require("./familiar_highlight_rules").FamiliarHighlightRules;
+var VMHighlightRules = require("./vm_highlight_rules").VMHighlightRules;
 
 var Mode = function() {
     JavaScriptMode.call(this);
-    //the current higjlight is the familiar highlight
-    this.HighlightRules = FamiliarHighlightRules;
+    //the current higjlight is the vm highlight
+    this.HighlightRules = VMHighlightRules;
 };
 oop.inherits(Mode, JavaScriptMode);
 
@@ -35,9 +35,9 @@ exports.Mode = Mode;
 });
 
 /*
- * JavaScript mode
- *
- */
+* JavaScript mode
+*
+*/
 
 ace.define('ace/mode/javascript', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/mode/text', 'ace/tokenizer', 'ace/mode/javascript_highlight_rules', 'ace/mode/matching_brace_outdent', 'ace/range', 'ace/worker/worker_client', 'ace/mode/behaviour/cstyle', 'ace/mode/folding/cstyle'], function(require, exports, module) {
 
@@ -438,7 +438,6 @@ oop.inherits(JavaScriptHighlightRules, TextHighlightRules);
 exports.JavaScriptHighlightRules = JavaScriptHighlightRules;
 });
 
-
 //
 ace.define('ace/mode/doc_comment_highlight_rules', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/mode/text_highlight_rules'], function(require, exports, module) {
 
@@ -527,11 +526,11 @@ exports.MatchingBraceOutdent = MatchingBraceOutdent;
 });
 
 //
-
+//@TODO make function in Scala
 /**
  *Call the function which return the keywords from the serveur
  */
-jsRoutes.controllers.WebFMLInterpreter.getAllKeywordToJson().ajax({
+jsRoutes.controllers.WebFMLInterpreter.searchKeyword().ajax({
     /*
     *If they are no problem
     */
@@ -541,30 +540,38 @@ jsRoutes.controllers.WebFMLInterpreter.getAllKeywordToJson().ajax({
     }
 });
 /**
- * All the class word of the familiar language
+ * All the class word of the vm language
  */
-jsRoutes.controllers.WebFMLInterpreter.getAllClasswordToJson().ajax({
+//jsRoutes.controllers.WebFMLInterpreter.getAllVMClassWordToJson().ajax({
     /*
     *If they are no problem
     */
-    success : function(data){
+    //success : function(data){
         //call the function to have the words
-        classWordList(data);
-    }
-});
+        //classWordList(data);
+    //}
+//});
 /**
- *All the constant word (e.g : null) of familiar
+ *All the constant word (e.g : null) of vm
  */
-jsRoutes.controllers.WebFMLInterpreter.getAllConstantwordToJson().ajax({
+//jsRoutes.controllers.WebFMLInterpreter.getAllCMConstantWordToJson().ajax({
     /*
     *If they are no problem
     */
-    success : function(data){
+    //success : function(data){
         //call the function to have the words
-        constantWordList(data);
-    }
-});
+        //constantWordList(data);
+    //}
+//});
 
+/*jsRoutes.controllers.WebFMLInterpreter.searchKeyword().ajax({
+	success: function (data) {
+		console.log("Works & data:"+ data);
+	},
+	error: function(data){
+		console.log("Failed & datat : "+data);
+	}
+});*/
 
 //keywords of the language
 var keywords = "";
@@ -576,13 +583,13 @@ var buildinConstants="";
 /*This part define the highlight rules 
  *of the familiar language      
  */
-ace.define('ace/mode/familiar_highlight_rules', ['require','exports','module','ace/lib/oop','ace/mode/doc_comment_highlight_rules','ace/mode/text_highlight_rules'],function(require,exports,module){
+ace.define('ace/mode/vm_highlight_rules', ['require','exports','module','ace/lib/oop','ace/mode/doc_comment_highlight_rules','ace/mode/text_highlight_rules'],function(require,exports,module){
 "use strict";
 
     var oop=require("../lib/oop");
     var TextHighlightRules=require("./text_highlight_rules").TextHighlightRules;
     var DocCommentHighlightRules = require("./doc_comment_highlight_rules").DocCommentHighlightRules;
-    var FamiliarHighlightRules=function(){
+    var VMHighlightRules=function(){
    
     
     //var langClasses=("FM");
@@ -659,8 +666,8 @@ ace.define('ace/mode/familiar_highlight_rules', ['require','exports','module','a
         ]
     };
 };
-oop.inherits(FamiliarHighlightRules, TextHighlightRules);
-exports.FamiliarHighlightRules = FamiliarHighlightRules;
+oop.inherits(VMHighlightRules, TextHighlightRules);
+exports.VMHighlightRules = VMHighlightRules;
 });
 
 /**
@@ -680,6 +687,7 @@ exports.FamiliarHighlightRules = FamiliarHighlightRules;
     }
     //put in keyword the result
     keywords = key;
+    //console.log(key);
 }
 /**
  * Function which put in the res varaible all the class word of
@@ -732,7 +740,6 @@ function constantWordList(tab){
     buildinConstants = res ;
     
 }
-
 
 /*
  * style 

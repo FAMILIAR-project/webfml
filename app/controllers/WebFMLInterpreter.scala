@@ -30,8 +30,6 @@ import fr.familiar.operations.heuristics.metrics.WuPalmerMetric
 import fr.familiar.operations.heuristics.metrics.PathLengthMetric
 import scala.collection.JavaConversions
 import java.io
-import java.nio.file.Files
-import java.nio.file.Path
 import play.api.libs.json.JsString
 import java.io.File
 import scala.util.parsing.json.JSONArray
@@ -40,6 +38,9 @@ import java.io.FileReader
 import scala.io.Source
 import play.api.templates.Html
 import org.apache.commons.io.FileUtils
+import scala.util.matching.Regex
+import scala.collection.immutable.List
+import scala.collection.mutable.ListBuffer
 
 
 
@@ -739,5 +740,63 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 	  }
 	  Ok(res)
  }
+ 
+ 
+   /**
+   * Return all the keyword of vm's language
+   */
+  def searchKeyword()=Action{
+    val path="public/tuto/vm/xtext/Vm.xtext"
+    val myFile:File = new File(path)   
+    //search all characters between ''
+    val pattern = "'.*?'".r
+    //List myList = new List()  
+    var lst  = new ListBuffer[String]() 
+    //if the file exist
+    if(myFile.exists()){
+      //read line by line
+      for(line<- Source.fromFile(myFile).getLines()){
+        //create an interator
+    	 for (literal <- pattern.findAllIn(line)) {
+    	  // Add the literal to the list of keywords if it is not whitespace
+    	  if (!literal.matches("\\s*")) {
+    	    //replace the ' to nothing
+    	    lst+=literal.replace("'", "")
+    	  }
+    	 }
+      }
+      
+    }
+    //convert to a list
+    var k =lst.toList.distinct
+    //return the list
+    Ok(Json.toJson(k))
+  }
+
+  /**
+  *
+  */
+  def getAllVMKeywordToJson()=Action{
+    var b=searchKeyword()
+    
+    Ok("")
+  }
+
+  /**
+  *
+  */
+  def getAllVMClassWordToJson()=Action{
+    var d =""
+
+    Ok(Json.toJson(d))
+  }
+  /**
+  *
+  */
+  def getAllCMConstantWordToJson() = Action{
+    var d = ""
+
+    Ok(Json.toJson(d))
+  }
  
 }
