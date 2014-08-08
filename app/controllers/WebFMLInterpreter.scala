@@ -30,8 +30,6 @@ import fr.familiar.operations.heuristics.metrics.WuPalmerMetric
 import fr.familiar.operations.heuristics.metrics.PathLengthMetric
 import scala.collection.JavaConversions
 import java.io
-//import java.nio.file.Files
-//import java.nio.file.Path
 import play.api.libs.json.JsString
 import java.io.File
 import scala.util.parsing.json.JSONArray
