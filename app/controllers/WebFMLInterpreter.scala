@@ -726,7 +726,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
  }
  /**
   * 
-  * 
+  * @TODO : DELETE
   * 
   */
  def getAllChapters(langage : String) = Action{
@@ -774,7 +774,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   }
 
   /**
-  *
+  *@TODO : DELETE
   */
   def getAllVMKeywordToJson()=Action{
     var b=searchKeyword()
@@ -783,7 +783,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   }
 
   /**
-  *
+  *@TODO : DELETE
   */
   def getAllVMClassWordToJson()=Action{
     var d =""
@@ -791,12 +791,26 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     Ok(Json.toJson(d))
   }
   /**
-  *
+  *@TODO : DELETE
   */
   def getAllCMConstantWordToJson() = Action{
     var d = ""
 
     Ok(Json.toJson(d))
+  }
+  /**
+   * 
+   */
+  def receiveInformation(login:String, password:String,language:String){
+    /*
+     * if(login==someone.login()&& password==someone.pwd()){
+     * 	//someone : a person in the database
+     *  goTo ide/language	
+     * }
+     * 
+     */
+    
+    Ok("")
   }
  
 }

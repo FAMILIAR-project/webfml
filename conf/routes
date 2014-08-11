@@ -10,7 +10,7 @@ GET		/login						controllers.Application.loginPage()
 
 #IDE
 
-GET 	/ide						controllers.Application.index()
+GET 	/ide/:language				controllers.Application.index(language:String)
 GET     /variable/:id	            controllers.WebFMLInterpreter.variable(id : String)
 POST    /interpret	              	controllers.WebFMLInterpreter.interpret(s : String)
 POST    /evalPrompt	              	controllers.WebFMLInterpreter.evalPrompt(s : String)
