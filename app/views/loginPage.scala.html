@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Login</title>
+		<meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+         <!-- stylesheet -->   
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/login.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <!-- Prism -->
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/prism.css")">
+        <!-- mCustomScrollbar -->   
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/jquery.mCustomScrollbar.css")">
+	</head>
+
+	<body>
+		<div class="container">
+			<div id="formulaire">
+				<form role="form" class="form-horizontal">
+					<div class="form-group">
+						<label for="login" class="col-sm-2 control-label">Login:</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" placeholder="Enter login">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="inputPassword3" class="col-sm-2 control-label">Password:</label>
+    					<div class="col-sm-10">
+      						<input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+    					</div>
+					</div>
+
+					<div class="form-group">
+    					<div class="col-sm-offset-2 col-sm-10">
+      						<button type="submit" class="btn btn-default">Sign in</button>
+    					</div>
+    				</div>
+				</form>
+				<div class="alert alert-warning" role="alert">
+					<p>If you have no account enter in login and password field : <kbd>demo</kbd></p>
+				</div>
+			</div>
+		</div>		
+	</body>
+</html>

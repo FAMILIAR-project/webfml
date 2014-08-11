@@ -676,7 +676,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   */
  def getHeaderInMarkdown(language : String) = Action{
    //we get the file with the name
-   val path: String = "assets/tuto/"+language+"/header.md"
+   val path: String = "public/tuto/"+language+"/header.md"
    val myFile: File = new File(path)
    var res: Html = null
    if(myFile.exists()){
