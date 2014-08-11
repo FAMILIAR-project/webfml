@@ -82,7 +82,13 @@ object Application extends Controller {
    def homePage() = Action {
      Ok(views.html.homePage())
    }
-  
+   
+   /**
+    * Login page, access to the ide page
+    */
+   def loginPage()=Action{
+     Ok(views.html.loginPage())
+   }
    
  
    

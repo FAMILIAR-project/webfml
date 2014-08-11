@@ -5,6 +5,9 @@
 # Home page
 GET     /                        	controllers.Application.homePage()
 
+#Login page 
+GET		/login						controllers.Application.loginPage()
+
 #IDE
 
 GET 	/ide						controllers.Application.index()
