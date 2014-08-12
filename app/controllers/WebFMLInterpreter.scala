@@ -1,43 +1,41 @@
 package controllers
 
-import play.api.mvc._
-import play.api.libs.json.Json
-import scala.collection.JavaConversions._
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileWriter
+
+import scala.Array.canBuildFrom
+import scala.collection.JavaConversions
+import scala.collection.JavaConversions.asScalaBuffer
+import scala.collection.JavaConversions.asScalaSet
+import scala.collection.immutable.List
+import scala.collection.mutable.ListBuffer
+import scala.io.Source
+
+import org.apache.commons.io.FileUtils
+
+import foreverse.ksynthesis.Heuristic
+import foreverse.ksynthesis.InteractiveFMSynthesizer
+import foreverse.ksynthesis.metrics.AlwaysZeroMetric
+import foreverse.ksynthesis.metrics.LevenshteinMetric
+import foreverse.ksynthesis.metrics.PathLengthMetric
+import foreverse.ksynthesis.metrics.RandomMetric
+import foreverse.ksynthesis.metrics.SmithWatermanMetric
+import foreverse.ksynthesis.metrics.WuPalmerMetric
 import fr.familiar.interpreter.FMLAssertionError
 import fr.familiar.interpreter.FMLBasicInterpreter
 import fr.familiar.interpreter.FMLFatalError
 import fr.familiar.variable.FeatureModelVariable
-import java.io.File
-import java.io.BufferedWriter
-import java.io.FileWriter
-import play.api.libs.json.JsValue
-import play.api.libs.json.JsNull
+import gsd.synthesis.FeatureEdge
 import play.api.libs.json.JsArray
 import play.api.libs.json.JsBoolean
+import play.api.libs.json.JsNull
 import play.api.libs.json.JsString
-import gsd.synthesis.FeatureEdge
-import gsd.synthesis.FeatureType
-import scala.collection.JavaConversions
-import java.io
-import play.api.libs.json.JsString
-import java.io.File
-import foreverse.ksynthesis.metrics.SmithWatermanMetric
-import foreverse.ksynthesis.metrics.AlwaysZeroMetric
-import foreverse.ksynthesis.InteractiveFMSynthesizer
-import foreverse.ksynthesis.Heuristic
-import foreverse.ksynthesis.metrics.RandomMetric
-import foreverse.ksynthesis.metrics.LevenshteinMetric
-import foreverse.ksynthesis.metrics.WuPalmerMetric
-import foreverse.ksynthesis.metrics.PathLengthMetric
-import scala.util.parsing.json.JSONArray
-import java.io.BufferedReader
-import java.io.FileReader
-import scala.io.Source
+import play.api.libs.json.JsValue
+import play.api.libs.json.Json
+import play.api.mvc.Action
+import play.api.mvc.Controller
 import play.api.templates.Html
-import org.apache.commons.io.FileUtils
-import scala.util.matching.Regex
-import scala.collection.immutable.List
-import scala.collection.mutable.ListBuffer
 
 
 
