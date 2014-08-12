@@ -1,0 +1,87 @@
+html, body {
+    height: 100%;
+}
+
+.row, .row-fluid {
+    height: 100%;
+}
+
+#main-container {
+    padding: 0;
+}
+
+#workspace {
+    padding-left: 5px;
+}
+/*add a style on the treeview*/
+#myTreeView{
+    /*like that the treeview take all the width of the div*/
+    width: 100%;
+}
+
+.scrollable {
+    height: 100%;
+    overflow: auto;
+}
+
+#tabs-hoster {
+    height: 100%;
+}
+
+#tabs-hoster .tab-content {
+    height: 95%;
+}
+
+#editor {
+    height: 100%;
+}
+
+#wait {
+    margin-top: 5px;
+}
+
+#msgid {
+    padding-right: 10px;
+}
+
+#dropdownMenu1 {
+    width: 80px;
+}
+
+.nav-tabs {
+    margin-bottom: 5px;
+}
+
+.btn-toolbar {
+    margin-top: 0px;
+}
+
+.heuristic-selector {
+    margin-bottom: 0;
+    width: 120px;
+}
+
+#rklist {
+
+}
+
+.customBtn {
+    width: 78px !important;
+}
+
+li.parentFt {
+    font-weight : bold ; 
+    list-style : none ; 
+}
+
+input[type='number']{
+    margin: 0px;
+    width: 40px;
+}
+
+.parameter{
+	display: inline;
+}
+
+
+

@@ -1,0 +1,140 @@
+body,html{
+    height: 100%;
+    width: 100%;
+}
+
+
+#menu{
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.navbar-default{
+    background-color: transparent;
+    border-color: transparent;
+    /*padding-bottom: 15px;*/
+}
+
+.navbar-header{
+    border-bottom: solid;
+    border-bottom-color: rgba(255,0,0,0.50);
+}
+
+.navbar-default .navbar-nav > li > a:hover{
+    /*border-style:solid;*/
+    color : rgba(255,0,0,0.50);
+    padding-left: 0;
+    margin-left: 15px;
+    margin-right : 15px;
+    padding-right: 0;
+    border-bottom: solid;
+    border-bottom-color: rgba(255,0,0,0.50);
+}
+
+#pre{
+    text-align: center;
+}
+
+.container{
+    width: 81%;
+}
+
+.container .text-muted {
+    margin: 20px 0;
+}
+
+#familiarTools > ul > li {
+    padding : 0 0.5em; 
+    display: inline;
+    list-style: none;
+}
+
+.bs-callout {
+    padding: 20px;
+    margin: 20px 0px;
+    border-width: 1px 1px 1px 5px;
+    border-style: solid;
+    border-color: #EEE;
+    -moz-border-top-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    border-image: none;
+    border-radius: 3px;
+}
+.bs-callout-info {
+    border-left-color: #5BC0DE;
+}
+
+.bs-callout-info h4 {
+    color: #5BC0DE;
+}
+
+.bs-callout h4 {
+    margin-top: 0px;
+    margin-bottom: 5px;
+}
+
+#contains{
+  min-height: 100%;
+  height: auto;
+  /* Negative indent footer by its height */
+  margin: 0 auto -60px;
+  /* Pad bottom by footer height */
+  padding: 0 0 60px;
+}
+
+#choice_lang_familiar{
+    width: 50%;
+    text-align: center;
+    float: left;
+}
+
+#choice_lang_vm{
+    width: 50%;
+    text-align: center;
+    float: left;
+}
+
+#footer{
+
+    width: 100%;
+    /*background-color: #f5f5f5;*/
+    border-top: 1px solid #eee;
+    margin-top: 40px;
+    color: #999 ;
+}
+
+#footerRight{
+    margin: 10px 0;
+    text-align: center;
+    float: left;
+    width: 33%;
+}
+
+#footerLeft{
+    margin:10px 0;
+    text-align: center;
+    float: left;
+    width: 33%;
+}
+
+#footerCenter{
+    margin:10px 0;
+    float: left;
+    text-align: center;
+    width: 33%;
+    border-right: 1px solid #eee;
+    border-left: 1px solid #eee;
+}
+
+#title{
+    border-bottom: 1px solid #eee;
+}
+
+.footerPara{
+    text-align: center;
+    margin: 20px 0;
+}

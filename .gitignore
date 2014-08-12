@@ -1,0 +1,14 @@
+#Dossier
+#target
+target
+#Fichiers .class
+*.settings
+*.classpath
+*.project
+*.log
+*.cache
+/.target
+/bin
+*~
+/.target
+/bin

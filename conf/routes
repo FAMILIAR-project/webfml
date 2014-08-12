@@ -1,0 +1,65 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                        	controllers.Application.homePage()
+
+#IDE
+
+GET 	/ide						controllers.Application.index()
+GET     /variable/:id	            controllers.WebFMLInterpreter.variable(id : String)
+POST    /interpret	              	controllers.WebFMLInterpreter.interpret(s : String)
+POST    /evalPrompt	              	controllers.WebFMLInterpreter.evalPrompt(s : String)
+POST    /ksynthesis             	controllers.WebFMLInterpreter.ksynthesis(s : String)
+GET		/selectParent				controllers.WebFMLInterpreter.selectParent(children: List[String], parent: String)
+GET		/ignoreParent				controllers.WebFMLInterpreter.ignoreParent(child: String, parent: String)
+GET		/completeFM					controllers.WebFMLInterpreter.completeFM()
+GET		/undo						controllers.WebFMLInterpreter.undo()
+GET		/redo						controllers.WebFMLInterpreter.redo()
+GET		/saveToVar					controllers.WebFMLInterpreter.saveToVar()
+GET		/getHeuristics				controllers.WebFMLInterpreter.getHeuristics()
+GET		/setRankingListsHeuristic	controllers.WebFMLInterpreter.setRankingListsHeuristic(heuristicName : String)
+GET		/setClusteringParameters	controllers.WebFMLInterpreter.setClusteringParameters(heuristicName : String, threshold : Double)
+GET     /reset	              	    controllers.WebFMLInterpreter.reset
+GET     /setRoot	              	controllers.WebFMLInterpreter.setRoot(root : String)
+GET     /configurator              	controllers.WebFMLConfigurator.configurator
+POST    /applySelection             controllers.WebFMLConfigurator.applySelection(s: String)
+
+# Workspace management 
+GET     /loadFile/:id	            controllers.WebFMLInterpreter.loadFile(id : String)
+POST    /saveAs	            	    controllers.WebFMLInterpreter.saveAs(content : String, filename : String)
+POST    /listFiles  				controllers.WebFMLInterpreter.listFiles()
+
+GET     /assets/javascripts/routes  controllers.Application.javascriptRoutes
+
+#Create folder
+POST	 /createFolder 				controllers.WebFMLInterpreter.createFolder(name)
+#Create file
+POST 	/createFile					controllers.WebFMLInterpreter.createFile(name)
+#Delete folder
+POST	/deleteFolder				controllers.WebFMLInterpreter.deleteFolder(name)
+#Delete file
+POST 	/deleteFile					controllers.WebFMLInterpreter.deleteFile(name)
+#Save file
+POST 	/saveFile					controllers.WebFMLInterpreter.saveFile(name, content)
+#json keywords
+GET 	/getAllKeywordToJson		controllers.WebFMLInterpreter.getAllKeywordToJson()
+GET 	/getAllClasswordToJson		controllers.WebFMLInterpreter.getAllClasswordToJson()
+GET 	/getAllConstantwordToJson	controllers.WebFMLInterpreter.getAllConstantwordToJson()
+GET		/getVMKeywordsToJson		controllers.WebFMLInterpreter.searchKeyword()
+
+#tutorial page
+GET 	/tutorial/:name				controllers.Application.tutorial(name:String)
+
+#markdown tutorial
+GET		/getTutorialInMarkdown		controllers.WebFMLInterpreter.getTutorialInMarkdown(name)
+#markdown menu
+GET 	/getMenuInMarkdown 			controllers.WebFMLInterpreter.getMenuInMarkdown(name)
+#markdown header
+GET 	/getHeaderInMarkdown		controllers.WebFMLInterpreter.getHeaderInMarkdown(name)
+#chapters
+GET 	/getChapter					controllers.WebFMLInterpreter.getChapter(name, langage)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
