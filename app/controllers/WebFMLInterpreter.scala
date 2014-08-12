@@ -812,9 +812,13 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     println(login)
     println(password)
     println(language)
+    var res="ok"
     if(login=="demo"&& password=="demo"){
       //create new instance to use ide
-      
+      //new session of the ide
+    }else{
+      //we check in the database if the user exist
+      res="Not exist"
     }
     
     Ok(Json.toJson(Map("Work" -> 1)))
