@@ -22,21 +22,21 @@
 						<div class="form-group">
 							<label for="login" class="col-sm-2 control-label">Login:</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" placeholder="Enter login">
+								<input type="text" class="form-control" id="login" placeholder="Enter login">
 							</div>
 						</div>
 						<!--Password field-->
 						<div class="form-group">
 							<label for="pwd" class="col-sm-2 control-label">Password:</label>
     						<div class="col-sm-10">
-      							<input type="password" class="form-control" placeholder="Password">
+      							<input type="password" id="pwd" class="form-control" placeholder="Password">
     						</div>
 						</div>
 						<!--language selector-->
 						<div class="form-group">
 							<label for="language" class="col-sm-2 control-label">Language:</label>
     						<div class="col-sm-10">
-      							<select class="form-control">
+      							<select class="form-control" id="lang">
       								<option>Familiar</option>
       								<option>VM</option>
       							</select>
@@ -49,11 +49,29 @@
 				<div class="alert alert-warning" role="alert">
 					<p><i class="glyphicon glyphicon-exclamation-sign"></i> If you have no account enter in login and password fields : <kbd>demo</kbd> or create one <a href="#">here</a>.</p>
 				</div>
+				<div class="alert alert-danger" role="alert" id="problem"></div>
 			</div>
 		</div>
+		<script src="@routes.Application.javascriptRoutes" type="text/javascript"></script>
+            <!-- jQuery -->
+        <script src="@routes.Assets.at("javascripts/lib/jquery/jquery.min.js")" type="text/javascript"></script>
 		<script type="text/javascript">
 			function sendInformations(){
-				
+				var login = document.getElementById("login").value;
+				var pwd = document.getElementById("pwd").value;
+				var language = document.getElementById("lang").value;
+				//console.log(login + " " + pwd +" "+language)
+				jsRoutes.controllers.WebFMLInterpreter.receiveInformations(login,pwd,language).ajax({
+						success: function(data){
+							console.log(data);
+						},
+						error: function(data){
+							document.getElementById("problem").innerHtml="Error";1
+						}
+				});
+
+
+				//window.location.href=("/ide/"+language);
 			}
 		</script>
 

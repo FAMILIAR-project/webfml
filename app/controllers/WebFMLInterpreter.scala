@@ -801,7 +801,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   /**
    * 
    */
-  def receiveInformation(login:String, password:String,language:String){
+  def receiveInformations(login:String, password:String,language:String)=Action{
     /*
      * if(login==someone.login()&& password==someone.pwd()){
      * 	//someone : a person in the database
@@ -809,8 +809,15 @@ object WebFMLInterpreter extends Controller with VariableHelper {
      * }
      * 
      */
+    println(login)
+    println(password)
+    println(language)
+    if(login=="demo"&& password=="demo"){
+      //create new instance to use ide
+      
+    }
     
-    Ok("")
+    Ok(Json.toJson(Map("Work" -> 1)))
   }
  
 }

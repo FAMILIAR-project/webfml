@@ -9,7 +9,6 @@ GET     /                        	controllers.Application.homePage()
 GET		/login						controllers.Application.loginPage()
 
 #IDE
-
 GET 	/ide/:language				controllers.Application.index(language:String)
 GET     /variable/:id	            controllers.WebFMLInterpreter.variable(id : String)
 POST    /interpret	              	controllers.WebFMLInterpreter.interpret(s : String)
@@ -28,6 +27,8 @@ GET     /reset	              	    controllers.WebFMLInterpreter.reset
 GET     /setRoot	              	controllers.WebFMLInterpreter.setRoot(root : String)
 GET     /configurator              	controllers.WebFMLConfigurator.configurator
 POST    /applySelection             controllers.WebFMLConfigurator.applySelection(s: String)
+#IDE - login and informations
+POST 	/receiveInformations		controllers.WebFMLInterpreter.receiveInformations(login:String, password:String,language:String)
 
 # Workspace management 
 GET     /loadFile/:id	            controllers.WebFMLInterpreter.loadFile(id : String)

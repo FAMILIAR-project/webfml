@@ -46,7 +46,13 @@ object Application extends Controller {
 					"fm0\n" + 
 					"mtx = computeMUTEXGroups fm0";
 		// <button class="btn" onclick="loadFile('fm1 = FM (A : [B] XXX ; )');">Load file</button>
-		Ok(views.html.index(fmlDemo + "\n"))
+		var scriptToImport=""
+		if(language=="familiar"){
+			scriptToImport="<script>var language='familiar'</script> <script type='text/javascript' src='/assets/javascripts/ace-builds-master/src-noconflict/mode-familiar.js'></script>"
+		}
+		
+		
+		Ok(views.html.index(fmlDemo + "\n",Html(scriptToImport)))
     }
   
    /**
@@ -139,7 +145,9 @@ object Application extends Controller {
                 WebFMLInterpreter.getTutorialInMarkdown,
                 WebFMLInterpreter.getMenuInMarkdown,
                 WebFMLInterpreter.getHeaderInMarkdown,
-                WebFMLInterpreter.getChapter
+                WebFMLInterpreter.getChapter,
+                //login for ide 
+                WebFMLInterpreter.receiveInformations
                 
             )
         ).as("text/javascript");

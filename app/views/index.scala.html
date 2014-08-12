@@ -1,4 +1,4 @@
-@(message: String)
+@(message: String, script : Html)
     <!-- Name of the page-->
     @mainFML("Welcome to FAMILIAR!") {
 
@@ -336,7 +336,7 @@
                     </div>
                 </div>
             </div>
-
+            @script
             <div id="console" class="hide in" ng-controller="FMLConsoleCtrl"></div>
             <script src="@routes.Assets.at("javascripts/lib/bootstrap/bootstrap.js")" type="text/javascript"></script>
 	    <!---Script related of autocompletion-->
