@@ -41,6 +41,8 @@ import org.apache.commons.io.FileUtils
 import scala.util.matching.Regex
 import scala.collection.immutable.List
 import scala.collection.mutable.ListBuffer
+import models.ide.familiar.ConcreteFamiliarIDEFactory
+
 
 
 
@@ -809,6 +811,11 @@ object WebFMLInterpreter extends Controller with VariableHelper {
      * }
      * 
      */
+    var familiarInstance = new ConcreteFamiliarIDEFactory
+    var inter = familiarInstance.createInterpreter()
+    var ses = familiarInstance.createSession()
+    ses.create()
+    ses.destroy()
     println(login)
     println(password)
     println(language)
