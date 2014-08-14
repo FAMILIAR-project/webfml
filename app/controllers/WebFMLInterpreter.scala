@@ -776,31 +776,6 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   }
 
   /**
-  *@TODO : DELETE
-  */
-  def getAllVMKeywordToJson()=Action{
-    var b=searchKeyword()
-    
-    Ok("")
-  }
-
-  /**
-  *@TODO : DELETE
-  */
-  def getAllVMClassWordToJson()=Action{
-    var d =""
-
-    Ok(Json.toJson(d))
-  }
-  /**
-  *@TODO : DELETE
-  */
-  def getAllCMConstantWordToJson() = Action{
-    var d = ""
-
-    Ok(Json.toJson(d))
-  }
-  /**
    * 
    */
   def receiveInformations(login:String, password:String,language:String)=Action{
@@ -810,25 +785,21 @@ object WebFMLInterpreter extends Controller with VariableHelper {
      *  goTo ide/language	
      * }
      * 
-     */
-    var familiarInstance = new ConcreteFamiliarIDEFactory
-    var inter = familiarInstance.createInterpreter()
-    var ses = familiarInstance.createSession()
-    ses.create()
-    ses.destroy()
+     */    
     println(login)
     println(password)
     println(language)
-    var res="ok"
-    if(login=="demo"&& password=="demo"){
-      //create new instance to use ide
-      //new session of the ide
-    }else{
-      //we check in the database if the user exist
-      res="Not exist"
-    }
     
-    Ok(Json.toJson(Map("Work" -> 1)))
+    var familiarInstance = new ConcreteFamiliarIDEFactory
+    var inter = familiarInstance.createInterpreter()
+    var ses = familiarInstance.createSession()
+    var myId = ses.getId()
+    ses.create(login,password)
+    //ses.destroy(myId)
+
+    var res="ok"
+     
+    Ok(res)
   }
  
 }

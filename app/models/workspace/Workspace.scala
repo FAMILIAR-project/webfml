@@ -1,5 +1,5 @@
 package models.workspace
 
-class Worspace {
+class Workspace {
 
 }
