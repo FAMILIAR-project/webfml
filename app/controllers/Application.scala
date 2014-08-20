@@ -147,7 +147,7 @@ object Application extends Controller {
                 WebFMLInterpreter.getHeaderInMarkdown,
                 WebFMLInterpreter.getChapter,
                 //login for ide 
-                WebFMLInterpreter.receiveInformations
+                FamiliarIDEController.receiveInformations
                 
             )
         ).as("text/javascript");

@@ -66,6 +66,7 @@
 
 		<script type="text/javascript">
 			function sendInformations(){
+
 				var login = document.getElementById("login").value;
 				var pwd = document.getElementById("pwd").value;
 				var language = document.getElementById("lang").value;
@@ -75,7 +76,7 @@
 				console.log(hash.toString(CryptoJS.enc.Base64))
 				//test login and password in the server side (null, ' ' & '')
 				if(login!="demo"&&pwd!="demo"){
-					jsRoutes.controllers.WebFMLInterpreter.receiveInformations(login,hash.toString(CryptoJS.enc.Base64),language.toLowerCase()).ajax({
+					jsRoutes.controllers.FamiliarIDEController.receiveInformations(login,hash.toString(CryptoJS.enc.Base64),language.toLowerCase()).ajax({
 						success: function(data){
 							document.getElementById("problem").style.display="block";
 							document.getElementById("problem").innerHtml="Error";
@@ -86,10 +87,11 @@
 						}
 					});
 				}else{
-					jsRoutes.controllers.WebFMLInterpreter.receiveInformations(login,pwd,language.toLowerCase()).ajax({
+					jsRoutes.controllers.FamiliarIDEController.receiveInformations(login,pwd,language.toLowerCase()).ajax({
 						success: function(data){
 							document.getElementById("problem").style.display="block";
 							document.getElementById("problem").innerHtml="Error";
+						
 						},
 						error: function(data){
 							document.getElementById("problem").style.display="block";

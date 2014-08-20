@@ -14,7 +14,6 @@ import play.api.Application
  class Session extends Controller{
 
   var id:Int =0
-  var sessions = new ListBuffer[Int]()
   var myCookie : Cookie = null
   /**
    * Return the id of the session
@@ -22,17 +21,11 @@ import play.api.Application
   def getId():Int ={
     return id
   }
-  /**
-   * Return all the sessions
-   */
-  def getSessions(): List[Int] ={
-    return sessions.toList
-  }
   
   /**
    * 
    */
-  def create(username : String, password : String){
+  def create(username : String, password : String, sessions : List[Int]){
     id = Random.nextInt(100)
     //while the number of the session is the same
     //generate an other one with a different limit
@@ -40,10 +33,8 @@ import play.api.Application
       id=Random.nextInt(400) 
     }
     //add the number of the session in the list
-    sessions+=(id)
     //create the session
     println("Session Created: "+id)
-    println(getSessions())
     check(username,password)
   }
   /**
@@ -69,9 +60,9 @@ import play.api.Application
    */
   def destroy(i:Int){
     
-    sessions.remove(i)
+    //sessions.remove(i)
     println("session destroyed")
-    println(getSessions())
+    //println(getSessions())
     //destroy the directory
     //@TODO destroy the directory
     Ok("Bye").withNewSession

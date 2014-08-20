@@ -774,32 +774,5 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     //return the list
     Ok(Json.toJson(k))
   }
-
-  /**
-   * 
-   */
-  def receiveInformations(login:String, password:String,language:String)=Action{
-    /*
-     * if(login==someone.login()&& password==someone.pwd()){
-     * 	//someone : a person in the database
-     *  goTo ide/language	
-     * }
-     * 
-     */    
-    println(login)
-    println(password)
-    println(language)
-    
-    var familiarInstance = new ConcreteFamiliarIDEFactory
-    var inter = familiarInstance.createInterpreter()
-    var ses = familiarInstance.createSession()
-    var myId = ses.getId()
-    ses.create(login,password)
-    //ses.destroy(myId)
-
-    var res="ok"
-     
-    Ok(res)
-  }
  
 }
