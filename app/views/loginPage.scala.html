@@ -73,7 +73,7 @@
 				//console.log(language);
 				console.log(login + " " + pwd +" "+language)
 				var hash = CryptoJS.SHA512(pwd);
-				console.log(hash.toString(CryptoJS.enc.Base64))
+				console.log(hash.toString(CryptoJS.enc.Base64));
 				//test login and password in the server side (null, ' ' & '')
 				if(login!="demo"&&pwd!="demo"){
 					jsRoutes.controllers.FamiliarIDEController.receiveInformations(login,hash.toString(CryptoJS.enc.Base64),language.toLowerCase()).ajax({
@@ -87,7 +87,7 @@
 						}
 					});
 				}else{
-					jsRoutes.controllers.FamiliarIDEController.receiveInformations(login,pwd,language.toLowerCase()).ajax({
+					jsRoutes.controllers.FamiliarIDEController.receiveInformations(login,/*hash.toString(CryptoJS.enc.Base64)*/pwd,language.toLowerCase()).ajax({
 						success: function(data){
 							document.getElementById("problem").style.display="block";
 							document.getElementById("problem").innerHtml="Error";
@@ -100,7 +100,7 @@
 					});
 				}
 				
-				window.location.href=("/ide/"+language.toLowerCase());
+				//window.location.href=("/ide/"+language.toLowerCase());
 			}
 		</script>
 

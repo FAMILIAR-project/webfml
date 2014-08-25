@@ -7,6 +7,7 @@ import scala.collection.mutable.ListBuffer
 import play.api.Application
 
 
+
 /**
  * Class which create session to access to the 
  * IDE
@@ -14,7 +15,7 @@ import play.api.Application
  class Session extends Controller{
 
   var id:Int =0
-  var myCookie : Cookie = null
+  //var myCookie : Cookie = null
   /**
    * Return the id of the session
    */
@@ -23,9 +24,9 @@ import play.api.Application
   }
   
   /**
-   * 
+   * Create a session
    */
-  def create(username : String, password : String, sessions : List[Int]){
+  def create(username : String, password : String, sessions : List[Session]){
     id = Random.nextInt(100)
     //while the number of the session is the same
     //generate an other one with a different limit
@@ -33,32 +34,14 @@ import play.api.Application
       id=Random.nextInt(400) 
     }
     //add the number of the session in the list
-    //create the session
+    //create the session 
+    //Ok("Welcome").withSession("id"->id.toString)
     println("Session Created: "+id)
-    check(username,password)
-  }
-  /**
-   * Check the username and the password of the user
-   */
-  def check(username : String, password : String)=Action{
-    if(username=="demo" && password =="demo"){
-      //@TODO create a tempory user
-      //@TODO create a directory for this user
-      //create a temp session
-      //myCookie = new Cookie("id",getId().toString(),Option(7200))
-      
-    }else{
-      //check in the database if user exist
-       //myCookie = new Cookie("id",getId().toString())
-    }
-    println("test") 
-    Ok("Welcome").withSession("id"->id.toString)
-   
   }
   /**
    * Destroy the session
    */
-  def destroy(i:Int){
+  def destroy(){
     
     //sessions.remove(i)
     println("session destroyed")

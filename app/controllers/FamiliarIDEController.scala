@@ -11,17 +11,14 @@ import models.ide.familiar.Session
 object FamiliarIDEController extends Controller{
 	
   var mapInstanceOfFamiliar : Map [Session, FMLBasicInterpreter ] = Map()
-  var sessions = new ListBuffer[Int]()
+  //list which contains all the the sessions
+  var sessions = new ListBuffer[Session]()
   /**
 	 * Function which receive information from the login
 	 * page and create an interpreter and a session 
 	 */
 	def receiveInformations(login:String, password:String,language:String)=Action{
-  
-		println(login)
-		println(password)
-		println(language)
-    
+
 		var familiarInstance : FamiliarIDEFactory = new ConcreteFamiliarIDEFactory
 		//an instane object of FamiliarInterpreter
 		var inter = familiarInstance.createInterpreter()
@@ -29,13 +26,9 @@ object FamiliarIDEController extends Controller{
 		var ses = familiarInstance.createSession()
 		//create a session
 		ses.create(login,password,sessions.toList)
-		//get the Id of the current session
-		var myId = ses.getId()
 		//store
-		sessions+=myId
+		sessions+=ses
 		storeFamiliar(ses, inter)
-		//ses.destroy(myId)
-    
 		var res="ok"
      
 		Ok(res)
@@ -50,11 +43,34 @@ object FamiliarIDEController extends Controller{
 	/**
 	 * Return all the session 
 	 */
-	def getSessions(): List[Int] ={
+	def getSessions(): List[Session] ={
 		return sessions.toList
 	}
+	/**
+	 * Check if they are one user who existed in the database
+	 */
+	def checkUser(log : String, pwd : String){
+		var request = "SELECT * FROM UserTab WHERE login="+log+"AND password="+pwd
+		println(request)
+		var result=""
+		if(result!=null){
+		  //one user exist so we have to load the workspace or stock the repository name to load it
+		}else if (log=="demo" && pwd=="demo") {
+		  //create a tempory workspace
+		
+  
+		}
+		  
+		
+		//execute the request
+		
+	}
 	
-	
+	def destroySession(sessionId:Int){
+	  var currentSes = sessions.
+	  ses.destroy()
+	  sessions-=myId
+	}
 	
 	/*def storeVM(session: Session, instanceLangage : FMLBasicInterpreter){
 	  
