@@ -67,9 +67,9 @@ object FamiliarIDEController extends Controller{
 	}
 	
 	def destroySession(sessionId:Int){
-	  var currentSes = sessions.
+	  /*var currentSes = sessions.
 	  ses.destroy()
-	  sessions-=myId
+	  sessions-=myId*/
 	}
 	
 	/*def storeVM(session: Session, instanceLangage : FMLBasicInterpreter){

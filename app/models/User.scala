@@ -1,12 +1,20 @@
 package models
 
+/**
+ * class to create user
+ */
 class User(var login: String, var password: String) {  
- //@TODO : Add the user in the database  
-  def getLogint(){
+ 
+  /**
+   * Return the login of the user
+   */
+  def getLogint():String={
     return login
   }
-  
-  def getPass(){
+  /**
+   * Return the pass of the user
+   */
+  def getPass():String ={
     return password
   }
   
