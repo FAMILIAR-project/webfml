@@ -487,7 +487,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   /**
    * This function create a folder in the workspace
    * @author galexand
-   * @Param : name of the folder and the path
+   * @param : name of the folder and the path
    */
   def createFolder(name : String) = Action {
     //create a folder if another one with the same name doesn't exist
@@ -500,7 +500,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   
   /**
    * Delete the directory and all the files which are included in
-   * @Param : name : the name of the directory
+   * @param : name : the name of the directory
    */
   def deleteFolder(name : String)= Action{
     val direc : File = new File(name)
@@ -531,7 +531,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   
   /**
    * Create a file in a specific folder
-   * @Param : name : the path and the name of the file
+   * @param : name : the path and the name of the file
    */
  def createFile(name : String)= Action{
 	 //split the string 
@@ -572,7 +572,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
  
  /**
   * Delete the file which have the name : name
-  * @Param : name : the name of the file
+  * @param : name : the name of the file
   */
  def deleteFile(name : String)= Action{
    val f : File = new File(name)
@@ -582,8 +582,8 @@ object WebFMLInterpreter extends Controller with VariableHelper {
  }
  /**
   * Update the value of the file and save it
-  * @Param : name : the name of file
-  * @Param : content : the content to save
+  * @param : name : the name of file
+  * @param : content : the content to save
   */
  def saveFile(name : String, content : String) = Action {
    //create a new file with the name
