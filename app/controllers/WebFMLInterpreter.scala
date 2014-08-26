@@ -605,7 +605,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
  def getAllKeywordToJson() = Action {
 	 //we create an array to stock the words
 	 val tab : Array[String]= new Array[String](5)
-	 //@TODO 
+	 //change this to import directly all the words from the xtext file
 	 tab(0)="merge"
 	 tab(1)="sunion"
 	 tab(2)="test"
