@@ -65,7 +65,7 @@ object Application extends Controller {
        
      if(name=="familiar"){
        
-       nameOfTheLanguage = "<script>var language='familiar'</script> <script type='text/javascript' src='/assets/javascripts/ace-builds-master/src-noconflict/mode-familiar.js'></script>"
+       nameOfTheLanguage = "<script>var language='familiar'</script> <script type='text/javascript' src='assets/javascripts/ace-builds-master/src-noconflict/mode-familiar.js'></script>"
        btn="<button class='btn btn-info' id='webFmlCmd' ng-click='cmd()' ><i class='glyphicon glyphicon-play'></i> Execute FAMILIAR code</button>"
    
      }
