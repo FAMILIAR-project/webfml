@@ -12,3 +12,5 @@ target
 *~
 /.target
 /bin
+//remove the old version of Familiar
+FML-1.2.jar
