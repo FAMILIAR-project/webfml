@@ -70,7 +70,7 @@
 				var login = document.getElementById("login").value;
 				var pwd = document.getElementById("pwd").value;
 				var language = document.getElementById("lang").value;
-				//console.log(language);
+	
 				console.log(login + " " + pwd +" "+language)
 				var hash = CryptoJS.SHA512(pwd);
 				console.log(hash.toString(CryptoJS.enc.Base64));
@@ -87,7 +87,7 @@
 						}
 					});
 				}else{
-					jsRoutes.controllers.FamiliarIDEController.receiveInformations(login,/*hash.toString(CryptoJS.enc.Base64)*/pwd,language.toLowerCase()).ajax({
+					jsRoutes.controllers.FamiliarIDEController.receiveInformations(login,pwd,language.toLowerCase()).ajax({
 						success: function(data){
 							document.getElementById("problem").style.display="block";
 							document.getElementById("problem").innerHtml="Error";
@@ -103,6 +103,5 @@
 				//window.location.href=("/ide/"+language.toLowerCase());
 			}
 		</script>
-
 	</body>
 </html>
