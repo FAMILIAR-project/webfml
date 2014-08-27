@@ -73,7 +73,11 @@ object Application extends Controller {
      if(name=="vm"){
        
        nameOfTheLanguage = "<script>var language='vm'</script> <script type='text/javascript' src='/assets/javascripts/ace-builds-master/src-noconflict/mode-vm.js'></script>"
-       btn="<button class='btn btn-info' id='webFmlCmd' ng-click='cmd()' ><i class='glyphicon glyphicon-play'></i> Execute VM code</button>"
+       /*
+        * Disabled the button because VM has not interpreter and need one. 
+        * @TODO : Change the ng-click='cmd()' --> for VM
+        */
+       btn="<button class='btn btn-info' id='webFmlCmd' disabled='disabled' ng-click='cmd()' ><i class='glyphicon glyphicon-play'></i> Execute VM code</button>"
 
      }
       
