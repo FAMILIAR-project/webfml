@@ -9,4 +9,8 @@ libraryDependencies ++= Seq(
 )
 
 play.Project.playScalaSettings
-doc in Compile <<= target.map(_ / "none") // don't generate API docs in dist
+protected def _settings: Seq[Setting[_]] = {++
+  Seq(
+    doc in Compile <<= target.map(_ / "none") // don't generate API docs in dist
+  )
+}
