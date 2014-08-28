@@ -5,8 +5,7 @@
  */
 
 /*
- * Define the mode
- *
+ * Define the mode of the language
  */
 ace.define('ace/mode/familiar',['require', 'exports', 'module','ace/lib/oop','ace/mode/text','ace/tokenizer','ace/mode/javascript_highlight_rules','ace/mode/matching_brace_outdent','ace/range','ace/worker/worker_client','ace/mode/behaviour/cstyle','ace/mode/folding/cstyle'], function(require, exports, module) {
 //nedd oop librairie      
@@ -573,7 +572,8 @@ var langClasses="";
 //define the constant of the language
 var buildinConstants="";
 //Highlight rules
-/*This part define the highlight rules 
+/*
+ *This part define the highlight rules 
  *of the familiar language      
  */
 ace.define('ace/mode/familiar_highlight_rules', ['require','exports','module','ace/lib/oop','ace/mode/doc_comment_highlight_rules','ace/mode/text_highlight_rules'],function(require,exports,module){
