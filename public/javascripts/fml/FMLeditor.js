@@ -33,19 +33,19 @@ function FMLEditorCtrl($scope, $rootScope) {
 	}
 	
 	$scope.reset = function() {
-		 jsRoutes.controllers.WebFMLInterpreter.reset().ajax({
+		jsRoutes.controllers.WebFMLInterpreter.reset().ajax({
 			success : function(data) {  
 				$rootScope.$broadcast('variables', data)
 			},
-		        error : function(data) {  
+		    error : function(data) {  
 				$('#msgid').html('Impossible to reset...<div>' + data + '</div>') ; 
 			},
-		        beforeSend : function(event, jqxhr, settings) {
+		    beforeSend : function(event, jqxhr, settings) {
 			        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
 			},
-		       complete : function(jqxhr, textstatus) {
-			    $('#wait').html('') ;		   
-	       }
+		    complete : function(jqxhr, textstatus) {
+			    	$('#wait').html('') ;		   
+	       	}
 		});
 	}
 	
@@ -218,7 +218,6 @@ function createFolder() {
 	//test if they something inside the inputbox
 	if (name!=null && name!="") {
 		var finalPath = path+"/"+name;
-		alert(finalPath);
 		//call the scala function with the parameter
 		jsRoutes.controllers.WebFMLInterpreter.createFolder(finalPath).ajax({
 			success : function(data) {

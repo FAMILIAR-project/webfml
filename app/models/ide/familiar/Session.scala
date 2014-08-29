@@ -35,18 +35,14 @@ import play.api.Application
     }
     //add the number of the session in the list
     //create the session 
-    //Ok("Welcome").withSession("id"->id.toString)
+    Ok("Welcome").withSession("id"->id.toString)
     println("Session Created: "+id)
   }
   /**
    * Destroy the session
    */
   def destroy(){
-    
-    //sessions.remove(i)
     println("session destroyed")
-    //println(getSessions())
-    //destroy the directory
     //@TODO destroy the directory
     Ok("Bye").withNewSession
   }

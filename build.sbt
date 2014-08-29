@@ -9,3 +9,4 @@ libraryDependencies ++= Seq(
 )
 
 play.Project.playScalaSettings
+//publishArtifact in packageSrc := false
