@@ -32,7 +32,7 @@ function KSynthesisCtrl($scope, $rootScope) {
                                              jqconsole.Write('Error...' + data + '\n');
                                     },
                                     beforeSend : function(event, jqxhr, settings) {
-                                             $('#loader').html('<img src="assets/images/ajax-loader.gif" />') ; 
+                                             $('#loader').html('<img src="../../assets/images/ajax-loader.gif" />') ; 
                                     },
                                     complete : function(jqxhr, textstatus) {
                                              $('#wait').html('') ;		   
@@ -69,7 +69,7 @@ function KSynthesisCtrl($scope, $rootScope) {
        	 	jqconsole.Write('Error...' + data + '\n');
         },
         beforeSend : function(event, jqxhr, settings) {
-       	 $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+       	 $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
         },
         complete : function(jqxhr, textstatus) {
        	 $('#wait').html('') ;		   
@@ -85,7 +85,7 @@ function KSynthesisCtrl($scope, $rootScope) {
 	       	 jqconsole.Write('Error...' + data + '\n');
 	        },
 	        beforeSend : function(event, jqxhr, settings) {
-	       	 $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+	       	 $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 	        },
 	        complete : function(jqxhr, textstatus) {
 	       	 $('#wait').html('') ;		   
@@ -102,7 +102,7 @@ function KSynthesisCtrl($scope, $rootScope) {
 	       	 jqconsole.Write('Error...' + data + '\n');
 	        },
 	        beforeSend : function(event, jqxhr, settings) {
-	       	 $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+	       	 $('#wait').html('<img src="../../assets/images/ajax-loader.gif" />') ;
 	        },
 	        complete : function(jqxhr, textstatus) {
 	       	 $('#wait').html('') ;		   
@@ -119,7 +119,7 @@ function KSynthesisCtrl($scope, $rootScope) {
 	       	 jqconsole.Write('Error...' + data + '\n');
 	        },
 	        beforeSend : function(event, jqxhr, settings) {
-	       	 $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+	       	 $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 	        },
 	        complete : function(jqxhr, textstatus) {
 	       	 $('#wait').html('') ;		   
@@ -138,7 +138,7 @@ function KSynthesisCtrl($scope, $rootScope) {
 	        	 jqconsole.Write('Error...' + data + '\n');
 	         },
 	         beforeSend : function(event, jqxhr, settings) {
-	        	 $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+	        	 $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 	         },
 	         complete : function(jqxhr, textstatus) {
 	        	 $('#wait').html('') ;		   
@@ -156,7 +156,7 @@ function KSynthesisCtrl($scope, $rootScope) {
 		        	 jqconsole.Write('Error...' + data + '\n');
 		         },
 		         beforeSend : function(event, jqxhr, settings) {
-		        	 $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+		        	 $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 		         },
 		         complete : function(jqxhr, textstatus) {
 		        	 $('#wait').html('') ;		   
@@ -174,7 +174,7 @@ function KSynthesisCtrl($scope, $rootScope) {
 	        	 jqconsole.Write('Error...' + data + '\n');
 	         },
 	         beforeSend : function(event, jqxhr, settings) {
-	        	 $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+	        	 $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 	         },
 	         complete : function(jqxhr, textstatus) {
 	        	 $('#wait').html('') ;		   
@@ -195,7 +195,7 @@ function KSynthesisCtrl($scope, $rootScope) {
 	        	 jqconsole.Write('Error...' + data + '\n');
 	         },
 	         beforeSend : function(event, jqxhr, settings) {
-	        	 $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+	        	 $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 	         },
 	         complete : function(jqxhr, textstatus) {
 	        	 $('#wait').html('') ;		   
@@ -212,7 +212,7 @@ function KSynthesisCtrl($scope, $rootScope) {
 	        	 jqconsole.Write('Error...' + data + '\n');
 	         },
 	         beforeSend : function(event, jqxhr, settings) {
-	        	 $('#loader').html('<img src="assets/images/ajax-loader.gif" />') ; 
+	        	 $('#loader').html('<img src="../assets/images/ajax-loader.gif" />') ; 
 	         },
 	         complete : function(jqxhr, textstatus) {
 	        	 $('#wait').html('') ;		   
@@ -229,7 +229,7 @@ function KSynthesisCtrl($scope, $rootScope) {
 	        	 jqconsole.Write('Error...' + data + '\n');
 	         },
 	         beforeSend : function(event, jqxhr, settings) {
-                           $('#loader').html('<img src="assets/images/ajax-loader.gif" />') ; 
+                           $('#loader').html('<img src="../assets/images/ajax-loader.gif" />') ; 
 	         },
 	         complete : function(jqxhr, textstatus) {
 	        	 $('#wait').html('') ;		   
@@ -246,7 +246,7 @@ function KSynthesisCtrl($scope, $rootScope) {
 	        	 jqconsole.Write('Error...' + data + '\n');
 	         },
 	         beforeSend : function(event, jqxhr, settings) {
-	        	  $('#loader').html('<img src="assets/images/ajax-loader.gif" />') ; 
+	        	  $('#loader').html('<img src="../assets/images/ajax-loader.gif" />') ; 
 	         },
 	         complete : function(jqxhr, textstatus) {
 	        	 $('#wait').html('') ;		   
@@ -263,7 +263,7 @@ function KSynthesisCtrl($scope, $rootScope) {
 	        	 jqconsole.Write('Error...' + data + '\n');
 	         },
 	         beforeSend : function(event, jqxhr, settings) {
-	        	  $('#loader').html('<img src="assets/images/ajax-loader.gif" />') ; 
+	        	  $('#loader').html('<img src="../assets/images/ajax-loader.gif" />') ; 
 	         },
 	         complete : function(jqxhr, textstatus) {
 	        	 $('#wait').html('') ;		   

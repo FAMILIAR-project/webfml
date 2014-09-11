@@ -1,107 +1,106 @@
-@(message: String)
+@(message: String, script : Html)
     <!-- Name of the page-->
     @mainFML("Welcome to FAMILIAR!") {
+        	<!-- facilities for FML variables -->
+        	<script src="@routes.Assets.at("javascripts/fml/FMLvariables.js")"></script>
 
-        <!-- facilities for FML variables -->
-        <script src="@routes.Assets.at("javascripts/fml/FMLvariables.js")"></script>
+        	<!-- EDITOR -->
+        	<script src="@routes.Assets.at("javascripts/fml/FMLeditor.js")" type="text/javascript" charset="utf-8"></script>
+        	<!-- begin ACE editor -->
+			<!-- ace-builds/src-noconflict -->
+        	<script src="@routes.Assets.at("javascripts/ace-builds-master/src-noconflict/ace-min.js")" type="text/javascript" charset="utf-8"></script>
+			<!-- call the mode of the editor
+	    		Need this
+			-->
+        	<script src="@routes.Assets.at("javascripts/ace-builds-master/src-noconflict/mode-familiar.js")" type="text/javascript" charset="utf-8"></script>
+        	<!-- end ACE editor (style) -->
+        	<!-- end EDITOR -->
 
-        <!-- EDITOR -->
-        <script src="@routes.Assets.at("javascripts/fml/FMLeditor.js")" type="text/javascript" charset="utf-8"></script>
-        <!-- begin ACE editor -->
-	<!-- ace-builds/src-noconflict -->
-        <script src="@routes.Assets.at("javascripts/ace-builds-master/src-noconflict/ace.js")" type="text/javascript" charset="utf-8"></script>
-	<!-- call the mode of the editor
-	    Need this
-	-->
-        <script src="@routes.Assets.at("javascripts/ace-builds-master/src-noconflict/mode-familiar.js")" type="text/javascript" charset="utf-8"></script>
-        <!-- end ACE editor (style) -->
-        <!-- end EDITOR -->
+        	<!-- CONSOLE -->
+        	<link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/ansi.css")">
+        	<script src="@routes.Assets.at("javascripts/lib/jq-console/jqconsole.min.js")"></script>
+        	<script src="@routes.Assets.at("javascripts/fml/FMLconsole.js")"></script>
+        	<!-- end CONSOLE -->
 
-        <!-- CONSOLE -->
-        <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/ansi.css")">
-        <script src="@routes.Assets.at("javascripts/lib/jq-console/jqconsole.min.js")"></script>
-        <script src="@routes.Assets.at("javascripts/fml/FMLconsole.js")"></script>
-        <!-- end CONSOLE -->
-
-        <!-- WORKSPACE -->
-        <script src="@routes.Assets.at("javascripts/lib/alloy-2.0.0/aui/aui-min.js")"></script>
-        <link href="@routes.Assets.at("javascripts/lib/alloy-2.0.0/aui-css/css/bootstrap.min.css")" rel="stylesheet">
-        <!-- end WORKSPACE -->
+        	<!-- WORKSPACE -->
+        	<script src="@routes.Assets.at("javascripts/lib/alloy-2.0.0/aui/aui-min.js")"></script>
+        	<link href="@routes.Assets.at("javascripts/lib/alloy-2.0.0/aui-css/css/bootstrap.min.css")" rel="stylesheet">
+        	<!-- end WORKSPACE -->
         
-        <!-- KSYNTHESIS -->
-        <script src="@routes.Assets.at("javascripts/lib/dagre-d3/d3.v3.min.js")"></script>
-	<script src="@routes.Assets.at("javascripts/lib/dagre-d3/dagre-d3.min.js")"></script>
-	<script src="@routes.Assets.at("javascripts/fml/ksynthesis.js")"></script>
-	<!-- end KSYNTHESIS -->
-	<!-- Other CSS -->
-        <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/main.css")">
-        <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/console.css")">
-        <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/fmpreview.css")">
-	<!-- /End Other CSS -->
+       		<!-- KSYNTHESIS -->
+        	<script src="@routes.Assets.at("javascripts/lib/dagre-d3/d3.v3.min.js")"></script>
+			<script src="@routes.Assets.at("javascripts/lib/dagre-d3/dagre-d3.min.js")"></script>
+			<script src="@routes.Assets.at("javascripts/fml/ksynthesis.js")"></script>
+			<!-- end KSYNTHESIS -->
+			<!-- Other CSS -->
+        	<link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/main.css")">
+        	<link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/console.css")">
+        	<link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/fmpreview.css")">
+			<!-- /End Other CSS -->
         </head>
         <body>
             <div class="navbar">
-		<!-- Nav part of the app -->
+			<!-- Nav part of the app -->
                 <div class="navbar-inner">
-		    <!-- Contains the toolbar --> 
+		    	<!-- Contains the toolbar --> 
                     <div class="container-fluid">
-			<!-- "logo" -->
+					<!-- "logo" -->
                         <a class="brand" href="#">Familiar</a>
                         <button id="toggle-console" class="btn btn-info"><i class="icon-pencil icon-white"></i> Toggle Console</button>
-			<!-- link to the tutorial -->
-			 <a href="/tutorial"><button type="button" class="btn btn-success"><i class="icon-plane"></i> Go to the Tutorial</button></a>
+						<!-- link to the tutorial -->
+			 			<a href="/"><button type="button" class="btn btn-success" onclick="deleteSession()"><i class="icon-plane"></i> Go to the home page</button></a>
                         <div class="btn-group pull-right" ng-controller="FMLEditorCtrl">
-			    <!--HERE-->
+			    			<!--HERE-->
                             <button class="btn btn-info" id="webFmlCmd" ng-click="cmd()">Execute FAMILIAR code</button>
                             <button class="btn btn-info" id="webFmlReset" ng-click="reset()">Reset variables' environment</button>
                             <button class="btn btn-info" id="webFmlSaveAs" ng-click="save()">Save as...</button>
                         </div>
-			<!-- search part -->
+						<!-- search part -->
                         <form class="navbar-form pull-right" style="margin-right: 5px">
                             <input type="text" class="form-control" id="fileInputName" placeholder="Enter filename...">
                         </form>
                     </div>
                 </div>
             </div>
-	    <!-- IDE part -->
+	    	<!-- IDE part -->
             <div class="container-fluid" id="main-container">
                 <div class="row-fluid">
-		    <!-- Directory -->
+		    		<!-- Directory -->
                     <div class="span2 scrollable" id="workspace">
-			<div class="pull-left">
-			    <!--refresh button-->
-			    <button class="btn btn-small" onclick="updateWorkspace();"><i class="icon-refresh"></i></button>
-			    <!-- button which create new directory and new file-->
-			    <div class="btn-group">
-				<!--button to create a new directory and a new file-->
-				<button class="btn btn-small dropdown-toggle" data-toggle="dropdown">
-				    <i class="icon-plus-sign"></i><span class="carret"></span>
-				</button>
-				<!-- The "option" when we click on the action button -->
-				<ul class="dropdown-menu" role="menu">
-				    <li><a onclick="createFolder()";>Create a folder</a></li>
-				    <li><a onclick="createFile()";>Create a file</a></li>
-				</ul>
-			    </div>
-			    <!--button delete-->
-			    <button class="btn btn-small" onclick="deleteF()"; ><i class="icon-minus-sign"></i></button>
-			    <button class="btn btn-small" alt="save file" onclick="saveF()";><i class="icon-inbox"></i></button>
-			    <!-- Display the image of the loader here (just for some case)-->
-			    <div id="wait"></div>
-                        </div>
-			<div id="loader" class="pull-right"></div>
+						<div class="pull-left">
+			    			<!--refresh button-->
+			    			<button class="btn btn-small" onclick="updateWorkspace();"><i class="icon-refresh"></i></button>
+			   				<!-- button which create new directory and new file-->
+			    			<div class="btn-group">
+								<!--button to create a new directory and a new file-->
+								<button class="btn btn-small dropdown-toggle" data-toggle="dropdown">
+				    				<i class="icon-plus-sign"></i><span class="carret"></span>
+								</button>
+								<!-- The "option" when we click on the action button -->
+								<ul class="dropdown-menu" role="menu">
+				    				<li><a onclick="createFolder()";>Create a folder</a></li>
+				    				<li><a onclick="createFile()";>Create a file</a></li>
+								</ul>
+			    			</div>
+			    			<!--button delete-->
+			    			<button class="btn btn-small" onclick="deleteF()"; ><i class="icon-minus-sign"></i></button>
+			   				<button class="btn btn-small" alt="save file" onclick="saveF()";><i class="icon-inbox"></i></button>
+			    			<!-- Display the image of the loader here (just for some case)-->
+			    			<div id="wait"></div>
+                    	</div>
+						<div id="loader" class="pull-right"></div>
                         <div id="myTreeView"></div>
                     </div>
-		    <!-- Text editor -->
+		    		<!-- Text editor -->
                     <div class="span7" id="tabs-hoster">
-			<!-- Tab. part where we choose mod (eg: "FML Editor"...) -->
+						<!-- Tab. part where we choose mod (eg: "FML Editor"...) -->
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#editor" data-toggle="tab">FML Editor</a></li>
                             <li><a href="#ksynthesis-tab" data-toggle="tab">KSynthesis</a></li>
                         </ul>
-			<!-- EDITOR part -->
+						<!-- EDITOR part -->
                         <div class="tab-content">
-			    <!-- message -->
+			    			<!-- message -->
                             <div class="tab-pane active" id="editor">@editor(message)</div>
                             <div class="tab-pane" id="ksynthesis-tab" ng-controller="KSynthesisCtrl">
 				
@@ -112,16 +111,16 @@
                         			<select class="heuristic-selector" ng-model="clusteringHeuristic" ng-options="h for h in heuristics"></select>
                         			<input class="threshold-selector" type="number" min="0" max="1" step="0.1" ng-model="threshold"></input>
                         			<!--<label class="parameter"><input type="checkbox" ng-model="hideClusters"> Hide clusters</label>-->
-	                        </div>
-				    <!-- Ksynthesis buttons-->
-	                        <div class="span5 btn-toolbar" style="text-align:right">
-			            <div class="btn-group">
-			                <button type="button" class="btn btn-default" ng-click="undo()"><i class="icon-step-backward"></i> Undo</button>
-			                <button type="button" class="btn btn-default" ng-click="redo()"><i class="icon-step-forward"></i> Redo</button>
-			                <button type="button" class="btn btn-default" ng-click="completeFM()">Complete</button>
-			                <button type="button" class="btn btn-default" ng-click="saveToVar()">Save</button>
-			            </div>
-			        </div>
+	                        	</div>
+				    			<!-- Ksynthesis buttons-->
+	                        	<div class="span5 btn-toolbar" style="text-align:right">
+			            			<div class="btn-group">
+			                			<button type="button" class="btn btn-default" ng-click="undo()"><i class="icon-step-backward"></i> Undo</button>
+			                			<button type="button" class="btn btn-default" ng-click="redo()"><i class="icon-step-forward"></i> Redo</button>
+			                			<button type="button" class="btn btn-default" ng-click="completeFM()">Complete</button>
+			                			<button type="button" class="btn btn-default" ng-click="saveToVar()">Save</button>
+			            			</div>
+			        			</div>
 			                   
 		                <!-- Ksynthesis part -->
 		                        <div id="ksynthesis">
@@ -336,55 +335,44 @@
                     </div>
                 </div>
             </div>
-
+            @script
             <div id="console" class="hide in" ng-controller="FMLConsoleCtrl"></div>
             <script src="@routes.Assets.at("javascripts/lib/bootstrap/bootstrap.js")" type="text/javascript"></script>
-	    <!---Script related of autocompletion-->
-	    <script src="@routes.Assets.at("javascripts/ace-builds-master/src-noconflict/ext-language_tools.js")"></script>
-		
-            <!--<script>
-		var editor=ace.edit("editor");
-                window.onload = function() {
-		    /*
-		     *define the "mode" of the editor (e.g: color) you can change the value here (e.g : chrome, github...).
-		     *To find more theme you : ace-build-master/src-no-conflict/theme-xxx, you have just to put the xxx.
-		     */
-                    editor.setTheme("ace/theme/xcode");
-		    /*
-		     *define the mode of the editor with a special hilight
-		     */
-                    var JavaScriptMode = ace.require("ace/mode/familiar").Mode;
-                    editor.getSession().setMode(new JavaScriptMode());
-                };
-		
-		//autocompletion 
-                ace.require('ace/ext/language_tools');
-		//give some option to the editor
-		editor.setOptions({
-		    enableBasicAutocompletion: true,
-		    enableLiveAutocomplete: true,
-		    enableSnippets: true
-		});
-            </script>-->
-	    <!-- call editor options-->
-	    <script src="@routes.Assets.at("javascripts/fml/lib_editor.js")"></script>
-	    <script src="@routes.Assets.at("javascripts/fml/autocompletion_options.js")"></script>
-            <script>
-                $(function () {
-                    $('#main-container').css('height', ($('body' ).outerHeight()-80)+'px');
-                });
+	    	<!---Script related of autocompletion-->
+	    	<script src="@routes.Assets.at("javascripts/ace-builds-master/src-noconflict/ext-language_tools.js")"></script>
 
-                $('#toggle-console').click(function () {
-                    if ($('#console').hasClass('hide')) {
-                        $('#console').removeClass('hide');
-                    } else {
-                        $('#console').addClass('hide');
-                    }
-                });
-            </script>
-            
-            
+	   		<!-- call editor options-->
+	    	<script src="@routes.Assets.at("javascripts/fml/lib_editor.js")"></script>
+	    	<script src="@routes.Assets.at("javascripts/fml/autocompletion_options.js")"></script>
+            	<script>
+                	$(function () {
+                    	$('#main-container').css('height', ($('body' ).outerHeight()-80)+'px');
+                	});
+
+                	$('#toggle-console').click(function () {
+                    	if ($('#console').hasClass('hide')) {
+                        	$('#console').removeClass('hide');
+                    	} else {
+                        	$('#console').addClass('hide');
+                    	}
+                	});
+            	</script>
+            	<script type="text/javascript">
+            		/**
+            		*Check if session exist
+            		*/
+            		$(function checkSession(){
+
+            		});
+            	</script>
+            	<script type="text/javascript">
+            		/**
+            		* Function which kill the session
+            		* when we click on the button `go to the home`
+            		*/
+            		function deleteSession(){
+
+            		}
+            	</script>
         </body>
     }
-
-

@@ -19,7 +19,7 @@ object Application extends Controller {
 
   
  
-   def index() = Action {
+   def index(language:String) = Action {
     	request =>
 		val fmlDemo ="// your FAMILIAR code here!\n" + 
 					"fm1 = FM (A: B [C] ; )\n" + 
@@ -46,7 +46,13 @@ object Application extends Controller {
 					"fm0\n" + 
 					"mtx = computeMUTEXGroups fm0";
 		// <button class="btn" onclick="loadFile('fm1 = FM (A : [B] XXX ; )');">Load file</button>
-		Ok(views.html.index(fmlDemo + "\n"))
+		var scriptToImport=""
+		if(language=="familiar"){
+			scriptToImport="<script>var language='familiar'</script> <script type='text/javascript' src='/assets/javascripts/ace-builds-master/src-noconflict/mode-familiar.js'></script>"
+		}
+		
+		
+		Ok(views.html.index(fmlDemo + "\n",Html(scriptToImport)))
     }
   
    /**
@@ -67,7 +73,11 @@ object Application extends Controller {
      if(name=="vm"){
        
        nameOfTheLanguage = "<script>var language='vm'</script> <script type='text/javascript' src='/assets/javascripts/ace-builds-master/src-noconflict/mode-vm.js'></script>"
-       btn="<button class='btn btn-info' id='webFmlCmd' ng-click='cmd()' ><i class='glyphicon glyphicon-play'></i> Execute VM code</button>"
+       /*
+        * Disabled the button because VM has not interpreter and need one. 
+        * @TODO : Change the ng-click='cmd()' --> for VM
+        */
+       btn="<button class='btn btn-info' id='webFmlCmd' disabled='disabled' ng-click='cmd()' ><i class='glyphicon glyphicon-play'></i> Execute VM code</button>"
 
      }
       
@@ -82,7 +92,13 @@ object Application extends Controller {
    def homePage() = Action {
      Ok(views.html.homePage())
    }
-  
+   
+   /**
+    * Login page, access to the ide page
+    */
+   def loginPage()=Action{
+     Ok(views.html.loginPage())
+   }
    
  
    
@@ -122,7 +138,7 @@ object Application extends Controller {
                 WebFMLInterpreter.deleteFile,
                 //save file
                 WebFMLInterpreter.saveFile,
-                //toJson 
+                //toJson
                 //familiar
                 WebFMLInterpreter.getAllKeywordToJson,
                 WebFMLInterpreter.getAllClasswordToJson,
@@ -133,7 +149,9 @@ object Application extends Controller {
                 WebFMLInterpreter.getTutorialInMarkdown,
                 WebFMLInterpreter.getMenuInMarkdown,
                 WebFMLInterpreter.getHeaderInMarkdown,
-                WebFMLInterpreter.getChapter
+                WebFMLInterpreter.getChapter,
+                //login for ide 
+                FamiliarIDEController.receiveInformations
                 
             )
         ).as("text/javascript");

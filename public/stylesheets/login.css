@@ -1,0 +1,27 @@
+/**
+*Design for the login page
+*/
+body {
+	
+    /*background-color: #000000*/
+}
+#form{
+	text-align: center;
+	width: 27%;
+	border-radius: 0.5rem;
+	top: 0;
+	left: 0;
+	right: 0;
+	position: absolute;
+	margin: 4rem auto;
+	background-color: #fff;
+	padding: 2rem;
+}
+
+#myForm{
+	margin-bottom: 10px;
+}
+
+.title {
+	text-align: left;
+}

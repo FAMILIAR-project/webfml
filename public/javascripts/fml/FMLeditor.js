@@ -24,7 +24,7 @@ function FMLEditorCtrl($scope, $rootScope) {
 				$('#msgid').html('Error...<div class="alert alert-danger">' + data + '</div>') ; 
 			},
 		        beforeSend : function(event, jqxhr, settings) {
-			        $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
+			        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
 			},
 		       complete : function(jqxhr, textstatus) {
 			    $('#wait').html('') ;		   
@@ -33,19 +33,19 @@ function FMLEditorCtrl($scope, $rootScope) {
 	}
 	
 	$scope.reset = function() {
-		 jsRoutes.controllers.WebFMLInterpreter.reset().ajax({
+		jsRoutes.controllers.WebFMLInterpreter.reset().ajax({
 			success : function(data) {  
 				$rootScope.$broadcast('variables', data)
 			},
-		        error : function(data) {  
+		    error : function(data) {  
 				$('#msgid').html('Impossible to reset...<div>' + data + '</div>') ; 
 			},
-		        beforeSend : function(event, jqxhr, settings) {
-			        $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
+		    beforeSend : function(event, jqxhr, settings) {
+			        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
 			},
-		       complete : function(jqxhr, textstatus) {
-			    $('#wait').html('') ;		   
-	       }
+		    complete : function(jqxhr, textstatus) {
+			    	$('#wait').html('') ;		   
+	       	}
 		});
 	}
 	
@@ -61,7 +61,7 @@ function FMLEditorCtrl($scope, $rootScope) {
 				$('#msgid').html('<div class="alert alert-danger">Unable to save...</div>') ; 
 			},
 		        beforeSend : function(event, jqxhr, settings) {
-			        $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
+			        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
 			},
 		      complete : function(jqxhr, textstatus) {
 			    $('#wait').html('') ;		   
@@ -83,7 +83,7 @@ function loadFile(filename) {
 			$('#msgid').html('Unable to load the file..' + data) ; 
 		},
 	        beforeSend : function(event, jqxhr, settings) {
-		        //$('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
+		        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
 		},
 	       complete : function(jqxhr, textstatus) {
 		    $('#wait').html('') ;		   
@@ -108,7 +108,7 @@ jsRoutes.controllers.WebFMLInterpreter.listFiles().ajax({
 			$('#myTreeView').html('Unable to load the list of files... <div class="alert alert-danger">' + data + '</div>') ; 
 		},
 	        beforeSend : function(event, jqxhr, settings) {
-		        $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
+		        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
 		},
 	       complete : function(jqxhr, textstatus) {
 		    $('#wait').html('') ;		   
@@ -121,7 +121,7 @@ jsRoutes.controllers.WebFMLInterpreter.listFiles().ajax({
  */
 $(document).ready(function() { 
  
-jsRoutes.controllers.WebFMLInterpreter.listFiles().ajax({
+	jsRoutes.controllers.WebFMLInterpreter.listFiles().ajax({
 		success : function(data) {
 		        displayWorkspace(data); 
 		},
@@ -129,13 +129,12 @@ jsRoutes.controllers.WebFMLInterpreter.listFiles().ajax({
 			$('#myTreeView').html('Unable to load the list of files... <div class="alert alert-danger">' + data + '</div>') ; 
 		},
 	        beforeSend : function(event, jqxhr, settings) {
-		        $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
+		    	$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
 		},
 	       complete : function(jqxhr, textstatus) {
 		    $('#wait').html('') ;		   
-	       }
-	})
-	;
+	    }
+	});
 });
 
 /*
@@ -219,7 +218,6 @@ function createFolder() {
 	//test if they something inside the inputbox
 	if (name!=null && name!="") {
 		var finalPath = path+"/"+name;
-		alert(finalPath);
 		//call the scala function with the parameter
 		jsRoutes.controllers.WebFMLInterpreter.createFolder(finalPath).ajax({
 			success : function(data) {
@@ -232,7 +230,7 @@ function createFolder() {
 			},
 			//display a loader
 			beforeSend : function(event, jqxhr, settings) {
-				$('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
+				$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
 			},
 		       complete : function(jqxhr, textstatus) {
 			    $('#wait').html('') ;		   
@@ -295,7 +293,7 @@ function createFile() {
 							},
 							//display a loader
 							beforeSend : function(event, jqxhr, settings) {
-								$('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
+								$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
 							},
 							complete : function(jqxhr, textstatus) {
 							    $('#wait').html('') ;		   
@@ -339,7 +337,7 @@ function deleteF() {
 				},
 				//display a loader
 				beforeSend : function(event, jqxhr, settings) {
-					$('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
+					$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
 				},
 				complete : function(jqxhr, textstatus) {
 				    $('#wait').html('') ;		   
@@ -359,7 +357,7 @@ function deleteF() {
 				},
 				//display a loader
 				beforeSend : function(event, jqxhr, settings) {
-					$('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
+					$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
 				},
 				complete : function(jqxhr, textstatus) {
 				    $('#wait').html('') ;		   
@@ -391,7 +389,7 @@ function saveF() {
 			},
 			//display a loader
 			beforeSend : function(event, jqxhr, settings) {
-				$('#wait').html('<img src="assets/images/ajax-loader.gif" />') ; 
+				$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
 			},
 			complete : function(jqxhr, textstatus) {
 			    $('#wait').html('') ;		   

@@ -33,7 +33,7 @@
                         <!-- right side -->
                         <div class="nav navbar-nav navbar-right">
                             <ul class="nav navbar-nav">
-                                <li><a href="#publication">Publication</a></li>
+                                <li><a href="#publication">Publications</a></li>
                                 <li><a href="#contact">Contact</a></li>
                             </ul>  
                         </div>
@@ -47,8 +47,9 @@
                 <div class="jumbotron">
                     <h1>Welcome to FAMILIAR project website</h1>
                     <p>feature models, variability, software product lines, configuration, domain-specific language, automated reasoning, model-driven engineering</p>
-                    <a href="/tutorial/familiar"><button type="button" class="btn btn-success btn-lg" onclick="createCookie('familiar');"><i class="glyphicon glyphicon-pencil"></i> Familiar Tutorial</button></a>
-                    <!--<a href="/tutorial/vm"><button type="button" class="btn btn-success btn-lg"><i class="glyphicon glyphicon-pencil"></i> VM Tutorial</button></a>-->
+                    <a href="/tutorial/familiar"><button type="button" class="btn btn-success btn-lg"><i class="glyphicon glyphicon-pencil"></i> Familiar Tutorial</button></a>
+                    <a href="/tutorial/vm"><button type="button" class="btn btn-success btn-lg" ><i class="glyphicon glyphicon-pencil"></i> VM Tutorial</button></a>
+                    <a href="/login"><button type="button" class="btn btn-success btn-lg"><i class="glyphicon glyphicon-edit"></i> Familiar IDE</button></a>
                     <!--<button type="button" class="btn btn-success btn-lg"><i class="glyphicon glyphicon-leaf"></i> Go to the IDE</button>-->
                 </div>
                 <div class="alert alert-danger" role="alert">
@@ -56,7 +57,6 @@
                         <i class="fa fa-wrench"></i> This website is currently in development !
                         Please contact us to send feedback about the website and the tutorial.
                         <a href="https://github.com/FAMILIAR-project/webfml/issues"><i class="fa fa-github-alt"></i> Click Here !</a> to contact us.
-                        <!--Or contact the <a href="mailto:geoffrey.alexandre[at]inria.fr">web-dev</a> ! -->
                     </b>
                 </div>
             </div>
@@ -309,26 +309,5 @@
                 
             </div>
         </div>
-        
-        <script>
-            /**
-             *Create a cookie to store the language of the tutorial
-             *like that we create a local variable and it's can't be modify
-             */
-            function createCookie(name){
-                //set to the cookie the name of the language
-                //var timeEx=new Date();
-                //get the pathname of the website
-                //var pathName = location.pathname;
-                //add 5s
-                //timeEx.setTime(timeEx.getTime()+ (5000));
-                //create the cookie
-                //document.cookie="language="+name+";"+"expires="+timeEx.toUTCString()+";"+"path="+pathName;
-                //go to the tutorial page
-                //window.location="/tutorial/";
-
-
-            }
-        </script>
     </body>
 </html>

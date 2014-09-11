@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Login</title>
+		<meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+         <!-- stylesheet -->   
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/login.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+	</head>
+
+	<body>
+		<div class="container">
+			<div id="form" >
+				<form role="form" class="form-horizontal" id="myForm">
+					<fieldset>
+						<legend class="title">Login</legend>
+					
+						<!--login field-->
+						<div class="form-group">
+							<label for="login" class="col-sm-2 control-label">Login:</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="login" placeholder="Enter login">
+							</div>
+						</div>
+						<!--Password field-->
+						<div class="form-group">
+							<label for="pwd" class="col-sm-2 control-label">Password:</label>
+    						<div class="col-sm-10">
+      							<input type="password" id="pwd" class="form-control" placeholder="Password">
+    						</div>
+						</div>
+						<!--language selector-->
+						<div class="form-group">
+							<label for="language" class="col-sm-2 control-label">Language:</label>
+    						<div class="col-sm-10">
+      							<select class="form-control" id="lang">
+      								<option>Familiar</option>
+      								<option>VM</option>
+      							</select>
+    						</div>
+    					</div>
+    					<!-- button field to log in-->
+      					<button type="button" onclick="sendInformations()"; class="btn btn-primary " id="btn" ><i class="glyphicon glyphicon-ok"></i> Log in</button>
+    				</fieldset>
+				</form>
+				<div class="alert alert-warning" role="alert">
+					<p><i class="glyphicon glyphicon-exclamation-sign"></i> Enter in login and password fields : <kbd>demo</kbd> </p>
+				</div>
+				<div class="alert alert-danger" role="alert" id="problem"></div>
+			</div>
+		</div>
+		<script src="@routes.Application.javascriptRoutes" type="text/javascript"></script>
+            <!-- jQuery -->
+        <script src="@routes.Assets.at("javascripts/lib/jquery/jquery.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/lib/CryptoJS/rollups/sha512.js")"type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/lib/CryptoJS/components/enc-base64-min.js")"type="text/javascript"></script>
+
+		<script type="text/javascript">
+		$(function(){
+			document.getElementById("problem").style.display = "none";
+		});
+		</script>
+
+		<script type="text/javascript">
+			function sendInformations(){
+
+				var login = document.getElementById("login").value;
+				var pwd = document.getElementById("pwd").value;
+				var language = document.getElementById("lang").value;
+	
+				console.log(login + " " + pwd +" "+language)
+				var hash = CryptoJS.SHA512(pwd);
+				console.log(hash.toString(CryptoJS.enc.Base64));
+				//test login and password in the server side (null, ' ' & '')
+				if(login!="demo"&&pwd!="demo"){
+					jsRoutes.controllers.FamiliarIDEController.receiveInformations(login,hash.toString(CryptoJS.enc.Base64),language.toLowerCase()).ajax({
+						success: function(data){
+							document.getElementById("problem").style.display="block";
+							document.getElementById("problem").innerHtml="Error";
+						},
+						error: function(data){
+							document.getElementById("problem").style.display="block";
+							document.getElementById("problem").innerHtml="Error";
+						}
+					});
+				}else{
+					jsRoutes.controllers.FamiliarIDEController.receiveInformations(login,pwd,language.toLowerCase()).ajax({
+						success: function(data){
+							document.getElementById("problem").style.display="block";
+							document.getElementById("problem").innerHtml="Error";
+						
+						},
+						error: function(data){
+							document.getElementById("problem").style.display="block";
+							document.getElementById("problem").innerHtml="Error";
+						}
+					});
+				}
+				//try to implement this on the server side
+				//window.location.href=("/ide/"+language.toLowerCase());
+			}
+		</script>
+	</body>
+</html>
