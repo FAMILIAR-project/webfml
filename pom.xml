@@ -1,0 +1,42 @@
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>fr.inria.familiar</groupId>
+ 	<artifactId>WebFML</artifactId>
+ 	<version>1.0-SNAPSHOT</version>
+
+	<packaging>play2</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>fr.inria.familiar</groupId>
+			<artifactId>FAMILIAR-Standalone</artifactId>
+			<version>1.0.10</version>
+		</dependency>
+
+		<dependency>
+			<groupId>fr.inria.familiar.foreverse</groupId>
+			<artifactId>KSynthesis</artifactId>
+			<version>0.0.1-SNAPSHOT</version>	
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.core</groupId>
+			<artifactId>resources</artifactId>
+			<version>3.3.0-v20070604</version>
+		</dependency>
+	</dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.nanoko.playframework</groupId>
+                <artifactId>play2-maven-plugin</artifactId>
+                <version>1.2.5</version>
+                <extensions>true</extensions>
+						<configuration>
+							<play2Home>/home/fcoulon/play-2.2.4/</play2Home>
+						</configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
