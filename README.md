@@ -39,6 +39,7 @@ More details in the dedicated page.
 
 ## Setting up the installation
 
+```
 Familiar build
 --------------
  * git clone git@github.com:FAMILIAR-project/familiar-language.git
@@ -55,6 +56,7 @@ WebFML build
  * git clone git@github.com:FAMILIAR-project/webfml.git
  * install Play [https://www.playframework.com/download] 
  * mvn clean install -DskipTests -DPLAY2_HOME=/path/to/play-2.2.4/
+```
 
 You are ready to work
 
