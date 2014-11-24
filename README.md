@@ -43,13 +43,13 @@ More details in the dedicated page.
 Familiar build
 --------------
  * git clone git@github.com:FAMILIAR-project/familiar-language.git
- * mvn clean install -DskipTests dans familiar.root/
- * mvn clean install dans familiar.standalone/
+ * mvn clean install -DskipTests from familiar.root/
+ * mvn clean install from familiar.standalone/
 
 KSynthesis build
 -----------------
  * git clone https://github.com/gbecan/FOReverSE-KSynthesis.git
- * mvn clean install dans KSynthesis/
+ * mvn clean install from KSynthesis/
 
 WebFML build
 ----------------
