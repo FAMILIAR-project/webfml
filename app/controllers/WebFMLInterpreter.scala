@@ -259,6 +259,15 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     Ok(Json.toJson(interp.eval(id).getValue()));
   }
 
+  def configure (id : String) = Action {
+    val v = interp.eval(id)
+      if (v.isInstanceOf[FeatureModelVariable]) {
+        val fmv = v.asInstanceOf[FeatureModelVariable]
+        Ok (Json.toJson(v.getValue()));
+      } else {
+        Ok("Error, variable " + id + " is not a feature model!"); 
+      }
+  }
 
   def reset () = Action {request =>
     interp.reset()

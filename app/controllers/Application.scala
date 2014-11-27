@@ -128,6 +128,7 @@ object Application extends Controller {
                 WebFMLInterpreter.setRankingListsHeuristic,
                 WebFMLInterpreter.setClusteringParameters,
                 WebFMLInterpreter.setRoot,
+                WebFMLInterpreter.configure,
                 //create folder
                 WebFMLInterpreter.createFolder,
                 //create file
