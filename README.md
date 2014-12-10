@@ -96,13 +96,13 @@ Copy these plugins (take the latest version) in the “dropins” folder of your
 
 
 Click on “add” :
-(2_install_scala.png)
+![Alt text](/doc/img/2_install_scala.png)
 
 In the location field, paste the following link:
 http://download.scala-ide.org/nightly-scala-ide-luna-211x
 Select all of the three available items in the window that appears next :
 
-(3_install_scala.png)
+![Alt text](/doc/img/3_install_scala.png)
 
 
 
@@ -132,17 +132,17 @@ C:\Program Files\Apache Software Foundation\apache-maven-3.11.
 Clone the familiar project in Eclipse : https://github.com/FAMILIAR-project/familiar-language
 You get access to the git perspective by clicking on the button on the top right and choosing “Git”, then click on “Clone a Git repository” :
 
-(4_install_familiar.png)
+![Alt text](/doc/img/4_install_familiar.png)
 
 
 Choose only Master branch :
 
-(5_install_familiar.png)
+![Alt text](/doc/img/5_install_familiar.png)
 
 
 With a right-click on the familiar-language local repository, choose “Import projects” with the “Importing existing projects” option selected
 
-(6_install_familiar.png)
+![Alt text](/doc/img/6_install_familiar.png)
 
 
 In the list of projects to import, the “FML3rdPartiesMisc” and “FML3rdPartiesForSynthesis“ projects are copied twice with one the paths containing the other one, so make sure you only take each of these projects once.
