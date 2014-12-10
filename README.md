@@ -52,7 +52,9 @@ Checkout the working schema :
 
 
 
-## Fonctionnement de la console
+## Use-case example
+
+Here's a little example of what happens when you perform an action on the web interface (here, in the console part).
 
 
 ![Alt text](/doc/img/application_working.png)
@@ -60,7 +62,7 @@ Checkout the working schema :
 
 
 
-Clicking on “Display” calls the displayVariable() method of the FMLVariables.js class (located in the public->javascripts->fml package), which results in the calling of the variable() function in the java class WebFMLInterpreter, through an Ajax request.
+Clicking on “Display” calls the displayVariable() method of the FMLVariables.js class (located in the public/javascripts/fml package), which results in the calling of the variable() function in the java class WebFMLInterpreter, through an Ajax request.
 
 This function uses a class from the Familiar API to obtain the description on the variable passed as a an argument.
 
