@@ -45,7 +45,7 @@ Important controllers can be found in /public/javascripts/fml
 Checkout the working schema :
 
 
-
+![Alt text](/doc/img/familiar.jpg)
 
 
 
