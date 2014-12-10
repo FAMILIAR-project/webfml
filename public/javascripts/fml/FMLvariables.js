@@ -20,6 +20,11 @@ function FMLVariableCtrl($scope, $rootScope) {
 		 }) ; 
 	}
 	
+	$scope.edit = function(id) {
+		//Pour le test remplacer le data par des valeurs en dur
+		console.log("$scope.edit");
+	}
+	
 	$scope.synthesize = function(id) {
 		$rootScope.$broadcast('ksynthesis', 'ksynthesis --interactive ' + id)
 	}
