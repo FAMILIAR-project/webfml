@@ -35,7 +35,7 @@ The server application is interacting with a familiar virtual machine, which is 
 
 ### Class diagram :
 
-(Diagramme_general_zoom.png) -> drive webfml -> Images -> Diagramme_UML_Appli
+![Alt text](/doc/img/general_architecture_zoom.png)
 
 
 The client-side of WebFML is based on Javascript, with the AngularJS framework. It is basically just interacting with our server, sending him AJAX requests to execute, display, modify Feature Models.
