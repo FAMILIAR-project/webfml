@@ -55,7 +55,7 @@ Checkout the working schema :
 ## Fonctionnement de la console
 
 
-(Fonctionnement_de_appli.png) drive -> images -> Fonctionnement_de_appli.png
+![Alt text](/doc/img/application_working.png)
 
 
 
@@ -66,7 +66,7 @@ This function uses a class from the Familiar API to obtain the description on th
 
 Then, the response is passed to the javascript controller, which displays this description in the console.
 
-drive -> images -> Fonctionnement_de_appli(2).png
+![Alt text](/doc/img/application_working_2.png)
 
 
 
