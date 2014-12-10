@@ -8,11 +8,11 @@ This is a web text editor, interacting through Javascript and AJAX requests with
 
 ## Current status
 We have a basic version of FAMILIAR environment with
-*a textual editor (very basic) for specifying scripts
-*a console to interact (very basic again) - see the console paragraph
-*way to execute a script
-*way to reset
-*(partially) the logics for handling a "ksynthesis" session
+* a textual editor (very basic) for specifying scripts
+* a console to interact (very basic again) - see the console paragraph
+* way to execute a script
+* way to reset
+* (partially) the logics for handling a "ksynthesis" session
 
 It works with the Play! framework 2.2.0 (http://www.playframework.com/documentation/2.2.0), the Scala version. We also rely on some Javascripts (ACE editor and jqconsole). More details in the dedicated page.
 
@@ -82,7 +82,8 @@ Installation
 
 
 -The first step consists of installing Eclipse Luna with pre-implemented Xtext (https://eclipse.org/Xtext/download.html), which makes domain-specific languages building and programming easier (our installation was made under JRE/JDK versions 1.7.0_71 and 1.7.0_72).
-### FeatureIDE from : http://wwwiti.cs.uni-magdeburg.de/iti_db/research/featureide/deploy/plugins/
+### FeatureIDE from : 
+http://wwwiti.cs.uni-magdeburg.de/iti_db/research/featureide/deploy/plugins/
 
 Copy these plugins (take the latest version) in the “dropins” folder of your Eclipse installation:
 * .de.ovgu.featureide.core
@@ -96,6 +97,7 @@ Copy these plugins (take the latest version) in the “dropins” folder of your
 
 
 Click on “add” :
+
 ![Alt text](/doc/img/2_install_scala.png)
 
 In the location field, paste the following link:
@@ -120,11 +122,7 @@ C:\Program Files\Apache Software Foundation\apache-maven-3.11.
 * Create a new system variable  “M2” with the value :%M2_HOME%\bin
 * Add %M2% to the variable “PATH”
 * make sure that the system variable “JAVA_HOME” has C:\Program Files\Java\jdk1.7.0_71 as value (or 1.7.0_72)
-* In the command-line interface, launch the “mvn -version” command to make sure that Maven has been successfully installed and all new system variables are found and properly used
-* A Maven build has been added to the webfml folder, verify that there’s a pom.xml file in the project
-* Go to the webfml folder through command-line and launch the following command : mvn clean install -DskipTests -DPLAY2_HOME={chemin vers répertoire play-2.2.4} (to skip the tests, which aren’t mandatory)
-
-
+* In the command-line interface, launch the “mvn -version” command to make sure that Maven has been successfully installed and all new system variables are found and properly used.
 
 
 # Familiar - INSTALL
@@ -156,9 +154,22 @@ In the list of projects to import, the “FML3rdPartiesMisc” and “FML3rdPart
 
 To clone the WebFML project in Eclipse, we proceed as we did above with the FAMILIAR project; except that in step 3, the “Import as general project” option is the one needed.
 
+##How to generate the Jars file :
+ 
+* A Maven build has been added to the webfml folder, verify that there’s a pom.xml file in the project.
+* In the command-line inteface, go to familiar-language\familiar.root and launch the  mvn install command.
+* Do the same with familiar-language\familiar.standalone and mvn package respectively
+* Copy the FAMILIAR-Standalone-1.0.10-jar-with-dependencies file from familiar-language\familiar.standalone\target to webfml\lib (replace if needed)
+
 
 ## Run the Application :
 
 * Run the consol with (“cmd”) in file search assistant on Windows.
-* Be placed on the webfml folder
+* Be placed on the webfml folder, execute "play"
+![Alt text](/doc/img/play.png)
+* Execute command : "compile"
+![Alt text](/doc/img/play-compile.png)
+* Launch the app with command : "run"
+* In your browser go to: http://127.0.0.1:9000/ide/familiar
+ 
 
