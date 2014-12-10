@@ -156,20 +156,20 @@ To clone the WebFML project in Eclipse, we proceed as we did above with the FAMI
 
 ##How to generate the Jars file :
  
-*A Maven build has been added to the webfml folder, verify that there’s a pom.xml file in the project.
-*In the command-line inteface, go to familiar-language\familiar.root and launch the  mvn install command.
-*Do the same with familiar-language\familiar.standalone and mvn package respectively
-*Copy the FAMILIAR-Standalone-1.0.10-jar-with-dependencies file from familiar-language\familiar.standalone\target to webfml\lib (replace if needed)
+* A Maven build has been added to the webfml folder, verify that there’s a pom.xml file in the project.
+* In the command-line inteface, go to familiar-language\familiar.root and launch the  mvn install command.
+* Do the same with familiar-language\familiar.standalone and mvn package respectively
+* Copy the FAMILIAR-Standalone-1.0.10-jar-with-dependencies file from familiar-language\familiar.standalone\target to webfml\lib (replace if needed)
 
 
 ## Run the Application :
 
-*Run the consol with (“cmd”) in file search assistant on Windows.
-*Be placed on the webfml folder, execute "play"
+* Run the consol with (“cmd”) in file search assistant on Windows.
+* Be placed on the webfml folder, execute "play"
 ![Alt text](/doc/img/play.png)
-*Execute command : "compile"
+* Execute command : "compile"
 ![Alt text](/doc/img/play-compile.png)
-*Launch the app with command : "run"
-*In your browser go to: http://127.0.0.1:9000/ide/familiar
+* Launch the app with command : "run"
+* In your browser go to: http://127.0.0.1:9000/ide/familiar
  
 
