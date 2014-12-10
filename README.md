@@ -1,162 +1,164 @@
-# webfml
+Presentation of WebFML project
+==============================================
 
 
-FAMILIAR goes to the web... 
-The goal is to progressively migrate our (unrelated) tools to the web. 
-The long term vision is to have an integrated solution at the end, incl.
- * reverse engineering, 
- * testing, 
- * advanced feature modeling 
- * model-based product lines.
+If you’re familiar with FAMILIAR, then WebFML is basically just an online IDE for FAMILIAR development. It allows you to create, modify and execute your favorite feature models in real time.
 
-Promises ? 
-
- * Better integration of tools
- * Ease of development (especially user interfaces)
- * Usable environements 
- * More visible impact 
- * Deployment facilities 
-
-For all participants: experience with web dev. 
+This is a web text editor, interacting through Javascript and AJAX requests with a FAMILIAR virtual machine on a Java / Scala server. So the main process is executed on the server rather than the browser, making WebFML a really lite web application.
 
 ## Current status
- 
- We have a basic version of FAMILIAR environment with 
-  * a textual editor (very basic) for specifying scripts
-  * a console to interact (very basic again)
-  * way to execute a script
-  * way to reset
-  * (partially) the logics for handling a "ksynthesis" session 
+We have a basic version of FAMILIAR environment with
+*a textual editor (very basic) for specifying scripts
+*a console to interact (very basic again) - see the console paragraph
+*way to execute a script
+*way to reset
+*(partially) the logics for handling a "ksynthesis" session
 
-It works with the Play! framework 2.2.0 (http://www.playframework.com/documentation/2.2.0), the Scala version. We also rely on some Javascripts (ACE editor and jqconsole). 
-More details in the dedicated page. 
-
-## Setting up Eclipse
-
- * Download Play! : http://www.playframework.com/
- * Install Play! as follows : e.g., http://www.playframework.com/documentation/2.2.1/Installing
- * In webfml directory, start play (in the console enter the command play), in Play! console enter the command ''eclipse'' : http://www.playframework.com/documentation/2.2.1/IDE
-
-## Setting up the installation
-
-```
-Familiar build
---------------
- * git clone git@github.com:FAMILIAR-project/familiar-language.git
- * mvn clean install -DskipTests from familiar.root/
- * mvn clean install from familiar.standalone/
-
-KSynthesis build
------------------
- * git clone https://github.com/gbecan/FOReverSE-KSynthesis.git
- * mvn clean install from KSynthesis/
-
-WebFML build
-----------------
- * git clone git@github.com:FAMILIAR-project/webfml.git
- * install Play [https://www.playframework.com/download] 
- * mvn clean install -DskipTests -DPLAY2_HOME=/path/to/play-2.2.4/
-```
-
-You are ready to work
-
-## Compile and Run
-
- * In your source directory open the terminal
- * start play (command : play)
- * to compile type the command compile 
- * to run type the command run
- * go to the url : localhost:9000
- 
-
- 
- 
-# webfml (Play application)
-
-It works with the Play! framework 2.2.0 (http://www.playframework.com/documentation/2.2.0). 
-Specifically the Scala version.
-
-Currently, we have a basic version of the FAMILIAR environment:
-
- * a textual editor (very basic) for specifying scripts => we rely on the ACE project (http://ace.c9.io/#nav=about)
- * a console to interact (very basic again) => we rely on the jq-console project (https://github.com/replit/jq-console/) 
- * way to execute a FAMILIAR script
- * way to reset the "variables environment" 
- * (partially) the logics for handling a "ksynthesis" session
- 
-## Eclipse, Scala, Play, FAMILIAR, etc
-
-You need Eclipse, FAMILIAR installed, Scala support and Play! 
-
-### Execution 
-
-Checkout the FMLApp project. 
-This is simply an Eclipse projet.
-You obviously need an Eclipse with a Scala plugin (http://scala-ide.org/). We are using version 2.10.2. 
-
-Then you need to generate a "jar" of FAMILIAR (i.e., you need FAMILIAR). 
-For doing that, right click on the project FAMILIAR, Export, Runnable Jar File...
-As destination set: 
-FMLApp/lib/FML-1.2.jar
-and select "Extract required libraries into generated JAR" 
-
-
-Once done, you can execute play in the directory of FMLApp 
- * (optional) set up the preferences for your IDE (Eclipse, IntelliJ, etc.) => http://www.playframework.com/documentation/2.2.1/IDE
- * compile the project and run the server
-
-```
-macher:FMLApp macher1$ pwd
-/Users/macher1/git/webfml/FMLApp
-macher:FMLApp macher1$ ~/Downloads/play-2.2.0/play
-[FMLApp] $ eclipse
-...
-[FMLApp] $ ~run
-
---- (Running the application from SBT, auto-reloading is enabled) ---
-
-[info] play - Listening for HTTP on /0:0:0:0:0:0:0:0:9000
-
-(Server started, use Ctrl+D to stop and go back to the console...)
-
-[info] Compiling 9 Scala sources and 1 Java source to /Users/macher1/git/webfml/FMLApp/target/scala-2.10/classes...
-[success] Compiled in 12s
-```
-(~ is for having a compilation every time you modify the source) 
-
-Then you can check that it works:
-http://127.0.0.1:9000/
+It works with the Play! framework 2.2.0 (http://www.playframework.com/documentation/2.2.0), the Scala version. We also rely on some Javascripts (ACE editor and jqconsole). More details in the dedicated page.
 
 
 
-## Organization of the code
 
-For those unfamiliar with a Play application:
- * app/controllers define classes that are likely to compute complex stuff (here resides the FAMILIAR interpreter for instance)
- * app/views define the views (templates like, mix of HTML/CSS/JS and Scala) 
- * public/javascripts JS files that are managing the UI interactions and handle the AJAX requests
-  * FMLconsole.js  (for the interaction with the console)
-  * FML-callback.js (for the ACE editor)
+## Technical architecture
 
-We use Bower to download the last versions of the Javascripts libraries (ACE, bootstrap, jquery-migrate, etc.) 
-http://bower.io/
-```
-MacBook-Pro-de-Mathieu-3:javascripts macher1$ bower install jquery-migrate
-bower install bootstrap
-bower install ace
-``` 
- 
-As  the browser method of jq-console is deprecated (see http://api.jquery.com/jQuery.browser/) https://github.com/jquery/jquery-migrate/ is also needed
- 
- 
-We cannot use Bower for getting jq-console:
- 
-```
- git clone https://github.com/replit/jq-console
-```
+The server-side is based  on a Java / Scala web application including the Play Framework. 
 
- 
+Play allow us to take care of all the technical details inherent to a web application. Like MVC architecture, redirections, request status, etc.
+
+For more informations about play : https://www.playframework.com/
+
+The server application is interacting with a familiar virtual machine, which is executing the code received from the browser text editor and keeping in memory the feature models created, so you can display / modify them when you want.
 
 
 
+
+
+### Class diagram :
+
+(Diagramme_general_zoom.png) -> drive webfml -> Images -> Diagramme_UML_Appli
+
+
+The client-side of WebFML is based on Javascript, with the AngularJS framework. It is basically just interacting with our server, sending him AJAX requests to execute, display, modify Feature Models.
+
+Important controllers can be found in /public/javascripts/fml
+
+Checkout the working schema :
+
+
+
+
+
+
+
+
+
+## Fonctionnement de la console
+
+
+(Fonctionnement_de_appli.png) drive -> images -> Fonctionnement_de_appli.png
+
+
+
+
+Clicking on “Display” calls the displayVariable() method of the FMLVariables.js class (located in the public->javascripts->fml package), which results in the calling of the variable() function in the java class WebFMLInterpreter, through an Ajax request.
+
+This function uses a class from the Familiar API to obtain the description on the variable passed as a an argument.
+
+Then, the response is passed to the javascript controller, which displays this description in the console.
+
+drive -> images -> Fonctionnement_de_appli(2).png
+
+
+
+
+Installation
+=======================================================================
+
+
+# WebFML - INSTALL
+
+
+## Software Install :
+
+
+-The first step consists of installing Eclipse Luna with pre-implemented Xtext (https://eclipse.org/Xtext/download.html), which makes domain-specific languages building and programming easier (our installation was made under JRE/JDK versions 1.7.0_71 and 1.7.0_72).
+### FeatureIDE from : http://wwwiti.cs.uni-magdeburg.de/iti_db/research/featureide/deploy/plugins/
+
+Copy these plugins (take the latest version) in the “dropins” folder of your Eclipse installation:
+* .de.ovgu.featureide.core
+* .de.ovgu.featureide.fm.core
+* .de.ovgu.featureide.fm.ui
+* .de.ovgu.featureide.ui
+
+### Scala :
+	Help > Install new software
+![Alt text](/doc/img/1_install_scala.png)
+
+
+Click on “add” :
+![Alt text](/doc/img/2_install_scala.png)
+
+In the location field, paste the following link:
+http://download.scala-ide.org/nightly-scala-ide-luna-211x
+Select all of the three available items in the window that appears next :
+
+![Alt text](/doc/img/3_install_scala.png)
+
+
+
+# Download the framework PLAY :
+http://downloads.typesafe.com/play/2.2.4/play-2.2.4.zip
+In the event of a “Java JDK cannot be found” error, an environment variable named “JAVA_HOME” needs to be initialized (Create a new system variable with the path to the Java install repertory such as “C:\Program Files\Java\jdkx.x.x_xx\”)
+Extract the content of the zip file in any repertory of your choice then launch the “activator.bat” command.
+
+# Download MAVEN version 3.1.1 :
+http://maven.apache.org/download.cgi
+* Create the folder : “Apache Software Foundation” in C:/Program Files/
+* Unzip the Maven archive in C:/Program Files/Apache Software Foundation/
+* Create a new system variable “M2_HOME” with the value :
+C:\Program Files\Apache Software Foundation\apache-maven-3.11.
+* Create a new system variable  “M2” with the value :%M2_HOME%\bin
+* Add %M2% to the variable “PATH”
+* make sure that the system variable “JAVA_HOME” has C:\Program Files\Java\jdk1.7.0_71 as value (or 1.7.0_72)
+* In the command-line interface, launch the “mvn -version” command to make sure that Maven has been successfully installed and all new system variables are found and properly used
+* A Maven build has been added to the webfml folder, verify that there’s a pom.xml file in the project
+* Go to the webfml folder through command-line and launch the following command : mvn clean install -DskipTests -DPLAY2_HOME={chemin vers répertoire play-2.2.4} (to skip the tests, which aren’t mandatory)
+
+
+
+
+# Familiar - INSTALL
+
+Clone the familiar project in Eclipse : https://github.com/FAMILIAR-project/familiar-language
+You get access to the git perspective by clicking on the button on the top right and choosing “Git”, then click on “Clone a Git repository” :
+
+![Alt text](/doc/img/4_install_familiar.png)
+
+
+Choose only Master branch :
+
+![Alt text](/doc/img/5_install_familiar.png)
+
+
+With a right-click on the familiar-language local repository, choose “Import projects” with the “Importing existing projects” option selected
+
+![Alt text](/doc/img/6_install_familiar.png)
+
+
+In the list of projects to import, the “FML3rdPartiesMisc” and “FML3rdPartiesForSynthesis“ projects are copied twice with one the paths containing the other one, so make sure you only take each of these projects once.
+
+
+
+
+
+
+## WebFML :
+
+To clone the WebFML project in Eclipse, we proceed as we did above with the FAMILIAR project; except that in step 3, the “Import as general project” option is the one needed.
+
+
+## Run the Application :
+
+* Run the consol with (“cmd”) in file search assistant on Windows.
+* Be placed on the webfml folder
 
