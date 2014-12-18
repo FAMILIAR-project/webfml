@@ -258,6 +258,26 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   def variable (id : String) = Action {
     Ok(Json.toJson(interp.eval(id).getValue()));
   }
+  
+  /**
+   * This is where the ajax request lands when you want to configure your feature model
+   * 
+   * @param id id of the feature model to configure
+   * @return Action description tree of the feature model (to be used in the javascript)
+   */
+  def configureVariable (id : String) = Action {
+    
+    //Faire appel à Familiar pour récupérer une description de la variable (sous forme d'arbre ou non)
+    
+    //Process optionnel pour formater le tableau dans quelque chose de plus "propre" à renvoyer à Javascript
+    
+    //Renvoi du résultat sous forme :
+    
+    
+    
+    Ok(Json.toJson("Test"));
+    
+  }
 
 
   def reset () = Action {request =>

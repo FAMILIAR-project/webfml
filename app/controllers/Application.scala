@@ -110,6 +110,7 @@ object Application extends Controller {
         Ok(
             Routes.javascriptRouter("jsRoutes")(
                 WebFMLInterpreter.interpret,
+                WebFMLInterpreter.configureVariable,
                 WebFMLInterpreter.reset,
                 WebFMLInterpreter.evalPrompt,
                 WebFMLInterpreter.ksynthesis,

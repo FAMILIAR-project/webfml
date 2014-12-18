@@ -21,8 +21,9 @@ function FMLVariableCtrl($scope, $rootScope) {
 	}
 	
 	$scope.edit = function(id) {
-		//Pour le test remplacer le data par des valeurs en dur
-		console.log("$scope.edit");
+		//Effectuer requête AJAX pour récupérer la description sous forme d'arbre
+		
+		//Broadcaster tout ça vers notre controlleur (voir fonction synthesize)
 	}
 	
 	$scope.synthesize = function(id) {
