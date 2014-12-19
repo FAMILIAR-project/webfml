@@ -1,6 +1,9 @@
 function FMLConfigure($scope, $rootScope){
 	
 	$scope.$on('FMLConfigure', function (event, id) {
+		
+		$scope.displayTreePanel(id);
+		
 		try {
 			console.log("FMLConfigure");
 			jsRoutes.controllers.WebFMLInterpreter.configureVariable(id).ajax({
@@ -28,9 +31,15 @@ function FMLConfigure($scope, $rootScope){
 	 * 
 	 * @param tree The description of the feature model, in json
 	 */
-	$scope.displayTreeConfiguration = function(tree){
+	$scope.displayTreePanel = function(idVar){
 		
 		//Créer,le nouvel onglet (la div HTML associée)
+		//Passer le json à JSTree pour qu'il affiche le 
+		
+
+		$('#tabs-hoster .nav-tabs').append('<li><a href="#variable'+idVar+'" data-toggle="tab">Variable' +idVar + '</a></li>');
+		
+		$('#tabs-hoster .tab-content').append('<div class="tab-pane" id="variable'+idVar+'">Bonour les cop1</div>');
 		//Passer le json à JSTree pour qu'il affiche le 
 		
 	}
