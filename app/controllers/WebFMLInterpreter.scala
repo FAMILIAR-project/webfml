@@ -269,13 +269,15 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     
     //Faire appel à Familiar pour récupérer une description de la variable (sous forme d'arbre ou non)
     
+    
+    
     //Process optionnel pour formater le tableau dans quelque chose de plus "propre" à renvoyer à Javascript
     
     //Renvoi du résultat sous forme :
     
     
     
-    Ok(Json.toJson("Test"));
+    Ok(fmToJson(interp.eval(id).asInstanceOf[FeatureModelVariable]));
     
   }
 
