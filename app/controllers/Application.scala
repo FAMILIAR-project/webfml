@@ -21,8 +21,9 @@ object Application extends Controller {
  
    def index(language:String) = Action {
     	request =>
-		val fmlDemo ="// your FAMILIAR code here!\n" + 
-					"fm1 = FM (A: B [C] ; )\n" + 
+	  	val fmlDemo ="// your FAMILIAR code here!\n" + 
+					"fm1 = FM (A: B [C] ; B : D E ; D : F;)\n";
+          /*+ 
 					"\n" + 
 					"\n" + 
 					"fm9 = FM (A : B ; )\n" + 
@@ -44,7 +45,7 @@ object Application extends Controller {
 					"n4 = counting fm4\n" + 
 					"n7 = counting fm0\n" + 
 					"fm0\n" + 
-					"mtx = computeMUTEXGroups fm0";
+					"mtx = computeMUTEXGroups fm0";*/
 		// <button class="btn" onclick="loadFile('fm1 = FM (A : [B] XXX ; )');">Load file</button>
 		var scriptToImport=""
 		if(language=="familiar"){

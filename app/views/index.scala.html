@@ -4,6 +4,8 @@
         	<!-- facilities for FML variables -->
         	<script src="@routes.Assets.at("javascripts/fml/FMLvariables.js")"></script>
 
+			<!-- FMLConfigure -->
+			<script src="@routes.Assets.at("javascripts/fml/FMLconfigure.js")"></script>
         	<!-- EDITOR -->
         	<script src="@routes.Assets.at("javascripts/fml/FMLeditor.js")" type="text/javascript" charset="utf-8"></script>
         	<!-- begin ACE editor -->
@@ -93,6 +95,7 @@
                     </div>
 		    		<!-- Text editor -->
                     <div class="span7" id="tabs-hoster">
+						<div ng-controller="FMLConfigure" style="display:none;"></div>
 						<!-- Tab. part where we choose mod (eg: "FML Editor"...) -->
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#editor" data-toggle="tab">FML Editor</a></li>
@@ -320,7 +323,8 @@
 			    	                        </button>
 			    	                        <ul class="dropdown-menu" role="menu">
 			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="displayVariable(varID)">Display</a></li>
-			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="edit(varID)">Edit</a></li>
+			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Edit</a></li>
+			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="configure(varID)">Configure</a></li>
 			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="synthesize(varID)">Synthesize</a></li>
 			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Remove</a></li>
 			    	                        </ul>

@@ -21,8 +21,8 @@ function KSynthesisCtrl($scope, $rootScope) {
 	// Synthesis command
 	$scope.$on('ksynthesis', function (event, command) {
 		 try {
-			 
-			  jsRoutes.controllers.WebFMLInterpreter.ksynthesis(command).ajax({
+
+			 jsRoutes.controllers.WebFMLInterpreter.ksynthesis(command).ajax({
                                     success : function(data) {
                                              jqconsole.Write('Synthesising in progress... over ' + data['targetID'] + '\n');
                                              $scope.updateSynthesisInformation(data)
