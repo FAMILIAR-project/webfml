@@ -35,12 +35,14 @@ function FMLConfigure($scope, $rootScope){
 		
 		//Créer,le nouvel onglet (la div HTML associée)
 		//Passer le json à JSTree pour qu'il affiche le 
-		
-
-		$('#tabs-hoster .nav-tabs').append('<li><a href="#variable'+idVar+'" data-toggle="tab">Variable' +idVar + '</a></li>');
-		
-		$('#tabs-hoster .tab-content').append('<div class="tab-pane" id="variable'+idVar+'">Bonour les cop1</div>');
-		//Passer le json à JSTree pour qu'il affiche le 
+		var fenetre = $("#variable" +idVar) ;
+		// verifier si variable n'a pas deja ete creee avant de creer onglet
+		if(fenetre.length == 0){
+			$('#tabs-hoster .nav-tabs').append('<li><a href="#variable'+idVar+'" data-toggle="tab">Variable' +idVar + '</a></li>');
+			
+			$('#tabs-hoster .tab-content').append('<div class="tab-pane" id="variable'+idVar+'">Bonour les cop1</div>');
+			//Passer le json à JSTree pour qu'il affiche le 	
+		}
 		
 	}
 	
