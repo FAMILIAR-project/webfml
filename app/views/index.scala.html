@@ -36,10 +36,13 @@
         	<link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/main.css")">
         	<link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/console.css")">
         	<link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/fmpreview.css")">
-			<!-- /End Other CSS -->
+			<!-- /End Other CSS --
+			
+			<!-- CONFIGURE -->
+			<script src="@routes.Assets.at("javascripts/fml/FMLconfigure.js")"></script>
         </head>
         <body>
-            <div class="navbar">
+            <div class="navbar" ng-controller="FMLConfigureCtrl">
 			<!-- Nav part of the app -->
                 <div class="navbar-inner">
 		    	<!-- Contains the toolbar --> 
@@ -322,7 +325,7 @@
 			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="displayVariable(varID)">Display</a></li>
 			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Edit</a></li>
 			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="synthesize(varID)">Synthesize</a></li>
-			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="configure(varID)">Configure</a></li>
+			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="callConfigure(varID)">Configure</a></li>
 			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Remove</a></li>
 			    	                        </ul>
 						    </div>

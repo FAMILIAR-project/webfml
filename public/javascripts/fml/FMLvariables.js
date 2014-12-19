@@ -19,29 +19,13 @@ function FMLVariableCtrl($scope, $rootScope) {
 			       }
 		 }) ; 
 	}
-	
-	$scope.configure = function(id) {
-		jsRoutes.controllers.WebFMLInterpreter.configure(id).ajax({
-				success : function(data) {
-					$scope.lastVar = data;
-					$scope.showConf(data);
-					$scope.$apply();
-				},
-				error : function(data) {
-					$('#lastValueFML').html('Error...<div class="alert alert-danger">' + data + '</div>');
-				},
-				beforeSend : function(event, jqxhr, settings) {
-					$('#loader').html('<img src="assets/images/ajax-loader.gif" />'); 	
-				},
-				complete : function(data, jqxhr, textstatus) {
-					$('#wait').html('');	
-				}
-		});
+
+	$scope.callConfigure = function(id) {
+		$rootScope.$broadcast('configure', id)
 	}
-	
-	$scope.showConf = function(data) {
-			
-		$('ul.nav.nav-tabs').append('<li><a href="#configure-tab" data-toggle="tab">'+data+'</a></li>');
+
+	$scope.callCloseConf = function(id) {
+		$rootScope.$broadcast('closeConf', id)
 	}
 	
 	$scope.synthesize = function(id) {

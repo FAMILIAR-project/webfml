@@ -22,6 +22,7 @@ import foreverse.ksynthesis.metrics.PathLengthMetric
 import foreverse.ksynthesis.metrics.RandomMetric
 import foreverse.ksynthesis.metrics.SmithWatermanMetric
 import foreverse.ksynthesis.metrics.WuPalmerMetric
+import fr.familiar.fm.converter.FMtoConfigure
 import fr.familiar.interpreter.FMLAssertionError
 import fr.familiar.interpreter.FMLBasicInterpreter
 import fr.familiar.interpreter.FMLFatalError
@@ -46,6 +47,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   //val workspaceDir = "/home/leiko/dev/webfml/FMLApp/"
 
   val interp = new FMLBasicInterpreter()
+  val config = new FMtoConfigure()
   val KSYNTHESIS_INTERACTIVE_CMD = "ksynthesis --interactive"
   var synthesizer : InteractiveFMSynthesizer = _
   var heuristics : Map[String, Heuristic] = Map.empty
@@ -263,7 +265,9 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     val v = interp.eval(id)
       if (v.isInstanceOf[FeatureModelVariable]) {
         val fmv = v.asInstanceOf[FeatureModelVariable]
-        Ok (Json.toJson(v.getValue()));
+        val result = config.getConfigureFromFML(fmv)
+        println(result)
+        Ok (result);
       } else {
         Ok("Error, variable " + id + " is not a feature model!"); 
       }
