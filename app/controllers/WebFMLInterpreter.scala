@@ -277,7 +277,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     
     
     
-    Ok(fmToJson(interp.eval(id).asInstanceOf[FeatureModelVariable]));
+    Ok(interp.eval(id).asInstanceOf[FeatureModelVariable].getFm().getDiagram().toString());
     
   }
 
