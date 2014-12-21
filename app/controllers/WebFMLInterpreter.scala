@@ -265,9 +265,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     val v = interp.eval(id)
       if (v.isInstanceOf[FeatureModelVariable]) {
         val fmv = v.asInstanceOf[FeatureModelVariable]
-        val result = config.getConfigureFromFML(fmv)
-        println(result)
-        Ok (result);
+        Ok (config.getConfigureFromFML(fmv));
       } else {
         Ok("Error, variable " + id + " is not a feature model!"); 
       }

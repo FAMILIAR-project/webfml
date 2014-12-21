@@ -98,13 +98,13 @@
                     <div class="span7" id="tabs-hoster">
 						<!-- Tab. part where we choose mod (eg: "FML Editor"...) -->
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#editor" data-toggle="tab">FML Editor</a></li>
+                            <li class="active" name="editor" ><a href="#editor" data-toggle="tab">FML Editor</a></li>
                             <li><a href="#ksynthesis-tab" data-toggle="tab">KSynthesis</a></li>
                         </ul>
 						<!-- EDITOR part -->
                         <div class="tab-content">
 			    			<!-- message -->
-                            <div class="tab-pane active" id="editor">@editor(message)</div>
+                            <div class="tab-pane active" id="editor" name="editor">@editor(message)</div>
                             <div class="tab-pane" id="ksynthesis-tab" ng-controller="KSynthesisCtrl">
 				
                             	<div class="span7">
