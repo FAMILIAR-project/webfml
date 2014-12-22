@@ -106,9 +106,8 @@ function FMLConfigure($scope, $rootScope){
 		node.id = childDescription.id;
 		node.label = childDescription.id;
 		
-		//Nique sa mère on peut pas utiliser ça tant que familiar fait de la merde sur les edges Hierarchy et Mandatory
-		/*if(childDescription.optionnal==true)
-			node.type="check";*/
+		if(childDescription.optionnal==true)
+			node.type="check";
 		
 		switch(childDescription.relation)
 		{
