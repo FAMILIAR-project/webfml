@@ -15,57 +15,7 @@ function FMLConfigure($scope, $rootScope){
 			jsRoutes.controllers.WebFMLInterpreter.configureVariable(id).ajax({
 		
 				success : function(data) {  
-					$scope.buildTree({
-						  id: 'A',
-						  parent : '',
-						  optionnal : false,
-						  relation : '',
-						  relationTargetIds : [],
-						  children : [  
-						    {
-						      id: 'B',
-						      parent : 'A',
-						      optionnal : false,
-						      relation : '',
-						      relationTargetIds : [],
-						      children : [
-						        {
-						          id: 'D',
-						          parent : 'B',
-						          optionnal : false,
-						          relation : '',
-						          relationTargetIds : [],
-						          children : [
-						            {
-						              id: 'F',
-						              parent : 'D',
-						              optionnal : false,
-						              relation : '',
-						              relationTargetIds : [],
-						              children : []
-						            }
-						          ]
-						        },
-						        {
-						          id: 'E',
-						          parent : 'B',
-						          optionnal : false,
-						          relation : '',
-						          relationTargetIds : [],
-						          children : []
-						        }
-						      ]
-						    },
-						    {
-						      id: 'C',
-						      parent : 'A',
-						      optionnal : true,
-						      relation : '',
-						      relationTargetIds : [],
-						      children : []
-						    }
-						  ]
-						});
+					$scope.buildTree(JSON.parse(data));
 					
 				},
 				error : function(data) {  
@@ -110,82 +60,59 @@ function FMLConfigure($scope, $rootScope){
 	 */
 	$scope.buildTree = function(featureModel){
 		
-		console.log("buildTree");
+		console.log(featureModel);
+		
+		var tree = {};
+		var rootNode = featureModel.children[0];
+		
+		tree.id = rootNode.id;
+		tree.type = "TreeView";
+		tree.label = rootNode.id;
+		tree.expanded = true;
+		tree.children = [];
+		
+		for(var i = 0; i < rootNode.children.length; i++)
+			tree.children[i] = buildChild(rootNode.children[i]);
+		
+		console.log(tree);
 		//Passer le json à JSTree pour qu'il affiche le 
 		YUI().use(
 				'aui-tree-view','node',function(Y) {
 					
-					
-					var children = [recursiveCourse(featureModel)];
-					
-					treeRootNode = new Y.TreeNode( {
-                        cache :false,
-                        label : featureModel['id'],
-                        id : featureModel['id'],
-                        expanded :false,
-                        draggable :false
-                    });
-					
 					treeView = new Y.TreeViewDD(
 							{
 								boundingBox : '#variable'+$scope.configureVarId,
-								children : [treeRootNode]
+								children : [tree]
 							});
 					
-					recursiveCourse(treeView,featureModel['children']);
-					
-					$scope.treeView.render();
+					treeView.render();
 		});
 	}
 	
-	function recursiveCourse(treeView,nodeToCourse){
+	function buildChild(childDescription)
+	{
+		var node = {};
 		
-		YUI().use('aui-tree-view','node',function(Y) {
-			$.each(nodeToCourse, function(key,node){
-				if(node['optionnal']){
-					var node =  new Y.TreeNodeCheck(
-	                        {   id: node['id'],
-	                            label: node['id'],
-	                            type: 'check'
-	                        }
-	                    );
-				}else{
-					var node =  new Y.TreeNode(
-	                        {   id: node['id'],
-	                            label: node['id'],
-	                            type: 'node'
-	                        }
-	                    );
-				}
-				
-				treeView.getNodeById(node['parent']).appendChild(node);
-				
-			});
-		});
-			
+		node.id = childDescription.id;
+		node.label = childDescription.id;
+		
+		switch(childDescription.relationType)
+		{
+			case 16 :
+				node.type = "radio";
+				break;
+			case 8 :
+				node.type = "checkbox";
+				break;
+		}
+		
+		node.children = [];
+		
+		for(var i = 0; i < childDescription.children.length; i++)
+			node.children[i] = buildChild(childDescription.children[i]);
+		
+		return node;
 	}
-		
-		
-		
-		
-	/*	var nodeToReturn = { 'label' : ''};
-		console.log(nodeToCourse);
-		$.each(nodeToCourse], function(key,node){
- 			console.log(node['id']); 
-			nodeToReturn['label'] = node['id'];
-			if(node['optionnal']){
-				nodeToReturn['type'] = 'check';
-			}
-			if(!jQuery.isEmptyObject(node['children'])){
-				nodeToReturn['expanded'] = true;
-				nodeToReturn['children'] = [recursiveCourse(node['children'])];
-			}else{
-				nodeToReturn['leaf'] = true;
-			}
-		});
-		console.log(nodeToReturn);
-		return nodeToReturn;
-	}*/
 	
 	 
 }
