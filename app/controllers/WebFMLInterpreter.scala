@@ -269,10 +269,11 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     
     //Faire appel à Familiar pour récupérer une description de la variable (sous forme d'arbre ou non)
     val tree = new FeatureModelTree();
-    tree.buildTreeFromGraph(inter.eval(id).asInstanceOf[FeatureModelVariable].getFm().getDiagram());
+    val graph = interp.eval(id).asInstanceOf[FeatureModelVariable].getFm().getDiagram().asInstanceOf[FeatureGraph[Nothing]];
+    tree.buildTreeFromGraph(graph);
     
     Ok(Json.toJson(tree.toJson()));
-    
+    /*Ok(interp.eval(id).asInstanceOf[FeatureModelVariable].getFm().getDiagram().toString());*/
   }
 
 
