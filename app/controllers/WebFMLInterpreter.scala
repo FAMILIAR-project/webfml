@@ -3,7 +3,6 @@ package controllers
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
-
 import scala.Array.canBuildFrom
 import scala.collection.JavaConversions
 import scala.collection.JavaConversions.asScalaBuffer
@@ -11,9 +10,7 @@ import scala.collection.JavaConversions.asScalaSet
 import scala.collection.immutable.List
 import scala.collection.mutable.ListBuffer
 import scala.io.Source
-
 import org.apache.commons.io.FileUtils
-
 import foreverse.ksynthesis.Heuristic
 import foreverse.ksynthesis.InteractiveFMSynthesizer
 import foreverse.ksynthesis.metrics.AlwaysZeroMetric
@@ -36,6 +33,8 @@ import play.api.libs.json.Json
 import play.api.mvc.Action
 import play.api.mvc.Controller
 import play.api.templates.Html
+import gsd.synthesis.FeatureModelTree
+import gsd.synthesis.FeatureGraph
 
 
 

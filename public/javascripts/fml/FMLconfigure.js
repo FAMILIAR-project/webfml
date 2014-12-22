@@ -45,10 +45,17 @@ function FMLConfigure($scope, $rootScope){
 		var fenetre = $("#variable" +$scope.configureVarId) ;		
 		
 		if(fenetre.length == 0){
-			$('#tabs-hoster .nav-tabs').append('<li><a href="#variable'+$scope.configureVarId+'" data-toggle="tab">Variable' +$scope.configureVarId + '</a></li>');
+			$('#tabs-hoster .nav-tabs').append('<li style="position:relative;" id="tabconfigure'+$scope.configureVarId+'"><a href="#variable'+$scope.configureVarId+'" data-toggle="tab">Variable' +$scope.configureVarId + '</a><img style="position:absolute;top:0;right:0;" id="close'+$scope.configureVarId+'" src="http://www.onepmo.com/img/close-icon.gif"/></li>');
 		
 			$('#tabs-hoster .tab-content').append('<div class="tab-pane" id="variable'+$scope.configureVarId+'"><b>Configurateur du FeatureModel '+$scope.configureVarId+'</b></div>');
 		}
+		
+		$("#close"+$scope.configureVarId).click(function(){
+			
+			$("#tabconfigure"+$scope.configureVarId).remove();
+			$("#variable"+$scope.configureVarId).remove();
+			
+		});
 		
 	}
 	
@@ -75,6 +82,9 @@ function FMLConfigure($scope, $rootScope){
 			tree.children[i] = buildChild(rootNode.children[i]);
 		
 		console.log(tree);
+		
+		$("#variable"+$scope.configureVarId).empty();
+		
 		//Passer le json à JSTree pour qu'il affiche le 
 		YUI().use(
 				'aui-tree-view','node',function(Y) {
@@ -96,13 +106,16 @@ function FMLConfigure($scope, $rootScope){
 		node.id = childDescription.id;
 		node.label = childDescription.id;
 		
-		switch(childDescription.relationType)
+		if(childDescription.optionnal==true)
+			node.type="check";
+		
+		switch(childDescription.relation)
 		{
 			case 16 :
 				node.type = "radio";
 				break;
 			case 8 :
-				node.type = "checkbox";
+				node.type = "check";
 				break;
 		}
 		
