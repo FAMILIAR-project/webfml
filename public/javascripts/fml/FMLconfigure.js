@@ -1,6 +1,109 @@
+var constraintTree = "";
+
+//
+function checkConstraints(elementName,tabConstraint) {
+	var elThis = $('input[value="'+elementName+'"]');
+	for (var i=0; i<tabConstraint.length; i++) {
+		var elOther = "";
+		if (tabConstraint[i].param1[0].name == elementName) {
+			elOther = $('input[value="'+tabConstraint[i].param2[0].name+'"]');
+		} else {
+			elOther = $('input[value="'+tabConstraint[i].param1[0].name+'"]');
+		}
+		if (tabConstraint[i].cons.indexOf('&') > -1) {
+			if ((tabConstraint[i].param1[0].specif != null && tabConstraint[i].param1[0].specif.indexOf('!') > -1 ) || (tabConstraint[i].param2[0].specif != null && tabConstraint[i].param2[0].specif.indexOf('!') > -1 )){
+				if (elThis.is(':checked')) {
+					if (elOther.is(':checked')) {
+						if (elOther.is(':disabled')) {
+							elOther.prop('disabled',false);	
+							elOther.click();
+							elOther.prop('disabled',true);
+						} else {
+							elOther.click();
+						}
+					}
+				} else {
+					if (!elOther.is(':checked')) {
+						if (elOther.is(':disabled')) {
+							elOther.prop('disabled',false);	
+							elOther.click();
+							elOther.prop('disabled',true);
+						} else {
+							elOther.click();
+						}
+					}
+				}
+			} else {
+				if (elThis.is(':checked')) {
+					if (!elOther.is(':checked')) {
+						if (elOther.is(':disabled')) {
+							elOther.prop('disabled',false);	
+							elOther.click();
+							elOther.prop('disabled',true);
+						} else {
+							elOther.click();
+						}
+					}
+				} else {
+					if (elOther.is(':checked')) {
+						if (elOther.is(':disabled')) {
+							elOther.prop('disabled',false);	
+							elOther.click();
+							elOther.prop('disabled',true);
+						} else {
+							elOther.click();
+						}
+					}
+				}
+				
+			}
+		} else if (tabConstraint[i].cons.indexOf('->') > -1){
+			if (tabConstraint[i].param1[0].name == elementName) {
+				if (tabConstraint[i].param1[0].specif.indexOf('!') > - 1) {
+					if (!elThis.is(':checked')) {
+						if (!elOther.is(':checked')) {
+							if (elOther.is(':disabled')) {
+								elOther.prop('disabled',false);	
+								elOther.click();
+								elOther.prop('disabled',true);
+							} else {
+								elOther.click();
+							}
+						}
+					}
+				} else if (tabConstraint[i].param2[0].specif.indexOf('!') > -1) {
+					if (elThis.is(':checked')) {
+						if (elOther.is(':checked')) {
+							if (elOther.is(':disabled')) {
+								elOther.prop('disabled',false);	
+								elOther.click();
+								elOther.prop('disabled',true);
+							} else {
+								elOther.click();
+							}
+						}
+					}
+				} else {
+					if (elThis.is(':checked')) {
+						if (!elOther.is(':checked')) {
+							if (elOther.is(':disabled')) {
+								elOther.prop('disabled',false);	
+								elOther.click();
+								elOther.prop('disabled',true);
+							} else {
+								elOther.click();
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
 //Function to enable or disable checkbox and radio button
 function enableChildren(data) {
-	var elThis = $('input[name="'+data.name+'"]');
+	var elThis = $('input[value="'+data.name+'"]');
 	if (elThis.is(':checked')) {
 		for (var i=0; i < data.children.length; i++){
 			var el = "";
@@ -100,8 +203,10 @@ function FMLConfigureCtrl($scope, $rootScope) {
 	//Create content of new tab with indent tree transformed into checkbox and radio button
 	$scope.contentConf = function(id,data) {
 		var content = "<div>";
+		var jsonParse = JSON.parse(data);
+		constraintTree = jsonParse.constraint;
 		//Complete content of tab with tree representation
-		content += "<div style='float:left' class=content>"+$scope.recur(JSON.parse(data), 0, null, null)+"</div>";
+		content += "<div style='float:left' class=content>"+$scope.recur(jsonParse.tree[0], 0, null, null, jsonParse.constraint)+"</div>";
 		content += "<div style='float:right;cursor:pointer'><a onClick='closeConf()'>close</a></div>";
 		//Close tabContent and append result to html
 		content += "</div>";
@@ -121,14 +226,32 @@ function FMLConfigureCtrl($scope, $rootScope) {
 	}
 	
 	//Function recursive to generate each level of indent tree in correctly content
-	$scope.recur = function (data , level, parentName , parentSpecif) {
+	$scope.recur = function (data , level, parentName , parentSpecif , constraintTree) {
 		var dataJson = JSON.stringify(data);
 		var content = "";
 		var hasChildren = (data.children.length != 0);
+		
+		//TODO Add constraintes problems
+		var tabConstraints = [];
+		for (i=0; i<constraintTree.length; i++) {
+				if ((constraintTree[i].param1[0].name != null && constraintTree[i].param1[0].name.indexOf(data.name) > -1 ) || (constraintTree[i].param2[0].name != null && constraintTree[i].param2[0].name.indexOf(data.name) > -1 )) {
+				tabConstraints.push(constraintTree[i]);
+			}
+		}
+		tabConstraints = JSON.stringify(tabConstraints);
+		
+
 		if (parentSpecif != null && parentSpecif.indexOf('o') > - 1) {
 			//TODO Add function to add new radio button if one is check
 			if (parentSpecif.indexOf('+') > -1) {
-				content = $scope.indent(level,hasChildren,data.name) + "<input type='radio' name='"+parentName+"Children' value='"+data.name+"'";
+				content = $scope.indent(level,hasChildren,data.name) + "<input ";
+				if(hasChildren) {
+					content += "onChange='enableChildren("+dataJson+");checkConstraints(\""+data.name+"\","+tabConstraints+");'";
+				} else {
+					content += "onChange='checkConstraints(\""+data.name+"\","+tabConstraints+")'";
+				}
+				
+				content += "type='radio' name='"+parentName+"Children' value='"+data.name+"'";
 				if(level != 0){
 					content += "disabled";
 				}
@@ -139,7 +262,13 @@ function FMLConfigureCtrl($scope, $rootScope) {
 					content += data.name;
 				}	
 			} else {
-				content = $scope.indent(level,hasChildren,data.name) + "<input type='radio' name='"+parentName+"Children' value='"+data.name+"'";
+				content = $scope.indent(level,hasChildren,data.name) + "<input ";
+				if(hasChildren) {
+					content += "onChange='enableChildren("+dataJson+");checkConstraints(\""+data.name+"\","+tabConstraints+");'";
+				} else {
+					content += "onChange='checkConstraints(\""+data.name+"\","+tabConstraints+")'";
+				}
+				content += "type='radio' name='"+parentName+"Children' value='"+data.name+"'";
 				if(level != 0){
 					content += "disabled";
 				}
@@ -153,9 +282,11 @@ function FMLConfigureCtrl($scope, $rootScope) {
 		} else {
 			content = $scope.indent(level,hasChildren,data.name) + "<input ";
 			if(hasChildren) {
-				content += "onChange='enableChildren("+dataJson+")'";
+				content += "onChange='enableChildren("+dataJson+");checkConstraints(\""+data.name+"\","+tabConstraints+");'";
+			} else {
+				content += "onChange='checkConstraints(\""+data.name+"\","+tabConstraints+")'";
 			}
-			content += " type='checkbox' name ='"+data.name+"' ";
+			content += " type='checkbox' name ='"+data.name+"' value='"+data.name+"' ";
 			if(level != 0){
 				content += "disabled";
 			}
@@ -171,7 +302,7 @@ function FMLConfigureCtrl($scope, $rootScope) {
 		content += "<br />";
 		if (hasChildren) {
 			for (var i=0; i < data.children.length; i++){
-				content += '<div class="divChildren_'+data.name+'">'+$scope.recur(data.children[i], level+1, data.name, data.specif)+'</div>';
+				content += '<div class="divChildren_'+data.name+'">'+$scope.recur(data.children[i], level+1, data.name, data.specif, constraintTree)+'</div>';
 			}	
  		}
 		return content;
