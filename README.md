@@ -31,113 +31,24 @@ For all participants: experience with web dev.
 It works with the Play! framework 2.2.0 (http://www.playframework.com/documentation/2.2.0), the Scala version. We also rely on some Javascripts (ACE editor and jqconsole). 
 More details in the dedicated page. 
 
-## Setting up in Eclipse
+#I. Installation
+##1. Java environment
 
- * Download play : http://www.playframework.com/
- * Install play as follow : http://www.playframework.com/documentation/2.2.1/Installing
- * In webfml directory, start play (in the console enter the command play), in play enter the command eclipse : http://www.playframework.com/documentation/2.2.1/IDE
- * In the eclipse webfml project, create a folder lib
-<!-- * Export a runnable jar from this project  : https://github.com/FAMILIAR-project/familiar-language  in this destination set: FMLApp/lib/FML-1.2.jar and select "Extract required libraries into generated JAR" -->
- * Copy the jar of SWT from your version of eclipse in the _lib_ folder (SWT is platform dependent)
- * You are ready to work
+1. Download [JRE 7](http://www.oracle.com/technetwork/java/javase/downloads/java-se-jre-7-download-432155.html) and [JDK 7](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html) (it must be the version 7)
+2. Check if java is installed : shell prompt : >java –version
+If it doesn’t work, you have to add the java path to environment variables (see How to add a path to the environment         variables). The java path must look like « C:\Program Files\Java\jdk1.7.0_71\bin »
+3. Check if javac is correctly installed : shell prompt : >javac –version
+If it doesn’t work, you have to add the javac.exe path to environment variables (see How to add a path to the environment    variables). The javac.exe path must look like « C:\Program Files\Java\jdk1.7.0_71\bin »
+![alt tag](https://raw.githubusercontent.com/FAMILIAR-project/webfml/Groupe_Viallatte_Sprint_2/resources/readmePicture/cmdJavaVersion.PNG?token=AEbzWiXWuRJZ4L55v2LfXP1KQbo6Pbeiks5UvU-CwA%3D%3D)
 
-## Compile and Run
-
- * In your source directory open the terminal
- * start play (command : play)
- * to compile type the command compile 
- * to run type the command run
- * go to the url : localhost:9000
- 
-
- 
- 
-# webfml (Play application)
-
-It works with the Play! framework 2.2.0 (http://www.playframework.com/documentation/2.2.0). 
-Specifically the Scala version.
-
-Currently, we have a basic version of the FAMILIAR environment:
-
- * a textual editor (very basic) for specifying scripts => we rely on the ACE project (http://ace.c9.io/#nav=about)
- * a console to interact (very basic again) => we rely on the jq-console project (https://github.com/replit/jq-console/) 
- * way to execute a FAMILIAR script
- * way to reset the "variables environment" 
- * (partially) the logics for handling a "ksynthesis" session
- 
-## Eclipse, Scala, Play, FAMILIAR, etc
-
-You need Eclipse, FAMILIAR installed, Scala support and Play! 
-
-### Execution 
-
-Checkout the FMLApp project. 
-This is simply an Eclipse projet.
-You obviously need an Eclipse with a Scala plugin (http://scala-ide.org/). We are using version 2.10.2. 
-
-Then you need to generate a "jar" of FAMILIAR (i.e., you need FAMILIAR). 
-For doing that, right click on the project FAMILIAR, Export, Runnable Jar File...
-As destination set: 
-FMLApp/lib/FML-1.2.jar
-and select "Extract required libraries into generated JAR" 
-
-
-Once done, you can execute play in the directory of FMLApp 
- * (optional) set up the preferences for your IDE (Eclipse, IntelliJ, etc.) => http://www.playframework.com/documentation/2.2.1/IDE
- * compile the project and run the server
-
-```
-macher:FMLApp macher1$ pwd
-/Users/macher1/git/webfml/FMLApp
-macher:FMLApp macher1$ ~/Downloads/play-2.2.0/play
-[FMLApp] $ eclipse
-...
-[FMLApp] $ ~run
-
---- (Running the application from SBT, auto-reloading is enabled) ---
-
-[info] play - Listening for HTTP on /0:0:0:0:0:0:0:0:9000
-
-(Server started, use Ctrl+D to stop and go back to the console...)
-
-[info] Compiling 9 Scala sources and 1 Java source to /Users/macher1/git/webfml/FMLApp/target/scala-2.10/classes...
-[success] Compiled in 12s
-```
-(~ is for having a compilation every time you modify the source) 
-
-Then you can check that it works:
-http://127.0.0.1:9000/
-
-
-
-## Organization of the code
-
-For those unfamiliar with a Play application:
- * app/controllers define classes that are likely to compute complex stuff (here resides the FAMILIAR interpreter for instance)
- * app/views define the views (templates like, mix of HTML/CSS/JS and Scala) 
- * public/javascripts JS files that are managing the UI interactions and handle the AJAX requests
-  * FMLconsole.js  (for the interaction with the console)
-  * FML-callback.js (for the ACE editor)
-
-We use Bower to download the last versions of the Javascripts libraries (ACE, bootstrap, jquery-migrate, etc.) 
-http://bower.io/
-```
-MacBook-Pro-de-Mathieu-3:javascripts macher1$ bower install jquery-migrate
-bower install bootstrap
-bower install ace
-``` 
- 
-As  the browser method of jq-console is deprecated (see http://api.jquery.com/jQuery.browser/) https://github.com/jquery/jquery-migrate/ is also needed
- 
- 
-We cannot use Bower for getting jq-console:
- 
-```
- git clone https://github.com/replit/jq-console
-```
-
- 
-
+##2. Eclipse environment
+1. Download eclipse Luna on Xtext website
+2. Download the latest version of each jar from this website :
+* de.ovgu.featureide.core.jar
+* de.ovgu.featureide.fm.core.jar
+* de.ovgu.featureide.fm.ui.jar
+* de.ovgu.featureide.ui.jar
+Put those jar files in the folder eclipse\dropins
 
 
 
