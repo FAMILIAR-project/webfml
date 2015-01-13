@@ -19,7 +19,6 @@ function FMLConfigure($scope, $rootScope){
 				success : function(data) {  
 					//Parce received data into JSon, then building the tree with data in JSon format
 					$scope.buildTree(JSON.parse(data));
-					
 				},
 				error : function(data) {  
 					$('#lastValueFML').html('Error...<div class="alert alert-danger">' + data + '</div>') ; 
@@ -46,18 +45,10 @@ function FMLConfigure($scope, $rootScope){
 		var window = $("#variable" +$scope.configureVarId) ;		
 		
 		if(window.length == 0){
-			$('#tabs-hoster .nav-tabs').append('<li style="position:relative;" id="tabconfigure'+$scope.configureVarId+'"><a href="#variable'+$scope.configureVarId+'" data-toggle="tab">Variable ' +$scope.configureVarId + '</a><img style="position:absolute;top:0;right:0;cursor:pointer;" id="close'+$scope.configureVarId+'" src="../assets/images/close-icon.gif"/></li>');
+			$('#tabs-hoster .nav-tabs').append('<li style="position:relative;" id="tabconfigure'+$scope.configureVarId+'"><a href="#variable'+$scope.configureVarId+'" data-toggle="tab">Variable ' +$scope.configureVarId + '</a><img style="position:absolute;top:0;right:0;cursor:pointer;" id="close'+$scope.configureVarId+'" src="../assets/images/close-icon.gif" onclick="$(\'#tabconfigure'+$scope.configureVarId+'\').remove();$(\'#variable'+$scope.configureVarId+'\').remove();"/></li>');
 		
 			$('#tabs-hoster .tab-content').append('<div class="tab-pane" id="variable'+$scope.configureVarId+'"><b>Configurateur du FeatureModel '+$scope.configureVarId+'</b></div>');
 		}
-		
-		$("#close"+$scope.configureVarId).click(function(){
-			
-			$("#tabconfigure"+$scope.configureVarId).remove();
-			$("#variable"+$scope.configureVarId).remove();
-			
-		});
-		
 	}
 	
 	
@@ -131,4 +122,6 @@ function FMLConfigure($scope, $rootScope){
 		
 		return node;
 	}
+	
+	
 }
