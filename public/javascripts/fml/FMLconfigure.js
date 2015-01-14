@@ -24,7 +24,7 @@ function FMLConfigure($scope, $rootScope){
 					$('#lastValueFML').html('Error...<div class="alert alert-danger">' + data + '</div>') ; 
 				},
 				beforeSend : function(event, jqxhr, settings) {
-					$('#loader').html('<img src="../assets/images/ajax-loader.gif" />') ; 
+					$('#variable'+$scope.configureVarId).html('<img src="../assets/images/ajax-loader.gif" />') ; 
 				},
 				complete : function(jqxhr, textstatus) {
 					$('#wait').html('') ;		   
@@ -45,9 +45,9 @@ function FMLConfigure($scope, $rootScope){
 		var window = $("#variable" +$scope.configureVarId) ;		
 		
 		if(window.length == 0){
-			$('#tabs-hoster .nav-tabs').append('<li style="position:relative;" id="tabconfigure'+$scope.configureVarId+'"><a href="#variable'+$scope.configureVarId+'" data-toggle="tab">Variable ' +$scope.configureVarId + '</a><img style="position:absolute;top:0;right:0;cursor:pointer;" id="close'+$scope.configureVarId+'" src="../assets/images/close-icon.gif" onclick="$(\'#tabconfigure'+$scope.configureVarId+'\').remove();$(\'#variable'+$scope.configureVarId+'\').remove();"/></li>');
+			$('#tabs-hoster .nav-tabs').append('<li style="position:relative;" id="tabconfigure'+$scope.configureVarId+'"><a href="#tabvariable'+$scope.configureVarId+'" data-toggle="tab">Variable ' +$scope.configureVarId + '</a><img style="position:absolute;top:0;right:0;cursor:pointer;" id="close'+$scope.configureVarId+'" src="../assets/images/close-icon.gif" onclick="$(\'#tabconfigure'+$scope.configureVarId+'\').remove();$(\'#variable'+$scope.configureVarId+'\').remove();"/></li>');
 		
-			$('#tabs-hoster .tab-content').append('<div class="tab-pane" id="variable'+$scope.configureVarId+'"><b>Configurateur du FeatureModel '+$scope.configureVarId+'</b></div>');
+			$('#tabs-hoster .tab-content').append('<div class="tab-pane" id="tabvariable'+$scope.configureVarId+'"><b>Configurateur du FeatureModel '+$scope.configureVarId+'</b><div id="variable'+$scope.configureVarId+'"></div></div>');
 		}
 	}
 	
