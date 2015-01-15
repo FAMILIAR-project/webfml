@@ -21,7 +21,7 @@ function FMLVariableCtrl($scope, $rootScope) {
 	}
 	
 	$scope.configure = function(id) {
-		$rootScope.$broadcast('FMLConfigure', id)
+		$rootScope.$broadcast('FMLConfigure', id);
 		//Effectuer requête AJAX pour récupérer la description sous forme d'arbre
 		console.log("CONFIGURE");
 		//Broadcaster tout ça vers notre controlleur (voir fonction synthesize)

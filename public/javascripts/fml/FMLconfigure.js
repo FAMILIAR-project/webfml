@@ -21,6 +21,7 @@ function FMLConfigure($scope, $rootScope){
 					$scope.buildTree(JSON.parse(data));
 				},
 				error : function(data) {  
+					alert("yolo");
 					$('#lastValueFML').html('Error...<div class="alert alert-danger">' + data + '</div>') ; 
 				},
 				beforeSend : function(event, jqxhr, settings) {
@@ -59,9 +60,11 @@ function FMLConfigure($scope, $rootScope){
 	 */
 	$scope.buildTree = function(featureModel){
 		
+		console.log(featureModel);
+		
 		//tree to build from featureModel
 		var tree = {};
-		var rootNode = featureModel.children[0];
+		var rootNode = featureModel.tree.children[0];
 		
 		tree.id = rootNode.id;
 		tree.type = "TreeView";
@@ -73,6 +76,8 @@ function FMLConfigure($scope, $rootScope){
 			tree.children[i] = buildChild(rootNode.children[i]);
 		
 		$("#variable"+$scope.configureVarId).empty();
+		
+		console.log(tree);
 		
 		//Displaying the tree with built json
 		YUI().use(
@@ -112,13 +117,15 @@ function FMLConfigure($scope, $rootScope){
 				break;
 		}
 		
-		node.children = [];
+		var children = [];
 		
 		for(var i = 0; i < childDescription.children.length; i++)
-			node.children[i] = buildChild(childDescription.children[i]);
+			children[i] = buildChild(childDescription.children[i]);
 		
-		if(node.children.length == 0)
+		if(children.length == 0)
 			node.leaf = true;
+		else
+			node.children = children;
 		
 		return node;
 	}
