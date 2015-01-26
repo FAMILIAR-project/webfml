@@ -17,7 +17,17 @@ object FamiliarIDEController extends Controller{
 	 * Function which receive information from the login
 	 * page and create an interpreter and a session 
 	 */
-	def receiveInformations(login:String, password:String,language:String)=Action{
+	def receiveInformations (login : String, password : String, language : String) = Action { request =>
+     request.session.get("connected").map { user =>
+      println("USER: " + user)
+      Ok("Hello " + user)
+    }.getOrElse {
+      println("not a USER: ")
+      Ok("Welcome!").withSession("connected" -> login)
+      //Unauthorized("Oops, you are not connected")
+    }
+
+
 
 		var familiarInstance : FamiliarIDEFactory = new ConcreteFamiliarIDEFactory
 		//an instane object of FamiliarInterpreter
@@ -33,8 +43,9 @@ object FamiliarIDEController extends Controller{
 		//check the user
 		
 		//try to redirect to the page of the IDE
-		//Redirect("/ide/familiar",MOVED_PERMANENTLY)
-		Ok("")
+		//Redirect("/ide/familiar", MOVED_PERMANENTLY)
+		//Ok("")
+    Ok("Welcome!").withSession("connected" -> login)
   }
 	
 	/**
