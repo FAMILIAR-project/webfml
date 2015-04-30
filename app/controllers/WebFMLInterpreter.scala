@@ -3,7 +3,6 @@ package controllers
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
-
 import scala.Array.canBuildFrom
 import scala.collection.JavaConversions
 import scala.collection.JavaConversions.asScalaBuffer
@@ -11,9 +10,7 @@ import scala.collection.JavaConversions.asScalaSet
 import scala.collection.immutable.List
 import scala.collection.mutable.ListBuffer
 import scala.io.Source
-
 import org.apache.commons.io.FileUtils
-
 import foreverse.ksynthesis.Heuristic
 import foreverse.ksynthesis.InteractiveFMSynthesizer
 import foreverse.ksynthesis.metrics.AlwaysZeroMetric
@@ -36,6 +33,8 @@ import play.api.libs.json.Json
 import play.api.mvc.Action
 import play.api.mvc.Controller
 import play.api.templates.Html
+import gsd.synthesis.FeatureModelTree
+import gsd.synthesis.FeatureGraph
 
 
 
@@ -257,6 +256,23 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
   def variable (id : String) = Action {
     Ok(Json.toJson(interp.eval(id).getValue()));
+  }
+  
+  /**
+   * This is where the ajax request lands when you want to configure your feature model
+   * 
+   * @param id id of the feature model to configure
+   * @return Action description tree of the feature model (to be used in the javascript)
+   */
+  def configureVariable (id : String) = Action {
+    
+    //Faire appel à Familiar pour récupérer une description de la variable (sous forme d'arbre ou non)
+    val tree = new FeatureModelTree();
+    val v = interp.eval(id).asInstanceOf[FeatureModelVariable];
+    tree.buildTreeFromFMV(v);
+    
+    Ok(Json.toJson(tree.toJson()));
+    /*Ok(interp.eval(id).asInstanceOf[FeatureModelVariable].getFm().getDiagram().toString());*/
   }
 
 
