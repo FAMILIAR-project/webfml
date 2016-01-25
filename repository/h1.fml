@@ -1,0 +1,7 @@
+
+    // your FAMILIAR code here!
+fm1 = FM (A : B C [D]; B: (E|F) ; C : (G|H|I)? ; D : (J|K)+ ; (!C | D) ; )
+s1 = configs fm1
+c1 = counting fm1
+d1 = 67
+

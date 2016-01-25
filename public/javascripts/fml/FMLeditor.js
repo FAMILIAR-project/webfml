@@ -16,18 +16,41 @@ function FMLEditorCtrl($scope, $rootScope) {
 	 */
 	$scope.cmd = function () {
 	    var idToGet = editor.getSession().getValue();
+
+		console.log("Starting interpretation...");
+	    jsRoutes.controllers.FamiliarIDEController.isAuthentified().ajax({
+                                success : function(data) {
+                                    // no problem
+                                    if (data["user"] == -1) {
+                                    console.log("Not authentified...");
+                                    initTemporarySession();
+                                    }
+
+                                },
+                                error : function(data) {
+									$('#msgid').html('Error in authentification...<div class="alert alert-danger">' + data + '</div>') ;
+
+                                },
+                                beforeSend : function(event, jqxhr, settings) {
+                                        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
+                                },
+                                complete : function(jqxhr, textstatus) {
+                                        $('#wait').html('') ;
+                                }
+                            });
+
 	    jsRoutes.controllers.WebFMLInterpreter.interpret(idToGet).ajax({
-			success : function(data) {  
+			success : function(data) {
 				$rootScope.$broadcast('variables', data)
 			},
-		        error : function(data) {  
-				$('#msgid').html('Error...<div class="alert alert-danger">' + data + '</div>') ; 
+		        error : function(data) {
+				$('#msgid').html('Error...<div class="alert alert-danger">' + data + '</div>') ;
 			},
 		        beforeSend : function(event, jqxhr, settings) {
-			        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
+			        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 			},
 		       complete : function(jqxhr, textstatus) {
-			    $('#wait').html('') ;		   
+			    $('#wait').html('') ;
 		    }
 	    });
 	}
@@ -47,8 +70,9 @@ function FMLEditorCtrl($scope, $rootScope) {
 			    	$('#wait').html('') ;		   
 	       	}
 		});
-	}
-	
+    }
+
+
 	$scope.save = function () {
    	    var idToGet = editor.getSession().getValue();
         var filename = $('#fileInputName').val(); 
@@ -70,6 +94,32 @@ function FMLEditorCtrl($scope, $rootScope) {
 	}
 	
 }
+
+function initTemporarySession() {
+
+                    console.log("Creating temporary session");
+
+                    jsRoutes.controllers.FamiliarIDEController.createTemporarySession().ajax({
+                        success : function(data) {
+                            depictUserInformation(data['id']);
+                        },
+                        error : function(data) {
+                            $('#msgid').html('Impossible to create temporary sessions...<div>' + data + '</div>') ;
+                        },
+                        beforeSend : function(event, jqxhr, settings) {
+                                $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
+                        },
+                        complete : function(jqxhr, textstatus) {
+                                $('#wait').html('') ;
+                        }
+                    });
+	  }
+
+function depictUserInformation(userid) {
+            			console.log('Depicting UI: ' + userid);
+            		    $('#userinformation').html ('You are <a>User_' + userid + '</a> <a onclick="deleteSession()">(logout)</a>');
+            		}
+
 /**
  *Load file in the editor when we make a dbl-click on the file
  *

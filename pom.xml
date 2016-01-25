@@ -7,6 +7,7 @@
 	<packaging>play2</packaging>
 
 	<dependencies>
+		<!--
 		<dependency>
 			<groupId>fr.inria.familiar</groupId>
 			<artifactId>FAMILIAR-Standalone</artifactId>
@@ -18,7 +19,7 @@
 			<artifactId>KSynthesis</artifactId>
 			<version>0.0.1-SNAPSHOT</version>	
 		</dependency>
-
+		-->
 		<dependency>
 			<groupId>org.eclipse.core</groupId>
 			<artifactId>resources</artifactId>

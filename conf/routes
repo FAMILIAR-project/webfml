@@ -29,6 +29,9 @@ GET     /configurator              	controllers.WebFMLConfigurator.configurator
 POST    /applySelection             controllers.WebFMLConfigurator.applySelection(s: String)
 #IDE - login and informations
 POST 	/receiveInformations		controllers.FamiliarIDEController.receiveInformations(login : String, password : String, language : String)
+POST 	/whoIAM             		controllers.FamiliarIDEController.whoIAM
+POST    /createTemporarySession     controllers.FamiliarIDEController.createTemporarySession
+POST    /isAuthentified             controllers.FamiliarIDEController.isAuthentified
 
 # Workspace management 
 GET     /loadFile/:id	            controllers.WebFMLInterpreter.loadFile(id : String)

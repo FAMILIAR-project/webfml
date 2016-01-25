@@ -1,0 +1,4 @@
+fm1 = FM (A : B C [D]; B: (E|F) ; C : (G|H|I)? ; D : (J|K)+ ; (!C | D) ; )
+fm2 = merge union { fm1 fm1 fm1 }
+c12 = compare fm1 fm2
+b12 = REFACTORING eq c12

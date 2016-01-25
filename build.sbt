@@ -10,3 +10,7 @@ libraryDependencies ++= Seq(
 
 play.Project.playScalaSettings
 //publishArtifact in packageSrc := false
+
+mappings in Universal ++=
+  (baseDirectory.value / "repository" * "*" get) map
+    (x => x -> ("repository/" + x.getName))

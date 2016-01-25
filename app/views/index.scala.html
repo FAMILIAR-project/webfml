@@ -1,4 +1,4 @@
-@(message: String, script : Html)
+@(message: String, script : Html, userid: String = "")
     <!-- Name of the page-->
     @mainFML("Welcome to FAMILIAR!") {
         	<!-- facilities for FML variables -->
@@ -46,10 +46,29 @@
                     <div class="container-fluid">
 					<!-- "logo" -->
                         <a class="brand" href="#">Familiar</a>
+
                         <button id="toggle-console" class="btn btn-info"><i class="icon-pencil icon-white"></i> Toggle Console</button>
 						<!-- link to the tutorial -->
-			 			<a href="/"><button type="button" class="btn btn-success" onclick="deleteSession()"><i class="icon-plane"></i> Go to the home page</button></a>
-                        <div class="btn-group pull-right" ng-controller="FMLEditorCtrl">
+			 			<a href="/">
+							<button type="button" class="btn btn-success"><i class="icon-plane"></i> Go to the home page</button></a>
+
+                        <div id="userinformation">
+                        @if(userid == "") {
+							You're not identified
+							<a href="/login">
+								(login)
+							</a> or
+							<button type="button" class="btn btn-success" onclick="initTemporarySession()">
+								(get a temporary account)
+							</button>
+
+                        } else {
+
+                        }
+                        </div>
+
+
+						<div class="btn-group pull-right" ng-controller="FMLEditorCtrl">
 			    			<!--HERE-->
                             <button class="btn btn-info" id="webFmlCmd" ng-click="cmd()">Execute FAMILIAR code</button>
                             <button class="btn btn-info" id="webFmlReset" ng-click="reset()">Reset variables' environment</button>
@@ -347,6 +366,10 @@
             	<script>
                 	$(function () {
                     	$('#main-container').css('height', ($('body' ).outerHeight()-80)+'px');
+                    	@if(userid != "") {
+                           depictUserInformation(@userid);
+                        }
+
                 	});
 
                 	$('#toggle-console').click(function () {
@@ -356,6 +379,13 @@
                         	$('#console').addClass('hide');
                     	}
                 	});
+
+
+
+
+
+
+
             	</script>
             	<script type="text/javascript">
             		/**
@@ -370,9 +400,25 @@
             		* Function which kill the session
             		* when we click on the button `go to the home`
             		*/
-            		function deleteSession(){
+            		function deleteSession() {
+            		    console.log("Deleting session");
+
+            		    jsRoutes.controllers.FamiliarIDEController.whoIAM().ajax({
+						success: function(data){
+							console.log("Identified: " + data["user"]);
+							window.location.href = ("/login");
+						},
+						error: function(data){
+							console.log("Error identification: " + data);
+						}
+					});
 
             		}
+
+
+
+
+
             	</script>
         </body>
     }

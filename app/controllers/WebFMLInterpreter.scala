@@ -37,15 +37,16 @@ import play.api.mvc.Action
 import play.api.mvc.Controller
 import play.api.templates.Html
 
+import play.api.Play.current
 
 
 object WebFMLInterpreter extends Controller with VariableHelper {
 
-  val workspaceDir = "repository/"   // "/Users/macher1/Documents/FMLTestRepository/"
+  val workspaceDir = "repository/"  // "/Users/macher1/Documents/FMLTestRepository/"
   //  val workspaceDir = "/home/gbecan/workspaces/workspace_familiar/webfml/"
   //val workspaceDir = "/home/leiko/dev/webfml/FMLApp/"
 
-  val interp = new FMLBasicInterpreter()
+  //val interp = new FMLBasicInterpreter()
   val KSYNTHESIS_INTERACTIVE_CMD = "ksynthesis --interactive"
   var synthesizer : InteractiveFMSynthesizer = _
   var heuristics : Map[String, Heuristic] = Map.empty
@@ -58,7 +59,8 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   def interpret(fmlCommand: String) = Action {
     request =>
       try {
-        interp.reset()
+        val interp = FamiliarIDEController.mkInterpreter(request.session)
+        interp.reset() // in any case
         val lastVar = interp.eval(fmlCommand);
 
         val allVarIDs = interp.getAllIdentifiers() ;
@@ -69,6 +71,10 @@ object WebFMLInterpreter extends Controller with VariableHelper {
             </ul>
             <p id="lastValueFML" class="alert alert-success"> {lastVar.getIdentifier() + " = " + lastVar.getValue()} </p>
           </p>
+
+        request.session.get("id").foreach { user =>
+          println("Interpreting for user (ID): ", user)
+        }
       
 //        Ok(Json.toJson(rs.toString));
           Ok(Json.toJson(Map(
@@ -101,6 +107,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     request =>
       assert (!fmlCommand.contains(KSYNTHESIS_INTERACTIVE_CMD))
       try {
+        val interp = FamiliarIDEController.mkInterpreter(request.session)
         val lastVar = interp.eval(fmlCommand)
         val allVarIDs = interp.getAllIdentifiers() ;
         
@@ -132,7 +139,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
       var assignID = ""
       if (fmlCommand.indexOf("=") != -1)
         assignID = fmlCommand.substring(0, fmlCommand.indexOf("=")).trim()
-
+      val interp = FamiliarIDEController.mkInterpreter(request.session)
       val v = interp.eval(targetID)
       if (v.isInstanceOf[FeatureModelVariable]) {
         val fmv = v.asInstanceOf[FeatureModelVariable]
@@ -243,7 +250,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   
   def featureModelToJson (id : String) = Action {
     request =>
-      
+      val interp = FamiliarIDEController.mkInterpreter(request.session)
      val v = interp.eval(id)
       if (v.isInstanceOf[FeatureModelVariable]) {
         val fmv = v.asInstanceOf[FeatureModelVariable]
@@ -255,12 +262,14 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   }
 
 
-  def variable (id : String) = Action {
+  def variable (id : String) = Action { request =>
+    val interp = FamiliarIDEController.mkInterpreter(request.session)
     Ok(Json.toJson(interp.eval(id).getValue()));
   }
 
 
   def reset () = Action {request =>
+    val interp = FamiliarIDEController.mkInterpreter(request.session)
     interp.reset()
     Ok("")
   }
@@ -295,7 +304,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   }
 
   def listFiles() = Action {
-    val files = recursiveListFiles(new File(workspaceDir))
+    val files = recursiveListFiles(play.api.Play.getFile(workspaceDir)) // new File(workspaceDir))
       .filter(f => (f.getName().endsWith("fml") || f.getName().endsWith("dimacs"))) //""".*\.fml$""".r.findFirstIn(f.getName).isDefined)
       .sortBy(f => mkProperName(f))
     // TODO JSON
@@ -455,7 +464,8 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
   }
   
-  def saveToVar() = Action {
+  def saveToVar() = Action { request =>
+    val interp = FamiliarIDEController.mkInterpreter(request.session)
     var lastVarValue = ""
     if (synthesizer != null) {
 	    val fm = synthesizer.getFeatureModelVariable()

@@ -1,5 +1,6 @@
 package controllers
 
+import controllers.FamiliarIDEController._
 import play.api._
 import play.api.mvc._
 import play.api.data._
@@ -22,37 +23,23 @@ object Application extends Controller {
    def index(language:String) = Action {
     	request =>
 		val fmlDemo ="// your FAMILIAR code here!\n" + 
-					"fm1 = FM (A: B [C] ; )\n" + 
-					"\n" + 
-					"\n" + 
-					"fm9 = FM (A : B ; )\n" + 
-					"fm2 = FM (A : B [C] ; )\n" + 
-					"fm3 = FM (A : B [E] ; )\n" + 
-					"fm4 = merge sunion fm*\n" + 
-					"fm5 = FM (A : J [K] [L] ; )\n" + 
-					"\n" + 
-					"fm0 = merge sunion fm*\n" + 
-					"\n" + 
-					"n0 = counting fm0\n" + 
-					"nTotal = 0\n" + 
-					"foreach (fm in fm*) do\n" + 
-					"    nfm = counting fm\n" + 
-					"    nTotal = nTotal + nfm\n" + 
-					"end\n" + 
-					"\n" + 
-					"nTotal = nTotal + 1\n" + 
-					"n4 = counting fm4\n" + 
-					"n7 = counting fm0\n" + 
-					"fm0\n" + 
-					"mtx = computeMUTEXGroups fm0";
+					"fm1 = FM (A : B C [D]; B: (E|F) ; C : (G|H|I)? ; D : (J|K)+ ; (!C | D) ; )\n" + 
+					"s1 = configs fm1\n" + 
+					"c1 = counting fm1\n"; 
 		// <button class="btn" onclick="loadFile('fm1 = FM (A : [B] XXX ; )');">Load file</button>
 		var scriptToImport=""
 		if(language=="familiar"){
 			scriptToImport="<script>var language='familiar'</script> <script type='text/javascript' src='/assets/javascripts/ace-builds-master/src-noconflict/mode-familiar.js'></script>"
 		}
+
+        var userid  = ""
+     request.session.get("id").map { user =>
+            userid = user
+          }.getOrElse {
+            userid = ""
+          }
 		
-		
-		Ok(views.html.index(fmlDemo + "\n",Html(scriptToImport)))
+		Ok(views.html.index(fmlDemo + "\n", Html(scriptToImport), userid))
     }
   
    /**
@@ -151,7 +138,10 @@ object Application extends Controller {
                 WebFMLInterpreter.getHeaderInMarkdown,
                 WebFMLInterpreter.getChapter,
                 //login for ide 
-                FamiliarIDEController.receiveInformations
+                FamiliarIDEController.receiveInformations,
+                FamiliarIDEController.whoIAM,
+                FamiliarIDEController.createTemporarySession,
+                FamiliarIDEController.isAuthentified
                 
             )
         ).as("text/javascript");

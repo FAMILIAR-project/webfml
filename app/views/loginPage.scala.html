@@ -55,8 +55,6 @@
 		<script src="@routes.Application.javascriptRoutes" type="text/javascript"></script>
             <!-- jQuery -->
         <script src="@routes.Assets.at("javascripts/lib/jquery/jquery.min.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("javascripts/lib/CryptoJS/rollups/sha512.js")"type="text/javascript"></script>
-        <script src="@routes.Assets.at("javascripts/lib/CryptoJS/components/enc-base64-min.js")"type="text/javascript"></script>
 
 		<script type="text/javascript">
 		$(function(){
@@ -71,36 +69,32 @@
 				var pwd = document.getElementById("pwd").value;
 				var language = document.getElementById("lang").value;
 	
-				console.log(login + " " + pwd +" "+language)
-				var hash = CryptoJS.SHA512(pwd);
-				console.log(hash.toString(CryptoJS.enc.Base64));
-				//test login and password in the server side (null, ' ' & '')
-				if(login!="demo"&&pwd!="demo"){
-					jsRoutes.controllers.FamiliarIDEController.receiveInformations(login,hash.toString(CryptoJS.enc.Base64),language.toLowerCase()).ajax({
-						success: function(data){
-							document.getElementById("problem").style.display="block";
-							document.getElementById("problem").innerHtml="Error";
-						},
-						error: function(data){
-							document.getElementById("problem").style.display="block";
-							document.getElementById("problem").innerHtml="Error";
-						}
-					});
-				}else{
+				if(login == "demo" && pwd == "demo") {
+					console.log("demonstration login with language: " +  language);
+
 					jsRoutes.controllers.FamiliarIDEController.receiveInformations(login,pwd,language.toLowerCase()).ajax({
 						success: function(data){
-							document.getElementById("problem").style.display="block";
-							document.getElementById("problem").innerHtml="Error";
-						
+							window.location.href=("/ide/"+language.toLowerCase());
 						},
 						error: function(data){
 							document.getElementById("problem").style.display="block";
-							document.getElementById("problem").innerHtml="Error";
+							document.getElementById("problem").innerHTML='Unexpected login error (demonstration)';
 						}
 					});
 				}
-				//try to implement this on the server side
-				//window.location.href=("/ide/"+language.toLowerCase());
+				else {
+					jsRoutes.controllers.FamiliarIDEController.receiveInformations(login,pwd,language.toLowerCase()).ajax({
+						success: function(data){
+							console.log("login " + login + " with language: " +  language);
+							window.location.href = ("/ide/"+language.toLowerCase());
+						},
+						error: function(data){
+							document.getElementById("problem").style.display = "block";
+							document.getElementById("problem").innerHTML = "Login error " + data;
+						}
+					});
+				}
+
 			}
 		</script>
 	</body>
