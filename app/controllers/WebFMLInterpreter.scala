@@ -55,7 +55,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
    *  Function which send the compile result
    *  @param : fmlCommand : the code
    *  @return : result in json format
-   */ 
+   */
   def interpret(fmlCommand: String) = Action {
     request =>
       try {
@@ -75,7 +75,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
         request.session.get("id").foreach { user =>
           println("Interpreting for user (ID): ", user)
         }
-      
+
 //        Ok(Json.toJson(rs.toString));
           Ok(Json.toJson(Map(
         		  "varIDs" -> Json.toJson(allVarIDs.toList),
@@ -99,9 +99,9 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   /**
    * Important: we do not reset the environment (normal: we want to execute a prompt command) contrary to interpret
    * FIXME change a bit the names of the methods interpret/evalPrompt
-   * FIXME update the UI of variables list  
+   * FIXME update the UI of variables list
    * @param fmlCommand
-   * @return The value of the last command executed 
+   * @return The value of the last command executed
    */
   def evalPrompt (fmlCommand: String) = Action {
     request =>
@@ -110,7 +110,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
         val interp = FamiliarIDEController.mkInterpreter(request.session)
         val lastVar = interp.eval(fmlCommand)
         val allVarIDs = interp.getAllIdentifiers() ;
-        
+
         if (lastVar != null)
           Ok(Json.toJson(Map(
         		  "varIDs" -> Json.toJson(allVarIDs.toList),
@@ -158,65 +158,65 @@ object WebFMLInterpreter extends Controller with VariableHelper {
         Ok ("Error, variable " + targetID + " is not a formula or feature model") // can't remember how Error are properly handled in Play!
       }
   }
-  
+
   def synthesizerInformationToJSON(synthesizer : InteractiveFMSynthesizer) : Map[String, JsValue] = {
     if (synthesizer == null) {
-       Map.empty 
+       Map.empty
     } else {
-	    
+
     	// Ranking lists
 	    val rankingLists = synthesizer.getParentCandidates().map(pc => (pc.getKey() -> pc.getValue().toSeq)).toMap
 	    val originalRankingLists = synthesizer.getOriginalParentCandidates().map(pc => (pc.getKey() -> pc.getValue().toSeq)).toMap
-	    
+
 	    // Clusters
 	    val clusters = synthesizer.getSimilarityClusters().map(c => c.toSet).toSet
-	
+
 	    // Cliques
 	    val cliques = synthesizer.getCliques().map(c => c.toSet).toSet
-	    
-	    // FM preview 
+
+	    // FM preview
 	    val fm = synthesizer.getFeatureModelVariable()
 	    val diagram = fm.getFm().getDiagram()
 	    diagram.addEdge(diagram.getTopVertex(), diagram.getBottomVertex(), FeatureEdge.HIERARCHY)
-	    
+
 	    val roots = synthesizer.getImplicationGraph().reduceCliques().roots().iterator().next();
 	    Map("fm" -> fmToJson(fm),
 	      "rankingLists" -> Json.toJson(rankingLists.map(pc => Json.toJson(Map(
-		      "feature" -> Json.toJson(pc._1), 
+		      "feature" -> Json.toJson(pc._1),
 		      "parents" -> Json.toJson(pc._2),
 		      "parentInFM" -> Json.toJson(getParent(pc._1, fm)),
 		      "originalParents" -> Json.toJson(originalRankingLists(pc._1)),
-		      "isPossibleRoot" -> Json.toJson(roots.contains(pc._1)) 
+		      "isPossibleRoot" -> Json.toJson(roots.contains(pc._1))
 		  )))),
 	      "clusters" -> Json.toJson(
-	          clusters.map(c => 
-	            c.map(f => 
+	          clusters.map(c =>
+	            c.map(f =>
 	              Json.toJson(Map(
 	                		  "name" -> Json.toJson(f),
 	                		  "parentInFM" -> Json.toJson(getParent(f, fm))
           ))))),
 	      "cliques" -> Json.toJson(
-	          cliques.map(c => 
-	            c.map(f => 
+	          cliques.map(c =>
+	            c.map(f =>
 	              Json.toJson(Map(
 	                		  "name" -> Json.toJson(f),
 	                		  "parentInFM" -> Json.toJson(getParent(f, fm))
           )))))
 	    )
-	      
+
     }
-    
-        
+
+
   }
-  
+
   def fmToJson(fm : FeatureModelVariable) : JsValue = {
     val diagram = fm.getFm().getDiagram()
-    
-    val jsonNodes = for (v <- diagram.vertices() 
-        if !v.isTop() && !v.isBottom()) 
+
+    val jsonNodes = for (v <- diagram.vertices()
+        if !v.isTop() && !v.isBottom())
       yield Json.toJson(v.getFeature())
-    
-   val jsonEdges = for (e <- diagram.edges() 
+
+   val jsonEdges = for (e <- diagram.edges()
        if e.getType() == FeatureEdge.HIERARCHY;
        if !diagram.getSource(e).isTop() && !diagram.getSource(e).isBottom();
      if !diagram.getTarget(e).isTop() && !diagram.getTarget(e).isBottom())
@@ -224,15 +224,15 @@ object WebFMLInterpreter extends Controller with VariableHelper {
         "source" -> diagram.getSource(e).getFeature(),
         "target" -> diagram.getTarget(e).getFeature()
     ))
-    
+
     val jsonFM = Json.toJson(Map(
         "nodes" -> jsonNodes,
         "edges" -> jsonEdges
-    )) 
-   
+    ))
+
     jsonFM
   }
-  
+
   def getParent(feature : String, fm : FeatureModelVariable) : String = {
     val diagram = fm.getFm().getDiagram();
     try {
@@ -241,13 +241,13 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 	      parents.iterator().next().getFeature()
 	    } else {
 	      null
-	    }  
+	    }
     } catch {
-      case _ : Throwable => null 
+      case _ : Throwable => null
     }
-    
+
   }
-  
+
   def featureModelToJson (id : String) = Action {
     request =>
       val interp = FamiliarIDEController.mkInterpreter(request.session)
@@ -281,7 +281,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   def loadFile (filename : String) = Action {
 
     // security issues of course
-    val workspaceBase = "" // new File (workspaceDir).getParent() + "/" 
+    val workspaceBase = "" // new File (workspaceDir).getParent() + "/"
     val source = scala.io.Source.fromFile(workspaceBase + filename)
     val lines = source.mkString
     source.close()
@@ -315,8 +315,8 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
   def _fileListToJSON(file : File) : JsValue  = {
     if (!file.isDirectory()) {
-      if (""".*\.fml$""".r.findFirstIn(file.getName).isDefined || 
-    		  """.*\.dimacs$""".r.findFirstIn(file.getName).isDefined    
+      if (""".*\.fml$""".r.findFirstIn(file.getName).isDefined ||
+    		  """.*\.dimacs$""".r.findFirstIn(file.getName).isDefined
       ){
          Json.toJson(Map ("label" -> Json.toJson(file.getName()),
           "leaf" -> JsBoolean(true),
@@ -328,7 +328,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
       }else{
          JsNull
       }
-       
+
     }
     else {
       val files = file.listFiles
@@ -378,17 +378,17 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     synthesizer.selectParentOfCluster(JavaConversions.setAsJavaSet(children.toSet), parent)
     Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
   }
-  
+
   def ignoreParent(child : String, parent : String) = Action {
     synthesizer.ignoreParent(child, parent)
     Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
   }
-  
+
   def completeFM() = Action {
     synthesizer.computeCompleteFeatureModel();
     Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
   }
-  
+
   def getHeuristics() = Action {
     if (heuristics.isEmpty) {
       val zero = new AlwaysZeroMetric
@@ -399,7 +399,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
       heuristics += sw.getName() -> sw
       val lv = new LevenshteinMetric
       heuristics += lv.getName() -> lv
-      
+
       var ok = true
       val wu = new WuPalmerMetric
       ok = ok && wu.init(new File("resources/WordNet-3.0/wordnet_properties.xml"))
@@ -408,7 +408,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
       ok = ok && pl.init(new File("resources/WordNet-3.0/wordnet_properties.xml"))
       heuristics += pl.getName() -> pl
 //      println(ok)
-      
+
       Ok(Json.toJson(Map(
         "heuristics" -> Json.toJson(heuristics.keys),
         "defaultRankingListHeuristic" -> Json.toJson(sw.getName()),
@@ -424,9 +424,9 @@ object WebFMLInterpreter extends Controller with VariableHelper {
       )))
     }
   }
-  
+
   def setRankingListsHeuristic(heuristicName : String) = Action {
-    
+
     val heuristic = if (heuristics.contains(heuristicName)) {
       heuristics(heuristicName)
     } else {
@@ -434,66 +434,66 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     }
 
     if (synthesizer != null) {
-    	synthesizer.setParentSimilarityMetric(heuristic)  
+    	synthesizer.setParentSimilarityMetric(heuristic)
     }
-    
+
     Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
-  } 
-  
+  }
+
   def setClusteringParameters(heuristicName : String, threshold : Double) = Action {
     val heuristic = if (heuristics.contains(heuristicName)) {
       heuristics(heuristicName)
     } else {
       new AlwaysZeroMetric
     }
-    
+
     if (synthesizer != null) {
     	synthesizer.setClusteringParameters(heuristic, threshold)
     }
-    
+
     Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
   }
-  
+
   def undo() = Action {
     synthesizer.undo()
     Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
   }
-  
+
   def redo() = Action {
     synthesizer.redo()
     Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
   }
-  
+
   def saveToVar() = Action { request =>
     val interp = FamiliarIDEController.mkInterpreter(request.session)
     var lastVarValue = ""
     if (synthesizer != null) {
 	    val fm = synthesizer.getFeatureModelVariable()
 	    val diagram = fm.getFm().getDiagram()
-	    
+
 	    if (fm.isValid() && !diagram.children(diagram.getTopVertex()).isEmpty()) {
 //		    val command = fm.getIdentifier() + " = FM(" + fm + ")"
 //		    val lastVar = interp.eval(command)
 	    	interp.addOrReplaceVariable(fm.getIdentifier(), fm)
 	    	val lastVar = fm
 		    lastVarValue = lastVar.getIdentifier() + " = " + lastVar.getValue()
-	    }     
+	    }
     }
     val allVarIDs = interp.getAllIdentifiers() ;
-    
+
     Ok(Json.toJson(Map(
 	        		  "varIDs" -> Json.toJson(allVarIDs.toList),
 	        		  "lastVar" -> Json.toJson(lastVarValue)
-	)))  
-    
+	)))
+
   }
-  
+
   def setRoot(root : String) = Action {
     synthesizer.setRoot(root)
     Ok(Json.toJson(synthesizerInformationToJSON(synthesizer)))
   }
 
-  
+
   /**
    * This function create a folder in the workspace
    * @author galexand
@@ -507,7 +507,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     val res = d.mkdirs()
     Ok(Json.toJson(Map("Work" -> 1)))
   }
-  
+
   /**
    * Delete the directory and all the files which are included in
    * @param : name : the name of the directory
@@ -517,7 +517,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     println(name)
     FileUtils.deleteDirectory(direc)
     //list of directory in this directory
-    
+
     //all the files in the directory
     //val fs : Array[File] = direc.listFiles()
     //new fil which receive a file in the loop
@@ -531,20 +531,20 @@ object WebFMLInterpreter extends Controller with VariableHelper {
       //if(f.isDirectory()==false){
         //f.delete()
       //}
-      
+
     //}
     //delete the directory
-    //direc.delete()    
+    //direc.delete()
 	Ok(Json.toJson(Map("Work" -> 1)))
   }
-  
-  
+
+
   /**
    * Create a file in a specific folder
    * @param : name : the path and the name of the file
    */
  def createFile(name : String)= Action{
-	 //split the string 
+	 //split the string
 	 var k : Array[String] = name.split("/")
 	 var i = 0
 	 var p = ""
@@ -574,12 +574,12 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 		 //define a file
 		 val f : File = new File(name)
 		 //create the file
-		 f.createNewFile() 
+		 f.createNewFile()
 	 }
-	
+
 	 Ok(Json.toJson(Map("Work" -> 1)))
   }
- 
+
  /**
   * Delete the file which have the name : name
   * @param : name : the name of the file
@@ -614,22 +614,15 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   */
  def getAllKeywordToJson() = Action {
 	 //we create an array to stock the words
-	 val tab : Array[String]= new Array[String](5)
-	 //change this to import directly all the words from the xtext file
-	 tab(0)="merge"
-	 tab(1)="sunion"
-	 tab(2)="test"
-	 tab(3)="counting"
-	 tab(4)="computeMUTEXGroups"
-	 tab(5)="configs"
-	 //
+   val tab : Array[String]= Array("aggregate", "compare", "merge", "sunion", "counting", "configs", "union", "intersection", "slice", "FM", "computeMUTEXGroups")
+   // TODO: import directly all the words from the Xtext grammar
 	 //parse to json the previous tab
 	 val myJsonArray : JsValue = Json.toJson(tab)
 	 //"send" it
 	 Ok(myJsonArray)
  }
  /**
-  * Function which send all the class word of the 
+  * Function which send all the class word of the
   * familiar language
   */
  def getAllClasswordToJson()=Action{
@@ -671,11 +664,11 @@ object WebFMLInterpreter extends Controller with VariableHelper {
    //return res
    Ok(res)
  }
-  
+
  /**
   *Load the header for the tutorial part of the current language
   *and return this header into html format
-  * @param language : the current language used in the app 
+  * @param language : the current language used in the app
   */
  def getHeaderInMarkdown(language : String) = Action{
    //we get the file with the name
@@ -690,8 +683,8 @@ object WebFMLInterpreter extends Controller with VariableHelper {
    //return res
    Ok(res)
  }
- 
- /** 
+
+ /**
   *Load the menu in markdown and return this menu into HTML format
   *@param language : the current language used in the app
   */
@@ -708,14 +701,14 @@ object WebFMLInterpreter extends Controller with VariableHelper {
    //return res
    Ok(res)
  }
- 
+
  /**
   * Return the correct chapter
   * @param name : the name of the chapter
   * @param language : the current language of the app
   */
  def getChapter(name : String, language : String) = Action{
-   
+
    val path: String = "public/tuto/"+language+"/chapters/"+name
    val myFile: File = new File(path)
    var res: Html = null
@@ -724,13 +717,13 @@ object WebFMLInterpreter extends Controller with VariableHelper {
       //convert into Html
       res= Html(out)
    }
-   //return the html code  
+   //return the html code
    Ok(res)
  }
  /**
-  * 
+  *
   * @TODO : DELETE
-  * 
+  *
   */
  def getAllChapters(langage : String) = Action{
 	  val path: String = "public/tuto/"+langage+"/chapters"
@@ -743,18 +736,18 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 	  }
 	  Ok(res)
  }
- 
- 
+
+
    /**
    * Return all the keyword of vm's language
    */
   def searchKeyword()=Action{
     val path="public/tuto/vm/xtext/Vm.xtext"
-    val myFile:File = new File(path)   
+    val myFile:File = new File(path)
     //search all characters between ''
     val pattern = "'.*?'".r
-    //List myList = new List()  
-    var lst  = new ListBuffer[String]() 
+    //List myList = new List()
+    var lst  = new ListBuffer[String]()
     //if the file exist
     if(myFile.exists()){
       //read line by line
@@ -768,12 +761,12 @@ object WebFMLInterpreter extends Controller with VariableHelper {
     	  }
     	 }
       }
-      
+
     }
     //convert to a list
     var k =lst.toList.distinct
     //return the list
     Ok(Json.toJson(k))
   }
- 
+
 }
