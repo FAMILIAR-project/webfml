@@ -614,7 +614,23 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   */
  def getAllKeywordToJson() = Action {
 	 //we create an array to stock the words
-   val tab : Array[String]= Array("aggregate", "compare", "merge", "sunion", "counting", "configs", "union", "intersection", "slice", "FM", "computeMUTEXGroups")
+   val tab : Array[String]= Array("setDiff", "setUnion", "aggregateMerge", "ksynthesis", "slice", "over", "including",
+       "cores", "serialize", "constraint", "constraints", "removeConstraint", "addConstraint",
+       "deads", "setUnion", "setIntersection", "to", "falseOptionals", "excluding", "constraints",
+       "withMapping", "map", "cleanup", "Set", "asFM", "addConstraint", "aggregate",
+       "isConflicting", "autoSelect", "setIsEmpty", "isComplete", "isNull",
+       "isExisting", "diff", "counting", "removeFeature", "renameFeature", "isValid", "requires",
+                         "implies", "excludes", "FeatureModel", "Feature", "String",
+                         "operator", "configuration", "select", "deselect", "size", "unselect",
+                         "min", "max", "random", "not", "==", "else", "configs", "set", "setAdd",
+                         "exit", "extract", "setEmpty", "size", "export", "hide", "strConcat",
+                         "renameFeature", "and", "or", "mand", "opt", "xor", "or", "str_concat", "eq", "neq", "do",
+                         "neq", "merge", "union", "sunion", "intersection", "whichfm", "name", "run",
+                         "into", "valid?", "hide", "parent", "removeFeature", "parameter", "then", "if",
+                         "end", "is_null", "root", "with", "print_var", "print", "children", "foreach", "in",
+                         "selectedF", "deselectedF", "unselectedF", "removeVariable",
+                         "println", "copy", "into", "FM", "as", "assert", "size", "insert", "compare")
+
    // TODO: import directly all the words from the Xtext grammar
 	 //parse to json the previous tab
 	 val myJsonArray : JsValue = Json.toJson(tab)
