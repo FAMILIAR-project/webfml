@@ -67,6 +67,8 @@ and also:
  de.ovgu.featureide.fm.core_2.7.5.201512021815.jar
  de.ovgu.featureide.fm.ui_2.7.5.201512021815.jar
  de.ovgu.featureide.ui_2.7.5.201512021815.jar
+ 
+ and finally: org.sat4j.core.jar
 ```
 
 ## Compile and Run
