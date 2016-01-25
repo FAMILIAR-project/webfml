@@ -61,7 +61,8 @@ WebFML build
 You are ready to work
 We need also to "manually" download FeatureIDE jars (or mavenize FeatureIDE):
 http://wwwiti.cs.uni-magdeburg.de/iti_db/research/featureide/deploy/plugins/
-```wget http://wwwiti.cs.uni-magdeburg.de/iti_db/research/featureide/deploy/plugins/de.ovgu.featureide.core_2.7.5.201512021815.jar
+```
+wget http://wwwiti.cs.uni-magdeburg.de/iti_db/research/featureide/deploy/plugins/de.ovgu.featureide.core_2.7.5.201512021815.jar
 and also:
  de.ovgu.featureide.fm.core_2.7.5.201512021815.jar
  de.ovgu.featureide.fm.ui_2.7.5.201512021815.jar
