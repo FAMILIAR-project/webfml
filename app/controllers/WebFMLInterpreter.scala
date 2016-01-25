@@ -621,6 +621,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 	 tab(2)="test"
 	 tab(3)="counting"
 	 tab(4)="computeMUTEXGroups"
+	 tab(5)="configs"
 	 //
 	 //parse to json the previous tab
 	 val myJsonArray : JsValue = Json.toJson(tab)
