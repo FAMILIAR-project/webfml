@@ -1,4 +1,4 @@
-fm1 = FM ("foo1.tvl")
+fm1 = FM (A : B [C] [D] E : (F|G); )
 ft1 = root fm1
 ft2 = fm1.B
 fts = fm1.*

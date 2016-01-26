@@ -25,9 +25,11 @@ function FMLVariableCtrl($scope, $rootScope) {
 	}
 
 	$scope.$on('variables', function (event, data) {
+		$('loader').html('<img src="../assets/images/ajax-loader.gif" />') ;
 		$scope.varIDs = data["varIDs"];
 		$scope.lastVar = data["lastVar"];
 		$scope.$apply();
+		$('#loader').html('') ;
 	});
 
 

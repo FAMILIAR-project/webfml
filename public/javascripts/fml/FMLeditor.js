@@ -47,10 +47,10 @@ function FMLEditorCtrl($scope, $rootScope) {
 				$('#msgid').html('Error...<div class="alert alert-danger">' + data + '</div>') ;
 			},
 		        beforeSend : function(event, jqxhr, settings) {
-			        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
+			        $('loader').html('<img src="../assets/images/ajax-loader.gif" />') ;
 			},
 		       complete : function(jqxhr, textstatus) {
-			    $('#wait').html('') ;
+			    $('#loader').html('') ;
 		    }
 	    });
 	}

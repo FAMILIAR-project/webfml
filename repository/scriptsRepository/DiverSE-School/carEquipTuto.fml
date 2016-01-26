@@ -1,0 +1,21 @@
+// carEquipTuto.fml
+fmCarEquipment = FM (CarEquipment : Healthing DrivingAndSafety Comfort ;
+	       	    		    Healthing : (AirConditioning|AirConditioningFrontAndRear) ;
+				    DrivingAndSafety : [FrontFogLights] ;
+				    Comfort : [AutomaticHeadLights] ;
+				    AutomaticHeadLights -> FrontFogLights ;
+			    )
+c1 = configuration fmCarEquipment
+select AirConditioning FrontFogLights in c1
+deselect AutomaticHeadLights in c1
+s0 = selectedF c1
+
+
+s1 = configs fmCarEquipment // configuration set
+n1 = size s1
+n2 = counting fmCarEquipment // efficient way, see after
+assert (n2 eq n1)
+
+co = cores fmCarEquipment // features necessarily included in any configuration
+vp = setDiff fmCarEquipment.* co
+//
