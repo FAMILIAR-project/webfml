@@ -13,6 +13,11 @@ window.onload = function() {
     *To find more theme you : ace-build-master/src-no-conflict/theme-xxx, you have just to put the xxx.
     */
     editor.setTheme("ace/theme/chrome");
+
+
+    editor.setOptions({
+	    fontSize: "12pt", 
+		});
     /*
     *define the mode of the editor with a special hilight
     *and for the correct language

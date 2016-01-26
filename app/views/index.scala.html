@@ -26,7 +26,7 @@
         	<script src="@routes.Assets.at("javascripts/lib/alloy-2.0.0/aui/aui-min.js")"></script>
         	<link href="@routes.Assets.at("javascripts/lib/alloy-2.0.0/aui-css/css/bootstrap.min.css")" rel="stylesheet">
         	<!-- end WORKSPACE -->
-        
+
        		<!-- KSYNTHESIS -->
         	<script src="@routes.Assets.at("javascripts/lib/dagre-d3/d3.v3.min.js")"></script>
 			<script src="@routes.Assets.at("javascripts/lib/dagre-d3/dagre-d3.min.js")"></script>
@@ -42,7 +42,7 @@
             <div class="navbar">
 			<!-- Nav part of the app -->
                 <div class="navbar-inner">
-		    	<!-- Contains the toolbar --> 
+		    	<!-- Contains the toolbar -->
                     <div class="container-fluid">
 					<!-- "logo" -->
                         <a class="brand" href="#">Familiar</a>
@@ -122,11 +122,11 @@
 			    			<!-- message -->
                             <div class="tab-pane active" id="editor">@editor(message)</div>
                             <div class="tab-pane" id="ksynthesis-tab" ng-controller="KSynthesisCtrl">
-				
+
                             	<div class="span7">
-                        			<label class="parameter"> Ranking lists </label> 
-                        			<select class="heuristic-selector" ng-model="rankingListHeuristic" ng-options="h for h in heuristics"></select> 
-                        			<label class="parameter"> Clustering </label> 
+                        			<label class="parameter"> Ranking lists </label>
+                        			<select class="heuristic-selector" ng-model="rankingListHeuristic" ng-options="h for h in heuristics"></select>
+                        			<label class="parameter"> Clustering </label>
                         			<select class="heuristic-selector" ng-model="clusteringHeuristic" ng-options="h for h in heuristics"></select>
                         			<input class="threshold-selector" type="number" min="0" max="1" step="0.1" ng-model="threshold"></input>
                         			<!--<label class="parameter"><input type="checkbox" ng-model="hideClusters"> Hide clusters</label>-->
@@ -140,17 +140,17 @@
 			                			<button type="button" class="btn btn-default" ng-click="saveToVar()">Save</button>
 			            			</div>
 			        			</div>
-			                   
+
 		                <!-- Ksynthesis part -->
 		                        <div id="ksynthesis">
 		                        	<div>
 							<!-- Graphical result -->
-		                        		<h3>Preview</h3>	
+		                        		<h3>Preview</h3>
 		                        		<div id="fmpreview">
 		                        			<svg height="250" width="100%"></svg>
 		                        		</div>
 		                    		</div>
-		                        
+
 		                        	<div class="row-fluid">
 		                        		<div class="span4">
 				                        	<h3>Ranking Lists</h3>
@@ -169,8 +169,8 @@
 				                        				</li>
 					                        			<li ng-repeat="parent in rankingList.parents" style="list-style: none">
 					                        				<div class="btn-group">
-						                        				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> 
-						                        					{{parent}} 
+						                        				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+						                        					{{parent}}
 						                        					<span class="caret"></span>
 						                        				</button>
 						                        				<ul class="dropdown-menu" role="menu">
@@ -189,12 +189,12 @@
 						                        					</li>
 						                        				</ul>
 					                        				</div>
-					                        			</li>		                        		
+					                        			</li>
 					                        		</ul>
 				                        		</li>
 				                        		<div/>
 				                        	</ul>
-				                        	
+
 				                        	<hr/>
 				                        	<!-- Ranking lists for refactoring -->
 				                        	<ul>
@@ -208,16 +208,16 @@
 			                        			<ul>
 				                        			<li ng-repeat="parent in rankingList.originalParents" style="list-style: none">
 				                        				<div class="btn-group">
-				                        					<button ng-if="rankingList.parentInFM != parent" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> 
-					                        					{{parent}} 
+				                        					<button ng-if="rankingList.parentInFM != parent" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+					                        					{{parent}}
 					                        					<span class="caret"></span>
 					                        				</button>
-					                        				
-					                        				<button ng-if="rankingList.parentInFM == parent" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown"> 
-				                        						{{parent}} 
+
+					                        				<button ng-if="rankingList.parentInFM == parent" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+				                        						{{parent}}
 				                        						<span class="caret"></span>
 				                        					</button>
-					                        				
+
 					                        				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 					                        					<li role="presentation">
 					                        						<a role="menuitem" tabindex="-1" ng-click='setParent(rankingList.feature,parent)'>
@@ -231,7 +231,7 @@
 					                        					</li>
 					                        				</ul>
 				                        				</div>
-				                        			</li>		                        		
+				                        			</li>
 				                        		</ul>
 			                        		</li>
 			                        		<div/>
@@ -242,7 +242,7 @@
 				                        	<h3>Clusters</h3>
 				                        	<ul>
 			                        			<li ng-repeat="cluster in clusters" style="list-style: none">
-		
+
 			                        				 <div ng-if="cluster == selectedCluster">
 			                        				 	<select class="span6" ng-model="clusterSelectedParent" ng-options="p for p in clusterPossibleParents"></select>
 			                        				 	<button type="button" class="btn btn-success" ng-disabled='clusterSelectedParent==""' ng-click="setClusterParent(clusterSelectedFeatures,clusterSelectedParent)">
@@ -253,8 +253,8 @@
 			                        				 	</button>
 					                    				<ul>
 						                        			<li ng-repeat="feature in cluster">
-						                        				<input 
-						                        					type="checkbox"  
+						                        				<input
+						                        					type="checkbox"
 						                        					value="{{feature}}"
 						                        					ng-checked="clusterSelectedFeatures.indexOf(feature) > -1"
 						                        					ng-click="selectClusterFeature(feature)"
@@ -263,9 +263,9 @@
 						                        				<i ng-if="feature.parentInFM != null" class="icon-ok icon-black"></i>
 						                        			</li>
 					                        			</ul>
-				                    					
+
 			                        			    </div>
-			                        			    
+
 			                        			    <div ng-if="cluster != selectedCluster" ng-click="selectCluster(cluster)">
 			                        			    	<!--{{cluster}}-->
 			                        			    	<i class="icon-chevron-right"></i>
@@ -275,7 +275,7 @@
 						                        			</li>
 					                        			</ul>
 			                        			    </div>
-			                    					
+
 			                        			</li>
 			                        		</ul>
 			                        	</div>
@@ -293,8 +293,8 @@
 					                 				 	</button>
 					                    				<ul>
 						                        			<li ng-repeat="feature in clique">
-						                        				<input 
-						                        					type="checkbox"  
+						                        				<input
+						                        					type="checkbox"
 						                        					value="{{feature}}"
 						                        					ng-checked="clusterSelectedFeatures.indexOf(feature) > -1"
 						                        					ng-click="selectClusterFeature(feature)"
@@ -303,9 +303,9 @@
 						                        				<i ng-if="feature.parentInFM != null" class="icon-ok icon-black"></i>
 						                        			</li>
 					                        			</ul>
-				                 					
+
 					                        		</div>
-				                 			    
+
 					                 			    <div ng-if="clique != selectedCluster" ng-click="selectCluster(clique)">
 					                 			    	<!--{{clique}}-->
 					                 			    	<i class="icon-chevron-right"></i>
@@ -320,7 +320,7 @@
 			                        	</div>
 	                        		</div>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>

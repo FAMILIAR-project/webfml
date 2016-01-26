@@ -7,7 +7,7 @@
 
 /**
  *Function which
- *param : $scope : 
+ *param : $scope :
  */
 function FMLEditorCtrl($scope, $rootScope) {
 	/**
@@ -32,10 +32,10 @@ function FMLEditorCtrl($scope, $rootScope) {
 
                                 },
                                 beforeSend : function(event, jqxhr, settings) {
-                                        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
+																	      $('#loader').html('<img src="../assets/images/ajax-loader.gif" />') ;
                                 },
                                 complete : function(jqxhr, textstatus) {
-                                        $('#wait').html('') ;
+                                        $('#loader').html('') ;
                                 }
                             });
 
@@ -54,20 +54,20 @@ function FMLEditorCtrl($scope, $rootScope) {
 		    }
 	    });
 	}
-	
+
 	$scope.reset = function() {
 		jsRoutes.controllers.WebFMLInterpreter.reset().ajax({
-			success : function(data) {  
+			success : function(data) {
 				$rootScope.$broadcast('variables', data)
 			},
-		    error : function(data) {  
-				$('#msgid').html('Impossible to reset...<div>' + data + '</div>') ; 
+		    error : function(data) {
+				$('#msgid').html('Impossible to reset...<div>' + data + '</div>') ;
 			},
 		    beforeSend : function(event, jqxhr, settings) {
-			        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
+			        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 			},
 		    complete : function(jqxhr, textstatus) {
-			    	$('#wait').html('') ;		   
+			    	$('#wait').html('') ;
 	       	}
 		});
     }
@@ -75,24 +75,24 @@ function FMLEditorCtrl($scope, $rootScope) {
 
 	$scope.save = function () {
    	    var idToGet = editor.getSession().getValue();
-        var filename = $('#fileInputName').val(); 
+        var filename = $('#fileInputName').val();
 
 	    jsRoutes.controllers.WebFMLInterpreter.saveAs(idToGet, filename).ajax({
-			success : function(data) {  
-				$('#msgid').html('<div class="alert alert-success">' + filename + ' has been saved...</div>') ; 
+			success : function(data) {
+				$('#msgid').html('<div class="alert alert-success">' + filename + ' has been saved...</div>') ;
 			},
-		        error : function(data) {  
-				$('#msgid').html('<div class="alert alert-danger">Unable to save...</div>') ; 
+		        error : function(data) {
+				$('#msgid').html('<div class="alert alert-danger">Unable to save...</div>') ;
 			},
 		        beforeSend : function(event, jqxhr, settings) {
-			        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
+			        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 			},
 		      complete : function(jqxhr, textstatus) {
-			    $('#wait').html('') ;		   
+			    $('#wait').html('') ;
 		    }
 	    });
 	}
-	
+
 }
 
 function initTemporarySession() {
@@ -126,17 +126,20 @@ function depictUserInformation(userid) {
  */
 function loadFile(filename) {
  jsRoutes.controllers.WebFMLInterpreter.loadFile(filename).ajax({
-		success : function(data) {  
+		success : function(data) {
+			$('a[href="#editor"]').tab('show');
+			$('#editor').addClass('active');
+			$('#ksynthesis-tab').removeClass('active');
 			 editor.setValue (data, 1) ;
 		},
-	        error : function(data) {  
-			$('#msgid').html('Unable to load the file..' + data) ; 
+	        error : function(data) {
+			$('#msgid').html('Unable to load the file..' + data) ;
 		},
 	        beforeSend : function(event, jqxhr, settings) {
-		        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
+		        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 		},
 	       complete : function(jqxhr, textstatus) {
-		    $('#wait').html('') ;		   
+		    $('#wait').html('') ;
 	       }
 	})
 	;
@@ -149,19 +152,19 @@ function loadFile(filename) {
 function updateWorkspace() {
 jsRoutes.controllers.WebFMLInterpreter.listFiles().ajax({
 		//if success
-		success : function(data) { 
-			//we display the workspace	
-		        displayWorkspace(data); 
+		success : function(data) {
+			//we display the workspace
+		        displayWorkspace(data);
 		},
-		
-	        error : function(data) {  
-			$('#myTreeView').html('Unable to load the list of files... <div class="alert alert-danger">' + data + '</div>') ; 
+
+	        error : function(data) {
+			$('#myTreeView').html('Unable to load the list of files... <div class="alert alert-danger">' + data + '</div>') ;
 		},
 	        beforeSend : function(event, jqxhr, settings) {
-		        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
+		        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 		},
 	       complete : function(jqxhr, textstatus) {
-		    $('#wait').html('') ;		   
+		    $('#wait').html('') ;
 	       }
 	})
 	;
@@ -169,20 +172,20 @@ jsRoutes.controllers.WebFMLInterpreter.listFiles().ajax({
 /**
  *Display the workspace at begining
  */
-$(document).ready(function() { 
- 
+$(document).ready(function() {
+
 	jsRoutes.controllers.WebFMLInterpreter.listFiles().ajax({
 		success : function(data) {
-		        displayWorkspace(data); 
+		        displayWorkspace(data);
 		},
-	        error : function(data) {  
-			$('#myTreeView').html('Unable to load the list of files... <div class="alert alert-danger">' + data + '</div>') ; 
+	        error : function(data) {
+			$('#myTreeView').html('Unable to load the list of files... <div class="alert alert-danger">' + data + '</div>') ;
 		},
 	        beforeSend : function(event, jqxhr, settings) {
-		    	$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
+		    	$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 		},
 	       complete : function(jqxhr, textstatus) {
-		    $('#wait').html('') ;		   
+		    $('#wait').html('') ;
 	    }
 	});
 });
@@ -193,7 +196,7 @@ $(document).ready(function() {
  *
  */
 /*
- *the current path 
+ *the current path
  */
 var path="";
 /*
@@ -211,10 +214,10 @@ YUI().use(
   function(Y) {
     var tview = new Y.TreeViewDD(
       {
-	
+
 	//call the div where we put the tree
         boundingBox: '#myTreeView',
-	children: filespecification, 
+	children: filespecification,
 	  on: {
 		lastSelectedChange: function(event) {
 			var nodeId = event.newVal.get('id');
@@ -231,12 +234,12 @@ YUI().use(
 				//directory
 				path = mkCompleteName(node);
 			}
-			
+
 		}
        }
        }
-    ) ; 
-    
+    ) ;
+
     tview.render();
   }
 );
@@ -248,14 +251,14 @@ YUI().use(
  */
 function mkCompleteName (n) {
 	if (!n){
-	   return "" ; 
+	   return "" ;
 	}
 	if (n.get('parentNode')) {
-	 var p = mkCompleteName(n.get('parentNode')) ; 
+	 var p = mkCompleteName(n.get('parentNode')) ;
 	   if (p)
-	   	  return p + "/" + n.get('label') ; 
+	   	  return p + "/" + n.get('label') ;
 	   else
-	      return n.get('label') ; 
+	      return n.get('label') ;
 	}
 }
 
@@ -272,26 +275,26 @@ function createFolder() {
 		jsRoutes.controllers.WebFMLInterpreter.createFolder(finalPath).ajax({
 			success : function(data) {
 				//refresh the worspace
-				updateWorkspace(); 
+				updateWorkspace();
 			},
 			//if they are an error
-			error : function(data) {  
-				$('#myTreeView').html('Unable to create the folder... <div class="alert alert-danger">' + data + '</div>') ; 
+			error : function(data) {
+				$('#myTreeView').html('Unable to create the folder... <div class="alert alert-danger">' + data + '</div>') ;
 			},
 			//display a loader
 			beforeSend : function(event, jqxhr, settings) {
-				$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
+				$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 			},
 		       complete : function(jqxhr, textstatus) {
-			    $('#wait').html('') ;		   
+			    $('#wait').html('') ;
 		       }
 		});
-		
+
 	}else{
 		//just a message to the user
-		alert("If you don't give a name to the folder that will not work :(");	
+		alert("If you don't give a name to the folder that will not work :(");
 	}
-	
+
 }
 
 
@@ -324,46 +327,42 @@ function createFile() {
 				/*test the extention of the file
 				*if the extention is not right
 				*/
-				if(res[1]!="fml" && res[1]!="dimacs"){
-					//so the file extention are not good :'( 
-					alert("the file have not the right extention (e.g .fml or dimacs)");
-				}else{
-					//the extention is okay
-					if (name!=null && name!="") {
-						//display the name of the final path
-						var fname = path+"/"+name;
-						jsRoutes.controllers.WebFMLInterpreter.createFile(fname).ajax({
-							success : function(data) {
-								//refresh the worspace
-								updateWorkspace(); 
-							},
-							//if they are an error
-							error : function(data) {  
-								$('#myTreeView').html('Unable to create the file... <div class="alert alert-danger">' + data + '</div>') ; 
-							},
-							//display a loader
-							beforeSend : function(event, jqxhr, settings) {
-								$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
-							},
-							complete : function(jqxhr, textstatus) {
-							    $('#wait').html('') ;		   
-							  }	
-						});
-						//put the content of the file in the editor
-						jsRoutes.controllers.WebFMLInterpreter.loadFile(fname).ajax({
-							success : function(data) {  
-								editor.setValue (data, 1) ;
-							}
-						});
-					}else{
-						//the name not exist 
-						alert("If you don't give a name to the file that will not work :(");	
-					}
+				if(res[1] != "fml" && res[1] != "dimacs"){
+					//so the file extention are not good :'(
+					alert("The file has not the right extention (e.g .fml or dimacs)"); // TODO
+				} else {
+						//the extention is okay
+						if (name!=null && name!="") {
+							//display the name of the final path
+							var fname = path+"/"+name;
+							jsRoutes.controllers.WebFMLInterpreter.createFile(fname).ajax({
+								success : function(data) {
+									//refresh the worspace
+									updateWorkspace();
+								},
+								//if they are an error
+								error : function(data) {
+									$('#myTreeView').html('Unable to create the file... <div class="alert alert-danger">' + data + '</div>') ;
+								},
+								//display a loader
+								beforeSend : function(event, jqxhr, settings) {
+									$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
+								},
+								complete : function(jqxhr, textstatus) {
+								    $('#wait').html('') ;
+								  }
+							});
+
+						}
+						else {
+							//the name not exist
+							alert("If you don't give a name to the file that will not work :(");
+						}
 				}
-			}		
+			}
 		}
 	}
-	
+
 }
 /**
  *Delete the current file or the current directory
@@ -373,25 +372,25 @@ function deleteF() {
 	if (confirm("Are you sure to delete "+path+" ")) {
 		//split the path to know if this is a file or a directory
 		var res = path.split(".");
-		//if this is a file 
+		//if this is a file
 		if (res[1]=="fml"|| res[1]=="dimacs") {
 			//this is a file
 			jsRoutes.controllers.WebFMLInterpreter.deleteFile(path).ajax({
 				success : function(data) {
 					//refresh the worspace
-					updateWorkspace(); 
+					updateWorkspace();
 				},
 				//if they are an error
-				error : function(data) {  
-					$('#myTreeView').html('Unable to delete the file... <div class="alert alert-danger">' + data + '</div>') ; 
+				error : function(data) {
+					$('#myTreeView').html('Unable to delete the file... <div class="alert alert-danger">' + data + '</div>') ;
 				},
 				//display a loader
 				beforeSend : function(event, jqxhr, settings) {
-					$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
+					$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 				},
 				complete : function(jqxhr, textstatus) {
-				    $('#wait').html('') ;		   
-				}	
+				    $('#wait').html('') ;
+				}
 			});
 
 		}else{
@@ -399,23 +398,23 @@ function deleteF() {
 			jsRoutes.controllers.WebFMLInterpreter.deleteFolder(path).ajax({
 				success : function(data) {
 					//refresh the worspace
-					updateWorkspace(); 
+					updateWorkspace();
 				},
 				//if they are an error
-				error : function(data) {  
-				$('#myTreeView').html('Unable to delete the directory... <div class="alert alert-danger">' + data + '</div>') ; 
+				error : function(data) {
+				$('#myTreeView').html('Unable to delete the directory... <div class="alert alert-danger">' + data + '</div>') ;
 				},
 				//display a loader
 				beforeSend : function(event, jqxhr, settings) {
-					$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
+					$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 				},
 				complete : function(jqxhr, textstatus) {
-				    $('#wait').html('') ;		   
-				}	
+				    $('#wait').html('') ;
+				}
 			});
 		}
 	}
-	
+
 }
 /**
  * JavaScript function which save the file
@@ -431,26 +430,26 @@ function saveF() {
 		jsRoutes.controllers.WebFMLInterpreter.saveFile(currentFileName,content).ajax({
 			success : function(data) {
 				//refresh the worspace
-				updateWorkspace(); 
+				updateWorkspace();
 			},
 			//if they are an error
-			error : function(data) {  
-			$('#myTreeView').html('Unable to save the file... <div class="alert alert-danger">' + data + '</div>') ; 
+			error : function(data) {
+			$('#myTreeView').html('Unable to save the file... <div class="alert alert-danger">' + data + '</div>') ;
 			},
 			//display a loader
 			beforeSend : function(event, jqxhr, settings) {
-				$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ; 
+				$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 			},
 			complete : function(jqxhr, textstatus) {
-			    $('#wait').html('') ;		   
-			}	
+			    $('#wait').html('') ;
+			}
 		});
 		//display the sucess
-		$('#msgid').html('Success ! <div class="success alert-success">' + currentFileName + '</div>') ; 
-		
+		$('#msgid').html('Success ! <div class="success alert-success">' + currentFileName + '</div>') ;
+
 	}else{
 		//display the unsucess
-		$('#msgid').html('Error...<div class="alert alert-danger">' + currentFileName +" Not saved"+ + '</div>') ; 
+		$('#msgid').html('Error...<div class="alert alert-danger">' + currentFileName +" Not saved"+ + '</div>') ;
 	}
-	
+
 }

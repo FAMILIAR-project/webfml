@@ -4,47 +4,53 @@ function KSynthesisCtrl($scope, $rootScope) {
 	$scope.rankingListHeuristic = '';
 	$scope.clusteringHeuristic = '';
 	$scope.threshold = 0.5;
-	
+
 	$scope.rankingLists = [];
 	$scope.originalRankingLists = [];
-	
+
 	$scope.clusters = [];
 	$scope.selectedCluster = {};
 	$scope.clusterSelectedParent = '';
 	$scope.clusterPossibleParents = [];
 	$scope.clusterSelectedFeatures = [];
-	
+
 	$scope.cliques = [];
-	
+
 	$scope.hideClusters = false;
-	
+
 	// Synthesis command
 	$scope.$on('ksynthesis', function (event, command) {
 		 try {
-			 
+
 			  jsRoutes.controllers.WebFMLInterpreter.ksynthesis(command).ajax({
                                     success : function(data) {
                                              jqconsole.Write('Synthesising in progress... over ' + data['targetID'] + '\n');
-                                             $scope.updateSynthesisInformation(data)
-				  
+
+
+																						 $('a[href="#ksynthesis-tab"]').tab('show');
+																						 $('#ksynthesis-tab').addClass('active');
+																						 $('#editor').removeClass('active');
+
+																						 $scope.updateSynthesisInformation(data);
+
                                     },
                                     error : function(data) {
                                              jqconsole.Write('Error...' + data + '\n');
                                     },
                                     beforeSend : function(event, jqxhr, settings) {
-                                             $('#loader').html('<img src="../../assets/images/ajax-loader.gif" />') ; 
+                                            // $('#loader').html('<img src="../../assets/images/ajax-loader.gif" />') ;
                                     },
                                     complete : function(jqxhr, textstatus) {
-                                             $('#wait').html('') ;		   
+                                             $('#wait').html('') ;
                                     }
 			  });
-			  
+
 		 } catch (e) {
 			 jqconsole.Write('ERROR: ' + e.message + '\n');
 		 }
-	              
+
 	 });
-	
+
 	$scope.updateSynthesisInformation = function (data) {
 		if (data['fm'] != undefined) {
 			var fm = data['fm'] ;
@@ -55,7 +61,7 @@ function KSynthesisCtrl($scope, $rootScope) {
 		}
 		$scope.$apply();
 	};
-	
+
 	// Heuristics
 	jsRoutes.controllers.WebFMLInterpreter.getHeuristics().ajax({
         success : function(data) {
@@ -72,10 +78,10 @@ function KSynthesisCtrl($scope, $rootScope) {
        	 $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
         },
         complete : function(jqxhr, textstatus) {
-       	 $('#wait').html('') ;		   
+       	 $('#wait').html('') ;
         }
 	 });
-	
+
 	$scope.$watch('rankingListHeuristic', function(newHeuristic) {
 		jsRoutes.controllers.WebFMLInterpreter.setRankingListsHeuristic(newHeuristic).ajax({
 	        success : function(data) {
@@ -88,11 +94,11 @@ function KSynthesisCtrl($scope, $rootScope) {
 	       	 $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 	        },
 	        complete : function(jqxhr, textstatus) {
-	       	 $('#wait').html('') ;		   
+	       	 $('#wait').html('') ;
 	        }
 		 });
 	});
-	
+
 	$scope.$watch('clusteringHeuristic', function(newHeuristic) {
 		jsRoutes.controllers.WebFMLInterpreter.setClusteringParameters(newHeuristic, $scope.threshold).ajax({
 	        success : function(data) {
@@ -105,11 +111,11 @@ function KSynthesisCtrl($scope, $rootScope) {
 	       	 $('#wait').html('<img src="../../assets/images/ajax-loader.gif" />') ;
 	        },
 	        complete : function(jqxhr, textstatus) {
-	       	 $('#wait').html('') ;		   
+	       	 $('#wait').html('') ;
 	        }
 		 });
 	});
-	
+
 	$scope.$watch('threshold', function(newThreshold) {
 		jsRoutes.controllers.WebFMLInterpreter.setClusteringParameters($scope.clusteringHeuristic, newThreshold).ajax({
 	        success : function(data) {
@@ -122,12 +128,12 @@ function KSynthesisCtrl($scope, $rootScope) {
 	       	 $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 	        },
 	        complete : function(jqxhr, textstatus) {
-	       	 $('#wait').html('') ;		   
+	       	 $('#wait').html('') ;
 	        }
 		 });
 	});
-		
-	
+
+
 	// Synthesis actions
 	$scope.setRoot = function (root) {
 		jsRoutes.controllers.WebFMLInterpreter.setRoot(root).ajax({
@@ -141,11 +147,11 @@ function KSynthesisCtrl($scope, $rootScope) {
 	        	 $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 	         },
 	         complete : function(jqxhr, textstatus) {
-	        	 $('#wait').html('') ;		   
+	        	 $('#wait').html('') ;
 	         }
-		 });	
+		 });
 	}
-	
+
 	$scope.setParent = function (child, parent) {
 		if (child!=parent) {
 			jsRoutes.controllers.WebFMLInterpreter.selectParent([child], parent).ajax({
@@ -159,12 +165,12 @@ function KSynthesisCtrl($scope, $rootScope) {
 		        	 $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 		         },
 		         complete : function(jqxhr, textstatus) {
-		        	 $('#wait').html('') ;		   
+		        	 $('#wait').html('') ;
 		         }
-			 });	
+			 });
 		}
 	};
-	
+
 	$scope.ignoreParent = function (child, parent) {
 		jsRoutes.controllers.WebFMLInterpreter.ignoreParent(child, parent).ajax({
 	         success : function(data) {
@@ -177,11 +183,11 @@ function KSynthesisCtrl($scope, $rootScope) {
 	        	 $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 	         },
 	         complete : function(jqxhr, textstatus) {
-	        	 $('#wait').html('') ;		   
+	        	 $('#wait').html('') ;
 	         }
 		 });
 	};
-	
+
 	$scope.setClusterParent = function (cluster, parent) {
 		var clusterWithFeatureNames = [];
 		for (var i = 0; i < cluster.length; i++) {
@@ -198,11 +204,11 @@ function KSynthesisCtrl($scope, $rootScope) {
 	        	 $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 	         },
 	         complete : function(jqxhr, textstatus) {
-	        	 $('#wait').html('') ;		   
+	        	 $('#wait').html('') ;
 	         }
 		 });
 	}
-	
+
 	$scope.completeFM = function() {
 		jsRoutes.controllers.WebFMLInterpreter.completeFM().ajax({
 	         success : function(data) {
@@ -212,14 +218,14 @@ function KSynthesisCtrl($scope, $rootScope) {
 	        	 jqconsole.Write('Error...' + data + '\n');
 	         },
 	         beforeSend : function(event, jqxhr, settings) {
-	        	 $('#loader').html('<img src="../assets/images/ajax-loader.gif" />') ; 
+	        	 $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 	         },
 	         complete : function(jqxhr, textstatus) {
-	        	 $('#wait').html('') ;		   
+	        	 $('#wait').html('') ;
 	         }
 		 });
 	};
-	
+
 	$scope.undo = function () {
 		jsRoutes.controllers.WebFMLInterpreter.undo().ajax({
 	         success : function(data) {
@@ -229,14 +235,14 @@ function KSynthesisCtrl($scope, $rootScope) {
 	        	 jqconsole.Write('Error...' + data + '\n');
 	         },
 	         beforeSend : function(event, jqxhr, settings) {
-                           $('#loader').html('<img src="../assets/images/ajax-loader.gif" />') ; 
+            $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 	         },
 	         complete : function(jqxhr, textstatus) {
-	        	 $('#wait').html('') ;		   
+	        	 $('#wait').html('') ;
 	         }
 		 });
 	};
-	
+
 	$scope.redo = function () {
 		jsRoutes.controllers.WebFMLInterpreter.redo().ajax({
 	         success : function(data) {
@@ -246,14 +252,14 @@ function KSynthesisCtrl($scope, $rootScope) {
 	        	 jqconsole.Write('Error...' + data + '\n');
 	         },
 	         beforeSend : function(event, jqxhr, settings) {
-	        	  $('#loader').html('<img src="../assets/images/ajax-loader.gif" />') ; 
+	        	  $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 	         },
 	         complete : function(jqxhr, textstatus) {
-	        	 $('#wait').html('') ;		   
+	        	 $('#wait').html('') ;
 	         }
 		 });
 	};
-	
+
 	$scope.saveToVar = function() {
 		jsRoutes.controllers.WebFMLInterpreter.saveToVar().ajax({
 	         success : function(data) {
@@ -263,21 +269,21 @@ function KSynthesisCtrl($scope, $rootScope) {
 	        	 jqconsole.Write('Error...' + data + '\n');
 	         },
 	         beforeSend : function(event, jqxhr, settings) {
-	        	  $('#loader').html('<img src="../assets/images/ajax-loader.gif" />') ; 
+	        	  $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 	         },
 	         complete : function(jqxhr, textstatus) {
-	        	 $('#wait').html('') ;		   
+	        	 $('#wait').html('') ;
 	         }
 		 });
 	};
-	
+
 	// Cluster selection
 	$scope.selectCluster = function (cluster) {
 		$scope.selectedCluster = cluster;
 		$scope.clusterSelectedFeatures = cluster.slice();
 		$scope.clusterPossibleParents = getCommonParents($scope.clusterSelectedFeatures, $scope.rankingLists);
 	};
-	
+
 	$scope.selectClusterFeature = function (feature) {
 		var idx = $scope.clusterSelectedFeatures.indexOf(feature);
 
@@ -290,16 +296,16 @@ function KSynthesisCtrl($scope, $rootScope) {
 	    else {
 	      $scope.clusterSelectedFeatures.push(feature);
 	    }
-	    
+
 	    $scope.clusterPossibleParents = getCommonParents($scope.clusterSelectedFeatures, $scope.rankingLists);
 	}
-	
-	
+
+
 }
 
 function getCommonParents(features, rankingLists) {
 	var commonParents = [];
-	
+
 	if (features.length > 0) {
 		// get the possible parents of the first feature
 		commonParents = getParentCandidates(features[0].name, rankingLists);
@@ -316,7 +322,7 @@ function getCommonParents(features, rankingLists) {
 			commonParents = newCommonParents;
 		}
 	}
-    
+
     return commonParents;
 }
 
@@ -340,42 +346,42 @@ function getParent(feature, fm) {
 			return edge.target;
 		}
 	}
-	
+
 	return null;
 }
 
 
 
 function mkFMPreview(divid, fm) {
-	
+
 	// Create the graph
     var g = new dagreD3.Digraph();
-    
-    
+
+
     for (var i=0; i < fm.nodes.length; i++) {
     	g.addNode(fm.nodes[i], {label: fm.nodes[i]});
     }
-    
+
     for (var i=0; i < fm.edges.length; i++) {
     	var edge = fm.edges[i]
     	g.addEdge(null, edge.source, edge.target, {});
     }
-    
+
     // Render
     var layout = dagreD3.layout()
     .rankDir("BT")
     .nodeSep(25);
-    
+
     var graph = d3.select(divid).select('svg')
     // reset graph
 	graph.selectAll("*").data([]).exit().remove();
-    
+
 	graph.append('g')
 		.attr('transform', 'translate(20,20)');
-    
+
     var renderer = new dagreD3.Renderer();
     renderer.layout(layout).run(g, d3.select("svg g"));
-    
+
     // Change style
     d3.select('defs')
     	.append('svg:marker')
@@ -391,8 +397,9 @@ function mkFMPreview(divid, fm) {
     			.attr('stroke', 'black')
     			.attr('stroke-width', '1')
     			.attr('fill', 'black');
-    
-    d3.select('defs')
+
+  /*  seems redundant
+	d3.select('defs')
 		.append('svg:marker')
 			.attr('id', 'marker-optional')
 			.attr('markerWidth', '10')
@@ -405,12 +412,12 @@ function mkFMPreview(divid, fm) {
 				.attr('r', '3')
 				.attr('stroke', 'black')
 				.attr('stroke-width', '1')
-				.attr('fill', 'white');
-  
+				.attr('fill', 'white'); */
+
 
     d3.selectAll('.edge path').attr('marker-start', '') // url(#marker-optional)
     d3.selectAll('.edge path').attr('marker-end', '')
-    
+
     graph.call(d3.behavior.zoom().on("zoom", function() {
         var ev = d3.event;
         graph.select("g")
