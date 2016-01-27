@@ -325,9 +325,10 @@
                         </div>
                     </div>
 		    <!-- Result part-->
-                    <div class="span3 scrollable" ng-controller="FMLVariableCtrl">
+                    <div class="span3 scrollable" data-ng-app="fml" data-ng-controller="FMLVariableCtrl">
 			<!-- diplay the result in this div -->
-                        <div id="msgid"></div>
+
+                        <div data-ng-bind-html="msgError" id="msgid"></div>
                         <div>
 	                        <p>
 	                        	<ul class="unstyled">

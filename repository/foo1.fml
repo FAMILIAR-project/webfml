@@ -1,0 +1,12 @@
+c 3 SIRIUS
+c 1 Mathieu
+c 4 False
+c 2 DiverSE_School
+p cnf 4 XXXXXX
+-1 2 0
+-3 2 0
+-1 2 0
+-3 2 0
+2 0
+-1 -3 0
+4 2 0

@@ -2,6 +2,9 @@ package controllers
 
 import java.io.BufferedWriter
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.FileSystems
 import java.io.FileWriter
 
 import scala.Array.canBuildFrom
@@ -35,9 +38,11 @@ import play.api.libs.json.JsValue
 import play.api.libs.json.Json
 import play.api.mvc.Action
 import play.api.mvc.Controller
+
 import play.api.templates.Html
 
 import play.api.Play.current
+import play.Logger
 
 
 object WebFMLInterpreter extends Controller with VariableHelper {
@@ -73,7 +78,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
           </p>
 
         request.session.get("id").foreach { user =>
-          println("Interpreting for user (ID): ", user)
+          Logger.info("Interpreting for user (ID): " + user)
         }
 
 //        Ok(Json.toJson(rs.toString));
@@ -84,12 +89,11 @@ object WebFMLInterpreter extends Controller with VariableHelper {
       }
       catch {
         case e  @ (_ : FMLAssertionError | _: FMLFatalError | _: Exception) =>
-          val error = <div class="alert alert-danger">{e.getStackTraceString}</div>
-//          Ok(Json.toJson(error.toString))
-           Ok(Json.toJson(Map(
+          BadRequest(Json.toJson(Map("msgError" -> e.getStackTraceString)))
+          /* Ok(Json.toJson(Map(
         		  "varIDs" -> Json.toJson(""),
         		  "lastVar" -> Json.toJson(e.getStackTraceString)
-          )))
+          )))*/
 
       }
 
@@ -540,24 +544,41 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
 
   /**
+   * TODO code is horrible
    * Create a file in a specific folder
    * @param : name : the path and the name of the file
    */
- def createFile(name : String)= Action{
+ def createFile(name : String)= Action {
+   // TODO: by session!
+   // TODO: in folders
+   // no control!
+   val fileName = "/Users/macher1/Documents/SANDBOX/FML-from-scratch/webfml/" + workspaceDir + name
+   Logger.info("Creating a file " + fileName)
+   Files.createFile(
+      FileSystems.getDefault()
+                .getPath(fileName))
+   /*
+   val of = play.api.Play.getFile(workspaceDir + name)
+   if(of == null)
+      new File(workspaceDir + name).createNewFile */
+
+   Ok("")
+
+/*
 	 //split the string
 	 var k : Array[String] = name.split("/")
 	 var i = 0
 	 var p = ""
 	 var myFile=""
 	 //if they are something means we write a path
-	 if(k(1)!="" || k(1)!=null){
+	 if(k(1) != "" || k(1) != null){
 		 //now we need the path to create all the subfolder
 		 for(i <- 0 until k.size){
 		   //we must know if this is the name of the file
 		   if(k(i).contains(".fml")){
 		     //get the file name
 		     myFile=k(i)
-		   }else{
+		   } else {
 		     //add '/' separator to create a good path
 		     p+=k(i)+"/"
 		   }
@@ -570,7 +591,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 		 val mf : File = new File(p+myFile)
 		 //execute
 		 mf.createNewFile()
-	 }else{
+	 } else {
 		 //define a file
 		 val f : File = new File(name)
 		 //create the file
@@ -578,6 +599,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 	 }
 
 	 Ok(Json.toJson(Map("Work" -> 1)))
+   */
   }
 
  /**

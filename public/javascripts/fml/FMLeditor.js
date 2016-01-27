@@ -44,7 +44,8 @@ function FMLEditorCtrl($scope, $rootScope) {
 				$rootScope.$broadcast('variables', data)
 			},
 		        error : function(data) {
-				$('#msgid').html('Error...<div class="alert alert-danger">' + data + '</div>') ;
+				  		data["msgError"] = '<div class="alert alert-danger"><p>Unable to parse/interpret</p>' + data.responseJSON["msgError"] + '</div>';
+							$rootScope.$broadcast('variables', data);
 			},
 		        beforeSend : function(event, jqxhr, settings) {
 			        $('loader').html('<img src="../assets/images/ajax-loader.gif" />') ;
@@ -58,10 +59,12 @@ function FMLEditorCtrl($scope, $rootScope) {
 	$scope.reset = function() {
 		jsRoutes.controllers.WebFMLInterpreter.reset().ajax({
 			success : function(data) {
-				$rootScope.$broadcast('variables', data)
+				data = { 'msgError' : '<div class="alert alert-success"><p>Resetting the environment: done!</p></div>' };
+				$rootScope.$broadcast('variables', data);
 			},
 		    error : function(data) {
-				$('#msgid').html('Impossible to reset...<div>' + data + '</div>') ;
+	        data["msgError"] = '<div><p>Impossible to reset...</p>' + data.responseJSON["msgError"] + '</div>';
+					$rootScope.$broadcast('variables', data);
 			},
 		    beforeSend : function(event, jqxhr, settings) {
 			        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
@@ -73,25 +76,58 @@ function FMLEditorCtrl($scope, $rootScope) {
     }
 
 
+
 	$scope.save = function () {
    	    var idToGet = editor.getSession().getValue();
         var filename = $('#fileInputName').val();
 
 	    jsRoutes.controllers.WebFMLInterpreter.saveAs(idToGet, filename).ajax({
-			success : function(data) {
-				$('#msgid').html('<div class="alert alert-success">' + filename + ' has been saved...</div>') ;
-			},
+						success : function(data) {
+							data = { 'msgError': '<div class="alert alert-success">' + filename + ' has been saved</div>' };
+							$rootScope.$broadcast('variables', data);
+						},
 		        error : function(data) {
-				$('#msgid').html('<div class="alert alert-danger">Unable to save...</div>') ;
-			},
+							data["msgError"] = '<div class="alert alert-danger">Unable to save file: ' + filename + '</div>';
+							$rootScope.$broadcast('variables', data);
+		      	},
 		        beforeSend : function(event, jqxhr, settings) {
 			        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
-			},
-		      complete : function(jqxhr, textstatus) {
-			    $('#wait').html('') ;
-		    }
+			      },
+		        complete : function(jqxhr, textstatus) {
+			        $('#wait').html('') ;
+		        }
 	    });
 	}
+
+}
+
+
+/**
+ * Load file in the editor when we make a dbl-click on the file
+ *
+ */
+function loadFile (filename) {
+ jsRoutes.controllers.WebFMLInterpreter.loadFile(filename).ajax({
+		success : function(data) {
+			$('a[href="#editor"]').tab('show');
+			$('#editor').addClass('active');
+			$("a[href='#editor']").html('' + filename);
+			$('#ksynthesis-tab').removeClass('active');
+			editor.setValue (data, 1) ;
+
+		},
+					error : function(data) {
+						data["msgError"] = '<div class="alert alert-danger"><p>Unable to load the file...</p>' + filename + '</div>';
+						$rootScope.$broadcast('variables', data);
+		},
+					beforeSend : function(event, jqxhr, settings) {
+						$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
+		},
+				 complete : function(jqxhr, textstatus) {
+				$('#wait').html('') ;
+				 }
+	})
+	;
 
 }
 
@@ -104,8 +140,9 @@ function initTemporarySession() {
                             depictUserInformation(data['id']);
                         },
                         error : function(data) {
-                            $('#msgid').html('Impossible to create temporary sessions...<div>' + data + '</div>') ;
-                        },
+													data["msgError"] = '<div class="alert alert-danger"><p>Impossible to create temporary sessions</p>' + data.responseJSON["msgError"] + '</div>';
+													$rootScope.$broadcast('variables', data);
+												},
                         beforeSend : function(event, jqxhr, settings) {
                                 $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
                         },
@@ -120,31 +157,6 @@ function depictUserInformation(userid) {
             		    $('#userinformation').html ('You are <a>User_' + userid + '</a> <a onclick="deleteSession()">(logout)</a>');
             		}
 
-/**
- *Load file in the editor when we make a dbl-click on the file
- *
- */
-function loadFile(filename) {
- jsRoutes.controllers.WebFMLInterpreter.loadFile(filename).ajax({
-		success : function(data) {
-			$('a[href="#editor"]').tab('show');
-			$('#editor').addClass('active');
-			$('#ksynthesis-tab').removeClass('active');
-			 editor.setValue (data, 1) ;
-		},
-	        error : function(data) {
-			$('#msgid').html('Unable to load the file..' + data) ;
-		},
-	        beforeSend : function(event, jqxhr, settings) {
-		        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
-		},
-	       complete : function(jqxhr, textstatus) {
-		    $('#wait').html('') ;
-	       }
-	})
-	;
-
-}
 
 /**
  *Function which refresh the workspace
@@ -219,7 +231,7 @@ YUI().use(
         boundingBox: '#myTreeView',
 	children: filespecification,
 	  on: {
-		lastSelectedChange: function(event) {
+		lastSelectedChange: function (event) {
 			var nodeId = event.newVal.get('id');
 			//treenode object
 			var node = tview.getNodeById(nodeId);
@@ -230,7 +242,7 @@ YUI().use(
 				//return the name of the current node
 				currentFileName= mkCompleteName(node);
 				loadFile (mkCompleteName(node));
-			}else{
+			} else {
 				//directory
 				path = mkCompleteName(node);
 			}
@@ -306,8 +318,8 @@ function createFile() {
 	*we give a default value : "repository"
 	*/
 	if (path=="") {
-		path="repository";
-	}else{
+		path="repository"; // horrible: TODO
+	} else {
 		//we slipt the name to know if we are on a file
 		var res_path = path.split(".");
 		//if they are something after the point
@@ -317,11 +329,11 @@ function createFile() {
 			/*
 			*We receive the name of the file
 			*/
-			var name = prompt("You will create a file in this directory: "+path+" please insert a name","New File");
+			var name = prompt("You will create a file in this directory: "+ path + " please insert a name", "New File");
 			//if the user give no name
-			if (name==null || name == "") {
+			if (name == null || name == "") {
 				alert("Name of file incorret !");
-			}else{
+			} else {
 				//split the name of the file
 				var res = name.split(".");
 				/*test the extention of the file
@@ -332,9 +344,9 @@ function createFile() {
 					alert("The file has not the right extention (e.g .fml or dimacs)"); // TODO
 				} else {
 						//the extention is okay
-						if (name!=null && name!="") {
+						if (name != null && name != "") {
 							//display the name of the final path
-							var fname = path+"/"+name;
+							var fname = name; // TODO
 							jsRoutes.controllers.WebFMLInterpreter.createFile(fname).ajax({
 								success : function(data) {
 									//refresh the worspace
@@ -426,11 +438,14 @@ function saveF() {
 	//display the result
 	//test if the name of the current file is null or not.
 	//if null that mean's the user doesn't click on a file
-	if (currentFileName!=null && currentFileName!="") {
-		jsRoutes.controllers.WebFMLInterpreter.saveFile(currentFileName,content).ajax({
+	if (currentFileName != null && currentFileName != "") {
+		jsRoutes.controllers.WebFMLInterpreter.saveFile(currentFileName, content).ajax({
 			success : function(data) {
 				//refresh the worspace
 				updateWorkspace();
+				//display the sucess
+				data["msgError"] = '<div class="success alert-success">File ' + currentFileName + ' saved!</div>';
+				$rootScope.$broadcast('variables', data);
 			},
 			//if they are an error
 			error : function(data) {
@@ -444,12 +459,13 @@ function saveF() {
 			    $('#wait').html('') ;
 			}
 		});
-		//display the sucess
-		$('#msgid').html('Success ! <div class="success alert-success">' + currentFileName + '</div>') ;
 
-	}else{
+
+
+	} else {
 		//display the unsucess
-		$('#msgid').html('Error...<div class="alert alert-danger">' + currentFileName +" Not saved"+ + '</div>') ;
+		data["msgError"] = '<div class="alert alert-danger">Unable to save the file ' + currentFileName + '</div>';
+		$rootScope.$broadcast('variables', data);
 	}
 
 }

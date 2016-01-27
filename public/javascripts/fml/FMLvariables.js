@@ -1,4 +1,10 @@
-function FMLVariableCtrl($scope, $rootScope) {
+'use strict';
+
+var app = angular.module('fml', []);
+
+app.controller('FMLVariableCtrl', ['$scope', '$rootScope', '$sce', FMLVariableCtrl]);
+
+function FMLVariableCtrl ($scope, $rootScope, $sce) {
 	$scope.varIDs = [];
 	$scope.lastVar = '';
 
@@ -9,7 +15,7 @@ function FMLVariableCtrl($scope, $rootScope) {
 					$scope.$apply();
 				},
 			        error : function(data) {
-					$('#lastValueFML').html('Error...<div class="alert alert-danger">' + data + '</div>') ;
+								$('#lastValueFML').html('Error... <div class="alert alert-danger">' + data + '</div>') ;
 				},
 			        beforeSend : function(event, jqxhr, settings) {
 				        $('#loader').html('<img src="../assets/images/ajax-loader.gif" />') ;
@@ -25,12 +31,10 @@ function FMLVariableCtrl($scope, $rootScope) {
 	}
 
 	$scope.$on('variables', function (event, data) {
-		$('loader').html('<img src="../assets/images/ajax-loader.gif" />') ;
 		$scope.varIDs = data["varIDs"];
 		$scope.lastVar = data["lastVar"];
+		$scope.msgError = $sce.trustAsHtml(data["msgError"]);
 		$scope.$apply();
-		$('#loader').html('') ;
 	});
 
-
-}
+};

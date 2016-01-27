@@ -1,0 +1,12 @@
+
+    // your FAMILIAR code here!
+fm1 = FM (DiverSE_School : Jhipster Xtext [FAMILIAR] [SIRIUS] Instructors ; 
+Instructors : (Olivier | Mathieu | Thomas | Benoit); Mathieu <-> FAMILIAR ; FAMILIAR -> !SIRIUS;  )
+s1 = configs fm1
+c1 = counting fm1
+
+
+fm2 = slice fm1 excluding { Olivier Benoit }
+fm3 = slice fm1 including { fm1.DiverSE_School fm1.Mathieu fm1.SIRIUS }
+
+
