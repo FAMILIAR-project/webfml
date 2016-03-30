@@ -13,9 +13,6 @@ object FamiliarIDEController extends Controller {
 
 
 
-
-
-
   var mapInstanceOfFamiliar : Map [Session, FMLBasicInterpreter ] = Map()
 
 

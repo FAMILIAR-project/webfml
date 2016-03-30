@@ -23,13 +23,21 @@ object Application extends Controller {
    def index(language:String) = Action {
     	request =>
 		val fmlDemo = "// your FAMILIAR code here!\n" +
+					"fm1 = FM (MDI : UML DesignPatterns (SI|IN) Instructors ; \nInstructors : (Mathieu | Guillaume); Mathieu <-> IN ;" +
+          " Guillaume <-> SI;  )\n" +
+					"s1 = configs fm1\n" +
+					"c1 = counting fm1\n\n\n" +
+          "// fm2 = slice fm1 excluding { Mathieu }\n"
+
+
+    /*"// your FAMILIAR code here!\n" +
 					"fm1 = FM (DiverSE_School : Jhipster Xtext [FAMILIAR] [SIRIUS] Instructors ; \nInstructors : (Olivier | Mathieu | Thomas | Benoit); Mathieu <-> FAMILIAR ;" +
           " FAMILIAR -> !SIRIUS;  )\n" +
 					"s1 = configs fm1\n" +
 					"c1 = counting fm1\n\n\n" +
           "fm2 = slice fm1 excluding { Olivier Benoit }\n" +
           "fm3 = slice fm1 including { fm1.DiverSE_School fm1.Mathieu fm1.SIRIUS }\n"
-          ;
+          ;*/
 		// <button class="btn" onclick="loadFile('fm1 = FM (A : [B] XXX ; )');">Load file</button>
 		var scriptToImport=""
 		if(language=="familiar"){
@@ -48,7 +56,7 @@ object Application extends Controller {
 
    /**
     * To access to the tutorial page
-    * @param : name : name of the language
+    * @param name : name of the language
     */
    def tutorial(name:String) = Action {
 	 var nameOfTheLanguage=""
@@ -105,6 +113,7 @@ object Application extends Controller {
                 WebFMLInterpreter.evalPrompt,
                 WebFMLInterpreter.ksynthesis,
                 WebFMLInterpreter.variable,
+                WebFMLInterpreter.configure,
                 WebFMLInterpreter.loadFile,
                 WebFMLInterpreter.saveAs,
                 WebFMLInterpreter.listFiles,

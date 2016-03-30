@@ -17,6 +17,8 @@ import scala.io.Source
 
 import org.apache.commons.io.FileUtils
 
+import collection.JavaConversions._
+
 import foreverse.ksynthesis.Heuristic
 import foreverse.ksynthesis.InteractiveFMSynthesizer
 import foreverse.ksynthesis.metrics.AlwaysZeroMetric
@@ -28,16 +30,11 @@ import foreverse.ksynthesis.metrics.WuPalmerMetric
 import fr.familiar.interpreter.FMLAssertionError
 import fr.familiar.interpreter.FMLBasicInterpreter
 import fr.familiar.interpreter.FMLFatalError
-import fr.familiar.variable.FeatureModelVariable
+import fr.familiar.variable.{ConfigurationVariable, FeatureVariable, FeatureModelVariable}
+import fr.familiar.parser.ConfigurationVariableBDDImpl
 import gsd.synthesis.FeatureEdge
-import play.api.libs.json.JsArray
-import play.api.libs.json.JsBoolean
-import play.api.libs.json.JsNull
-import play.api.libs.json.JsString
-import play.api.libs.json.JsValue
-import play.api.libs.json.Json
-import play.api.mvc.Action
-import play.api.mvc.Controller
+import play.api.libs.json._
+import play.api.mvc.{RawBuffer, Action, Controller}
 
 import play.api.templates.Html
 
@@ -57,35 +54,53 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   var heuristics : Map[String, Heuristic] = Map.empty
 
   /**
-   *  Function which send the compile result
-   *  @param : fmlCommand : the code
-   *  @return : result in json format
+   *  Parse/interpret an FML command (encoded in a JSON request since it can be long)
+   *  @return results in JSON format with last variable and all variables' identifiers of the environment
    */
-  def interpret(fmlCommand: String) = Action {
+  def interpret = Action {
     request =>
       try {
-        val interp = FamiliarIDEController.mkInterpreter(request.session)
-        interp.reset() // in any case
-        val lastVar = interp.eval(fmlCommand);
+        val body = request.body
+        val jsonFMLCommand: Option[JsValue] = body.asJson
+//        val textFMLCommand : Option[String] = body.asText
 
-        val allVarIDs = interp.getAllIdentifiers() ;
-        val rs : scala.xml.Elem =
-          <p>
-            <ul class="unstyled">
-              {allVarIDs.map(varID => <li>{mkVariableURL(varID)}</li>)}
-            </ul>
-            <p id="lastValueFML" class="alert alert-success"> {lastVar.getIdentifier() + " = " + lastVar.getValue()} </p>
-          </p>
+  //      Logger.info("request: " + request + " body: " + body + " json: " + jsonFMLCommand + " text: " + textFMLCommand)
 
-        request.session.get("id").foreach { user =>
-          Logger.info("Interpreting for user (ID): " + user)
+        jsonFMLCommand.map { jsfmlCommand =>
+              jsfmlCommand.asOpt[String].map { fmlCommand =>
+              val interp = FamiliarIDEController.mkInterpreter(request.session)
+              interp.reset() // in any case
+              val lastVar = interp.eval(fmlCommand)
+
+              val allVarIDs = interp.getAllIdentifiers()
+              /*
+              val rs : scala.xml.Elem =
+                <p>
+                  <ul class="unstyled">
+                    {allVarIDs.map(varID => <li>{mkVariableURL(varID)}</li>)}
+                  </ul>
+                  <p id="lastValueFML" class="alert alert-success"> {lastVar.getIdentifier() + " = " + lastVar.getValue()} </p>
+                </p>
+               */
+
+              request.session.get("id").foreach { user =>
+                Logger.info("Interpreting for user (ID): " + user)
+              }
+
+              //        Ok(Json.toJson(rs.toString));
+              Ok(Json.toJson(Map(
+                "varIDs" -> Json.toJson(allVarIDs.toList),
+                "lastVar" -> Json.toJson(lastVar.getIdentifier() + " = " + lastVar.getValue())
+              )))
+            }.getOrElse {
+              BadRequest(Json.toJson(Map("msgError" -> ("Not a textual content" + jsonFMLCommand))))
+            }
+
+          }
+         .getOrElse {
+          BadRequest(Json.toJson(Map("msgError" -> ("Not a textual content" + jsonFMLCommand))))
         }
 
-//        Ok(Json.toJson(rs.toString));
-          Ok(Json.toJson(Map(
-        		  "varIDs" -> Json.toJson(allVarIDs.toList),
-        		  "lastVar" -> Json.toJson(lastVar.getIdentifier() + " = " + lastVar.getValue())
-          )))
       }
       catch {
         case e  @ (_ : FMLAssertionError | _: FMLFatalError | _: Exception) =>
@@ -99,6 +114,9 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
 
   }
+
+
+
 
   /**
    * Important: we do not reset the environment (normal: we want to execute a prompt command) contrary to interpret
@@ -268,9 +286,84 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
   def variable (id : String) = Action { request =>
     val interp = FamiliarIDEController.mkInterpreter(request.session)
-    Ok(Json.toJson(interp.eval(id).getValue()));
+    Ok(Json.toJson(interp.eval(id).getValue()))
   }
 
+
+  /* TODO (basic idea: retrieve the configuration variable, apply the selection, and produces the new JSON states)
+  def configure (confid : String) = Action { request =>
+    val interp = FamiliarIDEController.mkInterpreter(request.session)
+    val configur = interp.retrieveConfiguration(config)
+      // Ok (new JSonFeatureModel(fmv).toJSon())
+
+    configur.applySelection("" + jsonString, OpSelection.DESELECT)
+
+      Ok(Json.toJson(Map("configid" -> Json.toJson(configur.getIdentifier()),
+        "selections" -> Json.toJson(configur.getValue()),
+        "hfts" -> JsArray(Seq(Json.toJson(JSONrepr))))
+      ))
+   }*/
+
+  def configure (id : String) = Action { request =>
+    val interp = FamiliarIDEController.mkInterpreter(request.session)
+    val v = interp.eval(id)
+    if (v.isInstanceOf[FeatureModelVariable]) {
+      val fmv = v.asInstanceOf[FeatureModelVariable]
+      val configur = new ConfigurationVariableBDDImpl(fmv, "")
+      // Ok (new JSonFeatureModel(fmv).toJSon())
+      val confs = fmv.features().names().map(s => Json.toJson(s))
+
+      // TODO check if the hierarchy is fixed! (eg the feature model can be just a formula and not synthesized)
+      val JSONrepr = ft2json(fmv.root(), configur)
+
+
+
+
+      Ok(Json.toJson(Map("configid" -> Json.toJson(configur.getIdentifier()),
+                         "selections" -> Json.toJson(configur.getValue()),
+                         "hfts" -> JsArray(Seq(Json.toJson(JSONrepr))))
+                         )
+
+        )
+    }
+    else {
+      BadRequest(Json.toJson(Map("msgError" -> (id + " is not a feature model!"))))
+    }
+
+  }
+
+  private def ft2json(ft : FeatureVariable, configur: ConfigurationVariable) : JsValue = {
+    /*
+     * JSON representation of a feature variable (with recursion)
+     */
+    def _rjson(ft: FeatureVariable): JsValue =
+    {
+
+
+       /*
+       * configuration status of a feature (wrt configuration variable above)
+       */
+        def ftconfstatus(ft : FeatureVariable) : String = {
+          val ftName = ft.getFtName
+          val sel = configur.getSelected
+          if (sel.contains(ftName)) "selected"
+          else {
+            val dsel = configur.getDeselected
+            if (dsel.contains(ftName)) "deselected"
+            else "unselected"
+          }
+
+        }
+
+        Json.toJson(Map("title" -> Json.toJson(ft.getFtName),
+          "confstatus" -> Json.toJson(ftconfstatus(ft)),
+          "fts" -> Json.toJson(ft.children().getVars().map(sc => _rjson(sc.asInstanceOf[FeatureVariable])))))
+
+    }
+
+
+    _rjson(ft)
+  }
 
   def reset () = Action {request =>
     val interp = FamiliarIDEController.mkInterpreter(request.session)
@@ -501,7 +594,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   /**
    * This function create a folder in the workspace
    * @author galexand
-   * @param : name of the folder and the path
+   * @param name of the folder and the path
    */
   def createFolder(name : String) = Action {
     //create a folder if another one with the same name doesn't exist
@@ -514,7 +607,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
   /**
    * Delete the directory and all the files which are included in
-   * @param : name : the name of the directory
+   * @param name : the name of the directory
    */
   def deleteFolder(name : String)= Action{
     val direc : File = new File(name)
@@ -546,7 +639,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   /**
    * TODO code is horrible
    * Create a file in a specific folder
-   * @param : name : the path and the name of the file
+   * @param name : the path and the name of the file
    */
  def createFile(name : String)= Action {
    // TODO: by session!
@@ -604,7 +697,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
  /**
   * Delete the file which have the name : name
-  * @param : name : the name of the file
+  * @param name : the name of the file
   */
  def deleteFile(name : String)= Action{
    val f : File = new File(name)
@@ -614,8 +707,8 @@ object WebFMLInterpreter extends Controller with VariableHelper {
  }
  /**
   * Update the value of the file and save it
-  * @param : name : the name of file
-  * @param : content : the content to save
+  * @param name : the name of file
+  * @param content : the content to save
   */
  def saveFile(name : String, content : String) = Action {
    //create a new file with the name
@@ -687,7 +780,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
  }
  /**
   * Send in HTML format a tutorial write in markdown
-  * @param nameOfTheLanguage : name of the language of the tutorial
+  * @param language : name of the language of the tutorial
   */
  def getTutorialInMarkdown(language : String) = Action{
    //we get the file with the name
@@ -760,7 +853,7 @@ object WebFMLInterpreter extends Controller with VariableHelper {
  }
  /**
   *
-  * @TODO : DELETE
+  * TODO delete
   *
   */
  def getAllChapters(langage : String) = Action{

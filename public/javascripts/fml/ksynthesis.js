@@ -1,3 +1,6 @@
+
+angular.module('fml').controller('KSynthesisCtrl', KSynthesisCtrl);
+
 function KSynthesisCtrl($scope, $rootScope) {
 
 	$scope.heuristics = [];

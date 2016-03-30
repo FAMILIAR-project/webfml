@@ -1,17 +1,17 @@
 @(message: String, script : Html, userid: String = "")
     <!-- Name of the page-->
     @mainFML("Welcome to FAMILIAR!") {
-        	<!-- facilities for FML variables -->
-        	<script src="@routes.Assets.at("javascripts/fml/FMLvariables.js")"></script>
+
 
         	<!-- EDITOR -->
         	<script src="@routes.Assets.at("javascripts/fml/FMLeditor.js")" type="text/javascript" charset="utf-8"></script>
+        	<!-- facilities for FML variables -->
+        	<script src="@routes.Assets.at("javascripts/fml/FMLvariables.js")"></script>
+
         	<!-- begin ACE editor -->
 			<!-- ace-builds/src-noconflict -->
         	<script src="@routes.Assets.at("javascripts/ace-builds-master/src-noconflict/ace-min.js")" type="text/javascript" charset="utf-8"></script>
-			<!-- call the mode of the editor
-	    		Need this
-			-->
+			<!-- call the mode of the editor -->
         	<script src="@routes.Assets.at("javascripts/ace-builds-master/src-noconflict/mode-familiar.js")" type="text/javascript" charset="utf-8"></script>
         	<!-- end ACE editor (style) -->
         	<!-- end EDITOR -->
@@ -19,7 +19,7 @@
         	<!-- CONSOLE -->
         	<link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/ansi.css")">
         	<script src="@routes.Assets.at("javascripts/lib/jq-console/jqconsole.min.js")"></script>
-        	<script src="@routes.Assets.at("javascripts/fml/FMLconsole.js")"></script>
+            <script src="@routes.Assets.at("javascripts/fml/FMLconsole.js")"></script>
         	<!-- end CONSOLE -->
 
         	<!-- WORKSPACE -->
@@ -37,8 +37,12 @@
         	<link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/console.css")">
         	<link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/fmpreview.css")">
 			<!-- /End Other CSS -->
-        </head>
-        <body>
+</head>
+
+
+<body ng-app="fml">
+
+
             <div class="navbar">
 			<!-- Nav part of the app -->
                 <div class="navbar-inner">
@@ -325,7 +329,7 @@
                         </div>
                     </div>
 		    <!-- Result part-->
-                    <div class="span3 scrollable" data-ng-app="fml" data-ng-controller="FMLVariableCtrl">
+                    <div class="span3 scrollable" data-ng-controller="FMLVariableCtrl">
 			<!-- diplay the result in this div -->
 
                         <div data-ng-bind-html="msgError" id="msgid"></div>
@@ -342,17 +346,52 @@
 			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="displayVariable(varID)">Display</a></li>
 			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Edit</a></li>
 			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="synthesize(varID)">Synthesize</a></li>
+                                      <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="configure(varID)">Configure</a></li>
 			    	                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Remove</a></li>
 			    	                        </ul>
-						    </div>
+						    			</div>
 	                        		</li>
 	                        	</ul>
-	                        	<p ng-if="varIDs" id="lastValueFML" class="alert alert-success">
+	                        	<p ng-if="varIDs.length" id="lastValueFML" class="alert alert-success">
 	                        		{{lastVar}}
 	                        	</p>
-	                        </p>
-	                </div>
-                    </div>
+						</div>
+
+						<div ng-if="configurator" id="configuratorsFML">
+								<fieldset class="standard">
+									<legend>Configurator ({{configurator["configid"]}})</legend>
+                               <script type="text/ng-template" id="categoryTree">
+								  <div flex-xs flex="50">
+
+
+									  <md-checkbox
+											ng-class="{green: ft.confstatus == 'selected', red: ft.confstatus == 'deselected'}"
+											ng-checked="ft.confstatus == 'selected'"
+											ng-click="ftselect(ft);"
+											>
+										  {{ ft.title }}
+									  </md-checkbox>
+
+
+								  </div>
+                                  <ul ng-if="ft.fts" style="list-style: none;">
+
+                                      <li ng-repeat="ft in ft.fts" ng-include="'categoryTree'">
+                                      </li>
+                                  </ul>
+                              </script>
+                              <ul style="list-style: none;">
+                                  <li ng-repeat="ft in fts" ng-include="'categoryTree'"></li>
+                              </ul>
+								<p>status: {{configurator["selections"]}}</p>
+							    <p ng-if="infoconfiguration">
+							   	  info: {{infoconfiguration}}
+                                </p>
+								</fieldset>
+                         </div>
+
+					</div>
+
                 </div>
             </div>
             @script
@@ -421,5 +460,14 @@
 
 
             	</script>
-        </body>
+
+
+
+
+
+
+
+		</body>
+
+
     }

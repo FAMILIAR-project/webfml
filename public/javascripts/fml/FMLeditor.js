@@ -1,23 +1,26 @@
-/**
- *
- *
- *
- *
- */
+'use strict';
 
-/**
- *Function which
- *param : $scope :
- */
-function FMLEditorCtrl($scope, $rootScope) {
-	/**
-	 *Function wich send to the interpreter the code to execute
-	 *and display the result
+//
+angular.module('fml', ['ngMaterial']).controller('FMLEditorCtrl', function ($scope, $rootScope) {
+
+
+
+$scope.data = {};
+	$scope.data.cb1 = true;
+	$scope.data.cb2 = false;
+	$scope.data.cb3 = false;
+	$scope.data.cb4 = false;
+	$scope.data.cb5 = false;
+
+	 /**
+	 * request to the interpreter which executes the code
+	 * and returns a JSON response
 	 */
+
 	$scope.cmd = function () {
 	    var idToGet = editor.getSession().getValue();
 
-		console.log("Starting interpretation...");
+		  console.log("Starting interpretation...");
 	    jsRoutes.controllers.FamiliarIDEController.isAuthentified().ajax({
                                 success : function(data) {
                                     // no problem
@@ -40,6 +43,9 @@ function FMLEditorCtrl($scope, $rootScope) {
                             });
 
 	    jsRoutes.controllers.WebFMLInterpreter.interpret(idToGet).ajax({
+	        data : JSON.stringify(idToGet),
+	        contentType : "application/json",
+	        processData: false,
 			success : function(data) {
 				$rootScope.$broadcast('variables', data)
 			},
@@ -54,7 +60,7 @@ function FMLEditorCtrl($scope, $rootScope) {
 			    $('#loader').html('') ;
 		    }
 	    });
-	}
+	};
 
 	$scope.reset = function() {
 		jsRoutes.controllers.WebFMLInterpreter.reset().ajax({
@@ -73,7 +79,7 @@ function FMLEditorCtrl($scope, $rootScope) {
 			    	$('#wait').html('') ;
 	       	}
 		});
-    }
+    };
 
 
 
@@ -97,47 +103,50 @@ function FMLEditorCtrl($scope, $rootScope) {
 			        $('#wait').html('') ;
 		        }
 	    });
-	}
-
-}
+	};
 
 
-/**
- * Load file in the editor when we make a dbl-click on the file
- *
- */
-function loadFile (filename) {
- jsRoutes.controllers.WebFMLInterpreter.loadFile(filename).ajax({
-		success : function(data) {
-			$('a[href="#editor"]').tab('show');
-			$('#editor').addClass('active');
-			$("a[href='#editor']").html('' + filename);
-			$('#ksynthesis-tab').removeClass('active');
-			editor.setValue (data, 1) ;
 
-		},
-					error : function(data) {
-						data["msgError"] = '<div class="alert alert-danger"><p>Unable to load the file...</p>' + filename + '</div>';
-						$rootScope.$broadcast('variables', data);
-		},
-					beforeSend : function(event, jqxhr, settings) {
-						$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
-		},
-				 complete : function(jqxhr, textstatus) {
-				$('#wait').html('') ;
-				 }
-	})
-	;
 
-}
 
-function initTemporarySession() {
+     /**
+     * Load file in the editor when we make a dbl-click on the file
+     *
+     */
+
+     $scope.loadFile = function (filename) {
+     jsRoutes.controllers.WebFMLInterpreter.loadFile(filename).ajax({
+    		success : function(data) {
+    			$('a[href="#editor"]').tab('show');
+    			$('#editor').addClass('active');
+    			$("a[href='#editor']").html('' + filename);
+    			$('#ksynthesis-tab').removeClass('active');
+    			editor.setValue (data, 1) ;
+
+    		},
+    					error : function(data) {
+    						data["msgError"] = '<div class="alert alert-danger"><p>Unable to load the file...</p>' + filename + '</div>';
+    						$rootScope.$broadcast('variables', data);
+    		},
+    					beforeSend : function(event, jqxhr, settings) {
+    						$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
+    		},
+    				 complete : function(jqxhr, textstatus) {
+    				$('#wait').html('') ;
+    				 }
+    	})
+    	;
+
+    };
+
+
+$scope.initTemporarySession = function () {
 
                     console.log("Creating temporary session");
 
                     jsRoutes.controllers.FamiliarIDEController.createTemporarySession().ajax({
                         success : function(data) {
-                            depictUserInformation(data['id']);
+                            $scope.depictUserInformation(data['id']);
                         },
                         error : function(data) {
 													data["msgError"] = '<div class="alert alert-danger"><p>Impossible to create temporary sessions</p>' + data.responseJSON["msgError"] + '</div>';
@@ -150,40 +159,58 @@ function initTemporarySession() {
                                 $('#wait').html('') ;
                         }
                     });
-	  }
+	  };
 
-function depictUserInformation(userid) {
-            			console.log('Depicting UI: ' + userid);
-            		    $('#userinformation').html ('You are <a>User_' + userid + '</a> <a onclick="deleteSession()">(logout)</a>');
-            		}
+
+
+
+
+                     /**
+                     *Function which refresh the workspace
+                     */
+
+$scope.updateWorkspace = function() {
+                    jsRoutes.controllers.WebFMLInterpreter.listFiles().ajax({
+                    		//if success
+                    		success : function(data) {
+                    			//we display the workspace
+                    		        displayWorkspace(data);
+                    		},
+
+                    	        error : function(data) {
+                    			$('#myTreeView').html('Unable to load the list of files... <div class="alert alert-danger">' + data + '</div>') ;
+                    		},
+                    	        beforeSend : function(event, jqxhr, settings) {
+                    		        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
+                    		},
+                    	       complete : function(jqxhr, textstatus) {
+                    		    $('#wait').html('') ;
+                    	       }
+                    	})
+                    	;
+                    };
+
+
+
+
+});
+
+
+
+
+
+
+
+function depictUserInformation (userid) {
+                     			console.log('Depicting UI: ' + userid);
+                     		    $('#userinformation').html ('You are <a>User_' + userid + '</a> <a onclick="deleteSession()">(logout)</a>');
+                   }
 
 
 /**
- *Function which refresh the workspace
- */
-function updateWorkspace() {
-jsRoutes.controllers.WebFMLInterpreter.listFiles().ajax({
-		//if success
-		success : function(data) {
-			//we display the workspace
-		        displayWorkspace(data);
-		},
+*Display the workspace at begining
+*/
 
-	        error : function(data) {
-			$('#myTreeView').html('Unable to load the list of files... <div class="alert alert-danger">' + data + '</div>') ;
-		},
-	        beforeSend : function(event, jqxhr, settings) {
-		        $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
-		},
-	       complete : function(jqxhr, textstatus) {
-		    $('#wait').html('') ;
-	       }
-	})
-	;
-}
-/**
- *Display the workspace at begining
- */
 $(document).ready(function() {
 
 	jsRoutes.controllers.WebFMLInterpreter.listFiles().ajax({
@@ -202,65 +229,79 @@ $(document).ready(function() {
 	});
 });
 
+
 /*
- * Workspace
- * The tree view
- *
- */
+* Workspace
+* The tree view
+*
+*/
+
+
 /*
- *the current path
- */
+*the current path
+*/
+
 var path="";
+
 /*
- *the name of the current file
- */
+* the name of the current file
+*/
+
 var currentFileName="";
+
+
 /**
- *Function which display the worksapce
- *this is a treeview from alloy framework
- */
+*Function which display the worksapce
+*this is a treeview from alloy framework
+*/
+
 function displayWorkspace(filespecification) {
-$('#myTreeView').html('');
-YUI().use(
-  'aui-tree-view',
-  function(Y) {
-    var tview = new Y.TreeViewDD(
-      {
+	$('#myTreeView').html('');
+	YUI().use(
+	  'aui-tree-view',
+	  function(Y) {
+		var tview = new Y.TreeViewDD(
+		  {
 
-	//call the div where we put the tree
-        boundingBox: '#myTreeView',
-	children: filespecification,
-	  on: {
-		lastSelectedChange: function (event) {
-			var nodeId = event.newVal.get('id');
-			//treenode object
-			var node = tview.getNodeById(nodeId);
-			//type of the node
-			if (node.isLeaf()){
-				//file
-				path= mkCompleteName(node);
-				//return the name of the current node
-				currentFileName= mkCompleteName(node);
-				loadFile (mkCompleteName(node));
-			} else {
-				//directory
-				path = mkCompleteName(node);
+		//call the div where we put the tree
+			boundingBox: '#myTreeView',
+		children: filespecification,
+		  on: {
+			lastSelectedChange: function (event) {
+				var nodeId = event.newVal.get('id');
+				//treenode object
+				var node = tview.getNodeById(nodeId);
+				//type of the node
+				if (node.isLeaf()){
+					//file
+					path= mkCompleteName(node);
+					//return the name of the current node
+					currentFileName= mkCompleteName(node);
+					loadFile (mkCompleteName(node));
+				} else {
+					//directory
+					path = mkCompleteName(node);
+				}
+
 			}
+		   }
+		   }
+		) ;
 
-		}
-       }
-       }
-    ) ;
-
-    tview.render();
-  }
-);
+		tview.render();
+	  }
+	);
 }
+
+
 /**
- *Function which give the complete name of the node
- *(e.g: directory/ or directory/Try)
- *@param n : a node of the treeview
- */
+*Function which give the complete name of the node
+*(e.g: directory/ or directory/Try)
+*@param n : a node of the treeview
+*/
+
+
+
 function mkCompleteName (n) {
 	if (!n){
 	   return "" ;
@@ -274,9 +315,11 @@ function mkCompleteName (n) {
 	}
 }
 
+
 /**
- * Function which create a new folder in the workspace
- */
+* Function which create a new folder in the workspace
+*/
+
 function createFolder() {
 	//open a window where we put the name of the folder
 	var name= prompt("You will create a new folder, please insert a name","New Folder");
@@ -310,13 +353,17 @@ function createFolder() {
 }
 
 
+
 /**
- *Function which create a new file in a specific folder
- */
+* Function which create a new file in a specific folder
+*/
+
 function createFile() {
-	/*in case of the user doesn't clic on a folder
+/**
+  *in case of the user doesn't clic on a folder
 	*we give a default value : "repository"
 	*/
+
 	if (path=="") {
 		path="repository"; // horrible: TODO
 	} else {
@@ -324,11 +371,14 @@ function createFile() {
 		var res_path = path.split(".");
 		//if they are something after the point
 		if (res_path[1]) {
-			alert("You're on a file ! You must clic on a directory before !");
-		}else{
-			/*
-			*We receive the name of the file
+			alert("You're on a file ! You must clic on a directory before !"); // TODO alert: seriously in 2016?
+		} else {
+
+            /*
+			* We receive the name of the file
 			*/
+
+
 			var name = prompt("You will create a file in this directory: "+ path + " please insert a name", "New File");
 			//if the user give no name
 			if (name == null || name == "") {
@@ -336,9 +386,13 @@ function createFile() {
 			} else {
 				//split the name of the file
 				var res = name.split(".");
-				/*test the extention of the file
-				*if the extention is not right
+
+
+				/*
+				* Test the extention of the file
+				* if the extention is not right
 				*/
+
 				if(res[1] != "fml" && res[1] != "dimacs"){
 					//so the file extention are not good :'(
 					alert("The file has not the right extention (e.g .fml or dimacs)"); // TODO
@@ -376,9 +430,11 @@ function createFile() {
 	}
 
 }
-/**
- *Delete the current file or the current directory
- */
+
+/*
+* Delete the current file or the current directory
+*/
+
 function deleteF() {
 	//display a window which ask the user if this is the good choice
 	if (confirm("Are you sure to delete "+path+" ")) {
@@ -428,9 +484,11 @@ function deleteF() {
 	}
 
 }
+
 /**
  * JavaScript function which save the file
- */
+*/
+
 function saveF() {
 	//get the content from the editor
 	var editor = ace.edit("editor");
@@ -469,3 +527,4 @@ function saveF() {
 	}
 
 }
+

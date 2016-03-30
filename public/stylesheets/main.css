@@ -84,4 +84,18 @@ input[type='number']{
 }
 
 
+/***
+*** configurator stuff
+*** TODO: move into a separate file
+ **/
+
+md-checkbox.md-checked.green .md-icon {
+  background-color: rgba(0, 255, 0, 0.87);
+ }
+
+md-checkbox.red .md-icon {
+  background-color: rgba(255, 0, 0, 0.26);
+}
+
+
 

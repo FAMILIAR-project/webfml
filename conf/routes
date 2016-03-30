@@ -5,13 +5,14 @@
 # Home page
 GET     /                        	controllers.Application.homePage()
 
-#Login page 
+#Login page
 GET		/login						controllers.Application.loginPage()
 
 #IDE
 GET 	/ide/:language				controllers.Application.index(language:String)
 GET     /variable/:id	            controllers.WebFMLInterpreter.variable(id : String)
-POST    /interpret	              	controllers.WebFMLInterpreter.interpret(s : String)
+GET     /configure/:id	            controllers.WebFMLInterpreter.configure(id : String)
+POST    /interpret	              	controllers.WebFMLInterpreter.interpret
 POST    /evalPrompt	              	controllers.WebFMLInterpreter.evalPrompt(s : String)
 POST    /ksynthesis             	controllers.WebFMLInterpreter.ksynthesis(s : String)
 GET		/selectParent				controllers.WebFMLInterpreter.selectParent(children: List[String], parent: String)
@@ -33,7 +34,7 @@ POST 	/whoIAM             		controllers.FamiliarIDEController.whoIAM
 POST    /createTemporarySession     controllers.FamiliarIDEController.createTemporarySession
 POST    /isAuthentified             controllers.FamiliarIDEController.isAuthentified
 
-# Workspace management 
+# Workspace management
 GET     /loadFile/:id	            controllers.WebFMLInterpreter.loadFile(id : String)
 POST    /saveAs	            	    controllers.WebFMLInterpreter.saveAs(content : String, filename : String)
 POST    /listFiles  				controllers.WebFMLInterpreter.listFiles()

@@ -1,12 +1,70 @@
 'use strict';
 
-var app = angular.module('fml', []);
+//, ['ngMaterial']);
+// '$scope', '$rootScope', '$sce',
 
-app.controller('FMLVariableCtrl', ['$scope', '$rootScope', '$sce', FMLVariableCtrl]);
+angular.module('fml').controller('FMLVariableCtrl', function ($scope, $rootScope, $sce) {
 
-function FMLVariableCtrl ($scope, $rootScope, $sce) {
 	$scope.varIDs = [];
 	$scope.lastVar = '';
+	$scope.configurator = '';
+
+
+
+	$scope.fts = '';
+	/*
+	[
+  {
+    title: 'Computers',
+    fts: [
+      {
+        title: 'Laptops',
+        fts: [
+          {
+            title: 'Ultrabooks'
+          },
+          {
+            title: 'Macbooks'
+          }
+        ]
+      },
+
+      {
+        title: 'Desktops'
+      },
+
+      {
+        title: 'Tablets',
+        fts: [
+          {
+            title: 'Apple'
+          },
+          {
+            title: 'Android'
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    title: 'Printers'
+  }
+
+]; */
+
+	$scope.infoconfiguration = '';
+
+	$scope.ftselect = function (ft) {
+		  // the state machine is discussable of course
+		  if (ft.confstatus == 'selected')
+		   	ft.confstatus = 'deselected';
+		  else if (ft.confstatus == 'unselected')
+		    ft.confstatus = 'selected';
+		  else // if (ft.confstatus == 'deselected')
+          	ft.confstatus = 'unselected';
+         $scope.infoconfiguration = '' + ft.title + " is now " + ft.confstatus;
+	};
 
 	$scope.displayVariable = function(id) {
 		 jsRoutes.controllers.WebFMLInterpreter.variable(id).ajax({
@@ -26,15 +84,58 @@ function FMLVariableCtrl ($scope, $rootScope, $sce) {
 		 }) ;
 	}
 
+
+
+		$scope.configure = function(id) {
+			 jsRoutes.controllers.WebFMLInterpreter.configure(id).ajax({
+					success : function(data) {
+						$scope.configurator = data;
+						$scope.fts = $scope.configurator["hfts"];
+						console.log($scope.fts);
+					//	$scope.$apply();
+						$rootScope.$broadcast('variables', data);
+						// $('#configuratorsFML').html('<div><h3>Configurator</h3>' + data + '</div>') ;
+					},
+				  error : function(data) {
+
+								//$scope.msgError =
+								//$scope.$apply();
+								data["msgError"] = '<div class="alert alert-danger">Unable to create a configurator: ' +
+																		data.responseJSON["msgError"] + '</div>';
+								$rootScope.$broadcast('variables', data);
+					},
+				        beforeSend : function(event, jqxhr, settings) {
+					        $('#loader').html('<img src="../assets/images/ajax-loader.gif" />') ;
+					},
+				       complete : function(jqxhr, textstatus) {
+					    $('#loader').html('') ;
+				       }
+			 }) ;
+		}
+
+
 	$scope.synthesize = function(id) {
 		$rootScope.$broadcast('ksynthesis', 'ksynthesis --interactive ' + id)
 	}
 
+
+
 	$scope.$on('variables', function (event, data) {
-		$scope.varIDs = data["varIDs"];
-		$scope.lastVar = data["lastVar"];
+
+		var varids = data["varIDs"];
+		if (typeof varids !== 'undefined' && varids.length > 0) {
+			$scope.varIDs = varids;
+	    }
+
+		var lvar = data["lastVar"];
+		if (typeof lvar !== 'undefined' && lvar.length > 0) {
+     		$scope.lastVar = lvar;
+        }
+
 		$scope.msgError = $sce.trustAsHtml(data["msgError"]);
 		$scope.$apply();
 	});
 
-};
+
+
+});

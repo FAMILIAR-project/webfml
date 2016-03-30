@@ -1,10 +1,9 @@
-// console handling 
+'use strict';
+
+// console handling
 // FIXME updating the UI
 
-function FMLConsoleCtrl($scope, $rootScope) {
-	
-//}
-//$(function() {
+angular.module('fml').controller('FMLConsoleCtrl', function($scope, $rootScope) {
 
         // Creating the console.
         var header = 'FAMILIAR interpreter\n';
@@ -55,7 +54,7 @@ function FMLConsoleCtrl($scope, $rootScope) {
 			      
 			  },
 			  beforeSend : function(event, jqxhr, settings) {
-			     $('#wait').html('<img src="assets/images/ajax-loader.gif" />') ;
+			     $('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
 			  },
 			  complete : function(jqxhr, textstatus) {
 			 $('#wait').html('') ;		   
@@ -92,3 +91,6 @@ function FMLConsoleCtrl($scope, $rootScope) {
         handler();
 //      });
 }
+
+
+);
