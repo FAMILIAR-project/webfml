@@ -7,7 +7,6 @@ import java.nio.file.Path
 import java.nio.file.FileSystems
 import java.io.FileWriter
 
-import org.apache.log4j.lf5.viewer.configure.ConfigurationManager
 import org.xtext.example.mydsl.fML.OpSelection
 
 import scala.Array.canBuildFrom
@@ -296,9 +295,9 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   def _selorder(selectionOrder: String) : Option[OpSelection] = {
 
     selectionOrder match {
-      case "select" => Some (OpSelection.SELECT)
-      case "deselect" => Some (OpSelection.DESELECT)
-      case "unselect" => Some (OpSelection.UNSELECT)
+      case "selected" => Some (OpSelection.SELECT)
+      case "deselected" => Some (OpSelection.DESELECT)
+      case "unselected" => Some (OpSelection.UNSELECT)
       case _ => None
     }
 
@@ -306,41 +305,72 @@ object WebFMLInterpreter extends Controller with VariableHelper {
 
   /**
    * Retrieve the configuration variable, apply the selection, and produces the new JSON states
-   * @param confid
-   * @param ftName
-   * @param selectionOrder
-   * @return
+   * JSON request with confid, ftName, selectionOrder
+   * @return JSON
    */
-  def selection (confid : String, ftName : String, selectionOrder: String ) = Action { request =>
-    val interp = FamiliarIDEController.mkInterpreter(request.session)
-    val configur = ConfigurationManager.getConfiguration(interp, confid)
-    configur match {
-      case Some(c) =>
-        val selOrder = _selorder(selectionOrder)
-        selOrder match {
-          case Some(o) =>  c.applySelection("" + ftName, o)
-          case None => BadRequest(Json.toJson(Map("msgError" -> (selOrder + " is not a correct selection order (internal error)"))))
+  def selection = Action { request =>
+    val body = request.body
+    val json: Option[JsValue] = body.asJson
+    //        val textFMLCommand : Option[String] = body.asText
+
+    Logger.info("(SELECTION) request: " + request + " body: " + body + " json: " + json)
+
+    json.map { jsonConfInstr =>
+      (jsonConfInstr \ "confid").asOpt[String].map { confid =>
+
+        (jsonConfInstr \ "ft").asOpt[JsObject].map { ft =>
+          // val selectionOrder = // ft.confstatus
+          // val ftName : String = ft.title
+          (ft \ "title").asOpt[String].map { ftName =>
+            (ft \ "confstatus").asOpt[String].map { selectionOrder =>
+              Logger.info("(SELECTION) confstatus: " + selectionOrder)
+              val interp = FamiliarIDEController.mkInterpreter(request.session)
+              val configur = ConfigurationManager.getConfiguration(interp, confid)
+              configur match {
+                case Some(c) =>
+                  val selOrder = _selorder(selectionOrder)
+                  selOrder match {
+                    case Some(o) => c.applySelection("" + ftName, o)
+                    case None => BadRequest(Json.toJson(Map("msgError" -> (selOrder + " is not a correct selection order (internal error)"))))
+                  }
+                  val JSONrepr = ft2json(c.getFmv.root(), c)
+                  Ok(Json.toJson(Map("configid" -> Json.toJson(confid),
+                    "selections" -> Json.toJson(c.getValue()),
+                    "hfts" -> JsArray(Seq(Json.toJson(JSONrepr))))))
+                case None => BadRequest(Json.toJson(Map("msgError" -> (confid + " is not a configuration!"))))
+              }
+            }.getOrElse {
+              BadRequest(Json.toJson(Map("msgError" -> (" unable to find confstatus in the JSON request!"))))
+            }
+          }.getOrElse {
+            BadRequest(Json.toJson(Map("msgError" -> (" unable to find title in the JSON request!"))))
+          }
+        }.getOrElse {
+          BadRequest(Json.toJson(Map("msgError" -> (" unable to find ft in the JSON request!"))))
         }
-        val JSONrepr = ft2json(c.getFmv.root(), c)
-        Ok(Json.toJson(Map("configid" -> Json.toJson(c.getIdentifier()),
-          "selections" -> Json.toJson(c.getValue()),
-          "hfts" -> JsArray(Seq(Json.toJson(JSONrepr))))))
-      case None => BadRequest(Json.toJson(Map("msgError" -> (confid + " is not a configuration!"))))
+      }.getOrElse {
+        BadRequest(Json.toJson(Map("msgError" -> (json + " unable to find confid in the JSON request!"))))
+      }
+    }.getOrElse {
+      BadRequest(Json.toJson(Map("msgError" -> (json + " incorrect JSON request!"))))
     }
+
+
+
+
+
 
    }
 
   def configure (id : String) = Action { request =>
     val interp = FamiliarIDEController.mkInterpreter(request.session) // TODO: what if session is faulty? (optionize)
-    val configur : Option[ConfigurationVariable] = ConfigurationManager.mkConfiguration(interp, id)
-    configur match {
-      case Some(c) =>  val fmv = c.getFmv
-                    // Ok (new JSonFeatureModel(fmv).toJSon())
-                    val confs = fmv.features().names().map(s => Json.toJson(s))
+    val configur : Option[(ConfigurationVariable, String)] = ConfigurationManager.mkConfiguration(interp, id)
 
+    configur match {
+      case Some((c, cid)) =>  val fmv = c.getFmv()
                     // TODO check if the hierarchy is fixed! (eg the feature model can be just a formula and not synthesized)
                     val JSONrepr = ft2json(fmv.root(), c)
-                    Ok(Json.toJson(Map("configid" -> Json.toJson(c.getIdentifier()),
+                    Ok(Json.toJson(Map("configid" -> Json.toJson(cid),
                     "selections" -> Json.toJson(c.getValue()),
                     "hfts" -> JsArray(Seq(Json.toJson(JSONrepr))))
       ))

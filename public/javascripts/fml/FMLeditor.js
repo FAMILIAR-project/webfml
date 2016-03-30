@@ -42,7 +42,7 @@ $scope.data = {};
                                 }
                             });
 
-	    jsRoutes.controllers.WebFMLInterpreter.interpret(idToGet).ajax({
+	    jsRoutes.controllers.WebFMLInterpreter.interpret().ajax({
 	        data : JSON.stringify(idToGet),
 	        contentType : "application/json",
 	        processData: false,

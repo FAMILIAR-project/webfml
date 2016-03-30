@@ -367,7 +367,7 @@
 									  <md-checkbox
 											ng-class="{green: ft.confstatus == 'selected', red: ft.confstatus == 'deselected'}"
 											ng-checked="ft.confstatus == 'selected'"
-											ng-click="ftselect(ft);"
+											ng-click="ftselect(ft, configurator['configid']);"
 											>
 										  {{ ft.title }}
 									  </md-checkbox>

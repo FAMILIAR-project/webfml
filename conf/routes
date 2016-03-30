@@ -12,6 +12,7 @@ GET		/login						controllers.Application.loginPage()
 GET 	/ide/:language				controllers.Application.index(language:String)
 GET     /variable/:id	            controllers.WebFMLInterpreter.variable(id : String)
 GET     /configure/:id	            controllers.WebFMLInterpreter.configure(id : String)
+POST    /selection   	            controllers.WebFMLInterpreter.selection
 POST    /interpret	              	controllers.WebFMLInterpreter.interpret
 POST    /evalPrompt	              	controllers.WebFMLInterpreter.evalPrompt(s : String)
 POST    /ksynthesis             	controllers.WebFMLInterpreter.ksynthesis(s : String)

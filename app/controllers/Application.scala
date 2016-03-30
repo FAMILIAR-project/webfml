@@ -114,6 +114,7 @@ object Application extends Controller {
                 WebFMLInterpreter.ksynthesis,
                 WebFMLInterpreter.variable,
                 WebFMLInterpreter.configure,
+                WebFMLInterpreter.selection,
                 WebFMLInterpreter.loadFile,
                 WebFMLInterpreter.saveAs,
                 WebFMLInterpreter.listFiles,

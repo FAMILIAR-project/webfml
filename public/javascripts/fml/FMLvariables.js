@@ -55,15 +55,47 @@ angular.module('fml').controller('FMLVariableCtrl', function ($scope, $rootScope
 
 	$scope.infoconfiguration = '';
 
-	$scope.ftselect = function (ft) {
-		  // the state machine is discussable of course
+	$scope.ftselect = function (ft, configid) {
+
+
+	      // TODO other kinds of status
 		  if (ft.confstatus == 'selected')
-		   	ft.confstatus = 'deselected';
+			ft.confstatus = 'deselected';
 		  else if (ft.confstatus == 'unselected')
-		    ft.confstatus = 'selected';
+			ft.confstatus = 'selected';
 		  else // if (ft.confstatus == 'deselected')
-          	ft.confstatus = 'unselected';
-         $scope.infoconfiguration = '' + ft.title + " is now " + ft.confstatus;
+				ft.confstatus = 'unselected';
+
+		  $scope.infoconfiguration = '' + ft.title + " is now " + ft.confstatus;
+
+          jsRoutes.controllers.WebFMLInterpreter.selection().ajax({
+
+						data : JSON.stringify({ "confid": configid, "ft" : ft}),
+						contentType : "application/json",
+						processData: false,
+						success : function(data) {
+
+						$scope.configurator = data;
+						$scope.fts = $scope.configurator["hfts"];
+						console.log($scope.fts);
+						$rootScope.$broadcast('variables', data);
+          			},
+          		        error : function(data) {
+          				  		data["msgError"] = '<div class="alert alert-danger"><p>Unable to apply the configuration</p>' + data.responseJSON["msgError"] + '</div>';
+          						$rootScope.$broadcast('variables', data);
+          			},
+          		        beforeSend : function(event, jqxhr, settings) {
+          			        $('loader').html('<img src="../assets/images/ajax-loader.gif" />') ;
+          			},
+          		       complete : function(jqxhr, textstatus) {
+          			    $('#loader').html('') ;
+          		    }
+
+
+         		 });
+
+            // the state machine is discussable of course
+
 	};
 
 	$scope.displayVariable = function(id) {
