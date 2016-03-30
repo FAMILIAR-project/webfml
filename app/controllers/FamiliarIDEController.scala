@@ -1,6 +1,8 @@
 package controllers
 
 import controllers.WebFMLInterpreter._
+import fr.familiar.parser.ConfigurationVariableBDDImpl
+import fr.familiar.variable.{FeatureModelVariable, ConfigurationVariable}
 import play.api.libs.json.Json
 import play.api.mvc.Controller
 import play.api.mvc._
@@ -14,6 +16,8 @@ object FamiliarIDEController extends Controller {
 
 
   var mapInstanceOfFamiliar : Map [Session, FMLBasicInterpreter ] = Map()
+
+
 
 
   def mkInterpreter(sess: Session) : FMLBasicInterpreter = {
@@ -33,6 +37,10 @@ object FamiliarIDEController extends Controller {
   private def _mkInterpreter() : FMLBasicInterpreter = {
     new FMLBasicInterpreter()
   }
+
+
+
+
 
   /**
 	 * Function which receive information from the login

@@ -7,6 +7,9 @@ import java.nio.file.Path
 import java.nio.file.FileSystems
 import java.io.FileWriter
 
+import org.apache.log4j.lf5.viewer.configure.ConfigurationManager
+import org.xtext.example.mydsl.fML.OpSelection
+
 import scala.Array.canBuildFrom
 import scala.collection.JavaConversions
 import scala.collection.JavaConversions.asScalaBuffer
@@ -290,44 +293,60 @@ object WebFMLInterpreter extends Controller with VariableHelper {
   }
 
 
-  /* TODO (basic idea: retrieve the configuration variable, apply the selection, and produces the new JSON states)
-  def configure (confid : String) = Action { request =>
+  def _selorder(selectionOrder: String) : Option[OpSelection] = {
+
+    selectionOrder match {
+      case "select" => Some (OpSelection.SELECT)
+      case "deselect" => Some (OpSelection.DESELECT)
+      case "unselect" => Some (OpSelection.UNSELECT)
+      case _ => None
+    }
+
+  }
+
+  /**
+   * Retrieve the configuration variable, apply the selection, and produces the new JSON states
+   * @param confid
+   * @param ftName
+   * @param selectionOrder
+   * @return
+   */
+  def selection (confid : String, ftName : String, selectionOrder: String ) = Action { request =>
     val interp = FamiliarIDEController.mkInterpreter(request.session)
-    val configur = interp.retrieveConfiguration(config)
-      // Ok (new JSonFeatureModel(fmv).toJSon())
+    val configur = ConfigurationManager.getConfiguration(interp, confid)
+    configur match {
+      case Some(c) =>
+        val selOrder = _selorder(selectionOrder)
+        selOrder match {
+          case Some(o) =>  c.applySelection("" + ftName, o)
+          case None => BadRequest(Json.toJson(Map("msgError" -> (selOrder + " is not a correct selection order (internal error)"))))
+        }
+        val JSONrepr = ft2json(c.getFmv.root(), c)
+        Ok(Json.toJson(Map("configid" -> Json.toJson(c.getIdentifier()),
+          "selections" -> Json.toJson(c.getValue()),
+          "hfts" -> JsArray(Seq(Json.toJson(JSONrepr))))))
+      case None => BadRequest(Json.toJson(Map("msgError" -> (confid + " is not a configuration!"))))
+    }
 
-    configur.applySelection("" + jsonString, OpSelection.DESELECT)
-
-      Ok(Json.toJson(Map("configid" -> Json.toJson(configur.getIdentifier()),
-        "selections" -> Json.toJson(configur.getValue()),
-        "hfts" -> JsArray(Seq(Json.toJson(JSONrepr))))
-      ))
-   }*/
+   }
 
   def configure (id : String) = Action { request =>
-    val interp = FamiliarIDEController.mkInterpreter(request.session)
-    val v = interp.eval(id)
-    if (v.isInstanceOf[FeatureModelVariable]) {
-      val fmv = v.asInstanceOf[FeatureModelVariable]
-      val configur = new ConfigurationVariableBDDImpl(fmv, "")
-      // Ok (new JSonFeatureModel(fmv).toJSon())
-      val confs = fmv.features().names().map(s => Json.toJson(s))
+    val interp = FamiliarIDEController.mkInterpreter(request.session) // TODO: what if session is faulty? (optionize)
+    val configur : Option[ConfigurationVariable] = ConfigurationManager.mkConfiguration(interp, id)
+    configur match {
+      case Some(c) =>  val fmv = c.getFmv
+                    // Ok (new JSonFeatureModel(fmv).toJSon())
+                    val confs = fmv.features().names().map(s => Json.toJson(s))
 
-      // TODO check if the hierarchy is fixed! (eg the feature model can be just a formula and not synthesized)
-      val JSONrepr = ft2json(fmv.root(), configur)
+                    // TODO check if the hierarchy is fixed! (eg the feature model can be just a formula and not synthesized)
+                    val JSONrepr = ft2json(fmv.root(), c)
+                    Ok(Json.toJson(Map("configid" -> Json.toJson(c.getIdentifier()),
+                    "selections" -> Json.toJson(c.getValue()),
+                    "hfts" -> JsArray(Seq(Json.toJson(JSONrepr))))
+      ))
 
+      case None => BadRequest(Json.toJson(Map("msgError" -> (id + " is not a feature model!"))))
 
-
-
-      Ok(Json.toJson(Map("configid" -> Json.toJson(configur.getIdentifier()),
-                         "selections" -> Json.toJson(configur.getValue()),
-                         "hfts" -> JsArray(Seq(Json.toJson(JSONrepr))))
-                         )
-
-        )
-    }
-    else {
-      BadRequest(Json.toJson(Map("msgError" -> (id + " is not a feature model!"))))
     }
 
   }

@@ -16,6 +16,7 @@ import fr.familiar.parser.FMBuilder
 import play.api.libs.json.JsValue
 import org.xtext.example.mydsl.fML.OpSelection
 
+// @Deprecated
 object WebFMLConfigurator extends Controller with VariableHelper { 
   
   val interp = new FMLBasicInterpreter()
