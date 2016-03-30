@@ -115,32 +115,32 @@ $scope.data = {};
      */
 
      $scope.loadFile = function (filename) {
-     jsRoutes.controllers.WebFMLInterpreter.loadFile(filename).ajax({
-    		success : function(data) {
-    			$('a[href="#editor"]').tab('show');
-    			$('#editor').addClass('active');
-    			$("a[href='#editor']").html('' + filename);
-    			$('#ksynthesis-tab').removeClass('active');
-    			editor.setValue (data, 1) ;
+		 jsRoutes.controllers.WebFMLInterpreter.loadFile(filename).ajax({
+				success : function(data) {
+					$('a[href="#editor"]').tab('show');
+					$('#editor').addClass('active');
+					$("a[href='#editor']").html('' + filename);
+					$('#ksynthesis-tab').removeClass('active');
+					editor.setValue (data, 1) ;
 
-    		},
-    					error : function(data) {
-    						data["msgError"] = '<div class="alert alert-danger"><p>Unable to load the file...</p>' + filename + '</div>';
-    						$rootScope.$broadcast('variables', data);
-    		},
-    					beforeSend : function(event, jqxhr, settings) {
-    						$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
-    		},
-    				 complete : function(jqxhr, textstatus) {
-    				$('#wait').html('') ;
-    				 }
-    	})
-    	;
+				},
+							error : function(data) {
+								data["msgError"] = '<div class="alert alert-danger"><p>Unable to load the file...</p>' + filename + '</div>';
+								$rootScope.$broadcast('variables', data);
+				},
+							beforeSend : function(event, jqxhr, settings) {
+								$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
+				},
+						 complete : function(jqxhr, textstatus) {
+						$('#wait').html('') ;
+						 }
+			})
+			;
 
     };
 
 
-$scope.initTemporarySession = function () {
+	$scope.initTemporarySession = function () {
 
                     console.log("Creating temporary session");
 
@@ -193,43 +193,6 @@ $scope.updateWorkspace = function() {
 
 
 
-});
-
-
-
-
-
-
-
-function depictUserInformation (userid) {
-                     			console.log('Depicting UI: ' + userid);
-                     		    $('#userinformation').html ('You are <a>User_' + userid + '</a> <a onclick="deleteSession()">(logout)</a>');
-                   }
-
-
-/**
-*Display the workspace at begining
-*/
-
-$(document).ready(function() {
-
-	jsRoutes.controllers.WebFMLInterpreter.listFiles().ajax({
-		success : function(data) {
-		        displayWorkspace(data);
-		},
-	        error : function(data) {
-			$('#myTreeView').html('Unable to load the list of files... <div class="alert alert-danger">' + data + '</div>') ;
-		},
-	        beforeSend : function(event, jqxhr, settings) {
-		    	$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
-		},
-	       complete : function(jqxhr, textstatus) {
-		    $('#wait').html('') ;
-	    }
-	});
-});
-
-
 /*
 * Workspace
 * The tree view
@@ -255,43 +218,89 @@ var currentFileName="";
 *this is a treeview from alloy framework
 */
 
-function displayWorkspace(filespecification) {
-	$('#myTreeView').html('');
-	YUI().use(
-	  'aui-tree-view',
-	  function(Y) {
-		var tview = new Y.TreeViewDD(
-		  {
 
-		//call the div where we put the tree
-			boundingBox: '#myTreeView',
-		children: filespecification,
-		  on: {
-			lastSelectedChange: function (event) {
-				var nodeId = event.newVal.get('id');
-				//treenode object
-				var node = tview.getNodeById(nodeId);
-				//type of the node
-				if (node.isLeaf()){
-					//file
-					path= mkCompleteName(node);
-					//return the name of the current node
-					currentFileName= mkCompleteName(node);
-					loadFile (mkCompleteName(node));
-				} else {
-					//directory
-					path = mkCompleteName(node);
-				}
+                    $scope.displayWorkspace = function (filespecification) {
+                    	$('#myTreeView').html('');
+                    	YUI().use(
+                    	  'aui-tree-view',
+                    	  function(Y) {
+                    		var tview = new Y.TreeViewDD(
+                    		  {
 
-			}
-		   }
-		   }
-		) ;
+                    		//call the div where we put the tree
+                    			boundingBox: '#myTreeView',
+                    		children: filespecification,
+                    		  on: {
+                    			lastSelectedChange: function (event) {
+                    				var nodeId = event.newVal.get('id');
+                    				//treenode object
+                    				var node = tview.getNodeById(nodeId);
+                    				//type of the node
+                    				if (node.isLeaf()){
+                    					//file
+                    					path= mkCompleteName(node);
+                    					//return the name of the current node
+                    					currentFileName= mkCompleteName(node);
+                    					$scope.loadFile (mkCompleteName(node));
+                    				} else {
+                    					//directory
+                    					path = mkCompleteName(node);
+                    				}
 
-		tview.render();
-	  }
-	);
-}
+                    			}
+                    		   }
+                    		   }
+                    		) ;
+
+                    		tview.render();
+                    	  }
+                    	);
+                    };
+
+                    /**
+                    *Display the workspace at begining
+                    $(document).ready(function()
+                    */
+
+                    $scope.init = function() {
+
+                    	jsRoutes.controllers.WebFMLInterpreter.listFiles().ajax({
+                    		success : function(data) {
+                    		        $scope.displayWorkspace(data);
+                    		},
+                    	        error : function(data) {
+                    			$('#myTreeView').html('Unable to load the list of files... <div class="alert alert-danger">' + data + '</div>') ;
+                    		},
+                    	        beforeSend : function(event, jqxhr, settings) {
+                    		    	$('#wait').html('<img src="../assets/images/ajax-loader.gif" />') ;
+                    		},
+                    	       complete : function(jqxhr, textstatus) {
+                    		    $('#wait').html('') ;
+                    	    }
+                    	});
+                    };
+
+
+});
+
+
+
+
+
+
+
+function depictUserInformation (userid) {
+                     			console.log('Depicting UI: ' + userid);
+                     		    $('#userinformation').html ('You are <a>User_' + userid + '</a> <a onclick="deleteSession()">(logout)</a>');
+                   }
+
+
+
+
+
+
+
+
 
 
 /**

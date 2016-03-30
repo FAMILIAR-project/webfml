@@ -68,6 +68,42 @@ angular.module('fml').controller('FMLVariableCtrl', function ($scope, $rootScope
 
 		  $scope.infoconfiguration = '' + ft.title + " is now " + ft.confstatus;
 
+		  /**
+          * private method for updating values (confstatus) in $scope.fts
+          * h is the JSON response
+          * basic traversal of h (starting from "root" h[Ø]) and then we update fts
+          * (again, we start the traversal with the root $scope.fts[0]
+          *
+          **/
+          $scope.updateConfValues = function (h) {
+          	 $scope.updateConfFt(h[0]);
+
+          };
+
+          $scope.updateConfFt = function (ft) {
+            $scope.updateFt (ft); // update the feature itself
+            var ch = ft.fts; // and then the children (if any)
+            for (var c in ch) {
+              $scope.updateConfFt(ch[c]);
+            }
+          };
+
+          $scope.updateFt = function (ft) {
+            $scope.seekAndUpdate(ft, $scope.fts[0]); // we seek the corresponding feature in $scope.fts
+          };
+
+          $scope.seekAndUpdate = function (ft, ft2) {
+              if (ft2.title == ft.title)
+                 ft2.confstatus = ft.confstatus;
+              else {
+                var ch2 = ft2.fts;
+                for (var c in ch2) {
+                  $scope.seekAndUpdate(ft, ch2[c]);
+                }
+              }
+          };
+          // end of conf updates
+
           jsRoutes.controllers.WebFMLInterpreter.selection().ajax({
 
 						data : JSON.stringify({ "confid": configid, "ft" : ft}),
@@ -76,9 +112,11 @@ angular.module('fml').controller('FMLVariableCtrl', function ($scope, $rootScope
 						success : function(data) {
 
 						$scope.configurator = data;
-						$scope.fts = $scope.configurator["hfts"];
-						console.log($scope.fts);
-						$rootScope.$broadcast('variables', data);
+						//$scope.fts = $scope.configurator["hfts"]; // OK but can change the hierarchy; what we want is to change the configuration status of each feature
+						$scope.updateConfValues($scope.configurator["hfts"]);
+
+
+ 						$rootScope.$broadcast('variables', data);
           			},
           		        error : function(data) {
           				  		data["msgError"] = '<div class="alert alert-danger"><p>Unable to apply the configuration</p>' + data.responseJSON["msgError"] + '</div>';
@@ -97,6 +135,9 @@ angular.module('fml').controller('FMLVariableCtrl', function ($scope, $rootScope
             // the state machine is discussable of course
 
 	};
+
+
+
 
 	$scope.displayVariable = function(id) {
 		 jsRoutes.controllers.WebFMLInterpreter.variable(id).ajax({
