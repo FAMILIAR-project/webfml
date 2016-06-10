@@ -16,11 +16,7 @@
         	<!-- end ACE editor (style) -->
         	<!-- end EDITOR -->
 
-        	<!-- CONSOLE -->
-        	<link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/ansi.css")">
-        	<script src="@routes.Assets.at("javascripts/lib/jq-console/jqconsole.min.js")"></script>
-            <script src="@routes.Assets.at("javascripts/fml/FMLconsole.js")"></script>
-        	<!-- end CONSOLE -->
+
 
         	<!-- WORKSPACE -->
         	<script src="@routes.Assets.at("javascripts/lib/alloy-2.0.0/aui/aui-min.js")"></script>
@@ -32,6 +28,111 @@
 			<script src="@routes.Assets.at("javascripts/lib/dagre-d3/dagre-d3.min.js")"></script>
 			<script src="@routes.Assets.at("javascripts/fml/ksynthesis.js")"></script>
 			<!-- end KSYNTHESIS -->
+
+      <!-- CONSOLE -->
+      <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/ansi.css")">
+      <script src="@routes.Assets.at("javascripts/lib/jq-console/jqconsole.min.js")"></script>
+        <script src="@routes.Assets.at("javascripts/fml/FMLconsole.js")"></script>
+      <!-- end CONSOLE -->
+
+
+
+      <link rel="stylesheet" type="text/css" href="../xtext/2.9.1/xtext-ace.css"/>
+    	<script src="../webjars/requirejs/2.1.20/require.min.js"></script>
+    	<style>
+    	body {
+    	width: 100%;
+    	height: 100%;
+    	overflow: hidden;
+    	font: 16px Helvetica,sans-serif;
+    	}
+
+    	a {
+    		color: #22a;
+    		text-decoration: none;
+    	}
+
+    	a:hover {
+    		text-decoration: underline;
+    	}
+
+    	.container {
+    		display: block;
+    		position: absolute;
+    		top: 0;
+    		bottom: 0;
+    		left: 0;
+    		right: 0;
+    		margin: 20px;
+    	}
+
+    	.header {
+    		display: block;
+    		position: absolute;
+    		background-color: #e8e8e8;
+    		top: 0;
+    		left: 0;
+    		right: 0;
+    		height: 60px;
+    		padding: 10px;
+    	}
+
+    	.content {
+    		display: block;
+    		position: absolute;
+    		top: 90px;
+    		bottom: 0;
+    		left: 0;
+    		width: 640px;
+    	}
+
+    	#xtext-editor {
+    		/*display: block;
+    		position: absolute;
+    		top: 0;
+    		bottom: 0;
+    		left: 0;
+    		right: 0;*/
+        height: 100%;
+    		padding: 4px;
+    		border: 1px solid #aaa;
+    	}
+    	</style>
+    	<script type="text/javascript">
+
+    		//var baseUrl = window.location.pathname;
+    		//var fileIndex = baseUrl.indexOf("index.html");
+    		// if (fileIndex > 0)
+    			// baseUrl = baseUrl.slice(0, fileIndex);
+    		require.config({
+    			baseUrl: '/', // baseUrl,
+    			paths: {
+    				"jquery": "webjars/jquery/2.1.4/jquery.min",
+    				"ace/ext/language_tools": "webjars/ace/1.2.0/src/ext-language_tools",
+    				"xtext/xtext-ace": "xtext/2.9.1/xtext-ace"
+    			}
+    		});
+
+
+          var editor = ''; // global variable?
+    		require(["webjars/ace/1.2.0/src/ace"], function() {
+    			require(["xtext/xtext-ace"], function(xtext) {
+    				  editor = xtext.createEditor({
+              parent : 'editor',
+              loadFromServer: false,
+    					baseUrl: '/', // baseUrl,
+    		                        serviceUrl: window.location.protocol + '//' + window.location.host + '/' + 'xtext-service', // bracket is optional (eg root URL)
+    		                        //serviceUrl: 'http://localhost:8080/xtext-service',
+    					syntaxDefinition: "xtext-resources/generated/mode-fml2"
+    				});
+    			});
+    		});
+    	</script>
+
+
+
+
+
 			<!-- Other CSS -->
         	<link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/main.css")">
         	<link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/console.css")">
@@ -121,14 +222,22 @@
                     <div class="span7" id="tabs-hoster">
 						<!-- Tab. part where we choose mod (eg: "FML Editor"...) -->
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#editor" data-toggle="tab">FML Editor</a></li>
+                            <!--<li class="active"><a href="#editor" data-toggle="tab">FML Editor</a></li>-->
+                            <li class="active"><a href="#editor" data-toggle="tab">FML Editor 2.0</a></li>
                             <li><a href="#ksynthesis-tab" data-toggle="tab">KSynthesis</a></li>
                         </ul>
 
                         <div class="tab-content">
 			    			            <!-- message -->
                             <!-- EDITOR part -->
-                            <div class="tab-pane active" id="editor">@editor(message)</div>
+                            <!--<div class="tab-pane active" id="editor">@editor(message)</div>-->
+
+
+
+                            <div class="tab-pane active" id="editor" data-editor-xtext-lang="fml2">
+                              <pre>@editor(message)</pre>
+                            </div>
+
 
 
 
@@ -409,8 +518,10 @@
 	    	<script src="@routes.Assets.at("javascripts/ace-builds-master/src-noconflict/ext-language_tools.js")"></script>
 
 	   		<!-- call editor options-->
+        <!-- DEPRECATED I guess with the older version of ACE editor
 	    	<script src="@routes.Assets.at("javascripts/fml/lib_editor.js")"></script>
 	    	<script src="@routes.Assets.at("javascripts/fml/autocompletion_options.js")"></script>
+        -->
             	<script>
                 	$(function () {
                     	$('#main-container').css('height', ($('body' ).outerHeight()-80)+'px');

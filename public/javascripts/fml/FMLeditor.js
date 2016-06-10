@@ -16,7 +16,7 @@ angular.module('fml', ['ngMaterial']).controller('FMLEditorCtrl', function ($sco
 	 */
 
 	$scope.cmd = function () {
-		var idToGet = editor.getSession().getValue();
+		var idToGet = editor.getSession().getValue(); // ; // CHANGE IT! //
 
 		console.log("Starting interpretation...");
 		jsRoutes.controllers.FamiliarIDEController.isAuthentified().ajax({
@@ -143,6 +143,7 @@ angular.module('fml', ['ngMaterial']).controller('FMLEditorCtrl', function ($sco
 
 		jsRoutes.controllers.WebFMLInterpreter.loadFile(filename).ajax({
 			success : function(data) {
+				// FIXME does not work with Jquery 2.1 (it seems)
 				$('a[href="#editor"]').tab('show');
 				$('#editor').addClass('active');
 				$("a[href='#editor']").html('' + filename);
@@ -549,5 +550,3 @@ function deleteF() {
 	}
 
 }
-
-
