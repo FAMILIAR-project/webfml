@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                        	controllers.Application.homePage()
+GET     /webfmlACE                      controllers.Application.webfmlACE()
 
 #Login page
 GET		/login						controllers.Application.loginPage()

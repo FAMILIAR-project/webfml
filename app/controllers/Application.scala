@@ -92,6 +92,14 @@ object Application extends Controller {
      Ok(views.html.homePage())
    }
 
+  /**
+   *  HomePage
+   */
+   def webfmlACE() = Action {
+     Ok(views.html.webfmlACE())
+   }
+
+
    /**
     * Login page, access to the ide page
     */
