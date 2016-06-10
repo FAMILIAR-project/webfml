@@ -48,7 +48,10 @@ angular.module('fml', ['ngMaterial']).controller('FMLEditorCtrl', function ($sco
 				$rootScope.$broadcast('variables', data)
 			},
 			error : function(data) {
-				data["msgError"] = '<div class="alert alert-danger"><p>Unable to parse/interpret</p>' + data.responseJSON["msgError"] + '</div>';
+				if (data["msgError"] === undefined)
+					data["msgError"] = '<div class="alert alert-danger"><p>Unable to parse/interpret (unknown error)</p>' + data + '</div>';
+				else
+					data["msgError"] = '<div class="alert alert-danger"><p>Unable to parse/interpret</p>' + data.responseJSON["msgError"] + '</div>';
 				$rootScope.$broadcast('variables', data);
 			},
 			beforeSend : function(event, jqxhr, settings) {
