@@ -7,10 +7,10 @@
 	<script src="webjars/requirejs/2.1.20/require.min.js"></script>
 	<style>
 	body {
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
-		font: 16px Helvetica,sans-serif;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	font: 16px Helvetica,sans-serif;
 	}
 
 	a {
@@ -69,7 +69,7 @@
 		if (fileIndex > 0)
 			baseUrl = baseUrl.slice(0, fileIndex);
 		require.config({
-			baseUrl: baseUrl,
+			baseUrl: '/', // baseUrl,
 			paths: {
 				"jquery": "webjars/jquery/2.1.4/jquery.min",
 				"ace/ext/language_tools": "webjars/ace/1.2.0/src/ext-language_tools",
@@ -79,7 +79,7 @@
 		require(["webjars/ace/1.2.0/src/ace"], function() {
 			require(["xtext/xtext-ace"], function(xtext) {
 				xtext.createEditor({
-					baseUrl: baseUrl,
+					baseUrl: '/', // baseUrl,
 		                        serviceUrl: window.location.protocol + '//' + window.location.host + '/' + 'xtext-service', // bracket is optional (eg root URL)
 		                        //serviceUrl: 'http://localhost:8080/xtext-service',
 					syntaxDefinition: "xtext-resources/generated/mode-fml2"
