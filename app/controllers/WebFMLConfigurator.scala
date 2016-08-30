@@ -14,11 +14,12 @@ import views._
 import fr.familiar.parser.ConfigurationVariableBDDImpl
 import fr.familiar.parser.FMBuilder
 import play.api.libs.json.JsValue
-import org.xtext.example.mydsl.fML.OpSelection
+import org.xtext.example.mydsl.fml.OpSelection
 
 // @Deprecated
 object WebFMLConfigurator extends Controller with VariableHelper { 
-  
+
+
   val interp = new FMLBasicInterpreter()
   val configur = new ConfigurationVariableBDDImpl( 
       new FeatureModelVariable("", FMBuilder.getInternalFM("A : (B|C|D)? [E] [F] ; C -> E ; ")), "") 

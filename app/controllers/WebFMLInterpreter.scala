@@ -7,7 +7,7 @@ import java.nio.file.Path
 import java.nio.file.FileSystems
 import java.io.FileWriter
 
-import org.xtext.example.mydsl.fML.OpSelection
+import org.xtext.example.mydsl.fml.OpSelection
 
 import scala.Array.canBuildFrom
 import scala.collection.JavaConversions

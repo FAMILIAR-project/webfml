@@ -1,0 +1,12 @@
+
+                                  // your FAMILIAR code here!
+fm1 = FM ( A: F1  F2  F3  F4  F5  F6  F7  F8  F9  F10 ; F1 : (F11|F12|F13|F14|F15)+ ;  F2 : (F16|F17|F18)+ ;  F3 : (F19|F20|F21|F22|F23|F24|F25|F26|F27|F28|F29|F30)+ ;  F4 : (F31|F32|F33|F34|F35|F36|F37)+ ;  F5 : (F38|F39|F40|F41|F42)+ ;  F6 : (F43|F44|F45)+ ;  F7 : (F46|F47)+ ;  F8 : (F48|F49)+ ; )
+
+fm2 = FM ( A : F15  F7  F10  F6  F4  F9  F1  F2  F3  F11  F12  F8  F14  F13  F5  ;F3 : (F25|F26|F27|F24)+ ;F2 : (F21|F23|F22)+ ;F1 : (F19|F20|F17|F16|F18)+ ;F4 : (F29|F28)+ ; )
+fm3 = FM ( A : F8  F7  F10  F6  F4  F9  F1  F5  F2  F3  ;F3 : (F20|F26|F30|F21|F23|F27|F22|F19|F25|F29|F28|F24)+ ;F2 : (F17|F16|F18)+ ;F5 : (F42|F39|F40|F38|F41)+ ;F1 : (F11|F12|F15|F14|F13)+ ;F4 : (F31|F32|F35|F37|F34|F36|F33)+ ;F6 : (F45|F43|F44)+ ;F7 : (F46|F47)+ ;F8 : (F48|F49)+ ; )
+
+// fm2 = slice fm1 excluding { Mathieu }
+
+
+
+                            
