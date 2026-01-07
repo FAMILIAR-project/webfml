@@ -66,6 +66,104 @@ export interface FileTreeNode {
   children?: FileTreeNode[]
 }
 
+// KSynthesis API
+export interface KSynthesisState {
+  variableId: string
+  fm: {
+    nodes: string[]
+    edges: { source: string; target: string }[]
+  }
+  rankingLists: {
+    feature: string
+    parents: string[]
+    parentInFM: string | null
+    originalParents?: string[]
+    isPossibleRoot: boolean
+  }[]
+  clusters: { name: string; parentInFM: string | null }[][]
+  cliques: { name: string; parentInFM: string | null }[][]
+  active?: boolean
+}
+
+export const ksynthesisApi = {
+  start: async (variableId: string): Promise<KSynthesisState> => {
+    const response = await api.post<KSynthesisState>('/ksynthesis/start', {}, { params: { variableId } })
+    return response.data
+  },
+
+  selectParent: async (children: string[], parent: string): Promise<KSynthesisState> => {
+    const response = await api.post<KSynthesisState>('/ksynthesis/select-parent', { children, parent })
+    return response.data
+  },
+
+  ignoreParent: async (child: string, parent: string): Promise<KSynthesisState> => {
+    const response = await api.post<KSynthesisState>(
+      '/ksynthesis/ignore-parent',
+      {},
+      { params: { child, parent } }
+    )
+    return response.data
+  },
+
+  setRoot: async (root: string): Promise<KSynthesisState> => {
+    const response = await api.post<KSynthesisState>('/ksynthesis/set-root', {}, { params: { root } })
+    return response.data
+  },
+
+  complete: async (): Promise<KSynthesisState> => {
+    const response = await api.post<KSynthesisState>('/ksynthesis/complete')
+    return response.data
+  },
+
+  undo: async (): Promise<KSynthesisState> => {
+    const response = await api.post<KSynthesisState>('/ksynthesis/undo')
+    return response.data
+  },
+
+  redo: async (): Promise<KSynthesisState> => {
+    const response = await api.post<KSynthesisState>('/ksynthesis/redo')
+    return response.data
+  },
+
+  save: async (newVariableId?: string): Promise<{ variableId: string; value: string }> => {
+    const response = await api.post('/ksynthesis/save', {}, { params: { newVariableId } })
+    return response.data
+  },
+
+  getHeuristics: async (): Promise<{
+    heuristics: string[]
+    defaultRankingHeuristic: string
+    defaultClusteringHeuristic: string
+    defaultThreshold: number
+  }> => {
+    const response = await api.get('/ksynthesis/heuristics')
+    return response.data
+  },
+
+  setRankingHeuristic: async (heuristic: string): Promise<KSynthesisState> => {
+    const response = await api.post<KSynthesisState>(
+      '/ksynthesis/heuristic/ranking',
+      {},
+      { params: { heuristic } }
+    )
+    return response.data
+  },
+
+  setClusteringParameters: async (heuristic: string, threshold: number): Promise<KSynthesisState> => {
+    const response = await api.post<KSynthesisState>(
+      '/ksynthesis/heuristic/clustering',
+      {},
+      { params: { heuristic, threshold } }
+    )
+    return response.data
+  },
+
+  getState: async (): Promise<KSynthesisState> => {
+    const response = await api.get<KSynthesisState>('/ksynthesis/state')
+    return response.data
+  },
+}
+
 export const workspaceApi = {
   listFiles: async (): Promise<FileTreeNode[]> => {
     const response = await api.get<FileTreeNode[]>('/workspace/files')

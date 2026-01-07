@@ -7,26 +7,29 @@ import fr.inria.familiar.webfml.dto.InterpretRequest;
 import fr.inria.familiar.webfml.dto.InterpretResponse;
 import fr.inria.familiar.webfml.service.FamiliarInterpreterService;
 import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * REST controller for FAMILIAR interpreter operations
  */
-@Slf4j
 @RestController
 @RequestMapping("/familiar")
-@RequiredArgsConstructor
 public class FamiliarController {
 
+    private static final Logger log = LoggerFactory.getLogger(FamiliarController.class);
+
     private final FamiliarInterpreterService interpreterService;
+
+    public FamiliarController(FamiliarInterpreterService interpreterService) {
+        this.interpreterService = interpreterService;
+    }
 
     /**
      * Interpret a FAMILIAR command

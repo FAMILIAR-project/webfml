@@ -2,9 +2,8 @@ package fr.inria.familiar.webfml.controller;
 
 import fr.inria.familiar.webfml.dto.FileTreeNode;
 import fr.inria.familiar.webfml.service.WorkspaceService;
-import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,13 +13,17 @@ import java.util.Map;
 /**
  * REST controller for workspace file operations
  */
-@Slf4j
 @RestController
 @RequestMapping("/workspace")
-@RequiredArgsConstructor
 public class WorkspaceController {
 
+    private static final Logger log = LoggerFactory.getLogger(WorkspaceController.class);
+
     private final WorkspaceService workspaceService;
+
+    public WorkspaceController(WorkspaceService workspaceService) {
+        this.workspaceService = workspaceService;
+    }
 
     /**
      * List all files in the workspace

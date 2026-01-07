@@ -1,11 +1,11 @@
 package fr.inria.familiar.webfml.dto;
 
-import lombok.Data;
-
 /**
  * Request DTO for interpreting FAMILIAR commands
  */
-@Data
 public class InterpretRequest {
     private String command;
+
+    public String getCommand() { return command; }
+    public void setCommand(String command) { this.command = command; }
 }

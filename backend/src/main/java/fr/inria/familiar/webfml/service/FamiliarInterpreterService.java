@@ -6,7 +6,8 @@ import fr.familiar.interpreter.FMLFatalError;
 import fr.familiar.variable.ConfigurationVariable;
 import fr.familiar.variable.FeatureModelVariable;
 import fr.familiar.variable.Variable;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,9 +18,10 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Service to manage FAMILIAR interpreter instances per session
  */
-@Slf4j
 @Service
 public class FamiliarInterpreterService {
+
+    private static final Logger log = LoggerFactory.getLogger(FamiliarInterpreterService.class);
 
     private final Map<String, FMLBasicInterpreter> interpretersBySession = new ConcurrentHashMap<>();
 
@@ -55,7 +57,11 @@ public class FamiliarInterpreterService {
      */
     public Variable getVariable(String sessionId, String variableId) {
         FMLBasicInterpreter interpreter = getInterpreter(sessionId);
-        return interpreter.eval(variableId);
+        try {
+            return interpreter.eval(variableId);
+        } catch (FMLFatalError | FMLAssertionError e) {
+            throw new RuntimeException("Error evaluating variable: " + variableId, e);
+        }
     }
 
     /**
