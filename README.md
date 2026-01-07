@@ -1,173 +1,188 @@
-# webfml
+# WebFML - FAMILIAR Web IDE
 
-
-FAMILIAR goes to the web... 
-The goal is to progressively migrate our (unrelated) tools to the web. 
-The long term vision is to have an integrated solution at the end, incl.
- * reverse engineering, 
- * testing, 
- * advanced feature modeling 
+FAMILIAR goes to the web...
+The goal is to progressively migrate our (unrelated) tools to the web.
+The long term vision is to have an integrated solution at the end, including:
+ * reverse engineering,
+ * testing,
+ * advanced feature modeling
  * model-based product lines.
 
-Promises ? 
-
+Promises:
  * Better integration of tools
  * Ease of development (especially user interfaces)
- * Usable environements 
- * More visible impact 
- * Deployment facilities 
+ * Usable environments
+ * More visible impact
+ * Deployment facilities
 
-For all participants: experience with web dev. 
+![WebFML Screenshot](screenshot.png)
 
-## Current status
- 
- We have a basic version of FAMILIAR environment with 
-  * a textual editor (very basic) for specifying scripts
-  * a console to interact (very basic again)
-  * way to execute a script
-  * way to reset
-  * (partially) the logics for handling a "ksynthesis" session 
+## Features
 
-It works with the Play! framework 2.2.0 (http://www.playframework.com/documentation/2.2.0), the Scala version. We also rely on some Javascripts (ACE editor and jqconsole). 
-More details in the dedicated page. 
+ * **Code Editor**: Monaco-based editor with syntax highlighting for FAMILIAR scripts
+ * **Interactive Console**: Execute commands and see results in real-time
+ * **Variables Panel**: View all defined variables with their values
+ * **Feature Model Display**: Visualize feature models directly in the IDE
+ * **Interactive KSynthesis**: Synthesize feature models interactively with multiple heuristics (SmithWaterman, Levenshtein, AlwaysZero, Random)
+ * **File Management**: Open and save FAMILIAR scripts
 
-## Setting up Eclipse
+## Technology Stack
 
- * Download Play! : http://www.playframework.com/
- * Install Play! as follows : e.g., http://www.playframework.com/documentation/2.2.1/Installing
- * In webfml directory, start play (in the console enter the command play), in Play! console enter the command ''eclipse'' : http://www.playframework.com/documentation/2.2.1/IDE
+### Backend
+- **Spring Boot 3.2.1** with Java 21
+- **FAMILIAR** language interpreter
+- **KSynthesis** library for feature model synthesis
+- RESTful API architecture
 
-## Setting up the installation
+### Frontend
+- **React 18** with TypeScript
+- **Vite 5** for fast development and building
+- **Monaco Editor** for code editing
+- **Lucide React** for icons
 
-```
-Familiar build
---------------
- * git clone git@github.com:FAMILIAR-project/familiar-language.git
- * mvn clean install -DskipTests from familiar.root/
- * mvn clean install from familiar.standalone/
+## Prerequisites
 
-KSynthesis build
------------------
- * git clone https://github.com/gbecan/FOReverSE-KSynthesis.git
- * mvn clean install from KSynthesis/
+- Java 21 or higher
+- Node.js 18+ and npm (or pnpm)
+- Maven 3.8+
+- FAMILIAR and KSynthesis libraries installed locally
 
-WebFML build
-----------------
- * git clone git@github.com:FAMILIAR-project/webfml.git
- * install Play [https://www.playframework.com/download] 
- * mvn clean install -DskipTests -DPLAY2_HOME=/path/to/play-2.2.4/
-```
+## Installation
 
-You are ready to work
-We need also to "manually" download FeatureIDE jars (or mavenize FeatureIDE):
-http://wwwiti.cs.uni-magdeburg.de/iti_db/research/featureide/deploy/plugins/
-```
-wget http://wwwiti.cs.uni-magdeburg.de/iti_db/research/featureide/deploy/plugins/de.ovgu.featureide.core_2.7.5.201512021815.jar
-and also:
- de.ovgu.featureide.fm.core_2.7.5.201512021815.jar
- de.ovgu.featureide.fm.ui_2.7.5.201512021815.jar
- de.ovgu.featureide.ui_2.7.5.201512021815.jar
- 
- and finally: org.sat4j.core.jar
+### 1. Build FAMILIAR
+
+```bash
+git clone git@github.com:FAMILIAR-project/familiar-language.git
+cd familiar-language
+mvn clean install -DskipTests
 ```
 
-## Compile and Run
+### 2. Build KSynthesis
 
- * In your source directory open the terminal
- * start play (command : play)
- * to compile type the command compile 
- * to run type the command run
- * go to the url : localhost:9000
- 
-
- 
- 
-# webfml (Play application)
-
-It works with the Play! framework 2.2.0 (http://www.playframework.com/documentation/2.2.0). 
-Specifically the Scala version.
-
-Currently, we have a basic version of the FAMILIAR environment:
-
- * a textual editor (very basic) for specifying scripts => we rely on the ACE project (http://ace.c9.io/#nav=about)
- * a console to interact (very basic again) => we rely on the jq-console project (https://github.com/replit/jq-console/) 
- * way to execute a FAMILIAR script
- * way to reset the "variables environment" 
- * (partially) the logics for handling a "ksynthesis" session
- 
-## Eclipse, Scala, Play, FAMILIAR, etc
-
-You need Eclipse, FAMILIAR installed, Scala support and Play! 
-
-### Execution 
-
-Checkout the FMLApp project. 
-This is simply an Eclipse projet.
-You obviously need an Eclipse with a Scala plugin (http://scala-ide.org/). We are using version 2.10.2. 
-
-Then you need to generate a "jar" of FAMILIAR (i.e., you need FAMILIAR). 
-For doing that, right click on the project FAMILIAR, Export, Runnable Jar File...
-As destination set: 
-FMLApp/lib/FML-1.2.jar
-and select "Extract required libraries into generated JAR" 
-
-
-Once done, you can execute play in the directory of FMLApp 
- * (optional) set up the preferences for your IDE (Eclipse, IntelliJ, etc.) => http://www.playframework.com/documentation/2.2.1/IDE
- * compile the project and run the server
-
-```
-macher:FMLApp macher1$ pwd
-/Users/macher1/git/webfml/FMLApp
-macher:FMLApp macher1$ ~/Downloads/play-2.2.0/play
-[FMLApp] $ eclipse
-...
-[FMLApp] $ ~run
-
---- (Running the application from SBT, auto-reloading is enabled) ---
-
-[info] play - Listening for HTTP on /0:0:0:0:0:0:0:0:9000
-
-(Server started, use Ctrl+D to stop and go back to the console...)
-
-[info] Compiling 9 Scala sources and 1 Java source to /Users/macher1/git/webfml/FMLApp/target/scala-2.10/classes...
-[success] Compiled in 12s
-```
-(~ is for having a compilation every time you modify the source) 
-
-Then you can check that it works:
-http://127.0.0.1:9000/
-
-
-
-## Organization of the code
-
-For those unfamiliar with a Play application:
- * app/controllers define classes that are likely to compute complex stuff (here resides the FAMILIAR interpreter for instance)
- * app/views define the views (templates like, mix of HTML/CSS/JS and Scala) 
- * public/javascripts JS files that are managing the UI interactions and handle the AJAX requests
-  * FMLconsole.js  (for the interaction with the console)
-  * FML-callback.js (for the ACE editor)
-
-We use Bower to download the last versions of the Javascripts libraries (ACE, bootstrap, jquery-migrate, etc.) 
-http://bower.io/
-```
-MacBook-Pro-de-Mathieu-3:javascripts macher1$ bower install jquery-migrate
-bower install bootstrap
-bower install ace
-``` 
- 
-As  the browser method of jq-console is deprecated (see http://api.jquery.com/jQuery.browser/) https://github.com/jquery/jquery-migrate/ is also needed
- 
- 
-We cannot use Bower for getting jq-console:
- 
-```
- git clone https://github.com/replit/jq-console
+```bash
+git clone https://github.com/gbecan/FOReverSE-KSynthesis.git
+cd FOReverSE-KSynthesis
+mvn clean install -DskipTests
 ```
 
- 
+### 3. Build and Run WebFML
 
+```bash
+git clone git@github.com:FAMILIAR-project/webfml.git
+cd webfml
 
+# Build and run backend
+cd backend
+mvn clean install
+mvn spring-boot:run
 
+# In another terminal, build and run frontend
+cd frontend
+npm install
+npm run dev
+```
 
+The application will be available at:
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:8080
+
+## Docker Support
+
+Build and run with Docker Compose:
+
+```bash
+docker-compose up --build
+```
+
+Or build images separately:
+
+```bash
+# Backend
+cd backend
+docker build -t webfml-backend .
+
+# Frontend
+cd frontend
+docker build -t webfml-frontend .
+```
+
+## Project Structure
+
+```
+webfml/
+├── backend/                    # Spring Boot backend
+│   └── src/main/java/fr/inria/familiar/webfml/
+│       ├── controller/         # REST controllers
+│       │   ├── FamiliarController.java      # FAMILIAR interpreter endpoints
+│       │   └── KSynthesisController.java    # KSynthesis session endpoints
+│       ├── service/            # Business logic
+│       │   ├── FamiliarInterpreterService.java  # Manages FML interpreters
+│       │   └── KSynthesisService.java           # Manages synthesis sessions
+│       └── dto/                # Data transfer objects
+├── frontend/                   # React frontend
+│   └── src/
+│       ├── components/         # React components
+│       │   ├── Editor.tsx           # Monaco code editor
+│       │   ├── Console.tsx          # Interactive console
+│       │   ├── Toolbar.tsx          # Action buttons
+│       │   ├── VariablesPanel.tsx   # Variables list
+│       │   └── KSynthesisPanel.tsx  # Interactive synthesis UI
+│       └── api/
+│           └── client.ts       # API client
+└── docker-compose.yml          # Docker orchestration
+```
+
+## API Endpoints
+
+### FAMILIAR Interpreter
+- `GET /familiar/keywords` - Get FAMILIAR keywords for syntax highlighting
+- `POST /familiar/interpret` - Execute FAMILIAR code
+- `GET /familiar/variables` - List all defined variables
+- `GET /familiar/variables/{id}` - Get variable value
+- `POST /familiar/reset` - Reset the interpreter session
+
+### KSynthesis
+- `POST /familiar/ksynthesis/start` - Start synthesis session for a feature model
+- `POST /familiar/ksynthesis/select-parent` - Select a parent for a feature
+- `POST /familiar/ksynthesis/ignore-parent` - Ignore a parent candidate
+- `POST /familiar/ksynthesis/set-root` - Set a feature as root
+- `POST /familiar/ksynthesis/complete` - Auto-complete the synthesis
+- `POST /familiar/ksynthesis/undo` - Undo last action
+- `POST /familiar/ksynthesis/redo` - Redo last undone action
+- `POST /familiar/ksynthesis/save` - Save synthesized feature model
+- `GET /familiar/ksynthesis/heuristics` - List available heuristics
+
+## Usage
+
+1. Write FAMILIAR code in the editor (left panel)
+2. Click "Run" to execute the script
+3. View results in the console (bottom panel)
+4. See defined variables in the Variables panel (right panel)
+5. For feature model variables, click:
+   - **Display** to view the feature model structure
+   - **Synthesize** to open the interactive KSynthesis panel
+
+### Example FAMILIAR Code
+
+```
+fm1 = FM(A: B [C];)
+fm2 = FM(L: B C [D]; D : [E] F;)
+fm3 = FM (SP : OS Motherboard; OS: (Linux|Windows);)
+compare fm1 fm2
+```
+
+## History
+
+This project was originally built with Play! Framework 2.2.0 (Scala) and has been modernized to use:
+- Spring Boot 3.x (replacing Play! Framework)
+- React 18 with TypeScript (replacing Scala templates)
+- Monaco Editor (replacing ACE editor)
+- Modern build tools (Maven + Vite)
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit issues and pull requests.
+
+## License
+
+See the LICENSE file for details.
