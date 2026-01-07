@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { Terminal, Trash2 } from 'lucide-react'
-import { familiarApi, ErrorResponse } from '@/api/client'
+import { familiarApi } from '@/api/client'
 import './Console.css'
 
 interface ConsoleMessage {

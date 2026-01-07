@@ -25,13 +25,16 @@ const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
     editor.getModel()?.updateOptions({ tabSize: 2 })
 
     // Add keyboard shortcuts
-    editor.addCommand(
-      monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter,
-      () => {
-        // Trigger run command (you can dispatch an event here)
+    // Note: monaco global is available after editor mount
+    // For now, using editor API directly
+    editor.addAction({
+      id: 'run-familiar',
+      label: 'Run FAMILIAR Code',
+      keybindings: [2048 | 3], // Ctrl+Enter (monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter)
+      run: () => {
         console.log('Run command triggered')
-      }
-    )
+      },
+    })
   }
 
   return (
