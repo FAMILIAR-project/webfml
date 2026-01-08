@@ -21,6 +21,27 @@ export interface ErrorResponse {
   msgError: string
 }
 
+// Feature Model Tree Structure
+export interface FeatureNode {
+  name: string
+  mandatory: FeatureNode[]
+  optional: FeatureNode[]
+  orGroups: FeatureGroup[]
+  xorGroups: FeatureGroup[]
+  mutexGroups: FeatureGroup[]
+}
+
+export interface FeatureGroup {
+  type: 'or' | 'xor' | 'mutex'
+  members: FeatureNode[]
+}
+
+export interface FeatureModelStructure {
+  variableId: string
+  root: string
+  tree: FeatureNode
+}
+
 // FAMILIAR API
 export const familiarApi = {
   interpret: async (command: string): Promise<InterpretResponse> => {
@@ -53,6 +74,11 @@ export const familiarApi = {
 
   getKeywords: async (): Promise<string[]> => {
     const response = await api.get<string[]>('/familiar/keywords')
+    return response.data
+  },
+
+  getFeatureModelStructure: async (variableId: string): Promise<FeatureModelStructure> => {
+    const response = await api.get<FeatureModelStructure>(`/familiar/fm/${variableId}/structure`)
     return response.data
   },
 }

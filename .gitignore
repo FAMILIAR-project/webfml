@@ -83,7 +83,7 @@ output/
 project/
 public/
 resources/
-test/
+/test/
 scriptsRepository.zip
 build.sbt
 bower.json

@@ -1,0 +1,317 @@
+.fm-tree-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  min-width: 500px;
+  max-width: 90vw;
+  max-height: 85vh;
+  overflow: hidden;
+}
+
+.fm-tree-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background-color: #252526;
+  border-bottom: 1px solid #3c3c3c;
+}
+
+.fm-tree-header h3 {
+  margin: 0;
+  font-size: 14px;
+  color: #cccccc;
+  font-weight: 500;
+}
+
+.fm-legend {
+  display: flex;
+  gap: 16px;
+  font-size: 11px;
+  color: #858585;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mandatory-indicator {
+  color: #4ec9b0;
+}
+
+.optional-indicator {
+  color: #9cdcfe;
+}
+
+.or-arc {
+  color: #dcdcaa;
+}
+
+.xor-arc {
+  color: #ce9178;
+}
+
+.mutex-arc {
+  color: #c586c0;
+}
+
+.fm-close-btn {
+  background: none;
+  border: none;
+  color: #858585;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.fm-close-btn:hover {
+  background-color: #3c3c3c;
+  color: #cccccc;
+}
+
+.fm-tree-content {
+  padding: 24px;
+  overflow: auto;
+  flex: 1;
+}
+
+.fm-tree-loading,
+.fm-tree-error {
+  padding: 32px;
+  text-align: center;
+  color: #858585;
+}
+
+.fm-tree-error {
+  color: #f48771;
+}
+
+/* Feature Node */
+.fm-node-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.fm-node {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background-color: #2d2d2d;
+  border: 1px solid #3c3c3c;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.fm-node.fm-root {
+  background-color: #0e639c;
+  border-color: #1177bb;
+}
+
+.fm-node.fm-root .fm-feature-name {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.fm-feature-name {
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 13px;
+  color: #4ec9b0;
+}
+
+.fm-indicator {
+  font-size: 12px;
+  line-height: 1;
+}
+
+.fm-indicator.mandatory {
+  color: #4ec9b0;
+}
+
+.fm-indicator.optional {
+  color: #9cdcfe;
+}
+
+.fm-indicator.group-member.or {
+  color: #dcdcaa;
+}
+
+.fm-indicator.group-member.xor {
+  color: #ce9178;
+}
+
+.fm-indicator.group-member.mutex {
+  color: #c586c0;
+}
+
+.fm-cardinality {
+  font-size: 10px;
+  color: #858585;
+  margin-left: 4px;
+}
+
+/* Children container */
+.fm-children {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  padding-left: 20px;
+  border-left: 1px solid #3c3c3c;
+}
+
+/* Individual child */
+.fm-child {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 8px;
+  position: relative;
+}
+
+.fm-connector {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.fm-line-h {
+  width: 20px;
+  height: 1px;
+  background-color: #3c3c3c;
+}
+
+.fm-line-v {
+  display: none;
+}
+
+/* Groups */
+.fm-group {
+  display: flex;
+  margin-top: 12px;
+  position: relative;
+}
+
+.fm-group-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 8px;
+}
+
+.fm-arc {
+  position: relative;
+  width: 24px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fm-arc-or {
+  border-left: 2px solid #dcdcaa;
+  border-radius: 0 0 0 12px;
+}
+
+.fm-arc-xor {
+  border-left: 2px dashed #ce9178;
+  border-radius: 0 0 0 12px;
+}
+
+.fm-arc-mutex {
+  border-left: 2px dotted #c586c0;
+  border-radius: 0 0 0 12px;
+}
+
+.arc-symbol {
+  position: absolute;
+  left: -8px;
+  font-size: 16px;
+}
+
+.fm-arc-or .arc-symbol {
+  color: #dcdcaa;
+}
+
+.fm-arc-xor .arc-symbol {
+  color: #ce9178;
+}
+
+.fm-arc-mutex .arc-symbol {
+  color: #c586c0;
+}
+
+.arc-cardinality {
+  position: absolute;
+  left: 12px;
+  font-size: 9px;
+  color: #858585;
+  white-space: nowrap;
+}
+
+.fm-group-members {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  background-color: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+  border-left: 3px solid;
+}
+
+.fm-group-or .fm-group-members {
+  border-left-color: #dcdcaa;
+}
+
+.fm-group-xor .fm-group-members {
+  border-left-color: #ce9178;
+}
+
+.fm-group-mutex .fm-group-members {
+  border-left-color: #c586c0;
+}
+
+.fm-group-member {
+  display: flex;
+  align-items: center;
+}
+
+.fm-group-member .fm-connector {
+  width: 16px;
+}
+
+.fm-group-member .fm-line-h {
+  width: 16px;
+}
+
+/* Group label */
+.fm-group::before {
+  content: attr(data-type);
+  position: absolute;
+  top: -8px;
+  left: 0;
+  font-size: 10px;
+  text-transform: uppercase;
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+
+.fm-group-or::before {
+  content: "OR";
+  color: #dcdcaa;
+  background-color: rgba(220, 220, 170, 0.1);
+}
+
+.fm-group-xor::before {
+  content: "XOR";
+  color: #ce9178;
+  background-color: rgba(206, 145, 120, 0.1);
+}
+
+.fm-group-mutex::before {
+  content: "MUTEX";
+  color: #c586c0;
+  background-color: rgba(197, 134, 192, 0.1);
+}

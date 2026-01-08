@@ -101,6 +101,22 @@ public class FamiliarController {
     }
 
     /**
+     * Get structured feature model for visualization
+     */
+    @GetMapping("/fm/{id}/structure")
+    public ResponseEntity<?> getFeatureModelStructure(
+            @PathVariable String id,
+            HttpSession session) {
+        try {
+            Map<String, Object> structure = interpreterService.getFeatureModelStructure(session.getId(), id);
+            return ResponseEntity.ok(structure);
+        } catch (Exception e) {
+            log.error("Error getting FM structure: ", e);
+            return ResponseEntity.badRequest().body(Map.of("msgError", e.getMessage()));
+        }
+    }
+
+    /**
      * Get all variable IDs
      */
     @GetMapping("/variables")

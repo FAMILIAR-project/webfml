@@ -133,3 +133,12 @@
 .ksynthesis-modal .ksynthesis-panel {
   border-radius: 8px;
 }
+
+/* Feature Model Tree modal */
+.fm-tree-modal {
+  min-width: 600px;
+  max-width: 90vw;
+  max-height: 85vh;
+  padding: 0;
+  background-color: transparent;
+}
