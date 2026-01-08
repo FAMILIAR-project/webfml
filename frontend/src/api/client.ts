@@ -64,6 +64,11 @@ export const familiarApi = {
     return response.data
   },
 
+  getVariableInfo: async (id: string): Promise<{ id: string; value: string; type: string }> => {
+    const response = await api.get<{ id: string; value: string; type: string }>(`/familiar/variable/${id}/info`)
+    return response.data
+  },
+
   getAllVariables: async (): Promise<string[]> => {
     const response = await api.get<string[]>('/familiar/variables')
     return response.data
@@ -220,6 +225,72 @@ export const workspaceApi = {
 
   deleteFolder: async (name: string): Promise<void> => {
     await api.delete('/workspace/folder', { params: { name } })
+  },
+}
+
+// Configuration API
+export interface ConfigFeatureGroup {
+  type: 'or' | 'xor' | 'mutex'
+  members: ConfigFeatureNode[]
+}
+
+export interface ConfigFeatureNode {
+  name: string
+  state: 'selected' | 'deselected' | 'unselected'
+  mandatory: ConfigFeatureNode[]
+  optional: ConfigFeatureNode[]
+  orGroups: ConfigFeatureGroup[]
+  xorGroups: ConfigFeatureGroup[]
+  mutexGroups: ConfigFeatureGroup[]
+}
+
+export interface ConfigurationState {
+  variableId: string
+  fmVariableId: string
+  valid: boolean
+  complete: boolean
+  tree: ConfigFeatureNode
+  constraints: string[]
+  selected: string[]
+  deselected: string[]
+  unselected: string[]
+  active?: boolean
+}
+
+export const configurationApi = {
+  start: async (variableId: string): Promise<ConfigurationState> => {
+    const response = await api.post<ConfigurationState>('/configuration/start', {}, { params: { variableId } })
+    return response.data
+  },
+
+  select: async (feature: string): Promise<ConfigurationState> => {
+    const response = await api.post<ConfigurationState>('/configuration/select', {}, { params: { feature } })
+    return response.data
+  },
+
+  deselect: async (feature: string): Promise<ConfigurationState> => {
+    const response = await api.post<ConfigurationState>('/configuration/deselect', {}, { params: { feature } })
+    return response.data
+  },
+
+  unselect: async (feature: string): Promise<ConfigurationState> => {
+    const response = await api.post<ConfigurationState>('/configuration/unselect', {}, { params: { feature } })
+    return response.data
+  },
+
+  autoComplete: async (mode: 'MAX' | 'MIN' | 'RANDOM' = 'MAX'): Promise<ConfigurationState> => {
+    const response = await api.post<ConfigurationState>('/configuration/auto-complete', {}, { params: { mode } })
+    return response.data
+  },
+
+  getState: async (): Promise<ConfigurationState> => {
+    const response = await api.get<ConfigurationState>('/configuration/state')
+    return response.data
+  },
+
+  save: async (newVariableId?: string): Promise<{ variableId: string; value: string }> => {
+    const response = await api.post('/configuration/save', {}, { params: { newVariableId } })
+    return response.data
   },
 }
 

@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react'
-import { Variable, Eye, Sparkles, RefreshCw } from 'lucide-react'
+import { Variable, Eye, Sparkles, RefreshCw, Settings } from 'lucide-react'
 import { familiarApi } from '@/api/client'
 import './VariablesPanel.css'
 
 interface VariableInfo {
   id: string
   value: string
-  isFeatureModel: boolean
+  type: 'FeatureModel' | 'Configuration' | 'unknown'
 }
 
 interface VariablesPanelProps {
   onDisplayFM: (variableId: string, fmValue: string) => void
   onSynthesize: (variableId: string) => void
+  onConfigure: (variableId: string) => void
 }
 
-const VariablesPanel: React.FC<VariablesPanelProps> = ({ onDisplayFM, onSynthesize }) => {
+const VariablesPanel: React.FC<VariablesPanelProps> = ({ onDisplayFM, onSynthesize, onConfigure }) => {
   const [variables, setVariables] = useState<VariableInfo[]>([])
   const [loading, setLoading] = useState(false)
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
@@ -27,12 +28,14 @@ const VariablesPanel: React.FC<VariablesPanelProps> = ({ onDisplayFM, onSynthesi
 
       for (const id of varIds) {
         try {
-          const value = await familiarApi.getVariable(id)
-          // Check if it's a feature model (contains FM syntax patterns)
-          const isFeatureModel = value.includes(':') && (value.includes(';') || value.includes('['))
-          varInfos.push({ id, value, isFeatureModel })
+          const info = await familiarApi.getVariableInfo(id)
+          varInfos.push({
+            id: info.id,
+            value: info.value,
+            type: info.type as 'FeatureModel' | 'Configuration' | 'unknown'
+          })
         } catch {
-          varInfos.push({ id, value: '(error loading)', isFeatureModel: false })
+          varInfos.push({ id, value: '(error loading)', type: 'unknown' })
         }
       }
 
@@ -51,16 +54,41 @@ const VariablesPanel: React.FC<VariablesPanelProps> = ({ onDisplayFM, onSynthesi
     return () => clearInterval(interval)
   }, [])
 
-  const handleDisplay = (variable: VariableInfo) => {
+  const handleDisplayFM = (variable: VariableInfo) => {
     onDisplayFM(variable.id, variable.value)
+  }
+
+  const handleDisplayConfig = (variableId: string) => {
+    // For configurations, open the configurator view
+    onConfigure(variableId)
   }
 
   const handleSynthesize = (variableId: string) => {
     onSynthesize(variableId)
   }
 
+  const handleConfigure = (variableId: string) => {
+    onConfigure(variableId)
+  }
+
   const toggleExpanded = (id: string) => {
     setExpanded(prev => ({ ...prev, [id]: !prev[id] }))
+  }
+
+  const getTypeLabel = (type: string) => {
+    switch (type) {
+      case 'FeatureModel': return 'FM'
+      case 'Configuration': return 'Config'
+      default: return null
+    }
+  }
+
+  const getTypeClass = (type: string) => {
+    switch (type) {
+      case 'FeatureModel': return 'is-fm'
+      case 'Configuration': return 'is-config'
+      default: return ''
+    }
   }
 
   return (
@@ -90,11 +118,13 @@ const VariablesPanel: React.FC<VariablesPanelProps> = ({ onDisplayFM, onSynthesi
                 className="variable-header"
                 onClick={() => toggleExpanded(variable.id)}
               >
-                <span className={`variable-name ${variable.isFeatureModel ? 'is-fm' : ''}`}>
+                <span className={`variable-name ${getTypeClass(variable.type)}`}>
                   {variable.id}
                 </span>
-                {variable.isFeatureModel && (
-                  <span className="variable-type">FM</span>
+                {getTypeLabel(variable.type) && (
+                  <span className={`variable-type ${variable.type === 'Configuration' ? 'config-type' : ''}`}>
+                    {getTypeLabel(variable.type)}
+                  </span>
                 )}
               </div>
 
@@ -102,10 +132,10 @@ const VariablesPanel: React.FC<VariablesPanelProps> = ({ onDisplayFM, onSynthesi
                 <div className="variable-details">
                   <pre className="variable-value">{variable.value}</pre>
 
-                  {variable.isFeatureModel && (
+                  {variable.type === 'FeatureModel' && (
                     <div className="variable-actions">
                       <button
-                        onClick={() => handleDisplay(variable)}
+                        onClick={() => handleDisplayFM(variable)}
                         className="action-btn display-btn"
                         title="Display feature model"
                       >
@@ -119,6 +149,27 @@ const VariablesPanel: React.FC<VariablesPanelProps> = ({ onDisplayFM, onSynthesi
                       >
                         <Sparkles size={12} />
                         <span>Synthesize</span>
+                      </button>
+                      <button
+                        onClick={() => handleConfigure(variable.id)}
+                        className="action-btn config-btn"
+                        title="Configure feature model"
+                      >
+                        <Settings size={12} />
+                        <span>Configure</span>
+                      </button>
+                    </div>
+                  )}
+
+                  {variable.type === 'Configuration' && (
+                    <div className="variable-actions">
+                      <button
+                        onClick={() => handleDisplayConfig(variable.id)}
+                        className="action-btn config-btn"
+                        title="View/edit configuration"
+                      >
+                        <Settings size={12} />
+                        <span>View Config</span>
                       </button>
                     </div>
                   )}

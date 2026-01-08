@@ -142,3 +142,12 @@
   padding: 0;
   background-color: transparent;
 }
+
+/* Configuration modal */
+.configurator-modal {
+  min-width: 700px;
+  max-width: 95vw;
+  max-height: 90vh;
+  padding: 0;
+  background-color: transparent;
+}

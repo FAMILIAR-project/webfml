@@ -84,12 +84,22 @@
   font-weight: 500;
 }
 
+.variable-name.is-config {
+  color: #dcdcaa;
+  font-weight: 500;
+}
+
 .variable-type {
   font-size: 10px;
   padding: 2px 6px;
   background-color: #3c3c3c;
   border-radius: 3px;
   color: #4ec9b0;
+}
+
+.variable-type.config-type {
+  color: #dcdcaa;
+  background-color: #3d3a2e;
 }
 
 .variable-details {
@@ -144,6 +154,15 @@
 
 .synth-btn:hover {
   background-color: #5a5a5a;
+}
+
+.config-btn {
+  background-color: #388a34;
+  color: white;
+}
+
+.config-btn:hover {
+  background-color: #4bb543;
 }
 
 @keyframes spin {

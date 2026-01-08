@@ -2,6 +2,8 @@ package fr.inria.familiar.webfml.controller;
 
 import fr.familiar.interpreter.FMLAssertionError;
 import fr.familiar.interpreter.FMLFatalError;
+import fr.familiar.variable.ConfigurationVariable;
+import fr.familiar.variable.FeatureModelVariable;
 import fr.familiar.variable.Variable;
 import fr.inria.familiar.webfml.dto.InterpretRequest;
 import fr.inria.familiar.webfml.dto.InterpretResponse;
@@ -123,6 +125,31 @@ public class FamiliarController {
     public ResponseEntity<List<String>> getAllVariables(HttpSession session) {
         List<String> varIds = interpreterService.getAllVariableIds(session.getId());
         return ResponseEntity.ok(varIds);
+    }
+
+    /**
+     * Get variable info with type
+     */
+    @GetMapping("/variable/{id}/info")
+    public ResponseEntity<?> getVariableInfo(
+            @PathVariable String id,
+            HttpSession session) {
+        try {
+            Variable var = interpreterService.getVariable(session.getId(), id);
+            String type = "unknown";
+            if (var instanceof FeatureModelVariable) {
+                type = "FeatureModel";
+            } else if (var instanceof ConfigurationVariable) {
+                type = "Configuration";
+            }
+            return ResponseEntity.ok(Map.of(
+                "id", id,
+                "value", var.getValue(),
+                "type", type
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
     }
 
     /**
