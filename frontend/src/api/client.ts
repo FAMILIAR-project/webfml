@@ -40,6 +40,7 @@ export interface FeatureModelStructure {
   variableId: string
   root: string
   tree: FeatureNode
+  constraints: string[]
 }
 
 // FAMILIAR API

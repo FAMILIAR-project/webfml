@@ -6,6 +6,7 @@ import fr.familiar.interpreter.FMLFatalError;
 import fr.familiar.variable.ConfigurationVariable;
 import fr.familiar.variable.FeatureModelVariable;
 import fr.familiar.variable.Variable;
+import gsd.synthesis.Expression;
 import gsd.synthesis.FeatureEdge;
 import gsd.synthesis.FeatureGraph;
 import gsd.synthesis.FeatureNode;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * Service to manage FAMILIAR interpreter instances per session
@@ -171,6 +173,21 @@ public class FamiliarInterpreterService {
         if (rootFeature != null) {
             result.put("tree", buildFeatureTree(diagram, rootFeature));
         }
+
+        // Extract constraints
+        List<String> constraints = new ArrayList<>();
+        try {
+            Set<Expression<String>> allConstraints = fmv.getAllConstraints();
+            if (allConstraints != null) {
+                constraints = allConstraints.stream()
+                        .map(Expression::toString)
+                        .sorted()
+                        .collect(Collectors.toList());
+            }
+        } catch (Exception e) {
+            log.warn("Could not extract constraints: {}", e.getMessage());
+        }
+        result.put("constraints", constraints);
 
         return result;
     }

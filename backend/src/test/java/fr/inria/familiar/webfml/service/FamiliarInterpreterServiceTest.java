@@ -196,4 +196,40 @@ class FamiliarInterpreterServiceTest {
         assertEquals("B", mandatory.get(0).get("name"));
         assertEquals("C", optional.get(0).get("name"));
     }
+
+    @Test
+    void testFeatureModelStructure_WithConstraints() throws Exception {
+        // FM with cross-tree constraints
+        String command = "fmC = FM(A: B [C] [D] [E]; B -> C; D -> E;)";
+
+        service.evalPrompt(TEST_SESSION, command);
+        Map<String, Object> structure = service.getFeatureModelStructure(TEST_SESSION, "fmC");
+
+        assertNotNull(structure);
+
+        @SuppressWarnings("unchecked")
+        List<String> constraints = (List<String>) structure.get("constraints");
+
+        assertNotNull(constraints, "Constraints should not be null");
+        assertEquals(2, constraints.size(), "Should have 2 constraints");
+
+        // Constraints are sorted alphabetically
+        assertTrue(constraints.contains("(B -> C)"), "Should contain B implies C constraint");
+        assertTrue(constraints.contains("(D -> E)"), "Should contain D implies E constraint");
+    }
+
+    @Test
+    void testFeatureModelStructure_NoConstraints() throws Exception {
+        // FM without constraints
+        String command = "fmNoC = FM(A: B [C];)";
+
+        service.evalPrompt(TEST_SESSION, command);
+        Map<String, Object> structure = service.getFeatureModelStructure(TEST_SESSION, "fmNoC");
+
+        @SuppressWarnings("unchecked")
+        List<String> constraints = (List<String>) structure.get("constraints");
+
+        assertNotNull(constraints, "Constraints list should not be null");
+        assertTrue(constraints.isEmpty(), "Constraints list should be empty for FM without constraints");
+    }
 }

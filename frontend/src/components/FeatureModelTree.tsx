@@ -79,6 +79,18 @@ const FeatureModelTree: React.FC<FeatureModelTreeProps> = ({ variableId, onClose
       </div>
       <div className="fm-tree-content">
         <FeatureNodeComponent node={structure.tree} isRoot={true} />
+
+        {/* Constraints box */}
+        {structure.constraints && structure.constraints.length > 0 && (
+          <div className="fm-constraints-box">
+            <div className="fm-constraints-header">Constraints</div>
+            <ul className="fm-constraints-list">
+              {structure.constraints.map((constraint, idx) => (
+                <li key={idx} className="fm-constraint-item">{constraint}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   )

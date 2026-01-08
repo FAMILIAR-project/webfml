@@ -315,3 +315,40 @@
   color: #c586c0;
   background-color: rgba(197, 134, 192, 0.1);
 }
+
+/* Constraints box */
+.fm-constraints-box {
+  margin-top: 24px;
+  padding: 12px 16px;
+  background-color: #2d2d2d;
+  border: 1px solid #3c3c3c;
+  border-radius: 6px;
+  border-left: 3px solid #569cd6;
+}
+
+.fm-constraints-header {
+  font-size: 12px;
+  font-weight: 600;
+  color: #569cd6;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.fm-constraints-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.fm-constraint-item {
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 13px;
+  color: #dcdcaa;
+  padding: 4px 0;
+  border-bottom: 1px solid #3c3c3c;
+}
+
+.fm-constraint-item:last-child {
+  border-bottom: none;
+}
