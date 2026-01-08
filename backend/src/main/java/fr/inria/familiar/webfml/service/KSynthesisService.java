@@ -35,6 +35,8 @@ public class KSynthesisService {
         // Note: WuPalmer and PathLength require WordNet initialization
     }
 
+    private static final int MAX_SYNTHESIS_RETRIES = 3;
+
     /**
      * Start interactive synthesis for a feature model
      */
@@ -45,18 +47,34 @@ public class KSynthesisService {
         Heuristic clusterHeuristic = heuristics.get("SmithWaterman");
         double clusterThreshold = 0.5;
 
-        InteractiveFMSynthesizer synthesizer;
-        try {
-            synthesizer = new InteractiveFMSynthesizer(
-                fmv, parentHeuristic, null, clusterHeuristic, clusterThreshold);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            // BDD library bug during implication graph computation
-            // This is a known issue with certain feature model structures
-            log.error("BDD library error during synthesis initialization: {}", e.getMessage());
+        InteractiveFMSynthesizer synthesizer = null;
+        ArrayIndexOutOfBoundsException lastError = null;
+
+        // Retry logic for flaky BDD library
+        for (int attempt = 1; attempt <= MAX_SYNTHESIS_RETRIES; attempt++) {
+            try {
+                synthesizer = new InteractiveFMSynthesizer(
+                    fmv, parentHeuristic, null, clusterHeuristic, clusterThreshold);
+                break; // Success
+            } catch (ArrayIndexOutOfBoundsException e) {
+                lastError = e;
+                log.warn("BDD library error on attempt {}/{}: {}", attempt, MAX_SYNTHESIS_RETRIES, e.getMessage());
+                if (attempt < MAX_SYNTHESIS_RETRIES) {
+                    try {
+                        Thread.sleep(100); // Brief pause before retry
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }
+        }
+
+        if (synthesizer == null) {
+            log.error("BDD library error after {} attempts", MAX_SYNTHESIS_RETRIES);
             throw new RuntimeException(
-                "Unable to start synthesis due to BDD computation error. " +
+                "Unable to start synthesis due to BDD computation error after " + MAX_SYNTHESIS_RETRIES + " attempts. " +
                 "This can happen with complex feature models. " +
-                "Try with a simpler feature model or remove some constraints.", e);
+                "Try again or use a simpler feature model.", lastError);
         }
 
         synthesizersBySession.put(sessionId, synthesizer);
