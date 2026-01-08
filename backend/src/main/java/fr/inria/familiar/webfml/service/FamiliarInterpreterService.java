@@ -43,8 +43,10 @@ public class FamiliarInterpreterService {
      */
     public Variable interpret(String sessionId, String command) throws FMLAssertionError, FMLFatalError {
         FMLBasicInterpreter interpreter = getInterpreter(sessionId);
-        interpreter.reset();
-        return interpreter.eval(command);
+        synchronized (interpreter) {
+            interpreter.reset();
+            return interpreter.eval(command);
+        }
     }
 
     /**
@@ -52,7 +54,9 @@ public class FamiliarInterpreterService {
      */
     public Variable evalPrompt(String sessionId, String command) throws FMLAssertionError, FMLFatalError {
         FMLBasicInterpreter interpreter = getInterpreter(sessionId);
-        return interpreter.eval(command);
+        synchronized (interpreter) {
+            return interpreter.eval(command);
+        }
     }
 
     /**
@@ -61,16 +65,19 @@ public class FamiliarInterpreterService {
     public Variable getVariable(String sessionId, String variableId) {
         FMLBasicInterpreter interpreter = getInterpreter(sessionId);
 
-        // First check if the variable exists in the interpreter
-        List<String> allIds = interpreter.getAllIdentifiers();
-        if (!allIds.contains(variableId)) {
-            throw new RuntimeException("Variable not found: " + variableId + ". Available variables: " + allIds);
-        }
+        // Synchronize on the interpreter to prevent race conditions
+        synchronized (interpreter) {
+            // First check if the variable exists in the interpreter
+            List<String> allIds = interpreter.getAllIdentifiers();
+            if (!allIds.contains(variableId)) {
+                throw new RuntimeException("Variable not found: " + variableId + ". Available variables: " + allIds);
+            }
 
-        try {
-            return interpreter.eval(variableId);
-        } catch (FMLFatalError | FMLAssertionError e) {
-            throw new RuntimeException("Error evaluating variable: " + variableId, e);
+            try {
+                return interpreter.eval(variableId);
+            } catch (FMLFatalError | FMLAssertionError e) {
+                throw new RuntimeException("Error evaluating variable: " + variableId, e);
+            }
         }
     }
 

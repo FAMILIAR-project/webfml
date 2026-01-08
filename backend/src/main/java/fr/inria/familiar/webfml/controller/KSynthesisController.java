@@ -39,14 +39,29 @@ public class KSynthesisController {
             HttpSession session) {
         try {
             String sessionId = session.getId();
-            Variable v = interpreterService.getVariable(sessionId, variableId);
+            log.info("Starting synthesis for variable {} in session {}", variableId, sessionId);
 
-            if (!(v instanceof FeatureModelVariable)) {
+            // Check available variables first
+            var availableVars = interpreterService.getAllVariableIds(sessionId);
+            if (!availableVars.contains(variableId)) {
+                log.warn("Variable {} not found. Available: {}", variableId, availableVars);
                 return ResponseEntity.badRequest()
-                    .body(Map.of("error", variableId + " is not a feature model"));
+                    .body(Map.of("error", "Variable not found: " + variableId +
+                        ". Available variables: " + availableVars +
+                        ". Try re-interpreting your feature model."));
             }
 
-            FeatureModelVariable fmv = (FeatureModelVariable) v;
+            // Use getFeatureModel which is more reliable
+            var fmOpt = interpreterService.getFeatureModel(sessionId, variableId);
+            if (fmOpt.isEmpty()) {
+                Variable v = interpreterService.getVariable(sessionId, variableId);
+                String actualType = v != null ? v.getClass().getSimpleName() : "null";
+                log.warn("Variable {} is not a FeatureModelVariable, actual type: {}", variableId, actualType);
+                return ResponseEntity.badRequest()
+                    .body(Map.of("error", variableId + " is not a feature model (type: " + actualType + ")"));
+            }
+
+            FeatureModelVariable fmv = fmOpt.get();
             Map<String, Object> result = ksynthesisService.startSynthesis(sessionId, variableId, fmv);
 
             return ResponseEntity.ok(result);
