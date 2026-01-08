@@ -45,8 +45,19 @@ public class KSynthesisService {
         Heuristic clusterHeuristic = heuristics.get("SmithWaterman");
         double clusterThreshold = 0.5;
 
-        InteractiveFMSynthesizer synthesizer = new InteractiveFMSynthesizer(
-            fmv, parentHeuristic, null, clusterHeuristic, clusterThreshold);
+        InteractiveFMSynthesizer synthesizer;
+        try {
+            synthesizer = new InteractiveFMSynthesizer(
+                fmv, parentHeuristic, null, clusterHeuristic, clusterThreshold);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            // BDD library bug during implication graph computation
+            // This is a known issue with certain feature model structures
+            log.error("BDD library error during synthesis initialization: {}", e.getMessage());
+            throw new RuntimeException(
+                "Unable to start synthesis due to BDD computation error. " +
+                "This can happen with complex feature models. " +
+                "Try with a simpler feature model or remove some constraints.", e);
+        }
 
         synthesizersBySession.put(sessionId, synthesizer);
         variableIdsBySession.put(sessionId, variableId);

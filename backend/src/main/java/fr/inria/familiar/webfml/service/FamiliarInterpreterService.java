@@ -60,6 +60,13 @@ public class FamiliarInterpreterService {
      */
     public Variable getVariable(String sessionId, String variableId) {
         FMLBasicInterpreter interpreter = getInterpreter(sessionId);
+
+        // First check if the variable exists in the interpreter
+        List<String> allIds = interpreter.getAllIdentifiers();
+        if (!allIds.contains(variableId)) {
+            throw new RuntimeException("Variable not found: " + variableId + ". Available variables: " + allIds);
+        }
+
         try {
             return interpreter.eval(variableId);
         } catch (FMLFatalError | FMLAssertionError e) {
