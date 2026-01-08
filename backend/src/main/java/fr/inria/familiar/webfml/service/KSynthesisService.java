@@ -35,7 +35,10 @@ public class KSynthesisService {
         // Note: WuPalmer and PathLength require WordNet initialization
     }
 
-    private static final int MAX_SYNTHESIS_RETRIES = 3;
+    private static final int MAX_SYNTHESIS_RETRIES = 5;
+
+    // Lock for BDD library which is not thread-safe
+    private static final Object BDD_LOCK = new Object();
 
     /**
      * Start interactive synthesis for a feature model
@@ -50,18 +53,20 @@ public class KSynthesisService {
         InteractiveFMSynthesizer synthesizer = null;
         ArrayIndexOutOfBoundsException lastError = null;
 
-        // Retry logic for flaky BDD library
+        // Retry logic for flaky BDD library, with synchronization for thread-safety
         for (int attempt = 1; attempt <= MAX_SYNTHESIS_RETRIES; attempt++) {
             try {
-                synthesizer = new InteractiveFMSynthesizer(
-                    fmv, parentHeuristic, null, clusterHeuristic, clusterThreshold);
+                synchronized (BDD_LOCK) {
+                    synthesizer = new InteractiveFMSynthesizer(
+                        fmv, parentHeuristic, null, clusterHeuristic, clusterThreshold);
+                }
                 break; // Success
             } catch (ArrayIndexOutOfBoundsException e) {
                 lastError = e;
                 log.warn("BDD library error on attempt {}/{}: {}", attempt, MAX_SYNTHESIS_RETRIES, e.getMessage());
                 if (attempt < MAX_SYNTHESIS_RETRIES) {
                     try {
-                        Thread.sleep(100); // Brief pause before retry
+                        Thread.sleep(150 * attempt); // Increasing delay between retries
                     } catch (InterruptedException ie) {
                         Thread.currentThread().interrupt();
                     }
