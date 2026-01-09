@@ -1,0 +1,471 @@
+.workspace-panel {
+  width: 280px;
+  min-width: 240px;
+  max-width: 350px;
+  background-color: #252526;
+  border-left: 1px solid #3c3c3c;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.workspace-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background-color: #2d2d2d;
+  border-bottom: 1px solid #3c3c3c;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #cccccc;
+  letter-spacing: 0.5px;
+}
+
+.workspace-header .add-btn {
+  background: none;
+  border: none;
+  color: #858585;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.workspace-header .add-btn:hover {
+  background-color: #3c3c3c;
+  color: #cccccc;
+}
+
+.workspace-error {
+  padding: 8px 12px;
+  background-color: rgba(244, 67, 54, 0.2);
+  color: #f48771;
+  font-size: 12px;
+  border-bottom: 1px solid #3c3c3c;
+}
+
+.workspace-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Project selector */
+.project-selector {
+  display: flex;
+  gap: 4px;
+}
+
+.project-select {
+  flex: 1;
+  padding: 6px 8px;
+  background-color: #3c3c3c;
+  border: 1px solid #4c4c4c;
+  border-radius: 4px;
+  color: #cccccc;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.project-select:focus {
+  outline: none;
+  border-color: #007acc;
+}
+
+.delete-project-btn {
+  background: none;
+  border: 1px solid transparent;
+  color: #858585;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-project-btn:hover {
+  background-color: rgba(244, 67, 54, 0.2);
+  color: #f48771;
+  border-color: #f48771;
+}
+
+/* Status indicators */
+.project-status {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.status-item.ok {
+  background-color: rgba(75, 181, 67, 0.15);
+  color: #4bb543;
+}
+
+.status-item.warning {
+  background-color: rgba(255, 193, 7, 0.15);
+  color: #ffc107;
+}
+
+.unlink-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  opacity: 0.6;
+  cursor: pointer;
+  padding: 2px;
+  margin-left: 4px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.15s ease, background-color 0.15s ease;
+}
+
+.unlink-btn:hover {
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f48771;
+}
+
+/* Quick actions */
+.project-quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.quick-action {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background-color: #3c3c3c;
+  border: 1px solid #4c4c4c;
+  border-radius: 4px;
+  color: #cccccc;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.quick-action:hover:not(:disabled) {
+  background-color: #4c4c4c;
+  border-color: #5c5c5c;
+}
+
+.quick-action:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quick-action.primary {
+  background-color: #0e639c;
+  border-color: #1177bb;
+  color: #ffffff;
+}
+
+.quick-action.primary:hover:not(:disabled) {
+  background-color: #1177bb;
+  border-color: #1588cc;
+}
+
+/* Config selector */
+.config-selector {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+}
+
+.config-selector label {
+  font-size: 11px;
+  color: #858585;
+  white-space: nowrap;
+}
+
+.config-select {
+  flex: 1;
+  padding: 4px 6px;
+  background-color: #3c3c3c;
+  border: 1px solid #4c4c4c;
+  border-radius: 4px;
+  color: #cccccc;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.config-select:focus {
+  outline: none;
+  border-color: #007acc;
+}
+
+/* File browser compact */
+.file-browser-compact {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.browser-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #858585;
+  padding: 4px 0;
+  letter-spacing: 0.5px;
+}
+
+.file-tree-compact {
+  flex: 1;
+  overflow-y: auto;
+  background-color: #1e1e1e;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+/* Tree structure */
+.tree-level {
+  display: flex;
+  flex-direction: column;
+}
+
+.tree-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 11px;
+  color: #cccccc;
+  transition: background-color 0.1s ease;
+}
+
+.tree-item:hover {
+  background-color: #2a2d2e;
+}
+
+.tree-item.selected {
+  background-color: #094771;
+}
+
+.tree-item.folder {
+  color: #dcb67a;
+}
+
+.tree-item.file {
+  color: #cccccc;
+}
+
+.tree-item .expand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  color: #858585;
+}
+
+.tree-item .item-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* File preview */
+.file-preview {
+  max-height: 200px;
+  display: flex;
+  flex-direction: column;
+  background-color: #1e1e1e;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background-color: #2d2d2d;
+  border-bottom: 1px solid #3c3c3c;
+  font-size: 10px;
+  color: #858585;
+}
+
+.preview-content {
+  flex: 1;
+  overflow: auto;
+  padding: 8px;
+  margin: 0;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #d4d4d4;
+  white-space: pre;
+}
+
+/* No projects state */
+.no-projects {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  text-align: center;
+  color: #858585;
+  gap: 12px;
+}
+
+.no-projects p {
+  margin: 0;
+  font-size: 12px;
+}
+
+.add-project-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background-color: #0e639c;
+  border: none;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.add-project-btn:hover {
+  background-color: #1177bb;
+}
+
+/* Mini dialog overlay */
+.mini-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.mini-dialog {
+  background-color: #252526;
+  border: 1px solid #3c3c3c;
+  border-radius: 8px;
+  padding: 16px;
+  min-width: 280px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.mini-dialog h4 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  color: #cccccc;
+}
+
+.mini-dialog p {
+  margin: 0;
+  font-size: 12px;
+  color: #858585;
+}
+
+.dialog-select {
+  width: 100%;
+  padding: 8px;
+  background-color: #3c3c3c;
+  border: 1px solid #4c4c4c;
+  border-radius: 4px;
+  color: #cccccc;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.dialog-select:focus {
+  outline: none;
+  border-color: #007acc;
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.dialog-buttons button {
+  padding: 6px 16px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.dialog-buttons button:first-child {
+  background: none;
+  border: 1px solid #4c4c4c;
+  color: #cccccc;
+}
+
+.dialog-buttons button:first-child:hover {
+  background-color: #3c3c3c;
+}
+
+.dialog-buttons button.primary {
+  background-color: #0e639c;
+  border: 1px solid #1177bb;
+  color: #ffffff;
+}
+
+.dialog-buttons button.primary:hover {
+  background-color: #1177bb;
+}
+
+/* Scrollbar styling */
+.workspace-content::-webkit-scrollbar,
+.file-tree-compact::-webkit-scrollbar,
+.preview-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.workspace-content::-webkit-scrollbar-track,
+.file-tree-compact::-webkit-scrollbar-track,
+.preview-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.workspace-content::-webkit-scrollbar-thumb,
+.file-tree-compact::-webkit-scrollbar-thumb,
+.preview-content::-webkit-scrollbar-thumb {
+  background-color: #424242;
+  border-radius: 4px;
+}
+
+.workspace-content::-webkit-scrollbar-thumb:hover,
+.file-tree-compact::-webkit-scrollbar-thumb:hover,
+.preview-content::-webkit-scrollbar-thumb:hover {
+  background-color: #4f4f4f;
+}

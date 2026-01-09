@@ -1,0 +1,144 @@
+.tabbed-editor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: #1e1e1e;
+}
+
+/* Tab Bar */
+.tab-bar {
+  display: flex;
+  background-color: #252526;
+  border-bottom: 1px solid #3c3c3c;
+  height: 35px;
+  min-height: 35px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.tab-bar::-webkit-scrollbar {
+  height: 3px;
+}
+
+.tab-bar::-webkit-scrollbar-thumb {
+  background-color: #424242;
+}
+
+/* Tab */
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  height: 100%;
+  background-color: #2d2d2d;
+  border-right: 1px solid #3c3c3c;
+  cursor: pointer;
+  font-size: 12px;
+  color: #969696;
+  transition: background-color 0.1s ease;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.tab:hover {
+  background-color: #323232;
+}
+
+.tab.active {
+  background-color: #1e1e1e;
+  color: #ffffff;
+  border-bottom: 2px solid #007acc;
+  margin-bottom: -1px;
+}
+
+/* FAMILIAR Tab - Special styling */
+.tab.familiar-tab {
+  background-color: #1a3a2a;
+  border-right-color: #2d5a3d;
+}
+
+.tab.familiar-tab:hover {
+  background-color: #1f4532;
+}
+
+.tab.familiar-tab.active {
+  background-color: #0d2818;
+  border-bottom-color: #4ec9b0;
+}
+
+.tab.familiar-tab .tab-icon {
+  color: #4ec9b0;
+}
+
+.tab.familiar-tab .tab-title {
+  color: #4ec9b0;
+}
+
+.tab.familiar-tab.active .tab-title {
+  color: #6ee7c0;
+}
+
+/* Tab Icon */
+.tab-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Tab Title */
+.tab-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.modified-dot {
+  color: #e2c08d;
+  font-size: 14px;
+  margin-left: 2px;
+}
+
+/* Tab Close Button */
+.tab-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: #858585;
+  padding: 2px;
+  margin-left: 4px;
+  border-radius: 3px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.1s ease, background-color 0.1s ease;
+}
+
+.tab:hover .tab-close {
+  opacity: 1;
+}
+
+.tab-close:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+/* Editor Content */
+.editor-content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.no-editor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #858585;
+  font-size: 14px;
+}

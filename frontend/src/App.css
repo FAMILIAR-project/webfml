@@ -51,6 +51,11 @@
   height: calc(100vh - 48px); /* Account for toolbar */
 }
 
+.main-content .split-container {
+  flex: 1;
+  min-width: 0; /* Prevent flex item from overflowing */
+}
+
 /* Modal styles */
 .modal-overlay {
   position: fixed;
@@ -157,6 +162,24 @@
   min-width: 700px;
   max-width: 95vw;
   max-height: 90vh;
+  padding: 0;
+  background-color: transparent;
+}
+
+/* Project Panel modal */
+.project-panel-modal {
+  min-width: 900px;
+  max-width: 95vw;
+  max-height: 90vh;
+  padding: 0;
+  background-color: transparent;
+}
+
+/* Derivation Preview modal */
+.derivation-modal {
+  min-width: 900px;
+  max-width: 95vw;
+  max-height: 95vh;
   padding: 0;
   background-color: transparent;
 }

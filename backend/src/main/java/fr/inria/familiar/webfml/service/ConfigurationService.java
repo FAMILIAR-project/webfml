@@ -209,6 +209,24 @@ public class ConfigurationService {
     }
 
     /**
+     * Get a configuration variable by its variable ID from the interpreter
+     */
+    public ConfigurationVariable getConfigurationByVariableId(String sessionId, String variableId) {
+        try {
+            Object variable = interpreterService.getVariable(sessionId, variableId);
+            if (variable instanceof ConfigurationVariable) {
+                return (ConfigurationVariable) variable;
+            }
+            log.warn("Variable {} is not a ConfigurationVariable, it is {}", variableId,
+                variable != null ? variable.getClass().getSimpleName() : "null");
+            return null;
+        } catch (Exception e) {
+            log.error("Error getting configuration variable {}: {}", variableId, e.getMessage());
+            return null;
+        }
+    }
+
+    /**
      * Save configuration to a variable
      */
     public ConfigurationVariable saveConfiguration(String sessionId, String newVariableId) {

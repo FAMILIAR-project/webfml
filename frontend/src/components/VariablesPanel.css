@@ -186,3 +186,26 @@
 .animate-spin {
   animation: spin 1s linear infinite;
 }
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.projects-btn {
+  background: none;
+  border: none;
+  color: #858585;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.projects-btn:hover {
+  background-color: #3c3c3c;
+  color: #4ec9b0;
+}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Variable, Eye, Sparkles, RefreshCw, Settings, Table2 } from 'lucide-react'
+import { Variable, Eye, Sparkles, RefreshCw, Settings, Table2, FolderOpen } from 'lucide-react'
 import { familiarApi } from '@/api/client'
 import './VariablesPanel.css'
 
@@ -14,9 +14,12 @@ interface VariablesPanelProps {
   onSynthesize: (variableId: string) => void
   onConfigure: (variableId: string) => void
   onShowConfigs: (variableId: string) => void
+  onOpenProjects?: () => void
+  onFeatureModelsChange?: (fmIds: string[]) => void
+  onConfigurationsChange?: (configIds: string[]) => void
 }
 
-const VariablesPanel: React.FC<VariablesPanelProps> = ({ onDisplayFM, onSynthesize, onConfigure, onShowConfigs }) => {
+const VariablesPanel: React.FC<VariablesPanelProps> = ({ onDisplayFM, onSynthesize, onConfigure, onShowConfigs, onOpenProjects, onFeatureModelsChange, onConfigurationsChange }) => {
   const [variables, setVariables] = useState<VariableInfo[]>([])
   const [loading, setLoading] = useState(false)
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
@@ -33,7 +36,7 @@ const VariablesPanel: React.FC<VariablesPanelProps> = ({ onDisplayFM, onSynthesi
           varInfos.push({
             id: info.id,
             value: info.value,
-            type: info.type as 'FeatureModel' | 'Configuration' | 'unknown'
+            type: info.type as 'FeatureModel' | 'Configuration' | 'Set' | 'unknown'
           })
         } catch {
           varInfos.push({ id, value: '(error loading)', type: 'unknown' })
@@ -41,6 +44,18 @@ const VariablesPanel: React.FC<VariablesPanelProps> = ({ onDisplayFM, onSynthesi
       }
 
       setVariables(varInfos)
+
+      // Report feature model IDs to parent
+      const fmIds = varInfos.filter(v => v.type === 'FeatureModel').map(v => v.id)
+      if (onFeatureModelsChange) {
+        onFeatureModelsChange(fmIds)
+      }
+
+      // Report configuration IDs to parent
+      const configIds = varInfos.filter(v => v.type === 'Configuration').map(v => v.id)
+      if (onConfigurationsChange) {
+        onConfigurationsChange(configIds)
+      }
     } catch (error) {
       console.error('Failed to load variables:', error)
     } finally {
@@ -99,14 +114,25 @@ const VariablesPanel: React.FC<VariablesPanelProps> = ({ onDisplayFM, onSynthesi
           <Variable size={16} />
           <span>Variables</span>
         </div>
-        <button
-          onClick={refreshVariables}
-          className="refresh-btn"
-          title="Refresh variables"
-          disabled={loading}
-        >
-          <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
-        </button>
+        <div className="header-actions">
+          {onOpenProjects && (
+            <button
+              onClick={onOpenProjects}
+              className="projects-btn"
+              title="Manage projects"
+            >
+              <FolderOpen size={14} />
+            </button>
+          )}
+          <button
+            onClick={refreshVariables}
+            className="refresh-btn"
+            title="Refresh variables"
+            disabled={loading}
+          >
+            <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
+          </button>
+        </div>
       </div>
 
       <div className="variables-list">

@@ -318,4 +318,118 @@ export const configurationApi = {
   },
 }
 
+// Project API
+export interface ProjectMetadata {
+  id: string
+  name: string
+  description?: string
+  createdAt: string
+  associatedFM?: string
+  sourceType: 'zip' | 'filesystem' | 'bundled'
+  originalPath?: string
+  files: string[]
+}
+
+export interface TemplateError {
+  filePath: string
+  lineNumber: number
+  message: string
+  errorType: 'SYNTAX' | 'UNCLOSED_BLOCK' | 'UNKNOWN_FEATURE' | 'IO_ERROR'
+}
+
+export interface DerivedFile {
+  path: string
+  originalContent: string
+  derivedContent: string
+  hasConditionals: boolean
+  usedFeatures: string[]
+}
+
+export interface DerivationResult {
+  projectId: string
+  projectName: string
+  configurationId: string
+  selectedFeatures: string[]
+  deselectedFeatures: string[]
+  files: DerivedFile[]
+  hasErrors: boolean
+  errors: TemplateError[]
+}
+
+export const projectApi = {
+  upload: async (file: File, name: string): Promise<ProjectMetadata> => {
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('name', name)
+    const response = await api.post<ProjectMetadata>('/project/upload', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+    return response.data
+  },
+
+  register: async (path: string, name: string): Promise<ProjectMetadata> => {
+    const response = await api.post<ProjectMetadata>('/project/register', {}, { params: { path, name } })
+    return response.data
+  },
+
+  list: async (): Promise<ProjectMetadata[]> => {
+    const response = await api.get<ProjectMetadata[]>('/project/list')
+    return response.data
+  },
+
+  get: async (id: string): Promise<ProjectMetadata> => {
+    const response = await api.get<ProjectMetadata>(`/project/${id}`)
+    return response.data
+  },
+
+  delete: async (id: string): Promise<void> => {
+    await api.delete(`/project/${id}`)
+  },
+
+  getFiles: async (id: string): Promise<FileTreeNode[]> => {
+    const response = await api.get<FileTreeNode[]>(`/project/${id}/files`)
+    return response.data
+  },
+
+  getFileContent: async (id: string, path: string): Promise<{ content: string; path: string }> => {
+    const response = await api.get<{ content: string; path: string }>(`/project/${id}/file`, { params: { path } })
+    return response.data
+  },
+
+  associate: async (id: string, fmVariableId: string): Promise<ProjectMetadata> => {
+    const response = await api.post<ProjectMetadata>(`/project/${id}/associate`, {}, { params: { fmVariableId } })
+    return response.data
+  },
+
+  dissociate: async (id: string): Promise<ProjectMetadata> => {
+    const response = await api.post<ProjectMetadata>(`/project/${id}/dissociate`)
+    return response.data
+  },
+}
+
+// Derivation API
+export const derivationApi = {
+  derive: async (projectId: string, configId?: string): Promise<DerivationResult> => {
+    const params: { projectId: string; configId?: string } = { projectId }
+    if (configId) {
+      params.configId = configId
+    }
+    const response = await api.post<DerivationResult>('/derivation/derive', {}, { params })
+    return response.data
+  },
+
+  preview: async (projectId: string, filePath: string): Promise<DerivedFile> => {
+    const response = await api.post<DerivedFile>('/derivation/preview', {}, { params: { projectId, filePath } })
+    return response.data
+  },
+
+  downloadZip: async (projectId: string): Promise<Blob> => {
+    const response = await api.get('/derivation/download', {
+      params: { projectId },
+      responseType: 'blob',
+    })
+    return response.data
+  },
+}
+
 export default api
