@@ -147,6 +147,55 @@ public class FamiliarInterpreterService {
     }
 
     /**
+     * Analyze a feature model for validity, dead features, and false optionals
+     */
+    public Map<String, Object> analyzeFeatureModel(String sessionId, String variableId) {
+        Optional<FeatureModelVariable> fmOpt = getFeatureModel(sessionId, variableId);
+        if (fmOpt.isEmpty()) {
+            throw new RuntimeException("Variable is not a feature model: " + variableId);
+        }
+
+        FeatureModelVariable fmv = fmOpt.get();
+        Map<String, Object> result = new HashMap<>();
+        result.put("variableId", variableId);
+
+        // Check validity
+        boolean isValid = false;
+        try {
+            isValid = fmv.isValid();
+        } catch (Exception e) {
+            log.warn("Error checking validity: {}", e.getMessage());
+        }
+        result.put("isValid", isValid);
+
+        // Get dead features
+        List<String> deadFeatures = new ArrayList<>();
+        try {
+            Set<String> deads = fmv.deads();
+            if (deads != null) {
+                deadFeatures = new ArrayList<>(deads);
+            }
+        } catch (Exception e) {
+            log.warn("Error getting dead features: {}", e.getMessage());
+        }
+        result.put("deadFeatures", deadFeatures);
+
+        // Get false optionals
+        List<String> falseOptionals = new ArrayList<>();
+        try {
+            Set<String> fo = fmv.falseOptionalFeatures();
+            if (fo != null) {
+                falseOptionals = new ArrayList<>(fo);
+            }
+        } catch (Exception e) {
+            log.warn("Error getting false optionals: {}", e.getMessage());
+        }
+        result.put("falseOptionals", falseOptionals);
+
+        return result;
+    }
+
+    /**
      * Get structured feature model representation for visualization
      */
     public Map<String, Object> getFeatureModelStructure(String sessionId, String variableId) {

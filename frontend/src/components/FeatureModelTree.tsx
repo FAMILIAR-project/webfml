@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Search } from 'lucide-react'
 import { familiarApi, FeatureNode, FeatureGroup, FeatureModelStructure } from '@/api/client'
 import './FeatureModelTree.css'
 
@@ -7,10 +8,18 @@ interface FeatureModelTreeProps {
   onClose: () => void
 }
 
+interface AnalysisState {
+  isValid: boolean
+  deadFeatures: Set<string>
+  falseOptionals: Set<string>
+}
+
 const FeatureModelTree: React.FC<FeatureModelTreeProps> = ({ variableId, onClose }) => {
   const [structure, setStructure] = useState<FeatureModelStructure | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [analyzing, setAnalyzing] = useState(false)
+  const [analysis, setAnalysis] = useState<AnalysisState | null>(null)
 
   useEffect(() => {
     const loadStructure = async () => {
@@ -27,6 +36,26 @@ const FeatureModelTree: React.FC<FeatureModelTreeProps> = ({ variableId, onClose
     }
     loadStructure()
   }, [variableId])
+
+  const handleAnalyze = async () => {
+    try {
+      setAnalyzing(true)
+      const result = await familiarApi.analyzeFeatureModel(variableId)
+      setAnalysis({
+        isValid: result.isValid,
+        deadFeatures: new Set(result.deadFeatures),
+        falseOptionals: new Set(result.falseOptionals),
+      })
+    } catch (err) {
+      console.error('Analysis failed:', err)
+    } finally {
+      setAnalyzing(false)
+    }
+  }
+
+  const clearAnalysis = () => {
+    setAnalysis(null)
+  }
 
   if (loading) {
     return (
@@ -67,7 +96,34 @@ const FeatureModelTree: React.FC<FeatureModelTreeProps> = ({ variableId, onClose
   return (
     <div className="fm-tree-container">
       <div className="fm-tree-header">
-        <h3>Feature Model: {variableId}</h3>
+        <div className="fm-header-left">
+          <h3>Feature Model: {variableId}</h3>
+          {analysis && (
+            <span className={`validity-indicator ${analysis.isValid ? 'valid' : 'invalid'}`}>
+              {analysis.isValid ? 'Valid' : 'Invalid'}
+            </span>
+          )}
+        </div>
+        <div className="fm-header-actions">
+          {!analysis ? (
+            <button
+              onClick={handleAnalyze}
+              className="fm-analyze-btn"
+              disabled={analyzing}
+            >
+              <Search size={14} />
+              {analyzing ? 'Analyzing...' : 'Analyze'}
+            </button>
+          ) : (
+            <button onClick={clearAnalysis} className="fm-clear-analysis-btn">
+              Clear Analysis
+            </button>
+          )}
+          <button onClick={onClose} className="fm-close-btn">&times;</button>
+        </div>
+      </div>
+
+      <div className="fm-legend-bar">
         <div className="fm-legend">
           <span className="legend-item"><span className="mandatory-indicator">●</span> Mandatory</span>
           <span className="legend-item"><span className="optional-indicator">○</span> Optional</span>
@@ -75,10 +131,16 @@ const FeatureModelTree: React.FC<FeatureModelTreeProps> = ({ variableId, onClose
           <span className="legend-item"><span className="xor-arc">◖</span> XOR (1..1)</span>
           <span className="legend-item"><span className="mutex-arc">◖</span> MUTEX (0..1)</span>
         </div>
-        <button onClick={onClose} className="fm-close-btn">&times;</button>
+        {analysis && (
+          <div className="fm-analysis-legend">
+            <span className="legend-item"><span className="dead-indicator"></span> Dead Feature</span>
+            <span className="legend-item"><span className="false-optional-indicator"></span> False Optional</span>
+          </div>
+        )}
       </div>
+
       <div className="fm-tree-content">
-        <FeatureNodeComponent node={structure.tree} isRoot={true} />
+        <FeatureNodeComponent node={structure.tree} isRoot={true} analysis={analysis} />
 
         {/* Constraints box */}
         {structure.constraints && structure.constraints.length > 0 && (
@@ -102,6 +164,7 @@ interface FeatureNodeComponentProps {
   isMandatory?: boolean
   isGroupMember?: boolean
   groupType?: 'or' | 'xor' | 'mutex'
+  analysis?: AnalysisState | null
 }
 
 const FeatureNodeComponent: React.FC<FeatureNodeComponentProps> = ({
@@ -109,7 +172,8 @@ const FeatureNodeComponent: React.FC<FeatureNodeComponentProps> = ({
   isRoot = false,
   isMandatory = false,
   isGroupMember = false,
-  groupType
+  groupType,
+  analysis
 }) => {
   const hasChildren = (
     node.mandatory?.length > 0 ||
@@ -119,9 +183,18 @@ const FeatureNodeComponent: React.FC<FeatureNodeComponentProps> = ({
     node.mutexGroups?.length > 0
   )
 
+  const isDead = analysis?.deadFeatures.has(node.name) ?? false
+  const isFalseOptional = analysis?.falseOptionals.has(node.name) ?? false
+
+  const getFeatureClass = () => {
+    if (isDead) return 'dead-feature'
+    if (isFalseOptional) return 'false-optional-feature'
+    return ''
+  }
+
   return (
     <div className="fm-node-wrapper">
-      <div className={`fm-node ${isRoot ? 'fm-root' : ''}`}>
+      <div className={`fm-node ${isRoot ? 'fm-root' : ''} ${getFeatureClass()}`}>
         {!isRoot && !isGroupMember && (
           <span className={`fm-indicator ${isMandatory ? 'mandatory' : 'optional'}`}>
             {isMandatory ? '●' : '○'}
@@ -135,7 +208,7 @@ const FeatureNodeComponent: React.FC<FeatureNodeComponentProps> = ({
         {isGroupMember && groupType === 'mutex' && (
           <span className="fm-cardinality">[0..1]</span>
         )}
-        <span className="fm-feature-name">{node.name}</span>
+        <span className={`fm-feature-name ${getFeatureClass()}`}>{node.name}</span>
       </div>
 
       {hasChildren && (
@@ -147,7 +220,7 @@ const FeatureNodeComponent: React.FC<FeatureNodeComponentProps> = ({
                 <div className="fm-line-v"></div>
                 <div className="fm-line-h"></div>
               </div>
-              <FeatureNodeComponent node={child} isMandatory={true} />
+              <FeatureNodeComponent node={child} isMandatory={true} analysis={analysis} />
             </div>
           ))}
 
@@ -158,23 +231,23 @@ const FeatureNodeComponent: React.FC<FeatureNodeComponentProps> = ({
                 <div className="fm-line-v"></div>
                 <div className="fm-line-h"></div>
               </div>
-              <FeatureNodeComponent node={child} isMandatory={false} />
+              <FeatureNodeComponent node={child} isMandatory={false} analysis={analysis} />
             </div>
           ))}
 
           {/* OR groups */}
           {node.orGroups?.map((group, gidx) => (
-            <FeatureGroupComponent key={`or-${gidx}`} group={group} />
+            <FeatureGroupComponent key={`or-${gidx}`} group={group} analysis={analysis} />
           ))}
 
           {/* XOR groups */}
           {node.xorGroups?.map((group, gidx) => (
-            <FeatureGroupComponent key={`xor-${gidx}`} group={group} />
+            <FeatureGroupComponent key={`xor-${gidx}`} group={group} analysis={analysis} />
           ))}
 
           {/* MUTEX groups */}
           {node.mutexGroups?.map((group, gidx) => (
-            <FeatureGroupComponent key={`mutex-${gidx}`} group={group} />
+            <FeatureGroupComponent key={`mutex-${gidx}`} group={group} analysis={analysis} />
           ))}
         </div>
       )}
@@ -184,9 +257,10 @@ const FeatureNodeComponent: React.FC<FeatureNodeComponentProps> = ({
 
 interface FeatureGroupComponentProps {
   group: FeatureGroup
+  analysis?: AnalysisState | null
 }
 
-const FeatureGroupComponent: React.FC<FeatureGroupComponentProps> = ({ group }) => {
+const FeatureGroupComponent: React.FC<FeatureGroupComponentProps> = ({ group, analysis }) => {
   const getArcSymbol = () => {
     switch (group.type) {
       case 'or': return '◗'
@@ -222,6 +296,7 @@ const FeatureGroupComponent: React.FC<FeatureGroupComponentProps> = ({ group }) 
               node={member}
               isGroupMember={true}
               groupType={group.type}
+              analysis={analysis}
             />
           </div>
         ))}

@@ -119,6 +119,22 @@ public class FamiliarController {
     }
 
     /**
+     * Analyze a feature model (isValid, deadFeatures, falseOptionals)
+     */
+    @GetMapping("/fm/{id}/analyze")
+    public ResponseEntity<?> analyzeFeatureModel(
+            @PathVariable String id,
+            HttpSession session) {
+        try {
+            Map<String, Object> analysis = interpreterService.analyzeFeatureModel(session.getId(), id);
+            return ResponseEntity.ok(analysis);
+        } catch (Exception e) {
+            log.error("Error analyzing FM: ", e);
+            return ResponseEntity.badRequest().body(Map.of("msgError", e.getMessage()));
+        }
+    }
+
+    /**
      * Get all variable IDs
      */
     @GetMapping("/variables")
