@@ -4,6 +4,7 @@ import fr.familiar.interpreter.FMLAssertionError;
 import fr.familiar.interpreter.FMLFatalError;
 import fr.familiar.variable.ConfigurationVariable;
 import fr.familiar.variable.FeatureModelVariable;
+import fr.familiar.variable.SetVariable;
 import fr.familiar.variable.Variable;
 import fr.inria.familiar.webfml.dto.InterpretRequest;
 import fr.inria.familiar.webfml.dto.InterpretResponse;
@@ -76,9 +77,28 @@ public class FamiliarController {
             Variable lastVar = interpreterService.evalPrompt(sessionId, command);
             List<String> allVarIds = interpreterService.getAllVariableIds(sessionId);
 
+            String lastVarStr = "";
+            if (lastVar != null) {
+                String value = lastVar.getValue();
+                // Configs formatting workaround:
+                // FAMILIAR's getValue() uses semicolons as separators in sets: {{A;B};{C;D}}
+                // For better readability, we replace semicolons with commas: {{A,B},{C,D}}
+                // We detect configs by checking if the variable is a SetVariable containing SetVariables.
+                // This is a heuristic - ideally the FAMILIAR API would provide a configurable formatter.
+                // Edge case: a SetVariable<SetVariable> with feature names containing semicolons
+                // would be incorrectly formatted, but this is unlikely in practice.
+                if (lastVar instanceof SetVariable) {
+                    SetVariable setVar = (SetVariable) lastVar;
+                    if (!setVar.getVars().isEmpty() && setVar.getVars().iterator().next() instanceof SetVariable) {
+                        value = value.replace(";", ",");
+                    }
+                }
+                lastVarStr = lastVar.getIdentifier() + " = " + value;
+            }
+
             InterpretResponse response = InterpretResponse.builder()
                     .varIds(allVarIds)
-                    .lastVar(lastVar != null ? lastVar.getIdentifier() + " = " + lastVar.getValue() : "")
+                    .lastVar(lastVarStr)
                     .build();
 
             return ResponseEntity.ok(response);
@@ -135,6 +155,23 @@ public class FamiliarController {
     }
 
     /**
+     * Get all valid configurations of a feature model
+     */
+    @GetMapping("/fm/{id}/configs")
+    public ResponseEntity<?> getConfigurations(
+            @PathVariable String id,
+            @RequestParam(defaultValue = "100") int limit,
+            HttpSession session) {
+        try {
+            Map<String, Object> configs = interpreterService.getConfigurations(session.getId(), id, limit);
+            return ResponseEntity.ok(configs);
+        } catch (Exception e) {
+            log.error("Error getting configurations: ", e);
+            return ResponseEntity.badRequest().body(Map.of("msgError", e.getMessage()));
+        }
+    }
+
+    /**
      * Get all variable IDs
      */
     @GetMapping("/variables")
@@ -153,14 +190,23 @@ public class FamiliarController {
         try {
             Variable var = interpreterService.getVariable(session.getId(), id);
             String type = "unknown";
+            String value = var.getValue();
+
             if (var instanceof FeatureModelVariable) {
                 type = "FeatureModel";
             } else if (var instanceof ConfigurationVariable) {
                 type = "Configuration";
+            } else if (var instanceof SetVariable) {
+                type = "Set";
+                SetVariable setVar = (SetVariable) var;
+                // Apply configs formatting workaround (see evalPrompt for detailed explanation)
+                if (!setVar.getVars().isEmpty() && setVar.getVars().iterator().next() instanceof SetVariable) {
+                    value = value.replace(";", ",");
+                }
             }
             return ResponseEntity.ok(Map.of(
                 "id", id,
-                "value", var.getValue(),
+                "value", value,
                 "type", type
             ));
         } catch (Exception e) {

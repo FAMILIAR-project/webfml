@@ -1,21 +1,22 @@
 import { useState, useEffect } from 'react'
-import { Variable, Eye, Sparkles, RefreshCw, Settings } from 'lucide-react'
+import { Variable, Eye, Sparkles, RefreshCw, Settings, Table2 } from 'lucide-react'
 import { familiarApi } from '@/api/client'
 import './VariablesPanel.css'
 
 interface VariableInfo {
   id: string
   value: string
-  type: 'FeatureModel' | 'Configuration' | 'unknown'
+  type: 'FeatureModel' | 'Configuration' | 'Set' | 'unknown'
 }
 
 interface VariablesPanelProps {
   onDisplayFM: (variableId: string, fmValue: string) => void
   onSynthesize: (variableId: string) => void
   onConfigure: (variableId: string) => void
+  onShowConfigs: (variableId: string) => void
 }
 
-const VariablesPanel: React.FC<VariablesPanelProps> = ({ onDisplayFM, onSynthesize, onConfigure }) => {
+const VariablesPanel: React.FC<VariablesPanelProps> = ({ onDisplayFM, onSynthesize, onConfigure, onShowConfigs }) => {
   const [variables, setVariables] = useState<VariableInfo[]>([])
   const [loading, setLoading] = useState(false)
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
@@ -157,6 +158,14 @@ const VariablesPanel: React.FC<VariablesPanelProps> = ({ onDisplayFM, onSynthesi
                       >
                         <Settings size={12} />
                         <span>Configure</span>
+                      </button>
+                      <button
+                        onClick={() => onShowConfigs(variable.id)}
+                        className="action-btn configs-btn"
+                        title="Show all configurations"
+                      >
+                        <Table2 size={12} />
+                        <span>Configs</span>
                       </button>
                     </div>
                   )}

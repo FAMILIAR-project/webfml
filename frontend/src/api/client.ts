@@ -50,6 +50,13 @@ export interface FeatureModelAnalysis {
   falseOptionals: string[]
 }
 
+export interface ConfigurationsData {
+  variableId: string
+  features: string[]
+  configurations: Record<string, boolean>[]
+  totalCount: number
+}
+
 // FAMILIAR API
 export const familiarApi = {
   interpret: async (command: string): Promise<InterpretResponse> => {
@@ -97,6 +104,11 @@ export const familiarApi = {
 
   analyzeFeatureModel: async (variableId: string): Promise<FeatureModelAnalysis> => {
     const response = await api.get<FeatureModelAnalysis>(`/familiar/fm/${variableId}/analyze`)
+    return response.data
+  },
+
+  getConfigurations: async (variableId: string, limit: number = 100): Promise<ConfigurationsData> => {
+    const response = await api.get<ConfigurationsData>(`/familiar/fm/${variableId}/configs`, { params: { limit } })
     return response.data
   },
 }

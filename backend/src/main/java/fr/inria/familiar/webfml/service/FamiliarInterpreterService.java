@@ -196,6 +196,77 @@ public class FamiliarInterpreterService {
     }
 
     /**
+     * Get all valid configurations of a feature model
+     */
+    public Map<String, Object> getConfigurations(String sessionId, String variableId, int limit) {
+        Optional<FeatureModelVariable> fmOpt = getFeatureModel(sessionId, variableId);
+        if (fmOpt.isEmpty()) {
+            throw new RuntimeException("Variable is not a feature model: " + variableId);
+        }
+
+        FeatureModelVariable fmv = fmOpt.get();
+        Map<String, Object> result = new HashMap<>();
+        result.put("variableId", variableId);
+
+        // Get all features for column headers
+        List<String> features = new ArrayList<>();
+        try {
+            Set<String> featureSet = fmv.features().names();
+            features = new ArrayList<>(featureSet);
+            Collections.sort(features);
+        } catch (Exception e) {
+            log.warn("Error getting features: {}", e.getMessage());
+        }
+        result.put("features", features);
+
+        // Get configurations
+        List<Map<String, Boolean>> configurations = new ArrayList<>();
+        try {
+            Set<Variable> allConfigs = fmv.configs();
+            int count = 0;
+            for (Variable configVar : allConfigs) {
+                if (limit > 0 && count >= limit) break;
+
+                // Each config is a SetVariable containing feature names
+                Set<String> selectedFeatures = new HashSet<>();
+                if (configVar instanceof fr.familiar.variable.SetVariable) {
+                    fr.familiar.variable.SetVariable setVar = (fr.familiar.variable.SetVariable) configVar;
+                    for (Variable v : setVar.getVars()) {
+                        selectedFeatures.add(v.getValue());
+                    }
+                } else {
+                    // Fallback: parse the string representation
+                    String value = configVar.getValue();
+                    if (value != null && value.startsWith("{") && value.endsWith("}")) {
+                        String inner = value.substring(1, value.length() - 1);
+                        for (String f : inner.split(";\\s*")) {
+                            String trimmed = f.trim();
+                            if (!trimmed.isEmpty()) {
+                                selectedFeatures.add(trimmed);
+                            }
+                        }
+                    }
+                }
+
+                Map<String, Boolean> configMap = new LinkedHashMap<>();
+                for (String feature : features) {
+                    configMap.put(feature, selectedFeatures.contains(feature));
+                }
+                configurations.add(configMap);
+                count++;
+            }
+        } catch (Exception e) {
+            log.error("Error getting configurations: {}", e.getMessage());
+            throw new RuntimeException("Failed to enumerate configurations: " + e.getMessage(), e);
+        }
+
+        result.put("configurations", configurations);
+        result.put("totalCount", configurations.size());
+
+        return result;
+    }
+
+    /**
      * Get structured feature model representation for visualization
      */
     public Map<String, Object> getFeatureModelStructure(String sessionId, String variableId) {

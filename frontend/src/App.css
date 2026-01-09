@@ -151,3 +151,12 @@
   padding: 0;
   background-color: transparent;
 }
+
+/* Configs Table modal */
+.configs-table-modal {
+  min-width: 700px;
+  max-width: 95vw;
+  max-height: 90vh;
+  padding: 0;
+  background-color: transparent;
+}

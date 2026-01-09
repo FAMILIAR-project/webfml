@@ -46,7 +46,7 @@ const Console: React.FC = () => {
       // Execute command
       const response = await familiarApi.evalPrompt(input)
 
-      // Display result
+      // Display result (configs are already formatted by backend)
       if (response.lastVar) {
         addMessage('output', response.lastVar)
       }

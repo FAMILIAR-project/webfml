@@ -6,6 +6,7 @@ import VariablesPanel from './components/VariablesPanel'
 import KSynthesisPanel from './components/KSynthesisPanel'
 import FeatureModelTree from './components/FeatureModelTree'
 import ConfiguratorPanel from './components/ConfiguratorPanel'
+import ConfigsTable from './components/ConfigsTable'
 import Split from 'react-split'
 import './App.css'
 
@@ -14,6 +15,7 @@ function App() {
   const [displayedFMId, setDisplayedFMId] = useState<string | null>(null)
   const [synthesisVariable, setSynthesisVariable] = useState<string | null>(null)
   const [configurationVariable, setConfigurationVariable] = useState<string | null>(null)
+  const [configsVariable, setConfigsVariable] = useState<string | null>(null)
 
   const handleDisplayFM = (id: string, _value: string) => {
     setDisplayedFMId(id)
@@ -39,6 +41,14 @@ function App() {
     setConfigurationVariable(null)
   }
 
+  const handleShowConfigs = (variableId: string) => {
+    setConfigsVariable(variableId)
+  }
+
+  const closeConfigsTable = () => {
+    setConfigsVariable(null)
+  }
+
   return (
     <div className="app">
       <Toolbar code={code} />
@@ -57,7 +67,7 @@ function App() {
             <Console />
           </div>
         </Split>
-        <VariablesPanel onDisplayFM={handleDisplayFM} onSynthesize={handleSynthesize} onConfigure={handleConfigure} />
+        <VariablesPanel onDisplayFM={handleDisplayFM} onSynthesize={handleSynthesize} onConfigure={handleConfigure} onShowConfigs={handleShowConfigs} />
       </div>
 
       {/* Feature Model Display Modal */}
@@ -90,6 +100,18 @@ function App() {
               variableId={configurationVariable}
               onClose={closeConfiguratorPanel}
               onSaved={closeConfiguratorPanel}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Configurations Table Modal */}
+      {configsVariable && (
+        <div className="modal-overlay" onClick={closeConfigsTable}>
+          <div className="modal-content configs-table-modal" onClick={e => e.stopPropagation()}>
+            <ConfigsTable
+              variableId={configsVariable}
+              onClose={closeConfigsTable}
             />
           </div>
         </div>
