@@ -8,6 +8,7 @@ import ConfiguratorPanel from './components/ConfiguratorPanel'
 import ConfigsTable from './components/ConfigsTable'
 import ProjectPanel from './components/ProjectPanel'
 import DerivationPreviewPanel from './components/DerivationPreviewPanel'
+import LiveConfiguratorPanel from './components/LiveConfiguratorPanel'
 import WorkspacePanel from './components/WorkspacePanel'
 import TabbedEditor, { EditorTab } from './components/TabbedEditor'
 import Split from 'react-split'
@@ -36,6 +37,7 @@ function App() {
   const [configsVariable, setConfigsVariable] = useState<string | null>(null)
   const [projectPanelOpen, setProjectPanelOpen] = useState(false)
   const [derivationProject, setDerivationProject] = useState<{ id: string; name: string; configId?: string } | null>(null)
+  const [liveConfigProject, setLiveConfigProject] = useState<{ id: string; name: string; fmVariableId: string; configId?: string } | null>(null)
   const [featureModelIds, setFeatureModelIds] = useState<string[]>([])
   const [configurationIds, setConfigurationIds] = useState<string[]>([])
   const [projectRefreshTrigger, setProjectRefreshTrigger] = useState(0)
@@ -141,6 +143,14 @@ function App() {
     setDerivationProject(null)
   }
 
+  const handleLiveConfig = (projectId: string, projectName: string, fmVariableId: string, configId?: string) => {
+    setLiveConfigProject({ id: projectId, name: projectName, fmVariableId, configId })
+  }
+
+  const closeLiveConfigPanel = () => {
+    setLiveConfigProject(null)
+  }
+
   const updateFeatureModelIds = (ids: string[]) => {
     setFeatureModelIds(ids)
   }
@@ -157,6 +167,7 @@ function App() {
           featureModels={featureModelIds}
           configurations={configurationIds}
           onDerive={handleDerive}
+          onLiveConfig={handleLiveConfig}
           onConfigureFM={handleConfigure}
           onOpenAddProject={openProjectPanel}
           onOpenFile={handleOpenFile}
@@ -272,6 +283,22 @@ function App() {
               projectName={derivationProject.name}
               configId={derivationProject.configId}
               onClose={closeDerivationPanel}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Live Configurator Modal */}
+      {liveConfigProject && (
+        <div className="modal-overlay" onClick={closeLiveConfigPanel}>
+          <div className="modal-content live-config-modal" onClick={e => e.stopPropagation()}>
+            <LiveConfiguratorPanel
+              projectId={liveConfigProject.id}
+              projectName={liveConfigProject.name}
+              fmVariableId={liveConfigProject.fmVariableId}
+              configId={liveConfigProject.configId}
+              onClose={closeLiveConfigPanel}
+              onSaved={closeLiveConfigPanel}
             />
           </div>
         </div>

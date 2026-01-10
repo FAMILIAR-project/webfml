@@ -7,6 +7,7 @@ interface WorkspacePanelProps {
   featureModels: string[]
   configurations: string[]
   onDerive: (projectId: string, projectName: string, configId?: string) => void
+  onLiveConfig?: (projectId: string, projectName: string, fmVariableId: string, configId?: string) => void
   onConfigureFM: (fmVariableId: string) => void
   onOpenAddProject: () => void
   onOpenFile?: (filePath: string, fileName: string, content: string) => void
@@ -17,6 +18,7 @@ const WorkspacePanel: React.FC<WorkspacePanelProps> = ({
   featureModels,
   configurations,
   onDerive,
+  onLiveConfig,
   onConfigureFM,
   onOpenAddProject,
   onOpenFile,
@@ -48,12 +50,12 @@ const WorkspacePanel: React.FC<WorkspacePanelProps> = ({
     }
   }, [refreshTrigger])
 
-  // Update selected config when configurations change
+  // Reset selected config if it's no longer available
   useEffect(() => {
-    if (configurations.length > 0 && !selectedConfig) {
-      setSelectedConfig(configurations[0])
+    if (selectedConfig && !configurations.includes(selectedConfig)) {
+      setSelectedConfig('')
     }
-  }, [configurations])
+  }, [configurations, selectedConfig])
 
   const loadProjects = async () => {
     setError(null)
@@ -226,11 +228,22 @@ const WorkspacePanel: React.FC<WorkspacePanelProps> = ({
                 <span>{selectedProject.associatedFM ? 'Change FM' : 'Link FM'}</span>
               </button>
 
+              {canDerive && onLiveConfig && (
+                <button
+                  className="quick-action primary"
+                  onClick={() => onLiveConfig(selectedProject.id, selectedProject.name, selectedProject.associatedFM!, selectedConfig || undefined)}
+                  title="Live configuration with preview"
+                >
+                  <Play size={12} />
+                  <span>Live</span>
+                </button>
+              )}
+
               {selectedProject.associatedFM && (
                 <button
                   className="quick-action"
                   onClick={() => onConfigureFM(selectedProject.associatedFM!)}
-                  title="Configure features"
+                  title="Configure features only"
                 >
                   <Settings size={12} />
                   <span>Configure</span>
@@ -239,9 +252,9 @@ const WorkspacePanel: React.FC<WorkspacePanelProps> = ({
 
               {canDerive && (
                 <button
-                  className="quick-action primary"
+                  className="quick-action"
                   onClick={handleDerive}
-                  title="Derive variant"
+                  title="Derive with current config"
                 >
                   <Play size={12} />
                   <span>Derive</span>
@@ -258,10 +271,20 @@ const WorkspacePanel: React.FC<WorkspacePanelProps> = ({
                   onChange={(e) => setSelectedConfig(e.target.value)}
                   className="config-select"
                 >
+                  <option value="">(current session)</option>
                   {configurations.map(c => (
                     <option key={c} value={c}>{c}</option>
                   ))}
                 </select>
+                {selectedConfig && (
+                  <button
+                    className="unlink-btn"
+                    onClick={() => setSelectedConfig('')}
+                    title="Clear config selection"
+                  >
+                    <Unlink size={10} />
+                  </button>
+                )}
               </div>
             )}
 

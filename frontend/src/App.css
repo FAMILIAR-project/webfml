@@ -183,3 +183,12 @@
   padding: 0;
   background-color: transparent;
 }
+
+/* Live Configurator modal */
+.live-config-modal {
+  min-width: 1000px;
+  max-width: 98vw;
+  max-height: 95vh;
+  padding: 0;
+  background-color: transparent;
+}

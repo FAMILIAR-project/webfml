@@ -1,7 +1,13 @@
 import { useState, useEffect } from 'react'
-import { X, Download, FileCode, Folder, ChevronRight, ChevronDown, AlertCircle, Check } from 'lucide-react'
+import { X, Download, FileCode, Folder, ChevronRight, ChevronDown, AlertCircle, Check, Eye } from 'lucide-react'
 import { derivationApi, DerivationResult, DerivedFile } from '@/api/client'
 import './DerivationPreviewPanel.css'
+
+// Check if file can be previewed visually
+const isPreviewable = (path: string): boolean => {
+  const ext = path.split('.').pop()?.toLowerCase()
+  return ext === 'svg' || ext === 'html' || ext === 'htm'
+}
 
 interface DerivationPreviewPanelProps {
   projectId: string
@@ -20,11 +26,20 @@ const DerivationPreviewPanel: React.FC<DerivationPreviewPanelProps> = ({
   const [selectedFile, setSelectedFile] = useState<DerivedFile | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [viewMode, setViewMode] = useState<'derived' | 'original' | 'diff'>('derived')
+  const [viewMode, setViewMode] = useState<'derived' | 'original' | 'diff' | 'preview'>('derived')
 
   useEffect(() => {
     deriveVariant()
   }, [projectId, configId])
+
+  // Auto-switch to preview mode for SVG/HTML files
+  useEffect(() => {
+    if (selectedFile && isPreviewable(selectedFile.path)) {
+      setViewMode('preview')
+    } else if (viewMode === 'preview') {
+      setViewMode('derived')
+    }
+  }, [selectedFile?.path])
 
   const deriveVariant = async () => {
     setLoading(true)
@@ -189,6 +204,15 @@ const DerivationPreviewPanel: React.FC<DerivationPreviewPanelProps> = ({
                   <span className="has-conditionals-badge">Has Conditionals</span>
                 )}
                 <div className="view-mode-toggle">
+                  {isPreviewable(selectedFile.path) && (
+                    <button
+                      className={viewMode === 'preview' ? 'active' : ''}
+                      onClick={() => setViewMode('preview')}
+                      title="Visual Preview"
+                    >
+                      <Eye size={14} />
+                    </button>
+                  )}
                   <button
                     className={viewMode === 'derived' ? 'active' : ''}
                     onClick={() => setViewMode('derived')}
@@ -210,7 +234,9 @@ const DerivationPreviewPanel: React.FC<DerivationPreviewPanelProps> = ({
                 </div>
               </div>
               <div className="file-content">
-                {viewMode === 'diff' ? (
+                {viewMode === 'preview' && isPreviewable(selectedFile.path) ? (
+                  <PreviewRenderer content={selectedFile.derivedContent} fileName={selectedFile.path} />
+                ) : viewMode === 'diff' ? (
                   <DiffView original={selectedFile.originalContent} derived={selectedFile.derivedContent} />
                 ) : (
                   <pre className="code-block">
@@ -319,6 +345,42 @@ const FileTreeView: React.FC<FileTreeViewProps> = ({
       ))}
     </div>
   )
+}
+
+// Preview renderer for SVG and HTML files
+interface PreviewRendererProps {
+  content: string
+  fileName: string
+}
+
+const PreviewRenderer: React.FC<PreviewRendererProps> = ({ content, fileName }) => {
+  const ext = fileName.split('.').pop()?.toLowerCase()
+
+  if (ext === 'svg') {
+    return (
+      <div className="svg-preview">
+        <div
+          className="svg-container"
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
+      </div>
+    )
+  }
+
+  if (ext === 'html' || ext === 'htm') {
+    return (
+      <div className="html-preview">
+        <iframe
+          srcDoc={content}
+          title="HTML Preview"
+          sandbox="allow-scripts"
+          className="html-iframe"
+        />
+      </div>
+    )
+  }
+
+  return <pre className="code-block">{content}</pre>
 }
 
 // Simple diff view component
